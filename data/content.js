@@ -5756,6 +5756,24 @@ window.CONTENT = {
 "note": "Keep pencils to a minimum in drawing lessons. Prefer short media such as charcoal or chalk.",
 "goals": [
 {
+"id": "skills",
+"name": "Basic skills",
+"target": 0,
+"hint": "Lines of different widths and weights, and shapes. Move from the arm, not the wrist and fingers."
+},
+{
+"id": "outline",
+"name": "Outline drawing",
+"target": 0,
+"hint": "Now and then, in the manner of What to Draw and How to Draw It."
+},
+{
+"id": "memory",
+"name": "Memory drawing",
+"target": 0,
+"hint": "Study an object, picture it with eyes closed, then draw it from memory."
+},
+{
 "id": "natobs",
 "name": "Brush drawing from nature",
 "target": 6,
@@ -5772,24 +5790,6 @@ window.CONTENT = {
 "name": "Characters from the Tales",
 "target": 0,
 "hint": "Original drawings of characters from this term's Tales, in chalk or brush."
-},
-{
-"id": "skills",
-"name": "Basic skills",
-"target": 0,
-"hint": "Lines of different widths and weights, and shapes. Move from the arm, not the wrist and fingers."
-},
-{
-"id": "memory",
-"name": "Memory drawing",
-"target": 0,
-"hint": "Study an object, picture it with eyes closed, then draw it from memory."
-},
-{
-"id": "outline",
-"name": "Outline drawing",
-"target": 0,
-"hint": "Now and then, in the manner of What to Draw and How to Draw It."
 }
 ]
 },
@@ -5798,28 +5798,28 @@ window.CONTENT = {
 "note": "No pencils in drawing coursework (free drawing is fine). Most work is brush drawing; other short media can be used for other observation and memory drawings.",
 "goals": [
 {
-"id": "natobs",
-"name": "Brush drawings of seasonal special studies",
-"target": 6,
-"hint": "From this term's nature special study."
-},
-{
 "id": "othobs",
 "name": "Other observation drawings",
 "target": 6,
 "hint": ""
 },
 {
-"id": "natmem",
-"name": "Animals from memory",
+"id": "natobs",
+"name": "Brush drawings of seasonal special studies",
 "target": 6,
-"hint": "Animals she has been able to watch."
+"hint": "From this term's nature special study."
 },
 {
 "id": "memory",
 "name": "Other memory drawing",
 "target": 0,
 "hint": "Study an object, picture it, then draw it from memory."
+},
+{
+"id": "natmem",
+"name": "Animals from memory",
+"target": 6,
+"hint": "Animals she has been able to watch."
 },
 {
 "id": "imag",
