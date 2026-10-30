@@ -1121,7 +1121,7 @@
   function slotLabel(k) { if (k === 'daily') return 'Daily'; if (k === 'odd') return 'Odd'; if (k === 'even') return 'Even'; if (k.indexOf('wd') === 0) return WD[+k.slice(2)]; return k; }
   function ordDay(n) { return n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th'); }
   function packName(c) { return c.pack === 'NCC' ? 'New Creation Church' + (c.cat ? ' · ' + c.cat : '') : 'Pack ' + c.pack; }
-  function cardRef(c) { return c.ref + (c.of ? ' (card ' + c.part + ' of ' + c.of + ')' : '') + (c.label ? ' · ' + c.label : ''); }
+  function cardRef(c) { return (c.vv ? c.ref.split(':')[0] + ':' + c.vv : c.ref) + (c.of ? ' (card ' + c.part + ' of ' + c.of + ')' : '') + (c.label ? ' · ' + c.label : ''); }
   function whereIs(id) {
     var B = scmBox(); for (var k in B.slots) if (B.slots[k] && B.slots[k].cards.indexOf(id) >= 0) return slotLabel(k);
     for (var n in B.nums) if (B.nums[n].some(function (e) { return e.cards.indexOf(id) >= 0; })) return 'Day ' + n;

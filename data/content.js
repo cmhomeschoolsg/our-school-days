@@ -5852,7 +5852,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "And God saw everything that he had made, and behold, it was very good. And there was evening and there was morning, the sixth day."
+"text": "And God saw every thing that he had made, and, behold, it was very good. And the evening and the morning were the sixth day."
 },
 {
 "id": "genesis-1-27",
@@ -5861,7 +5861,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "So God created man in his own image,\n    in the image of God he created him;\n    male and female he created them."
+"text": "So God created man in his own image, in the image of God created he him; male and female created he them."
 },
 {
 "id": "genesis-1-1",
@@ -5870,7 +5870,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "In the beginning, God created the heavens and the earth."
+"text": "In the beginning God created the heaven and the earth."
 },
 {
 "id": "psalm-23-c1",
@@ -5879,7 +5879,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 1,
-"text": "The LORD is my shepherd; I shall not want.\n    He makes me lie down in green pastures.\nHe leads me beside still waters.\n    He restores my soul.\nHe leads me in paths of righteousness\n    for his name’s sake.\n\nEven though I walk through the valley of the shadow of death,\n    I will fear no evil,\nfor you are with me;\n    your rod and your staff,\n    they comfort me."
+"text": "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+"vv": "1–4"
 },
 {
 "id": "genesis-2-7",
@@ -5888,7 +5889,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Then the LORD God formed the man of dust from the ground and breathed into his nostrils the breath of life, and the man became a living creature."
+"text": "And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul."
 },
 {
 "id": "psalm-100-c1",
@@ -5897,7 +5898,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 1,
-"text": "Make a joyful noise to the LORD, all the earth!\n    Serve the LORD with gladness!\n    Come into his presence with singing!\n\nKnow that the LORD, he is God!\n    It is he who made us, and we are his;\n    we are his people, and the sheep of his pasture.\n\nEnter his gates with thanksgiving,\n    and his courts with praise!\n    Give thanks to him; bless his name!"
+"text": "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing. Know ye that the LORD he is God: it is he that hath made us, and not we ourselves; we are his people, and the sheep of his pasture. Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
+"vv": "1–4"
 },
 {
 "id": "psalm-35-9",
@@ -5906,7 +5908,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Then my soul will rejoice in the LORD,\n    exulting in his salvation."
+"text": "And my soul shall be joyful in the LORD: it shall rejoice in his salvation."
 },
 {
 "id": "psalm-23-c2",
@@ -5915,7 +5917,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 1,
-"text": "You prepare a table before me\n    in the presence of my enemies;\nyou anoint my head with oil;\n    my cup overflows.\nSurely goodness and mercy shall follow me\n    all the days of my life,\nand I shall dwell in the house of the LORD\n    forever."
+"text": "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over. Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
+"vv": "5–6"
 },
 {
 "id": "proverbs-4-7",
@@ -5924,7 +5927,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "The beginning of wisdom is this: Get wisdom,\n    and whatever you get, get insight."
+"text": "Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding."
 },
 {
 "id": "psalm-100-c2",
@@ -5933,7 +5936,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 1,
-"text": "For the LORD is good;\n    his steadfast love endures forever,\n    and his faithfulness to all generations."
+"text": "For the LORD is good; his mercy is everlasting; and his truth endureth to all generations.",
+"vv": "5"
 },
 {
 "id": "john-13-34-35",
@@ -5942,7 +5946,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "A new commandment I give to you, that you love one another: just as I have loved you, you also are to love one another. By this all people will know that you are my disciples, if you have love for one another."
+"text": "A new commandment I give unto you, That ye love one another; as I have loved you, that ye also love one another. By this shall all men know that ye are my disciples, if ye have love one to another."
 },
 {
 "id": "proverbs-22-29",
@@ -5951,7 +5955,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Do you see a man skillful in his work?\n    He will stand before kings;\n    he will not stand before obscure men."
+"text": "Seest thou a man diligent in his business? he shall stand before kings; he shall not stand before mean men."
 },
 {
 "id": "proverbs-4-20-21",
@@ -5960,7 +5964,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "My son, be attentive to my words;\n    incline your ear to my sayings.\nLet them not escape from your sight;\n    keep them within your heart."
+"text": "My son, attend to my words; incline thine ear unto my sayings. Let them not depart from thine eyes; keep them in the midst of thine heart."
 },
 {
 "id": "ephesians-4-25",
@@ -5969,7 +5973,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Therefore, having put away falsehood, let each one of you speak the truth with his neighbor, for we are members one of another."
+"text": "Wherefore putting away lying, speak every man truth with his neighbour: for we are members one of another."
 },
 {
 "id": "1-corinthians-10-31",
@@ -5978,7 +5982,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "So, whether you eat or drink, or whatever you do, do all to the glory of God."
+"text": "Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God."
 },
 {
 "id": "philippians-4-4-9",
@@ -5987,7 +5991,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Rejoice in the Lord always; again I will say, rejoice. Let your reasonableness be known to everyone. The Lord is at hand; do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus. Finally, brothers, whatever is true, whatever is honorable, whatever is just, whatever is pure, whatever is lovely, whatever is commendable, if there is any excellence, if there is anything worthy of praise, think about these things. What you have learned and received and heard and seen in me—practice these things, and the God of peace will be with you."
+"text": "Rejoice in the Lord alway: and again I say, Rejoice. Let your moderation be known unto all men. The Lord is at hand. Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus. Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things. Those things, which ye have both learned, and received, and heard, and seen in me, do: and the God of peace shall be with you."
 },
 {
 "id": "ephesians-6-1-3",
@@ -5996,7 +6000,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Children, obey your parents in the Lord, for this is right. “Honor your father and mother” (this is the first commandment with a promise), “that it may go well with you and that you may live long in the land.”"
+"text": "Children, obey your parents in the Lord: for this is right. Honour thy father and mother; (which is the first commandment with promise;) That it may be well with thee, and thou mayest live long on the earth."
 },
 {
 "id": "ephesians-4-32",
@@ -6005,7 +6009,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you."
+"text": "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ’s sake hath forgiven you."
 },
 {
 "id": "1-timothy-6-6",
@@ -6023,7 +6027,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Give thanks in all circumstances; for this is the will of God in Christ Jesus for you."
+"text": "In every thing give thanks: for this is the will of God in Christ Jesus concerning you."
 },
 {
 "id": "james-4-1",
@@ -6032,7 +6036,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "What causes quarrels and what causes fights among you? Is it not this, that your passions are at war within you?"
+"text": "From whence come wars and fightings among you? come they not hence, even of your lusts that war in your members?"
 },
 {
 "id": "hebrews-13-17",
@@ -6041,7 +6045,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Obey your leaders and submit to them, for they are keeping watch over your souls, as those who will have to give an account. Let them do this with joy and not with groaning, for that would be of no advantage to you."
+"text": "Obey them that have the rule over you, and submit yourselves: for they watch for your souls, as they that must give account, that they may do it with joy, and not with grief: for that is unprofitable for you."
 },
 {
 "id": "hebrews-11-1",
@@ -6050,7 +6054,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Now faith is the assurance of things hoped for, the conviction of things not seen."
+"text": "Now faith is the substance of things hoped for, the evidence of things not seen."
 },
 {
 "id": "1-peter-4-8",
@@ -6059,7 +6063,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Above all, keep loving one another earnestly, since love covers a multitude of sins."
+"text": "And above all things have fervent charity among yourselves: for charity shall cover the multitude of sins."
 },
 {
 "id": "james-5-8",
@@ -6068,7 +6072,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "You also, be patient. Establish your hearts, for the coming of the Lord is at hand."
+"text": "Be ye also patient; stablish your hearts: for the coming of the Lord draweth nigh."
 },
 {
 "id": "ephesians-2-8-10",
@@ -6077,7 +6081,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "For by grace you have been saved through faith. And this is not your own doing; it is the gift of God, not a result of works, so that no one may boast. For we are his workmanship, created in Christ Jesus for good works, which God prepared beforehand, that we should walk in them."
+"text": "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God: Not of works, lest any man should boast. For we are his workmanship, created in Christ Jesus unto good works, which God hath before ordained that we should walk in them."
 },
 {
 "id": "philippians-4-13",
@@ -6086,7 +6090,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "I can do all things through him who strengthens me."
+"text": "I can do all things through Christ which strengtheneth me."
 },
 {
 "id": "revelation-4-11",
@@ -6095,7 +6099,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "Worthy are you, our Lord and God,\n    to receive glory and honor and power,\nfor you created all things,\n    and by your will they existed and were created.\n\nI am, I can, I ought, I will (card 1 of 2)"
+"text": "Thou art worthy, O Lord, to receive glory and honour and power: for thou hast created all things, and for thy pleasure they are and were created."
 },
 {
 "id": "1-john-1-8-9",
@@ -6104,7 +6108,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "If we say we have no sin, we deceive ourselves, and the truth is not in us. If we confess our sins, he is faithful and just to forgive us our sins and to cleanse us from all unrighteousness."
+"text": "If we say that we have no sin, we deceive ourselves, and the truth is not in us. If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness."
 },
 {
 "id": "mark-12-30-31",
@@ -6113,7 +6117,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "‘And you shall love the Lord your God with all your heart and with all your soul and with all your mind and with all your strength.’ The second is this: ‘You shall love your neighbor as yourself.’ There is no other commandment greater than these."
+"text": "And thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment. And the second is like, namely this, Thou shalt love thy neighbour as thyself. There is none other commandment greater than these."
 },
 {
 "id": "psalm-119-30",
@@ -6122,7 +6126,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 1,
-"text": "I have chosen the way of faithfulness;\n    I set your rules before me."
+"text": "I have chosen the way of truth: thy judgments have I laid before me."
 },
 {
 "id": "psalm-46-c1",
@@ -6131,7 +6135,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 2,
-"text": "God is our refuge and strength,\n    a very present help in trouble.\nTherefore we will not fear though the earth gives way,\n    though the mountains be moved into the heart of the sea,\nthough its waters roar and foam,\n    though the mountains tremble at its swelling. Selah\n\nThere is a river whose streams make glad the city of God,\n    the holy habitation of the Most High.\nGod is in the midst of her; she shall not be moved;\n    God will help her when morning dawns.\nThe nations rage, the kingdoms totter;"
+"text": "God is our refuge and strength, a very present help in trouble. Therefore will not we fear, though the earth be removed, and though the mountains be carried into the midst of the sea; Though the waters thereof roar and be troubled, though the mountains shake with the swelling thereof. Selah. There is a river, the streams whereof shall make glad the city of God, the holy place of the tabernacles of the most High. God is in the midst of her; she shall not be moved: God shall help her, and that right early.",
+"vv": "1–5"
 },
 {
 "id": "genesis-50-20",
@@ -6140,7 +6145,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "As for you, you meant evil against me, but God meant it for good, to bring it about that many people should be kept alive, as they are today."
+"text": "But as for you, ye thought evil against me; but God meant it unto good, to bring to pass, as it is this day, to save much people alive."
 },
 {
 "id": "genesis-9-6",
@@ -6149,7 +6154,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Whoever sheds the blood of man,\n    by man shall his blood be shed,\nfor God made man in his own image."
+"text": "Whoso sheddeth man’s blood, by man shall his blood be shed: for in the image of God made he man."
 },
 {
 "id": "psalm-96-7-9",
@@ -6158,7 +6163,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Ascribe to the LORD, O families of the peoples,\n    ascribe to the LORD glory and strength!\nAscribe to the LORD the glory due his name;\n    bring an offering, and come into his courts!\nWorship the LORD in the splendor of holiness;\n    tremble before him, all the earth!"
+"text": "Give unto the LORD, O ye kindreds of the people, give unto the LORD glory and strength. Give unto the LORD the glory due unto his name: bring an offering, and come into his courts. O worship the LORD in the beauty of holiness: fear before him, all the earth."
 },
 {
 "id": "psalm-46-c2",
@@ -6167,7 +6172,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 2,
-"text": "    he utters his voice, the earth melts.\nThe LORD of hosts is with us;\n    the God of Jacob is our fortress. Selah\nCome, behold the works of the LORD,\n    how he has brought desolations on the earth.\nHe makes wars cease to the end of the earth;\n    he breaks the bow and shatters the spear;\n    he burns the chariots with fire.\n“Be still, and know that I am God.\n    I will be exalted among the nations,\n    I will be exalted in the earth!”\nThe LORD of hosts is with us;\n    the God of Jacob is our fortress. Selah"
+"text": "The heathen raged, the kingdoms were moved: he uttered his voice, the earth melted. The LORD of hosts is with us; the God of Jacob is our refuge. Selah. Come, behold the works of the LORD, what desolations he hath made in the earth. He maketh wars to cease unto the end of the earth; he breaketh the bow, and cutteth the spear in sunder; he burneth the chariot in the fire. Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth. The LORD of hosts is with us; the God of Jacob is our refuge. Selah.",
+"vv": "6–11"
 },
 {
 "id": "jeremiah-17-9",
@@ -6176,7 +6182,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "The heart is deceitful above all things,\n    and desperately sick;\n    who can understand it?"
+"text": "The heart is deceitful above all things, and desperately wicked: who can know it?"
 },
 {
 "id": "proverbs-6-6-8",
@@ -6185,7 +6191,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Go to the ant, O sluggard;\n    consider her ways, and be wise.\nWithout having any chief,\n    officer, or ruler,\nshe prepares her bread in summer\n    and gathers her food in harvest."
+"text": "Go to the ant, thou sluggard; consider her ways, and be wise: Which having no guide, overseer, or ruler, Provideth her meat in the summer, and gathereth her food in the harvest."
 },
 {
 "id": "proverbs-3-5-7",
@@ -6194,7 +6200,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Trust in the LORD with all your heart,\n    and do not lean on your own understanding.\nIn all your ways acknowledge him,\n    and he will make straight your paths.\nBe not wise in your own eyes;\n    fear the LORD, and turn away from evil."
+"text": "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths. Be not wise in thine own eyes: fear the LORD, and depart from evil."
 },
 {
 "id": "luke-1-37",
@@ -6203,7 +6209,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "For nothing will be impossible with God."
+"text": "For with God nothing shall be impossible."
 },
 {
 "id": "matthew-6-9-13",
@@ -6212,7 +6218,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Pray then like this:\n    “Our Father in heaven,\n    hallowed be your name.\n    Your kingdom come,\n    your will be done,\n    on earth as it is in heaven.\n    Give us this day our daily bread,\n    and forgive us our debts,\n    as we also have forgiven our debtors.\n    And lead us not into temptation,\n    but deliver us from evil.\n    [For yours is the kingdom and the power and the glory, forever.\nAmen.]”"
+"text": "After this manner therefore pray ye: Our Father which art in heaven, Hallowed be thy name. Thy kingdom come. Thy will be done in earth, as it is in heaven. Give us this day our daily bread. And forgive us our debts, as we forgive our debtors. And lead us not into temptation, but deliver us from evil: For thine is the kingdom, and the power, and the glory, for ever. Amen."
 },
 {
 "id": "1-corinthians-9-25",
@@ -6221,7 +6227,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Every athlete exercises self-control in all things. They do it to receive a perishable wreath, but we an imperishable."
+"text": "And every man that striveth for the mastery is temperate in all things. Now they do it to obtain a corruptible crown; but we an incorruptible."
 },
 {
 "id": "1-corinthians-4-2",
@@ -6230,7 +6236,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Moreover, it is required of stewards that they be found faithful."
+"text": "Moreover it is required in stewards, that a man be found faithful."
 },
 {
 "id": "john-15-12",
@@ -6239,7 +6245,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "This is my commandment, that you love one another as I have loved you."
+"text": "This is my commandment, That ye love one another, as I have loved you."
 },
 {
 "id": "2-corinthians-9-7",
@@ -6248,7 +6254,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Each one must give as he has decided in his heart, not reluctantly or under compulsion, for God loves a cheerful giver."
+"text": "Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver."
 },
 {
 "id": "1-corinthians-14-40",
@@ -6257,7 +6263,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "But all things should be done decently and in order."
+"text": "Let all things be done decently and in order."
 },
 {
 "id": "colossians-3-12-13",
@@ -6266,7 +6272,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "Put on then, as God’s chosen ones, holy and beloved, compassionate hearts, kindness, humility, meekness, and patience, bearing with one another and, if one has a complaint against another, forgiving each other; as the Lord has forgiven you, so you also must forgive."
+"text": "Put on therefore, as the elect of God, holy and beloved, bowels of mercies, kindness, humbleness of mind, meekness, longsuffering; Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye."
 },
 {
 "id": "philippians-4-19",
@@ -6275,7 +6281,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "And my God will supply every need of yours according to his riches in glory in Christ Jesus."
+"text": "But my God shall supply all your need according to his riches in glory by Christ Jesus."
 },
 {
 "id": "ephesians-4-1-3",
@@ -6284,7 +6290,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "I therefore, a prisoner for the Lord, urge you to walk in a manner worthy of the calling to which you have been called, with all humility and gentleness, with patience, bearing with one another in love, eager to maintain the unity of the Spirit in the bond of peace."
+"text": "I therefore, the prisoner of the Lord, beseech you that ye walk worthy of the vocation wherewith ye are called, With all lowliness and meekness, with longsuffering, forbearing one another in love; Endeavouring to keep the unity of the Spirit in the bond of peace."
 },
 {
 "id": "1-timothy-5-21",
@@ -6293,7 +6299,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "In the presence of God and of Christ Jesus and of the elect angels I charge you to keep these rules without prejudging, doing nothing from partiality."
+"text": "I charge thee before God, and the Lord Jesus Christ, and the elect angels, that thou observe these things without preferring one before another, doing nothing by partiality."
 },
 {
 "id": "1-timothy-2-1-2",
@@ -6302,7 +6308,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "First of all, then, I urge that supplications, prayers, intercessions, and thanksgivings be made for all people, for kings and all who are in high positions, that we may lead a peaceful and quiet life, godly and dignified in every way."
+"text": "I exhort therefore, that, first of all, supplications, prayers, intercessions, and giving of thanks, be made for all men; For kings, and for all that are in authority; that we may lead a quiet and peaceable life in all godliness and honesty."
 },
 {
 "id": "titus-3-2",
@@ -6311,7 +6317,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "To speak evil of no one, to avoid quarreling, to be gentle, and to show perfect courtesy toward all people."
+"text": "To speak evil of no man, to be no brawlers, but gentle, shewing all meekness unto all men."
 },
 {
 "id": "titus-2-11-14",
@@ -6320,7 +6326,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "For the grace of God has appeared, bringing salvation for all people, training us to renounce ungodliness and worldly passions, and to live self-controlled, upright, and godly lives in the present age, waiting for our blessed hope, the appearing of the glory of our great God and Savior Jesus Christ, who gave himself for us to redeem us from all lawlessness and to purify for himself a people for his own possession who are zealous for good works."
+"text": "For the grace of God that bringeth salvation hath appeared to all men, Teaching us that, denying ungodliness and worldly lusts, we should live soberly, righteously, and godly, in this present world; Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ; Who gave himself for us, that he might redeem us from all iniquity, and purify unto himself a peculiar people, zealous of good works."
 },
 {
 "id": "2-timothy-1-16-17",
@@ -6329,7 +6335,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "May the Lord grant mercy to the household of Onesiphorus, for he often refreshed me and was not ashamed of my chains, but when he arrived in Rome he searched for me earnestly and found me."
+"text": "The Lord give mercy unto the house of Onesiphorus; for he oft refreshed me, and was not ashamed of my chain: But, when he was in Rome, he sought me out very diligently, and found me."
 },
 {
 "id": "hebrews-11-6",
@@ -6338,7 +6344,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "And without faith it is impossible to please him, for whoever would draw near to God must believe that he exists and that he rewards those who seek him."
+"text": "But without faith it is impossible to please him: for he that cometh to God must believe that he is, and that he is a rewarder of them that diligently seek him."
 },
 {
 "id": "hebrews-5-14",
@@ -6347,7 +6353,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "But solid food is for the mature, for those who have their powers of discernment trained by constant practice to distinguish good from evil."
+"text": "But strong meat belongeth to them that are of full age, even those who by reason of use have their senses exercised to discern both good and evil."
 },
 {
 "id": "james-4-7",
@@ -6365,7 +6371,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 2,
-"text": "My brothers, show no partiality as you hold the faith in our Lord Jesus Christ, the Lord of glory."
+"text": "My brethren, have not the faith of our Lord Jesus Christ, the Lord of glory, with respect of persons."
 },
 {
 "id": "joshua-22-5",
@@ -6374,7 +6380,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Only be very careful to observe the commandment and the law that Moses the servant of the LORD commanded you, to love the LORD your God, and to walk in all his ways and to keep his commandments and to cling to him and to serve him with all your heart and with all your soul."
+"text": "But take diligent heed to do the commandment and the law, which Moses the servant of the LORD charged you, to love the LORD your God, and to walk in all his ways, and to keep his commandments, and to cleave unto him, and to serve him with all your heart and with all your soul."
 },
 {
 "id": "joshua-4-24",
@@ -6383,7 +6389,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "So that all the peoples of the earth may know that the hand of the LORD is mighty, that you may fear the LORD your God forever."
+"text": "That all the people of the earth might know the hand of the LORD, that it is mighty: that ye might fear the LORD your God for ever."
 },
 {
 "id": "joshua-1-7-9",
@@ -6392,7 +6398,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Only be strong and very courageous, being careful to do according to all the law that Moses my servant commanded you. Do not turn from it to the right hand or to the left, that you may have good success wherever you go. This Book of the Law shall not depart from your mouth, but you shall meditate on it day and night, so that you may be careful to do according to all that is written in it. For then you will make your way prosperous, and then you will have good success. Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the LORD your God is with you wherever you go."
+"text": "Only be thou strong and very courageous, that thou mayest observe to do according to all the law, which Moses my servant commanded thee: turn not from it to the right hand or to the left, that thou mayest prosper whithersoever thou goest. This book of the law shall not depart out of thy mouth; but thou shalt meditate therein day and night, that thou mayest observe to do according to all that is written therein: for then thou shalt make thy way prosperous, and then thou shalt have good success. Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest."
 },
 {
 "id": "joshua-24-24",
@@ -6401,7 +6407,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "And the people said to Joshua, “The LORD our God we will serve, and his voice we will obey.”"
+"text": "And the people said unto Joshua, The LORD our God will we serve, and his voice will we obey."
 },
 {
 "id": "joshua-24-14-15",
@@ -6410,7 +6416,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Now therefore fear the LORD and serve him in sincerity and in faithfulness. Put away the gods that your fathers served beyond the River and in Egypt, and serve the LORD. And if it is evil in your eyes to serve the LORD, choose this day whom you will serve, whether the gods your fathers served in the region beyond the River, or the gods of the Amorites in whose land you dwell. But as for me and my house, we will serve the LORD."
+"text": "Now therefore fear the LORD, and serve him in sincerity and in truth: and put away the gods which your fathers served on the other side of the flood, and in Egypt; and serve ye the LORD. And if it seem evil unto you to serve the LORD, choose you this day whom ye will serve; whether the gods which your fathers served that were on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the LORD."
 },
 {
 "id": "proverbs-9-8",
@@ -6419,7 +6425,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Do not reprove a scoffer, or he will hate you;\n    reprove a wise man, and he will love you."
+"text": "Reprove not a scorner, lest he hate thee: rebuke a wise man, and he will love thee."
 },
 {
 "id": "proverbs-4-24",
@@ -6428,7 +6434,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Put away from you crooked speech,\n    and put devious talk far from you."
+"text": "Put away from thee a froward mouth, and perverse lips put far from thee."
 },
 {
 "id": "proverbs-3-21-23",
@@ -6437,7 +6443,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "My son, do not lose sight of these—\n    keep sound wisdom and discretion,\nand they will be life for your soul\n    and adornment for your neck.\nThen you will walk on your way securely,\n    and your foot will not stumble."
+"text": "My son, let not them depart from thine eyes: keep sound wisdom and discretion: So shall they be life unto thy soul, and grace to thy neck. Then shalt thou walk in thy way safely, and thy foot shall not stumble."
 },
 {
 "id": "proverbs-10-26",
@@ -6446,7 +6452,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Like vinegar to the teeth and smoke to the eyes,\n    so is the sluggard to those who send him."
+"text": "As vinegar to the teeth, and as smoke to the eyes, so is the sluggard to them that send him."
 },
 {
 "id": "proverbs-10-19",
@@ -6455,7 +6461,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "When words are many, transgression is not lacking,\n    but whoever restrains his lips is prudent."
+"text": "In the multitude of words there wanteth not sin: but he that refraineth his lips is wise."
 },
 {
 "id": "proverbs-12-10",
@@ -6464,7 +6470,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Whoever is righteous has regard for the life of his beast,\n    but the mercy of the wicked is cruel."
+"text": "A righteous man regardeth the life of his beast: but the tender mercies of the wicked are cruel."
 },
 {
 "id": "proverbs-11-24-25",
@@ -6473,7 +6479,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "One gives freely, yet grows all the richer;\n    another withholds what he should give, and only suffers want.\nWhoever brings blessing will be enriched,\n    and one who waters will himself be watered."
+"text": "There is that scattereth, and yet increaseth; and there is that withholdeth more than is meet, but it tendeth to poverty. The liberal soul shall be made fat: and he that watereth shall be watered also himself."
 },
 {
 "id": "proverbs-11-13",
@@ -6482,7 +6488,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Whoever goes about slandering reveals secrets,\n    but he who is trustworthy in spirit keeps a thing covered."
+"text": "A talebearer revealeth secrets: but he that is of a faithful spirit concealeth the matter."
 },
 {
 "id": "proverbs-12-22",
@@ -6491,7 +6497,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Lying lips are an abomination to the LORD,\n    but those who act faithfully are his delight."
+"text": "Lying lips are abomination to the LORD: but they that deal truly are his delight."
 },
 {
 "id": "proverbs-12-19",
@@ -6500,7 +6506,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Truthful lips endure forever,\n    but a lying tongue is but for a moment."
+"text": "The lip of truth shall be established for ever: but a lying tongue is but for a moment."
 },
 {
 "id": "proverbs-14-26",
@@ -6509,7 +6515,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "In the fear of the LORD one has strong confidence,\n    and his children will have a refuge."
+"text": "In the fear of the LORD is strong confidence: and his children shall have a place of refuge."
 },
 {
 "id": "proverbs-14-9-16",
@@ -6518,7 +6524,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Fools mock at the guilt offering,\n    but the upright enjoy acceptance.\nOne who is wise is cautious and turns away from evil,\n    but a fool is reckless and careless."
+"text": "Fools make a mock at sin: but among the righteous there is favour. A wise man feareth, and departeth from evil: but the fool rageth, and is confident."
 },
 {
 "id": "proverbs-13-20",
@@ -6527,7 +6533,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Whoever walks with the wise becomes wise,\n    but the companion of fools will suffer harm."
+"text": "He that walketh with wise men shall be wise: but a companion of fools shall be destroyed."
 },
 {
 "id": "proverbs-15-16",
@@ -6536,7 +6542,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Better is a little with the fear of the LORD\n    than great treasure and trouble with it."
+"text": "Better is little with the fear of the LORD than great treasure and trouble therewith."
 },
 {
 "id": "proverbs-15-1",
@@ -6545,7 +6551,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "A soft answer turns away wrath,\n    but a harsh word stirs up anger."
+"text": "A soft answer turneth away wrath: but grievous words stir up anger."
 },
 {
 "id": "proverbs-17-17",
@@ -6554,7 +6560,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "A friend loves at all times,\n    and a brother is born for adversity."
+"text": "A friend loveth at all times, and a brother is born for adversity."
 },
 {
 "id": "proverbs-16-32",
@@ -6563,7 +6569,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Whoever is slow to anger is better than the mighty,\n    and he who rules his spirit than he who takes a city."
+"text": "He that is slow to anger is better than the mighty; and he that ruleth his spirit than he that taketh a city."
 },
 {
 "id": "proverbs-15-23",
@@ -6572,7 +6578,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "To make an apt answer is a joy to a man,\n    and a word in season, how good it is!"
+"text": "A man hath joy by the answer of his mouth: and a word spoken in due season, how good is it!"
 },
 {
 "id": "proverbs-23-17",
@@ -6581,7 +6587,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Let not your heart envy sinners,\n    but continue in the fear of the LORD all the day."
+"text": "Let not thine heart envy sinners: but be thou in the fear of the LORD all the day long."
 },
 {
 "id": "proverbs-18-13",
@@ -6590,7 +6596,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "If one gives an answer before he hears,\n    it is his folly and shame."
+"text": "He that answereth a matter before he heareth it, it is folly and shame unto him."
 },
 {
 "id": "proverbs-28-13",
@@ -6599,7 +6605,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Whoever conceals his transgressions will not prosper,\n    but he who confesses and forsakes them will obtain mercy."
+"text": "He that covereth his sins shall not prosper: but whoso confesseth and forsaketh them shall have mercy."
 },
 {
 "id": "proverbs-27-1",
@@ -6608,7 +6614,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Do not boast about tomorrow,\n    for you do not know what a day may bring."
+"text": "Boast not thyself of to morrow; for thou knowest not what a day may bring forth."
 },
 {
 "id": "proverbs-26-17",
@@ -6617,7 +6623,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Whoever meddles in a quarrel not his own\n    is like one who takes a passing dog by the ears."
+"text": "He that passeth by, and meddleth with strife belonging not to him, is like one that taketh a dog by the ears."
 },
 {
 "id": "proverbs-31-30",
@@ -6626,7 +6632,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "Charm is deceitful, and beauty is vain,\n    but a woman who fears the LORD is to be praised."
+"text": "Favour is deceitful, and beauty is vain: but a woman that feareth the LORD, she shall be praised."
 },
 {
 "id": "proverbs-29-15",
@@ -6635,7 +6641,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 3,
-"text": "The rod and reproof give wisdom,\n    but a child left to himself brings shame to his mother."
+"text": "The rod and reproof give wisdom: but a child left to himself bringeth his mother to shame."
 },
 {
 "id": "matthew-5-1-12-c1",
@@ -6644,7 +6650,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 4,
-"text": "Seeing the crowds, he went up on the mountain, and when he sat down, his disciples came to him. And he opened his mouth and taught them, saying: “Blessed are the poor in spirit, for theirs is the kingdom of heaven. “Blessed are those who mourn, for they shall be comforted. “Blessed are the meek, for they shall inherit the earth. “Blessed are those who hunger and thirst for righteousness, for they shall be satisfied. “Blessed are the merciful, for they shall receive mercy. “Blessed are the pure in heart, for they shall see God. “Blessed are the peacemakers, for they shall be called sons of God."
+"text": "And seeing the multitudes, he went up into a mountain: and when he was set, his disciples came unto him: And he opened his mouth, and taught them, saying, Blessed are the poor in spirit: for theirs is the kingdom of heaven. Blessed are they that mourn: for they shall be comforted. Blessed are the meek: for they shall inherit the earth. Blessed are they which do hunger and thirst after righteousness: for they shall be filled. Blessed are the merciful: for they shall obtain mercy. Blessed are the pure in heart: for they shall see God. Blessed are the peacemakers: for they shall be called the children of God.",
+"vv": "1–9"
 },
 {
 "id": "psalm-1-c2",
@@ -6653,7 +6660,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 4,
-"text": "The wicked are not so,\n    but are like chaff that the wind drives away.\n\nTherefore the wicked will not stand in the judgment,\n    nor sinners in the congregation of the righteous;\nfor the LORD knows the way of the righteous,\n    but the way of the wicked will perish."
+"text": "The ungodly are not so: but are like the chaff which the wind driveth away. Therefore the ungodly shall not stand in the judgment, nor sinners in the congregation of the righteous. For the LORD knoweth the way of the righteous: but the way of the ungodly shall perish.",
+"vv": "4–6"
 },
 {
 "id": "psalm-1-c1",
@@ -6662,7 +6670,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 4,
-"text": "Blessed is the man\n    who walks not in the counsel of the wicked,\nnor stands in the way of sinners,\n    nor sits in the seat of scoffers;\nbut his delight is in the law of the LORD,\n    and on his law he meditates day and night.\n\nHe is like a tree\n    planted by streams of water\nthat yields its fruit in its season,\n    and its leaf does not wither.\nIn all that he does, he prospers."
+"text": "Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful. But his delight is in the law of the LORD; and in his law doth he meditate day and night. And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper.",
+"vv": "1–3"
 },
 {
 "id": "matthew-16-16",
@@ -6671,7 +6680,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "Simon Peter replied, “You are the Christ, the Son of the living God.”"
+"text": "And Simon Peter answered and said, Thou art the Christ, the Son of the living God."
 },
 {
 "id": "matthew-5-1-12-c2",
@@ -6680,7 +6689,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 4,
-"text": "“Blessed are those who are persecuted for righteousness’ sake, for theirs is the kingdom of heaven. “Blessed are you when others revile you and persecute you and utter all kinds of evil against you falsely on my account. Rejoice and be glad, for your reward is great in heaven, for so they persecuted the prophets who were before you.”"
+"text": "Blessed are they which are persecuted for righteousness’ sake: for theirs is the kingdom of heaven. Blessed are ye, when men shall revile you, and persecute you, and shall say all manner of evil against you falsely, for my sake. Rejoice, and be exceeding glad: for great is your reward in heaven: for so persecuted they the prophets which were before you.",
+"vv": "10–12"
 },
 {
 "id": "john-3-3",
@@ -6689,7 +6699,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "Jesus answered him, “Truly, truly, I say to you, unless one is born again he cannot see the kingdom of God.”"
+"text": "Jesus answered and said unto him, Verily, verily, I say unto thee, Except a man be born again, he cannot see the kingdom of God."
 },
 {
 "id": "luke-19-10",
@@ -6698,7 +6708,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "For the Son of Man came to seek and to save the lost."
+"text": "For the Son of man is come to seek and to save that which was lost."
 },
 {
 "id": "mark-10-42-45",
@@ -6707,7 +6717,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "And Jesus called them to him and said to them, “You know that those who are considered rulers of the Gentiles lord it over them, and their great ones exercise authority over them. But it shall not be so among you. But whoever would be great among you must be your servant, and whoever would be first among you must be slave of all. For even the Son of Man came not to be served but to serve, and to give his life as a ransom for many.”"
+"text": "But Jesus called them to him, and saith unto them, Ye know that they which are accounted to rule over the Gentiles exercise lordship over them; and their great ones exercise authority upon them. But so shall it not be among you: but whosoever will be great among you, shall be your minister: And whosoever of you will be the chiefest, shall be servant of all. For even the Son of man came not to be ministered unto, but to minister, and to give his life a ransom for many."
 },
 {
 "id": "john-5-24",
@@ -6716,7 +6726,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "Truly, truly, I say to you, whoever hears my word and believes him who sent me has eternal life. He does not come into judgment, but has passed from death to life."
+"text": "Verily, verily, I say unto you, He that heareth my word, and believeth on him that sent me, hath everlasting life, and shall not come into condemnation; but is passed from death unto life."
 },
 {
 "id": "john-3-16-18",
@@ -6725,7 +6735,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life. For God did not send his Son into the world to condemn the world, but in order that the world might be saved through him. Whoever believes in him is not condemned, but whoever does not believe is condemned already, because he has not believed in the name of the only Son of God."
+"text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. For God sent not his Son into the world to condemn the world; but that the world through him might be saved. He that believeth on him is not condemned: but he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God."
 },
 {
 "id": "john-14-6",
@@ -6734,7 +6744,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "Jesus said to him, “I am the way, and the truth, and the life. No one comes to the Father except through me.”"
+"text": "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me."
 },
 {
 "id": "john-10-7-16-c2",
@@ -6743,7 +6753,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 4,
-"text": "I know my own and my own know me, just as the Father knows me and I know the Father; and I lay down my life for the sheep. And I have other sheep that are not of this fold. I must bring them also, and they will listen to my voice. So there will be one flock, one shepherd.”"
+"text": "I am the good shepherd, and know my sheep, and am known of mine. As the Father knoweth me, even so know I the Father: and I lay down my life for the sheep. And other sheep I have, which are not of this fold: them also I must bring, and they shall hear my voice; and there shall be one fold, and one shepherd.",
+"vv": "14–16"
 },
 {
 "id": "john-10-7-16-c1",
@@ -6752,7 +6763,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 4,
-"text": "So Jesus again said to them, “Truly, truly, I say to you, I am the door of the sheep. All who came before me are thieves and robbers, but the sheep did not listen to them. I am the door. If anyone enters by me, he will be saved and will go in and out and find pasture. The thief comes only to steal and kill and destroy. I came that they may have life and have it abundantly. I am the good shepherd. The good shepherd lays down his life for the sheep. He who is a hired hand and not a shepherd, who does not own the sheep, sees the wolf coming and leaves the sheep and flees, and the wolf snatches them and scatters them. He flees because he is a hired hand and cares nothing for the sheep. I am the good shepherd."
+"text": "Then said Jesus unto them again, Verily, verily, I say unto you, I am the door of the sheep. All that ever came before me are thieves and robbers: but the sheep did not hear them. I am the door: by me if any man enter in, he shall be saved, and shall go in and out, and find pasture. The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly. I am the good shepherd: the good shepherd giveth his life for the sheep. But he that is an hireling, and not the shepherd, whose own the sheep are not, seeth the wolf coming, and leaveth the sheep, and fleeth: and the wolf catcheth them, and scattereth the sheep. The hireling fleeth, because he is an hireling, and careth not for the sheep.",
+"vv": "7–13"
 },
 {
 "id": "acts-4-12",
@@ -6761,7 +6773,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "And there is salvation in no one else, for there is no other name under heaven given among men by which we must be saved."
+"text": "Neither is there salvation in any other: for there is none other name under heaven given among men, whereby we must be saved."
 },
 {
 "id": "john-15-13",
@@ -6770,7 +6782,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "Greater love has no one than this, that someone lay down his life for his friends."
+"text": "Greater love hath no man than this, that a man lay down his life for his friends."
 },
 {
 "id": "romans-4-5",
@@ -6779,7 +6791,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "And to the one who does not work but believes in him who justifies the ungodly, his faith is counted as righteousness."
+"text": "But to him that worketh not, but believeth on him that justifieth the ungodly, his faith is counted for righteousness."
 },
 {
 "id": "romans-3-23",
@@ -6788,7 +6800,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "For all have sinned and fall short of the glory of God."
+"text": "For all have sinned, and come short of the glory of God;"
 },
 {
 "id": "acts-16-31",
@@ -6797,7 +6809,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "And they said, “Believe in the Lord Jesus, and you will be saved, you and your household.”"
+"text": "And they said, Believe on the Lord Jesus Christ, and thou shalt be saved, and thy house."
 },
 {
 "id": "romans-6-23",
@@ -6806,7 +6818,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "For the wages of sin is death, but the free gift of God is eternal life in Christ Jesus our Lord."
+"text": "For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord."
 },
 {
 "id": "romans-5-6",
@@ -6815,7 +6827,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "For while we were still weak, at the right time Christ died for the ungodly."
+"text": "For when we were yet without strength, in due time Christ died for the ungodly."
 },
 {
 "id": "romans-10-13",
@@ -6824,7 +6836,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "For “everyone who calls on the name of the Lord will be saved.”"
+"text": "For whosoever shall call upon the name of the Lord shall be saved."
 },
 {
 "id": "romans-10-9-10",
@@ -6833,7 +6845,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 4,
-"text": "Because, if you confess with your mouth that Jesus is Lord and believe in your heart that God raised him from the dead, you will be saved. For with the heart one believes and is justified, and with the mouth one confesses and is saved."
+"text": "That if thou shalt confess with thy mouth the Lord Jesus, and shalt believe in thine heart that God hath raised him from the dead, thou shalt be saved. For with the heart man believeth unto righteousness; and with the mouth confession is made unto salvation."
 },
 {
 "id": "psalm-121-c1",
@@ -6842,7 +6854,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 5,
-"text": "I lift up my eyes to the hills.\n    From where does my help come?\nMy help comes from the LORD,\n    who made heaven and earth.\n\nHe will not let your foot be moved;\n    he who keeps you will not slumber.\nBehold, he who keeps Israel\n    will neither slumber nor sleep."
+"text": "I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth. He will not suffer thy foot to be moved: he that keepeth thee will not slumber. Behold, he that keepeth Israel shall neither slumber nor sleep.",
+"vv": "1–4"
 },
 {
 "id": "psalm-25-5",
@@ -6851,7 +6864,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "Lead me in your truth and teach me,\n    for you are the God of my salvation;\n    for you I wait all the day long."
+"text": "Lead me in thy truth, and teach me: for thou art the God of my salvation; on thee do I wait all the day."
 },
 {
 "id": "exodus-34-6",
@@ -6860,7 +6873,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "The LORD passed before him and proclaimed, “The LORD, the LORD, a God merciful and gracious, slow to anger, and abounding in steadfast love and faithfulness.”"
+"text": "And the LORD passed by before him, and proclaimed, The LORD, The LORD God, merciful and gracious, longsuffering, and abundant in goodness and truth,"
 },
 {
 "id": "matthew-5-13-16",
@@ -6869,7 +6882,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "You are the salt of the earth, but if salt has lost its taste, how shall its saltiness be restored? It is no longer good for anything except to be thrown out and trampled under people’s feet. You are the light of the world. A city set on a hill cannot be hidden. Nor do people light a lamp and put it under a basket, but on a stand, and it gives light to all in the house. In the same way, let your light shine before others, so that they may see your good works and give glory to your Father who is in heaven."
+"text": "Ye are the salt of the earth: but if the salt have lost his savour, wherewith shall it be salted? it is thenceforth good for nothing, but to be cast out, and to be trodden under foot of men. Ye are the light of the world. A city that is set on an hill cannot be hid. Neither do men light a candle, and put it under a bushel, but on a candlestick; and it giveth light unto all that are in the house. Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."
 },
 {
 "id": "psalm-121-c2",
@@ -6878,7 +6891,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 5,
-"text": "The LORD is your keeper;\n    the LORD is your shade on your right hand.\nThe sun shall not strike you by day,\n    nor the moon by night.\n\nThe LORD will keep you from all evil;\n    he will keep your life.\nThe LORD will keep\n    your going out and your coming in\n    from this time forth and forevermore."
+"text": "The LORD is thy keeper: the LORD is thy shade upon thy right hand. The sun shall not smite thee by day, nor the moon by night. The LORD shall preserve thee from all evil: he shall preserve thy soul. The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.",
+"vv": "5–8"
 },
 {
 "id": "romans-8-28-29",
@@ -6887,7 +6901,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "And we know that for those who love God all things work together for good, for those who are called according to his purpose. For those whom he foreknew he also predestined to be conformed to the image of his Son, in order that he might be the firstborn among many brothers."
+"text": "And we know that all things work together for good to them that love God, to them who are the called according to his purpose. For whom he did foreknow, he also did predestinate to be conformed to the image of his Son, that he might be the firstborn among many brethren."
 },
 {
 "id": "matthew-18-15-17",
@@ -6896,7 +6910,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "If your brother sins against you, go and tell him his fault, between you and him alone. If he listens to you, you have gained your brother. But if he does not listen, take one or two others along with you, that every charge may be established by the evidence of two or three witnesses. If he refuses to listen to them, tell it to the church. And if he refuses to listen even to the church, let him be to you as a Gentile and a tax collector."
+"text": "Moreover if thy brother shall trespass against thee, go and tell him his fault between thee and him alone: if he shall hear thee, thou hast gained thy brother. But if he will not hear thee, then take with thee one or two more, that in the mouth of two or three witnesses every word may be established. And if he shall neglect to hear them, tell it unto the church: but if he neglect to hear the church, let him be unto thee as an heathen man and a publican."
 },
 {
 "id": "matthew-7-5",
@@ -6905,7 +6919,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "You hypocrite, first take the log out of your own eye, and then you will see clearly to take the speck out of your brother’s eye."
+"text": "Thou hypocrite, first cast out the beam out of thine own eye; and then shalt thou see clearly to cast out the mote out of thy brother’s eye."
 },
 {
 "id": "2-corinthians-5-17",
@@ -6914,7 +6928,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come."
+"text": "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new."
 },
 {
 "id": "1-corinthians-6-1-2",
@@ -6923,7 +6937,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "When one of you has a grievance against another, does he dare go to law before the unrighteous instead of the saints? Or do you not know that the saints will judge the world? And if the world is to be judged by you, are you incompetent to try trivial cases?"
+"text": "Dare any of you, having a matter against another, go to law before the unjust, and not before the saints? Do ye not know that the saints shall judge the world? and if the world shall be judged by you, are ye unworthy to judge the smallest matters?"
 },
 {
 "id": "ephesians-6-10-20-c2",
@@ -6932,7 +6946,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 5,
-"text": "In all circumstances take up the shield of faith, with which you can extinguish all the flaming darts of the evil one; and take the helmet of salvation, and the sword of the Spirit, which is the word of God, praying at all times in the Spirit, with all prayer and supplication. To that end keep alert with all perseverance, making supplication for all the saints, and also for me, that words may be given to me in opening my mouth boldly to proclaim the mystery of the gospel, for which I am an ambassador in chains, that I may declare it boldly, as I ought to speak."
+"text": "Above all, taking the shield of faith, wherewith ye shall be able to quench all the fiery darts of the wicked. And take the helmet of salvation, and the sword of the Spirit, which is the word of God: Praying always with all prayer and supplication in the Spirit, and watching thereunto with all perseverance and supplication for all saints; And for me, that utterance may be given unto me, that I may open my mouth boldly, to make known the mystery of the gospel, For which I am an ambassador in bonds: that therein I may speak boldly, as I ought to speak.",
+"vv": "16–20"
 },
 {
 "id": "ephesians-6-10-20-c1",
@@ -6941,7 +6956,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 5,
-"text": "Finally, be strong in the Lord and in the strength of his might. Put on the whole armor of God, that you may be able to stand against the schemes of the devil. For we do not wrestle against flesh and blood, but against the rulers, against the authorities, against the cosmic powers over this present darkness, against the spiritual forces of evil in the heavenly places. Therefore take up the whole armor of God, that you may be able to withstand in the evil day, and having done all, to stand firm. Stand therefore, having fastened on the belt of truth, and having put on the breastplate of righteousness, and, as shoes for your feet, having put on the readiness given by the gospel of peace."
+"text": "Finally, my brethren, be strong in the Lord, and in the power of his might. Put on the whole armour of God, that ye may be able to stand against the wiles of the devil. For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places. Wherefore take unto you the whole armour of God, that ye may be able to withstand in the evil day, and having done all, to stand. Stand therefore, having your loins girt about with truth, and having on the breastplate of righteousness; And your feet shod with the preparation of the gospel of peace;",
+"vv": "10–15"
 },
 {
 "id": "ephesians-5-15-21",
@@ -6950,7 +6966,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "Look carefully then how you walk, not as unwise but as wise, making the best use of the time, because the days are evil. Therefore do not be foolish, but understand what the will of the Lord is. And do not get drunk with wine, for that is debauchery, but be filled with the Spirit, addressing one another in psalms and hymns and spiritual songs, singing and making melody to the Lord with your heart, giving thanks always and for everything to God the Father in the name of our Lord Jesus Christ, submitting to one another out of reverence for Christ."
+"text": "See then that ye walk circumspectly, not as fools, but as wise, Redeeming the time, because the days are evil. Wherefore be ye not unwise, but understanding what the will of the Lord is. And be not drunk with wine, wherein is excess; but be filled with the Spirit; Speaking to yourselves in psalms and hymns and spiritual songs, singing and making melody in your heart to the Lord; Giving thanks always for all things unto God and the Father in the name of our Lord Jesus Christ; Submitting yourselves one to another in the fear of God."
 },
 {
 "id": "1-timothy-4-12",
@@ -6959,7 +6975,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "Let no one despise you for your youth, but set the believers an example in speech, in conduct, in love, in faith, in purity."
+"text": "Let no man despise thy youth; but be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity."
 },
 {
 "id": "1-thessalonians-5-11",
@@ -6968,7 +6984,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "Therefore encourage one another and build one another up, just as you are doing."
+"text": "Wherefore comfort yourselves together, and edify one another, even as also ye do."
 },
 {
 "id": "1-peter-2-15-19",
@@ -6977,7 +6993,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "For this is the will of God, that by doing good you should put to silence the ignorance of foolish people. For this is a gracious thing, when, mindful of God, one endures sorrows while suffering unjustly."
+"text": "For so is the will of God, that with well doing ye may put to silence the ignorance of foolish men: For this is thankworthy, if a man for conscience toward God endure grief, suffering wrongfully."
 },
 {
 "id": "james-5-19-20",
@@ -6986,7 +7002,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "My brothers, if anyone among you wanders from the truth and someone brings him back, let him know that whoever brings back a sinner from his wandering will save his soul from death and will cover a multitude of sins."
+"text": "Brethren, if any of you do err from the truth, and one convert him; Let him know, that he which converteth the sinner from the error of his way shall save a soul from death, and shall hide a multitude of sins."
 },
 {
 "id": "2-timothy-3-16-17",
@@ -6995,7 +7011,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "All Scripture is breathed out by God and profitable for teaching, for reproof, for correction, and for training in righteousness, that the man of God may be complete, equipped for every good work."
+"text": "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness: That the man of God may be perfect, throughly furnished unto all good works."
 },
 {
 "id": "1-john-2-28",
@@ -7004,7 +7020,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 5,
-"text": "And now, little children, abide in him, so that when he appears we may have confidence and not shrink from him in shame at his coming."
+"text": "And now, little children, abide in him; that, when he shall appear, we may have confidence, and not be ashamed before him at his coming."
 },
 {
 "id": "psalm-91-c1",
@@ -7013,7 +7029,8 @@ window.CONTENT = {
 "part": 1,
 "of": 3,
 "pack": 6,
-"text": "He who dwells in the shelter of the Most High\n    will abide in the shadow of the Almighty.\nI will say to the LORD, “My refuge and my fortress,\n    my God, in whom I trust.”\nFor he will deliver you from the snare of the fowler\n    and from the deadly pestilence.\nHe will cover you with his pinions,\n    and under his wings you will find refuge;\n    his faithfulness is a shield and buckler.\nYou will not fear the terror of the night,\n    nor the arrow that flies by day,\nnor the pestilence that stalks in darkness,\n    nor the destruction that wastes at noonday."
+"text": "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty. I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust. Surely he shall deliver thee from the snare of the fowler, and from the noisome pestilence. He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler. Thou shalt not be afraid for the terror by night; nor for the arrow that flieth by day; Nor for the pestilence that walketh in darkness; nor for the destruction that wasteth at noonday.",
+"vv": "1–6"
 },
 {
 "id": "psalm-37-5-6",
@@ -7022,7 +7039,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "Commit your way to the LORD;\n    trust in him, and he will act.\nHe will bring forth your righteousness as the light,\n    and your justice as the noonday."
+"text": "Commit thy way unto the LORD; trust also in him; and he shall bring it to pass. And he shall bring forth thy righteousness as the light, and thy judgment as the noonday."
 },
 {
 "id": "psalm-27-1",
@@ -7031,7 +7048,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "The LORD is my light and my salvation;\n    whom shall I fear?\nThe LORD is the stronghold of my life;\n    of whom shall I be afraid?"
+"text": "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?"
 },
 {
 "id": "psalm-91-c3",
@@ -7040,7 +7057,8 @@ window.CONTENT = {
 "part": 3,
 "of": 3,
 "pack": 6,
-"text": "For he will command his angels concerning you\n    to guard you in all your ways.\nOn their hands they will bear you up,\n    lest you strike your foot against a stone.\nYou will tread on the lion and the adder;\n    the young lion and the serpent you will trample underfoot.\n“Because he holds fast to me in love, I will deliver him;\n    I will protect him, because he knows my name.\nWhen he calls to me, I will answer him;\n    I will be with him in trouble;\n    I will rescue him and honor him.\nWith long life I will satisfy him\n    and show him my salvation.”"
+"text": "For he shall give his angels charge over thee, to keep thee in all thy ways. They shall bear thee up in their hands, lest thou dash thy foot against a stone. Thou shalt tread upon the lion and adder: the young lion and the dragon shalt thou trample under feet. Because he hath set his love upon me, therefore will I deliver him: I will set him on high, because he hath known my name. He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him. With long life will I satisfy him, and shew him my salvation.",
+"vv": "11–16"
 },
 {
 "id": "psalm-91-c2",
@@ -7049,7 +7067,8 @@ window.CONTENT = {
 "part": 2,
 "of": 3,
 "pack": 6,
-"text": "A thousand may fall at your side,\n    ten thousand at your right hand,\n    but it will not come near you.\nYou will only look with your eyes\n    and see the recompense of the wicked.\n\nBecause you have made the LORD your dwelling place—\n    the Most High, who is my refuge—\nno evil shall be allowed to befall you,\n    no plague come near your tent."
+"text": "A thousand shall fall at thy side, and ten thousand at thy right hand; but it shall not come nigh thee. Only with thine eyes shalt thou behold and see the reward of the wicked. Because thou hast made the LORD, which is my refuge, even the most High, thy habitation; There shall no evil befall thee, neither shall any plague come nigh thy dwelling.",
+"vv": "7–10"
 },
 {
 "id": "luke-11-28",
@@ -7058,7 +7077,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "But he said, “Blessed rather are those who hear the word of God and keep it!”"
+"text": "But he said, Yea rather, blessed are they that hear the word of God, and keep it."
 },
 {
 "id": "matthew-6-31-33",
@@ -7067,7 +7086,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "Therefore do not be anxious, saying, ‘What shall we eat?’ or ‘What shall we drink?’ or ‘What shall we wear?’ For the Gentiles seek after all these things, and your heavenly Father knows that you need them all. But seek first the kingdom of God and his righteousness, and all these things will be added to you."
+"text": "Therefore take no thought, saying, What shall we eat? or, What shall we drink? or, Wherewithal shall we be clothed? (For after all these things do the Gentiles seek:) for your heavenly Father knoweth that ye have need of all these things. But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you."
 },
 {
 "id": "isaiah-40-8",
@@ -7076,7 +7095,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "The grass withers, the flower fades,\n    but the word of our God will stand forever."
+"text": "The grass withereth, the flower fadeth: but the word of our God shall stand for ever."
 },
 {
 "id": "romans-8-38-39",
@@ -7085,7 +7104,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God in Christ Jesus our Lord."
+"text": "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come, Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord."
 },
 {
 "id": "john-4-24",
@@ -7094,7 +7113,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "God is spirit, and those who worship him must worship in spirit and truth."
+"text": "God is a Spirit: and they that worship him must worship him in spirit and in truth."
 },
 {
 "id": "1-corinthians-13-c2",
@@ -7103,7 +7122,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 6,
-"text": "For we know in part and we prophesy in part, but when the perfect comes, the partial will pass away. When I was a child, I spoke like a child, I thought like a child, I reasoned like a child. When I became a man, I gave up childish ways. For now we see in a mirror dimly, but then face to face. Now I know in part; then I shall know fully, even as I have been fully known. So now faith, hope, and love abide, these three; but the greatest of these is love."
+"text": "For we know in part, and we prophesy in part. But when that which is perfect is come, then that which is in part shall be done away. When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things. For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known. And now abideth faith, hope, charity, these three; but the greatest of these is charity.",
+"vv": "9–13"
 },
 {
 "id": "1-corinthians-13-c1",
@@ -7112,7 +7132,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 6,
-"text": "If I speak in the tongues of men and of angels, but have not love, I am a noisy gong or a clanging cymbal. And if I have prophetic powers, and understand all mysteries and all knowledge, and if I have all faith, so as to remove mountains, but have not love, I am nothing. If I give away all I have, and if I deliver up my body to be burned, but have not love, I gain nothing. Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful; it does not rejoice at wrongdoing, but rejoices with the truth. Love bears all things, believes all things, hopes all things, endures all things. Love never ends. As for prophecies, they will pass away; as for tongues, they will cease; as for knowledge, it will pass away."
+"text": "Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal. And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing. And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing. Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things. Charity never faileth: but whether there be prophecies, they shall fail; whether there be tongues, they shall cease; whether there be knowledge, it shall vanish away.",
+"vv": "1–8"
 },
 {
 "id": "1-corinthians-10-13",
@@ -7121,7 +7142,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it."
+"text": "There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it."
 },
 {
 "id": "galatians-6-7-8",
@@ -7130,7 +7151,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "Do not be deceived: God is not mocked, for whatever one sows, that will he also reap. For the one who sows to his own flesh will from the flesh reap corruption, but the one who sows to the Spirit will from the Spirit reap eternal life."
+"text": "Be not deceived; God is not mocked: for whatsoever a man soweth, that shall he also reap. For he that soweth to his flesh shall of the flesh reap corruption; but he that soweth to the Spirit shall of the Spirit reap life everlasting."
 },
 {
 "id": "2-corinthians-7-10",
@@ -7139,7 +7160,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "For godly grief produces a repentance that leads to salvation without regret, whereas worldly grief produces death."
+"text": "For godly sorrow worketh repentance to salvation not to be repented of: but the sorrow of the world worketh death."
 },
 {
 "id": "1-thessalonians-4-13-18",
@@ -7148,7 +7169,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 6,
-"text": "But we do not want you to be uninformed, brothers, about those who are asleep, that you may not grieve as others do who have no hope. For since we believe that Jesus died and rose again, even so, through Jesus, God will bring with him those who have fallen asleep. For this we declare to you by a word from the Lord, that we who are alive, who are left until the coming of the Lord, will not precede those who have fallen asleep. For the Lord himself will descend from heaven with a cry of command, with the voice of an archangel, and with the sound of the trumpet of God. And the dead in Christ will rise first. Then we who are alive, who are left, will be caught up together with them in the clouds to meet the Lord in the air, and so we will always be with the Lord. Therefore encourage one another with these words."
+"text": "But I would not have you to be ignorant, brethren, concerning them which are asleep, that ye sorrow not, even as others which have no hope. For if we believe that Jesus died and rose again, even so them also which sleep in Jesus will God bring with him. For this we say unto you by the word of the Lord, that we which are alive and remain unto the coming of the Lord shall not prevent them which are asleep. For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord. Wherefore comfort one another with these words."
 },
 {
 "id": "psalm-113-c2",
@@ -7157,7 +7178,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 7,
-"text": "The LORD is high above all nations,\n    and his glory above the heavens!\nWho is like the LORD our God,\n    who is seated on high,\nwho looks far down\n    on the heavens and the earth?\nHe raises the poor from the dust\n    and lifts the needy from the ash heap,\nto make them sit with princes,\n    with the princes of his people.\nHe gives the barren woman a home,\n    making her the joyous mother of children.\nPraise the LORD!"
+"text": "The LORD is high above all nations, and his glory above the heavens. Who is like unto the LORD our God, who dwelleth on high, Who humbleth himself to behold the things that are in heaven, and in the earth! He raiseth up the poor out of the dust, and lifteth the needy out of the dunghill; That he may set him with princes, even with the princes of his people. He maketh the barren woman to keep house, and to be a joyful mother of children. Praise ye the LORD.",
+"vv": "4–9"
 },
 {
 "id": "psalm-113-c1",
@@ -7166,7 +7188,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 7,
-"text": "Praise the LORD!\nPraise, O servants of the LORD,\n    praise the name of the LORD!\n\nBlessed be the name of the LORD\n    from this time forth and forevermore!\nFrom the rising of the sun to its setting,\n    the name of the LORD is to be praised!"
+"text": "Praise ye the LORD. Praise, O ye servants of the LORD, praise the name of the LORD. Blessed be the name of the LORD from this time forth and for evermore. From the rising of the sun unto the going down of the same the LORD’s name is to be praised.",
+"vv": "1–3"
 },
 {
 "id": "psalm-52-9",
@@ -7175,7 +7198,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "I will thank you forever,\n    because you have done it.\nI will wait for your name, for it is good,\n    in the presence of the godly."
+"text": "I will praise thee for ever, because thou hast done it: and I will wait on thy name; for it is good before thy saints."
 },
 {
 "id": "ecclesiastes-5-2",
@@ -7184,7 +7207,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "Be not rash with your mouth, nor let your heart be hasty to utter a word before God, for God is in heaven and you are on earth. Therefore let your words be few."
+"text": "Be not rash with thy mouth, and let not thine heart be hasty to utter any thing before God: for God is in heaven, and thou upon earth: therefore let thy words be few."
 },
 {
 "id": "psalm-119-9-11",
@@ -7193,7 +7216,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "How can a young man keep his way pure?\n    By guarding it according to your word.\nWith my whole heart I seek you;\n    let me not wander from your commandments!\nI have stored up your word in my heart,\n    that I might not sin against you."
+"text": "ב BETH. Wherewithal shall a young man cleanse his way? by taking heed thereto according to thy word. With my whole heart have I sought thee: O let me not wander from thy commandments. Thy word have I hid in mine heart, that I might not sin against thee."
 },
 {
 "id": "john-14-15",
@@ -7202,7 +7225,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "If you love me, you will keep my commandments."
+"text": "If ye love me, keep my commandments."
 },
 {
 "id": "matthew-15-18-19",
@@ -7211,7 +7234,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "But what comes out of the mouth proceeds from the heart, and this defiles a person. For out of the heart come evil thoughts, murder, adultery, sexual immorality, theft, false witness, slander."
+"text": "But those things which proceed out of the mouth come forth from the heart; and they defile the man. For out of the heart proceed evil thoughts, murders, adulteries, fornications, thefts, false witness, blasphemies:"
 },
 {
 "id": "matthew-5-23-24",
@@ -7220,7 +7243,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "So if you are offering your gift at the altar and there remember that your brother has something against you, leave your gift there before the altar and go. First be reconciled to your brother, and then come and offer your gift."
+"text": "Therefore if thou bring thy gift to the altar, and there rememberest that thy brother hath ought against thee; Leave there thy gift before the altar, and go thy way; first be reconciled to thy brother, and then come and offer thy gift."
 },
 {
 "id": "romans-12-c2",
@@ -7229,7 +7252,8 @@ window.CONTENT = {
 "part": 2,
 "of": 3,
 "pack": 7,
-"text": "Having gifts that differ according to the grace given to us, let us use them: if prophecy, in proportion to our faith; if service, in our serving; the one who teaches, in his teaching; the one who exhorts, in his exhortation; the one who contributes, in generosity; the one who leads, with zeal; the one who does acts of mercy, with cheerfulness. Let love be genuine. Abhor what is evil; hold fast to what is good. Love one another with brotherly affection. Outdo one another in showing honor. Do not be slothful in zeal, be fervent in spirit, serve the Lord. Rejoice in hope, be patient in tribulation, be constant in prayer. Contribute to the needs of the saints and seek to show hospitality. Bless those who persecute you; bless and do not curse them. Rejoice with those who rejoice, weep with those who weep."
+"text": "Having then gifts differing according to the grace that is given to us, whether prophecy, let us prophesy according to the proportion of faith; Or ministry, let us wait on our ministering: or he that teacheth, on teaching; Or he that exhorteth, on exhortation: he that giveth, let him do it with simplicity; he that ruleth, with diligence; he that sheweth mercy, with cheerfulness. Let love be without dissimulation. Abhor that which is evil; cleave to that which is good. Be kindly affectioned one to another with brotherly love; in honour preferring one another; Not slothful in business; fervent in spirit; serving the Lord; Rejoicing in hope; patient in tribulation; continuing instant in prayer; Distributing to the necessity of saints; given to hospitality. Bless them which persecute you: bless, and curse not. Rejoice with them that do rejoice, and weep with them that weep.",
+"vv": "6–15"
 },
 {
 "id": "romans-12-c1",
@@ -7238,7 +7262,8 @@ window.CONTENT = {
 "part": 1,
 "of": 3,
 "pack": 7,
-"text": "I appeal to you therefore, brothers, by the mercies of God, to present your bodies as a living sacrifice, holy and acceptable to God, which is your spiritual worship. Do not be conformed to this world, but be transformed by the renewal of your mind, that by testing you may discern what is the will of God, what is good and acceptable and perfect. For by the grace given to me I say to everyone among you not to think of himself more highly than he ought to think, but to think with sober judgment, each according to the measure of faith that God has assigned. For as in one body we have many members, and the members do not all have the same function, so we, though many, are one body in Christ, and individually members one of another."
+"text": "I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service. And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God. For I say, through the grace given unto me, to every man that is among you, not to think of himself more highly than he ought to think; but to think soberly, according as God hath dealt to every man the measure of faith. For as we have many members in one body, and all members have not the same office: So we, being many, are one body in Christ, and every one members one of another.",
+"vv": "1–5"
 },
 {
 "id": "ephesians-4-29-30",
@@ -7247,7 +7272,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "Let no corrupting talk come out of your mouths, but only such as is good for building up, as fits the occasion, that it may give grace to those who hear. And do not grieve the Holy Spirit of God, by whom you were sealed for the day of redemption."
+"text": "Let no corrupt communication proceed out of your mouth, but that which is good to the use of edifying, that it may minister grace unto the hearers. And grieve not the holy Spirit of God, whereby ye are sealed unto the day of redemption."
 },
 {
 "id": "1-corinthians-6-19-20",
@@ -7256,7 +7281,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "Or do you not know that your body is a temple of the Holy Spirit within you, whom you have from God? You are not your own, for you were bought with a price. So glorify God in your body."
+"text": "What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own? For ye are bought with a price: therefore glorify God in your body, and in your spirit, which are God’s."
 },
 {
 "id": "romans-12-c3",
@@ -7265,7 +7290,8 @@ window.CONTENT = {
 "part": 3,
 "of": 3,
 "pack": 7,
-"text": "Live in harmony with one another. Do not be haughty, but associate with the lowly. Never be wise in your own sight. Repay no one evil for evil, but give thought to do what is honorable in the sight of all. If possible, so far as it depends on you, live peaceably with all. Beloved, never avenge yourselves, but leave it to the wrath of God, for it is written, “Vengeance is mine, I will repay, says the Lord.” To the contrary, “if your enemy is hungry, feed him; if he is thirsty, give him something to drink; for by so doing you will heap burning coals on his head.” Do not be overcome by evil, but overcome evil with good."
+"text": "Be of the same mind one toward another. Mind not high things, but condescend to men of low estate. Be not wise in your own conceits. Recompense to no man evil for evil. Provide things honest in the sight of all men. If it be possible, as much as lieth in you, live peaceably with all men. Dearly beloved, avenge not yourselves, but rather give place unto wrath: for it is written, Vengeance is mine; I will repay, saith the Lord. Therefore if thine enemy hunger, feed him; if he thirst, give him drink: for in so doing thou shalt heap coals of fire on his head. Be not overcome of evil, but overcome evil with good.",
+"vv": "16–21"
 },
 {
 "id": "1-timothy-2-5",
@@ -7274,7 +7300,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "For there is one God, and there is one mediator between God and men, the man Christ Jesus."
+"text": "For there is one God, and one mediator between God and men, the man Christ Jesus;"
 },
 {
 "id": "philippians-1-21",
@@ -7292,7 +7318,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "Count it all joy, my brothers, when you meet trials of various kinds, for you know that the testing of your faith produces steadfastness. And let steadfastness have its full effect, that you may be perfect and complete, lacking in nothing."
+"text": "My brethren, count it all joy when ye fall into divers temptations; Knowing this, that the trying of your faith worketh patience. But let patience have her perfect work, that ye may be perfect and entire, wanting nothing."
 },
 {
 "id": "2-timothy-2-15",
@@ -7301,7 +7327,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 7,
-"text": "Do your best to present yourself to God as one approved, a worker who has no need to be ashamed, rightly handling the word of truth."
+"text": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth."
 },
 {
 "id": "psalm-19-c3",
@@ -7310,7 +7336,8 @@ window.CONTENT = {
 "part": 3,
 "of": 4,
 "pack": 8,
-"text": "More to be desired are they than gold,\n    even much fine gold;\nsweeter also than honey\n    and drippings of the honeycomb.\nMoreover, by them is your servant warned;\n    in keeping them there is great reward.\nWho can discern his errors?\n    Declare me innocent from hidden faults.\nKeep back your servant also from presumptuous sins;\n    let them not have dominion over me!\nThen I shall be blameless,\n    and innocent of great transgression."
+"text": "More to be desired are they than gold, yea, than much fine gold: sweeter also than honey and the honeycomb. Moreover by them is thy servant warned: and in keeping of them there is great reward. Who can understand his errors? cleanse thou me from secret faults. Keep back thy servant also from presumptuous sins; let them not have dominion over me: then shall I be upright, and I shall be innocent from the great transgression.",
+"vv": "10–13"
 },
 {
 "id": "psalm-19-c2",
@@ -7319,7 +7346,8 @@ window.CONTENT = {
 "part": 2,
 "of": 4,
 "pack": 8,
-"text": "The law of the LORD is perfect,\n    reviving the soul;\nthe testimony of the LORD is sure,\n    making wise the simple;\nthe precepts of the LORD are right,\n    rejoicing the heart;\nthe commandment of the LORD is pure,\n    enlightening the eyes;\nthe fear of the LORD is clean,\n    enduring forever;\nthe rules of the LORD are true,\n    and righteous altogether."
+"text": "The law of the LORD is perfect, converting the soul: the testimony of the LORD is sure, making wise the simple. The statutes of the LORD are right, rejoicing the heart: the commandment of the LORD is pure, enlightening the eyes. The fear of the LORD is clean, enduring for ever: the judgments of the LORD are true and righteous altogether.",
+"vv": "7–9"
 },
 {
 "id": "psalm-19-c1",
@@ -7328,7 +7356,8 @@ window.CONTENT = {
 "part": 1,
 "of": 4,
 "pack": 8,
-"text": "The heavens declare the glory of God,\n    and the sky above proclaims his handiwork.\nDay to day pours out speech,\n    and night to night reveals knowledge.\nThere is no speech, nor are there words,\n    whose voice is not heard.\nTheir voice goes out through all the earth,\n    and their words to the end of the world.\nIn them he has set a tent for the sun,\n    which comes out like a bridegroom leaving his chamber,\n    and, like a strong man, runs its course with joy.\nIts rising is from the end of the heavens,\n    and its circuit to the end of them,\n    and there is nothing hidden from its heat."
+"text": "The heavens declare the glory of God; and the firmament sheweth his handywork. Day unto day uttereth speech, and night unto night sheweth knowledge. There is no speech nor language, where their voice is not heard. Their line is gone out through all the earth, and their words to the end of the world. In them hath he set a tabernacle for the sun, Which is as a bridegroom coming out of his chamber, and rejoiceth as a strong man to run a race. His going forth is from the end of the heaven, and his circuit unto the ends of it: and there is nothing hid from the heat thereof.",
+"vv": "1–6"
 },
 {
 "id": "psalm-55-17",
@@ -7337,7 +7366,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Evening and morning and at noon\n    I utter my complaint and moan,\n    and he hears my voice."
+"text": "Evening, and morning, and at noon, will I pray, and cry aloud: and he shall hear my voice."
 },
 {
 "id": "psalm-19-c4",
@@ -7346,7 +7375,8 @@ window.CONTENT = {
 "part": 4,
 "of": 4,
 "pack": 8,
-"text": "Let the words of my mouth and the meditation of my heart\n    be acceptable in your sight,\n    O LORD, my rock and my redeemer."
+"text": "Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer.",
+"vv": "14"
 },
 {
 "id": "matthew-7-7",
@@ -7355,7 +7385,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Ask, and it will be given to you; seek, and you will find; knock, and it will be opened to you."
+"text": "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you:"
 },
 {
 "id": "isaiah-59-1-2",
@@ -7364,7 +7394,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Behold, the LORD’s hand is not shortened, that it cannot save,\n    or his ear dull, that it cannot hear;\nbut your iniquities have made a separation\n    between you and your God,\nand your sins have hidden his face from you\n    so that he does not hear."
+"text": "Behold, the LORD’s hand is not shortened, that it cannot save; neither his ear heavy, that it cannot hear: But your iniquities have separated between you and your God, and your sins have hid his face from you, that he will not hear."
 },
 {
 "id": "proverbs-6-16-19",
@@ -7373,7 +7403,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "There are six things that the LORD hates,\n    seven that are an abomination to him:\nhaughty eyes, a lying tongue,\n    and hands that shed innocent blood,\na heart that devises wicked plans,\n    feet that make haste to run to evil,\na false witness who breathes out lies,\n    and one who sows discord among brothers."
+"text": "These six things doth the LORD hate: yea, seven are an abomination unto him: A proud look, a lying tongue, and hands that shed innocent blood, An heart that deviseth wicked imaginations, feet that be swift in running to mischief, A false witness that speaketh lies, and he that soweth discord among brethren."
 },
 {
 "id": "2-corinthians-5-21",
@@ -7382,7 +7412,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "For our sake he made him to be sin who knew no sin, so that in him we might become the righteousness of God."
+"text": "For he hath made him to be sin for us, who knew no sin; that we might be made the righteousness of God in him."
 },
 {
 "id": "romans-15-7",
@@ -7391,7 +7421,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Therefore welcome one another as Christ has welcomed you, for the glory of God."
+"text": "Wherefore receive ye one another, as Christ also received us to the glory of God."
 },
 {
 "id": "philippians-1-6",
@@ -7400,7 +7430,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "And I am sure of this, that he who began a good work in you will bring it to completion at the day of Jesus Christ."
+"text": "Being confident of this very thing, that he which hath begun a good work in you will perform it until the day of Jesus Christ:"
 },
 {
 "id": "galatians-2-20",
@@ -7409,7 +7439,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "I have been crucified with Christ. It is no longer I who live, but Christ who lives in me. And the life I now live in the flesh I live by faith in the Son of God, who loved me and gave himself for me."
+"text": "I am crucified with Christ: nevertheless I live; yet not I, but Christ liveth in me: and the life which I now live in the flesh I live by the faith of the Son of God, who loved me, and gave himself for me."
 },
 {
 "id": "2-corinthians-7-1",
@@ -7418,7 +7448,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Since we have these promises, beloved, let us cleanse ourselves from every defilement of body and spirit, bringing holiness to completion in the fear of God."
+"text": "Having therefore these promises, dearly beloved, let us cleanse ourselves from all filthiness of the flesh and spirit, perfecting holiness in the fear of God."
 },
 {
 "id": "1-thessalonians-5-12-24",
@@ -7427,7 +7457,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "We ask you, brothers, to respect those who labor among you and are over you in the Lord and admonish you, and to esteem them very highly in love because of their work. Be at peace among yourselves. And we urge you, brothers, admonish the idle, encourage the fainthearted, help the weak, be patient with them all. See that no one repays anyone evil for evil, but always seek to do good to one another and to everyone. Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you. Do not quench the Spirit. Do not despise prophecies, but test everything; hold fast what is good. Abstain from every form of evil. Now may the God of peace himself sanctify you completely, and may your whole spirit and soul and body be kept blameless at the coming of our Lord Jesus Christ. He who calls you is faithful; he will surely do it."
+"text": "And we beseech you, brethren, to know them which labour among you, and are over you in the Lord, and admonish you; And to esteem them very highly in love for their work’s sake. And be at peace among yourselves. Now we exhort you, brethren, warn them that are unruly, comfort the feebleminded, support the weak, be patient toward all men. See that none render evil for evil unto any man; but ever follow that which is good, both among yourselves, and to all men. Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you. Quench not the Spirit. Despise not prophesyings. Prove all things; hold fast that which is good. Abstain from all appearance of evil. And the very God of peace sanctify you wholly; and I pray God your whole spirit and soul and body be preserved blameless unto the coming of our Lord Jesus Christ. Faithful is he that calleth you, who also will do it."
 },
 {
 "id": "colossians-4-2",
@@ -7436,7 +7466,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Continue steadfastly in prayer, being watchful in it with thanksgiving."
+"text": "Continue in prayer, and watch in the same with thanksgiving;"
 },
 {
 "id": "hebrews-4-12",
@@ -7445,7 +7475,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "For the word of God is living and active, sharper than any two-edged sword, piercing to the division of soul and of spirit, of joints and of marrow, and discerning the thoughts and intentions of the heart."
+"text": "For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart."
 },
 {
 "id": "titus-3-5",
@@ -7454,7 +7484,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "He saved us, not because of works done by us in righteousness, but according to his own mercy, by the washing of regeneration and renewal of the Holy Spirit."
+"text": "Not by works of righteousness which we have done, but according to his mercy he saved us, by the washing of regeneration, and renewing of the Holy Ghost;"
 },
 {
 "id": "2-timothy-2-24-26",
@@ -7463,7 +7493,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "And the Lord’s servant must not be quarrelsome but kind to everyone, able to teach, patiently enduring evil, correcting his opponents with gentleness. God may perhaps grant them repentance leading to a knowledge of the truth, and they may come to their senses and escape from the snare of the devil, after being captured by him to do his will."
+"text": "And the servant of the Lord must not strive; but be gentle unto all men, apt to teach, patient, In meekness instructing those that oppose themselves; if God peradventure will give them repentance to the acknowledging of the truth; And that they may recover themselves out of the snare of the devil, who are taken captive by him at his will."
 },
 {
 "id": "james-4-10",
@@ -7472,7 +7502,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Humble yourselves before the Lord, and he will exalt you."
+"text": "Humble yourselves in the sight of the Lord, and he shall lift you up."
 },
 {
 "id": "james-1-17",
@@ -7481,7 +7511,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "Every good gift and every perfect gift is from above, coming down from the Father of lights with whom there is no variation or shadow due to change."
+"text": "Every good gift and every perfect gift is from above, and cometh down from the Father of lights, with whom is no variableness, neither shadow of turning."
 },
 {
 "id": "1-john-3-23",
@@ -7490,7 +7520,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "And this is his commandment, that we believe in the name of his Son Jesus Christ and love one another, just as he has commanded us."
+"text": "And this is his commandment, That we should believe on the name of his Son Jesus Christ, and love one another, as he gave us commandment."
 },
 {
 "id": "1-peter-3-15",
@@ -7499,7 +7529,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 8,
-"text": "But in your hearts honor Christ the Lord as holy, always being prepared to make a defense to anyone who asks you for a reason for the hope that is in you; yet do it with gentleness and respect."
+"text": "But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear:"
 },
 {
 "id": "psalm-42-c3",
@@ -7508,7 +7538,8 @@ window.CONTENT = {
 "part": 3,
 "of": 4,
 "pack": 9,
-"text": "Deep calls to deep\n    at the roar of your waterfalls;\nall your breakers and your waves\n    have gone over me.\nBy day the LORD commands his steadfast love,\n    and at night his song is with me,\n    a prayer to the God of my life.\nI say to God, my rock:\n    “Why have you forgotten me?\nWhy do I go mourning\n    because of the oppression of the enemy?”"
+"text": "Deep calleth unto deep at the noise of thy waterspouts: all thy waves and thy billows are gone over me. Yet the LORD will command his lovingkindness in the daytime, and in the night his song shall be with me, and my prayer unto the God of my life. I will say unto God my rock, Why hast thou forgotten me? why go I mourning because of the oppression of the enemy?",
+"vv": "7–9"
 },
 {
 "id": "psalm-42-c2",
@@ -7517,7 +7548,8 @@ window.CONTENT = {
 "part": 2,
 "of": 4,
 "pack": 9,
-"text": "and lead them in procession to the house of God\nwith glad shouts and songs of praise,\n    a multitude keeping festival.\n\nWhy are you cast down, O my soul,\n    and why are you in turmoil within me?\nHope in God; for I shall again praise him,\n    my salvation and my God.\n\nMy soul is cast down within me;\n    therefore I remember you\nfrom the land of Jordan and of Hermon,\n    from Mount Mizar."
+"text": "When I remember these things, I pour out my soul in me: for I had gone with the multitude, I went with them to the house of God, with the voice of joy and praise, with a multitude that kept holyday. Why art thou cast down, O my soul? and why art thou disquieted in me? hope thou in God: for I shall yet praise him for the help of his countenance. O my God, my soul is cast down within me: therefore will I remember thee from the land of Jordan, and of the Hermonites, from the hill Mizar.",
+"vv": "4–6"
 },
 {
 "id": "psalm-42-c1",
@@ -7526,7 +7558,8 @@ window.CONTENT = {
 "part": 1,
 "of": 4,
 "pack": 9,
-"text": "As a deer pants for flowing streams,\n    so pants my soul for you, O God.\nMy soul thirsts for God,\n    for the living God.\nWhen shall I come and appear before God?\nMy tears have been my food\n    day and night,\nwhile they say to me all the day long,\n    “Where is your God?”\nThese things I remember,\n    as I pour out my soul:\nhow I would go with the throng"
+"text": "As the hart panteth after the water brooks, so panteth my soul after thee, O God. My soul thirsteth for God, for the living God: when shall I come and appear before God? My tears have been my meat day and night, while they continually say unto me, Where is thy God?",
+"vv": "1–3"
 },
 {
 "id": "psalm-63-3",
@@ -7535,7 +7568,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "Because your steadfast love is better than life,\n    my lips will praise you."
+"text": "Because thy lovingkindness is better than life, my lips shall praise thee."
 },
 {
 "id": "psalm-42-c4",
@@ -7544,7 +7577,8 @@ window.CONTENT = {
 "part": 4,
 "of": 4,
 "pack": 9,
-"text": "As with a deadly wound in my bones,\n    my adversaries taunt me,\nwhile they say to me all the day long,\n    “Where is your God?”\n\nWhy are you cast down, O my soul,\n    and why are you in turmoil within me?\nHope in God; for I shall again praise him,\n    my salvation and my God."
+"text": "As with a sword in my bones, mine enemies reproach me; while they say daily unto me, Where is thy God? Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God: for I shall yet praise him, who is the health of my countenance, and my God.",
+"vv": "10–11"
 },
 {
 "id": "matthew-7-12",
@@ -7553,7 +7587,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "So whatever you wish that others would do to you, do also to them, for this is the Law and the Prophets."
+"text": "Therefore all things whatsoever ye would that men should do to you, do ye even so to them: for this is the law and the prophets."
 },
 {
 "id": "proverbs-19-11",
@@ -7562,7 +7596,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "Good sense makes one slow to anger,\n    and it is his glory to overlook an offense."
+"text": "The discretion of a man deferreth his anger; and it is his glory to pass over a transgression."
 },
 {
 "id": "psalm-117",
@@ -7571,7 +7605,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "Praise the LORD, all nations!\n    Extol him, all peoples!\nFor great is his steadfast love toward us,\n    and the faithfulness of the LORD endures forever.\nPraise the LORD!"
+"text": "O praise the LORD, all ye nations: praise him, all ye people. For his merciful kindness is great toward us: and the truth of the LORD endureth for ever. Praise ye the LORD."
 },
 {
 "id": "2-corinthians-5-10",
@@ -7580,7 +7614,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "For we must all appear before the judgment seat of Christ, so that each one may receive what is due for what he has done in the body, whether good or evil."
+"text": "For we must all appear before the judgment seat of Christ; that every one may receive the things done in his body, according to that he hath done, whether it be good or bad."
 },
 {
 "id": "luke-16-13",
@@ -7589,7 +7623,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "No servant can serve two masters, for either he will hate the one and love the other, or he will be devoted to the one and despise the other. You cannot serve God and money."
+"text": "No servant can serve two masters: for either he will hate the one, and love the other; or else he will hold to the one, and despise the other. Ye cannot serve God and mammon."
 },
 {
 "id": "colossians-3-c3",
@@ -7598,7 +7632,8 @@ window.CONTENT = {
 "part": 3,
 "of": 4,
 "pack": 9,
-"text": "Let the word of Christ dwell in you richly, teaching and admonishing one another in all wisdom, singing psalms and hymns and spiritual songs, with thankfulness in your hearts to God.And whatever you do, in word or deed, do everything in the name of the Lord Jesus, giving thanks to God the Father through him. Wives, submit to your husbands, as is fitting in the Lord. Husbands, love your wives, and do not be harsh with them. Children, obey your parents in everything, for this pleases the Lord. Fathers, do not provoke your children, lest they become discouraged. Slaves, obey in everything those who are your earthly masters, not by way of eye- service, as people-pleasers, but with sincerity of heart, fearing the Lord."
+"text": "Let the word of Christ dwell in you richly in all wisdom; teaching and admonishing one another in psalms and hymns and spiritual songs, singing with grace in your hearts to the Lord. And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him. Wives, submit yourselves unto your own husbands, as it is fit in the Lord. Husbands, love your wives, and be not bitter against them. Children, obey your parents in all things: for this is well pleasing unto the Lord. Fathers, provoke not your children to anger, lest they be discouraged. Servants, obey in all things your masters according to the flesh; not with eyeservice, as menpleasers; but in singleness of heart, fearing God:",
+"vv": "16–22"
 },
 {
 "id": "colossians-3-c2",
@@ -7607,7 +7642,8 @@ window.CONTENT = {
 "part": 2,
 "of": 4,
 "pack": 9,
-"text": "Do not lie to one another, seeing that you have put off the old self with its practices and have put on the new self, which is being renewed in knowledge after the image of its creator. Here there is not Greek and Jew, circumcised and uncircumcised, barbarian, Scythian, slave, free; but Christ is all, and in all. Put on then, as God’s chosen ones, holy and beloved, compassionate hearts, kindness, humility, meekness, and patience, bearing with one another and, if one has a complaint against another, forgiving each other; as the Lord has forgiven you, so you also must forgive. And above all these put on love, which binds everything together in perfect harmony. And let the peace of Christ rule in your hearts, to which indeed you were called in one body. And be thankful."
+"text": "Lie not one to another, seeing that ye have put off the old man with his deeds; And have put on the new man, which is renewed in knowledge after the image of him that created him: Where there is neither Greek nor Jew, circumcision nor uncircumcision, Barbarian, Scythian, bond nor free: but Christ is all, and in all. Put on therefore, as the elect of God, holy and beloved, bowels of mercies, kindness, humbleness of mind, meekness, longsuffering; Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye. And above all these things put on charity, which is the bond of perfectness. And let the peace of God rule in your hearts, to the which also ye are called in one body; and be ye thankful.",
+"vv": "9–15"
 },
 {
 "id": "colossians-3-c1",
@@ -7616,7 +7652,8 @@ window.CONTENT = {
 "part": 1,
 "of": 4,
 "pack": 9,
-"text": "If then you have been raised with Christ, seek the things that are above, where Christ is, seated at the right hand of God. Set your minds on things that are above, not on things that are on earth. For you have died, and your life is hidden with Christ in God. When Christ who is your life appears, then you also will appear with him in glory. Put to death therefore what is earthly in you: sexual immorality, impurity, passion, evil desire, and covetousness, which is idolatry. On account of these the wrath of God is coming. In these you too once walked, when you were living in them. But now you must put them all away: anger, wrath, malice, slander, and obscene talk from your mouth."
+"text": "If ye then be risen with Christ, seek those things which are above, where Christ sitteth on the right hand of God. Set your affection on things above, not on things on the earth. For ye are dead, and your life is hid with Christ in God. When Christ, who is our life, shall appear, then shall ye also appear with him in glory. Mortify therefore your members which are upon the earth; fornication, uncleanness, inordinate affection, evil concupiscence, and covetousness, which is idolatry: For which things’ sake the wrath of God cometh on the children of disobedience: In the which ye also walked some time, when ye lived in them. But now ye also put off all these; anger, wrath, malice, blasphemy, filthy communication out of your mouth.",
+"vv": "1–8"
 },
 {
 "id": "2-timothy-1-7",
@@ -7625,7 +7662,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "For God gave us a spirit not of fear but of power and love and self- control."
+"text": "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind."
 },
 {
 "id": "colossians-3-c4",
@@ -7634,7 +7671,8 @@ window.CONTENT = {
 "part": 4,
 "of": 4,
 "pack": 9,
-"text": "Whatever you do, work heartily, as for the Lord and not for men, knowing that from the Lord you will receive the inheritance as your reward. You are serving the Lord Christ. For the wrongdoer will be paid back for the wrong he has done, and there is no partiality."
+"text": "And whatsoever ye do, do it heartily, as to the Lord, and not unto men; Knowing that of the Lord ye shall receive the reward of the inheritance: for ye serve the Lord Christ. But he that doeth wrong shall receive for the wrong which he hath done: and there is no respect of persons.",
+"vv": "23–25"
 },
 {
 "id": "1-john-4-10",
@@ -7643,7 +7681,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "In this is love, not that we have loved God but that he loved us and sent his Son to be the propitiation for our sins."
+"text": "Herein is love, not that we loved God, but that he loved us, and sent his Son to be the propitiation for our sins."
 },
 {
 "id": "2-peter-3-9",
@@ -7652,7 +7690,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "The Lord is not slow to fulfill his promise as some count slowness, but is patient toward you, not wishing that any should perish, but that all should reach repentance."
+"text": "The Lord is not slack concerning his promise, as some men count slackness; but is longsuffering to us-ward, not willing that any should perish, but that all should come to repentance."
 },
 {
 "id": "james-1-5",
@@ -7661,7 +7699,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "If any of you lacks wisdom, let him ask God, who gives generously to all without reproach, and it will be given him."
+"text": "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him."
 },
 {
 "id": "1-john-5-11-13",
@@ -7670,7 +7708,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 9,
-"text": "And this is the testimony, that God gave us eternal life, and this life is in his Son. Whoever has the Son has life; whoever does not have the Son of God does not have life. I write these things to you who believe in the name of the Son of God that you may know that you have eternal life."
+"text": "And this is the record, that God hath given to us eternal life, and this life is in his Son. He that hath the Son hath life; and he that hath not the Son of God hath not life. These things have I written unto you that believe on the name of the Son of God; that ye may know that ye have eternal life, and that ye may believe on the name of the Son of God."
 },
 {
 "id": "luke-2-1-20-c2",
@@ -7679,7 +7717,8 @@ window.CONTENT = {
 "part": 2,
 "of": 3,
 "pack": 10,
-"text": "And an angel of the Lord appeared to them, and the glory of the Lord\nshone around them, and they were filled with great fear. And the angel\nsaid to them, “Fear not, for behold, I bring you good news of great joy\nthat will be for all the people. For unto you is born this day in the city\nof David a Savior, who is Christ the Lord. And this will be a sign for\nyou: you will find a baby wrapped in swaddling cloths and lying in\na manger.” And suddenly there was with the angel a multitude of the\nheavenly host praising God and saying,\n    “Glory to God in the highest,\n    and on earth peace among those with whom he is pleased!”\nWhen the angels went away from them into heaven, the shepherds\nsaid to one another, “Let us go over to Bethlehem and see this thing\nthat has happened, which the Lord has made known to us.”"
+"text": "And, lo, the angel of the Lord came upon them, and the glory of the Lord shone round about them: and they were sore afraid. And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people. For unto you is born this day in the city of David a Saviour, which is Christ the Lord. And this shall be a sign unto you; Ye shall find the babe wrapped in swaddling clothes, lying in a manger. And suddenly there was with the angel a multitude of the heavenly host praising God, and saying, Glory to God in the highest, and on earth peace, good will toward men. And it came to pass, as the angels were gone away from them into heaven, the shepherds said one to another, Let us now go even unto Bethlehem, and see this thing which is come to pass, which the Lord hath made known unto us.",
+"vv": "9–15"
 },
 {
 "id": "luke-2-1-20-c1",
@@ -7688,7 +7727,8 @@ window.CONTENT = {
 "part": 1,
 "of": 3,
 "pack": 10,
-"text": "In those days a decree went out from Caesar Augustus that all the world should be registered. This was the first registration when Quirinius was governor of Syria. And all went to be registered, each to his own town. And Joseph also went up from Galilee, from the town of Nazareth, to Judea, to the city of David, which is called Bethlehem, because he was of the house and lineage of David, to be registered with Mary, his betrothed, who was with child. And while they were there, the time came for her to give birth. And she gave birth to her firstborn son and wrapped him in swaddling cloths and laid him in a manger, because there was no place for them in the inn. And in the same region there were shepherds out in the field, keeping watch over their flock by night."
+"text": "And it came to pass in those days, that there went out a decree from Cesar Augustus, that all the world should be taxed. (And this taxing was first made when Cyrenius was governor of Syria.) And all went to be taxed, every one into his own city. And Joseph also went up from Galilee, out of the city of Nazareth, into Judea, unto the city of David, which is called Bethlehem; (because he was of the house and lineage of David:) To be taxed with Mary his espoused wife, being great with child. And so it was, that, while they were there, the days were accomplished that she should be delivered. And she brought forth her firstborn son, and wrapped him in swaddling clothes, and laid him in a manger; because there was no room for them in the inn. And there were in the same country shepherds abiding in the field, keeping watch over their flock by night.",
+"vv": "1–8"
 },
 {
 "id": "matthew-28-18-20",
@@ -7697,7 +7737,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "And Jesus came and said to them, “All authority in heaven and on earth has been given to me. Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe all that I have commanded you. And behold, I am with you always, to the end of the age.”"
+"text": "And Jesus came and spake unto them, saying, All power is given unto me in heaven and in earth. Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost: Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you alway, even unto the end of the world. Amen."
 },
 {
 "id": "john-1-1-14",
@@ -7706,7 +7746,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "In the beginning was the Word, and the Word was with God, and the Word was God. And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth."
+"text": "In the beginning was the Word, and the Word was with God, and the Word was God. And the Word was made flesh, and dwelt among us, (and we beheld his glory, the glory as of the only begotten of the Father,) full of grace and truth."
 },
 {
 "id": "luke-2-1-20-c3",
@@ -7715,7 +7755,8 @@ window.CONTENT = {
 "part": 3,
 "of": 3,
 "pack": 10,
-"text": "And they went with haste and found Mary and Joseph, and the baby lying in a manger. And when they saw it, they made known the saying that had been told them concerning this child. And all who heard it wondered at what the shepherds told them. But Mary treasured up all these things, pondering them in her heart. And the shepherds returned, glorifying and praising God for all they had heard and seen, as it had been told them."
+"text": "And they came with haste, and found Mary, and Joseph, and the babe lying in a manger. And when they had seen it, they made known abroad the saying which was told them concerning this child. And all they that heard it wondered at those things which were told them by the shepherds. But Mary kept all these things, and pondered them in her heart. And the shepherds returned, glorifying and praising God for all the things that they had heard and seen, as it was told unto them.",
+"vv": "16–20"
 },
 {
 "id": "john-10-11",
@@ -7724,7 +7765,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "I am the good shepherd. The good shepherd lays down his life for the sheep."
+"text": "I am the good shepherd: the good shepherd giveth his life for the sheep."
 },
 {
 "id": "john-8-31-32",
@@ -7733,7 +7774,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "So Jesus said to the Jews who had believed him, “If you abide in my word, you are truly my disciples, and you will know the truth, and the truth will set you free.”"
+"text": "Then said Jesus to those Jews which believed on him, If ye continue in my word, then are ye my disciples indeed; And ye shall know the truth, and the truth shall make you free."
 },
 {
 "id": "john-1-29",
@@ -7742,7 +7783,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "The next day he saw Jesus coming toward him, and said, “Behold, the Lamb of God, who takes away the sin of the world!”"
+"text": "The next day John seeth Jesus coming unto him, and saith, Behold the Lamb of God, which taketh away the sin of the world."
 },
 {
 "id": "john-14-1-3",
@@ -7751,7 +7792,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "Let not your hearts be troubled. Believe in God; believe also in me. In my Father’s house are many rooms. If it were not so, would I have told you that I go to prepare a place for you? And if I go and prepare a place for you, I will come again and will take you to myself, that where I am you may be also."
+"text": "Let not your heart be troubled: ye believe in God, believe also in me. In my Father’s house are many mansions: if it were not so, I would have told you. I go to prepare a place for you. And if I go and prepare a place for you, I will come again, and receive you unto myself; that where I am, there ye may be also."
 },
 {
 "id": "john-10-27-29",
@@ -7760,7 +7801,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "My sheep hear my voice, and I know them, and they follow me. I give them eternal life, and they will never perish, and no one will snatch them out of my hand. My Father, who has given them to me, is greater than all, and no one is able to snatch them out of the Father’s hand."
+"text": "My sheep hear my voice, and I know them, and they follow me: And I give unto them eternal life; and they shall never perish, neither shall any man pluck them out of my hand. My Father, which gave them me, is greater than all; and no man is able to pluck them out of my Father’s hand."
 },
 {
 "id": "philippians-2-2-11",
@@ -7769,7 +7810,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "Complete my joy by being of the same mind, having the same love, being in full accord and of one mind. Do nothing from selfish ambition or conceit, but in humility count others more significant than yourselves. Let each of you look not only to his own interests, but also to the interests of others. Have this mind among yourselves, which is yours in Christ Jesus, who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant, being born in the likeness of men. And being found in human form, he humbled himself by becoming obedient to the point of death, even death on a cross. Therefore God has highly exalted him and bestowed on him the name that is above every name, so that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue confess that Jesus Christ is Lord, to the glory of God the Father."
+"text": "Fulfil ye my joy, that ye be likeminded, having the same love, being of one accord, of one mind. Let nothing be done through strife or vainglory; but in lowliness of mind let each esteem other better than themselves. Look not every man on his own things, but every man also on the things of others. Let this mind be in you, which was also in Christ Jesus: Who, being in the form of God, thought it not robbery to be equal with God: But made himself of no reputation, and took upon him the form of a servant, and was made in the likeness of men: And being found in fashion as a man, he humbled himself, and became obedient unto death, even the death of the cross. Wherefore God also hath highly exalted him, and given him a name which is above every name: That at the name of Jesus every knee should bow, of things in heaven, and things in earth, and things under the earth; And that every tongue should confess that Jesus Christ is Lord, to the glory of God the Father."
 },
 {
 "id": "romans-1-16",
@@ -7778,7 +7819,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "For I am not ashamed of the gospel, for it is the power of God for salvation to everyone who believes, to the Jew first and also to the Greek."
+"text": "For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth; to the Jew first, and also to the Greek."
 },
 {
 "id": "acts-1-8-11",
@@ -7787,7 +7828,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 10,
-"text": "“But you will receive power when the Holy Spirit has come upon you, and you will be my witnesses in Jerusalem and in all Judea and Samaria, and to the end of the earth.” And when he had said these things, as they were looking on, he was lifted up, and a cloud took him out of their sight. And while they were gazing into heaven as he went, behold, two men stood by them in white robes, and said, “Men of Galilee, why do you stand looking into heaven? This Jesus, who was taken up from you into heaven, will come in the same way as you saw him go into heaven.”"
+"text": "But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judea, and in Samaria, and unto the uttermost part of the earth. And when he had spoken these things, while they beheld, he was taken up; and a cloud received him out of their sight. And while they looked stedfastly toward heaven as he went up, behold, two men stood by them in white apparel; Which also said, Ye men of Galilee, why stand ye gazing up into heaven? this same Jesus, which is taken up from you into heaven, shall so come in like manner as ye have seen him go into heaven."
 },
 {
 "id": "psalm-107-1",
@@ -7796,7 +7837,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Oh give thanks to the LORD, for he is good,\n    for his steadfast love endures forever!"
+"text": "O give thanks unto the LORD, for he is good: for his mercy endureth for ever."
 },
 {
 "id": "psalm-32-1-5",
@@ -7805,7 +7846,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Blessed is the one whose transgression is forgiven,\n    whose sin is covered.\nBlessed is the man against whom the LORD counts no iniquity,\n    and in whose spirit there is no deceit.\nFor when I kept silent, my bones wasted away\n    through my groaning all day long.\nFor day and night your hand was heavy upon me;\n    my strength was dried up as by the heat of summer. Selah\nI acknowledged my sin to you,\n    and I did not cover my iniquity;\nI said, “I will confess my transgressions to the LORD,”\n    and you forgave the iniquity of my sin. Selah"
+"text": "Blessed is he whose transgression is forgiven, whose sin is covered. Blessed is the man unto whom the LORD imputeth not iniquity, and in whose spirit there is no guile. When I kept silence, my bones waxed old through my roaring all the day long. For day and night thy hand was heavy upon me: my moisture is turned into the drought of summer. Selah. I acknowledged my sin unto thee, and mine iniquity have I not hid. I said, I will confess my transgressions unto the LORD; and thou forgavest the iniquity of my sin. Selah."
 },
 {
 "id": "deuteronomy-6-4-7",
@@ -7814,7 +7855,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Hear, O Israel: The LORD our God, the LORD is one. You shall love the LORD your God with all your heart and with all your soul and with all your might. And these words that I command you today shall be on your heart. You shall teach them diligently to your children, and shall talk of them when you sit in your house, and when you walk by the way, and when you lie down, and when you rise."
+"text": "Hear, O Israel: The LORD our God is one LORD: And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might. And these words, which I command thee this day, shall be in thine heart: And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up."
 },
 {
 "id": "psalm-139-c2",
@@ -7823,7 +7864,8 @@ window.CONTENT = {
 "part": 2,
 "of": 5,
 "pack": 11,
-"text": "Where shall I go from your Spirit?\n    Or where shall I flee from your presence?\nIf I ascend to heaven, you are there!\n    If I make my bed in Sheol, you are there!\nIf I take the wings of the morning\n    and dwell in the uttermost parts of the sea,\neven there your hand shall lead me,\n    and your right hand shall hold me.\nIf I say, “Surely the darkness shall cover me,\n    and the light about me be night,”\neven the darkness is not dark to you;\n    the night is bright as the day,\n    for darkness is as light with you."
+"text": "Whither shall I go from thy spirit? or whither shall I flee from thy presence? If I ascend up into heaven, thou art there: if I make my bed in hell, behold, thou art there. If I take the wings of the morning, and dwell in the uttermost parts of the sea; Even there shall thy hand lead me, and thy right hand shall hold me. If I say, Surely the darkness shall cover me; even the night shall be light about me. Yea, the darkness hideth not from thee; but the night shineth as the day: the darkness and the light are both alike to thee.",
+"vv": "7–12"
 },
 {
 "id": "psalm-139-c1",
@@ -7832,7 +7874,8 @@ window.CONTENT = {
 "part": 1,
 "of": 5,
 "pack": 11,
-"text": "O LORD, you have searched me and known me!\nYou know when I sit down and when I rise up;\n    you discern my thoughts from afar.\nYou search out my path and my lying down\n    and are acquainted with all my ways.\nEven before a word is on my tongue,\n    behold, O LORD, you know it altogether.\nYou hem me in, behind and before,\n    and lay your hand upon me.\nSuch knowledge is too wonderful for me;\n    it is high; I cannot attain it."
+"text": "O LORD, thou hast searched me, and known me. Thou knowest my downsitting and mine uprising, thou understandest my thought afar off. Thou compassest my path and my lying down, and art acquainted with all my ways. For there is not a word in my tongue, but, lo, O LORD, thou knowest it altogether. Thou hast beset me behind and before, and laid thine hand upon me. Such knowledge is too wonderful for me; it is high, I cannot attain unto it.",
+"vv": "1–6"
 },
 {
 "id": "psalm-139-c5",
@@ -7841,7 +7884,8 @@ window.CONTENT = {
 "part": 5,
 "of": 5,
 "pack": 11,
-"text": "Search me, O God, and know my heart!\n    Try me and know my thoughts!\nAnd see if there be any grievous way in me,\n    and lead me in the way everlasting!"
+"text": "Search me, O God, and know my heart: try me, and know my thoughts: And see if there be any wicked way in me, and lead me in the way everlasting.",
+"vv": "23–24"
 },
 {
 "id": "psalm-139-c4",
@@ -7850,7 +7894,8 @@ window.CONTENT = {
 "part": 4,
 "of": 5,
 "pack": 11,
-"text": "How precious to me are your thoughts, O God!\n    How vast is the sum of them!\nIf I would count them, they are more than the sand.\n    I awake, and I am still with you.\n\nOh that you would slay the wicked, O God!\n    O men of blood, depart from me!\nThey speak against you with malicious intent;\n    your enemies take your name in vain.\nDo I not hate those who hate you, O LORD?\n    And do I not loathe those who rise up against you?\nI hate them with complete hatred;\n    I count them my enemies."
+"text": "How precious also are thy thoughts unto me, O God! how great is the sum of them! If I should count them, they are more in number than the sand: when I awake, I am still with thee. Surely thou wilt slay the wicked, O God: depart from me therefore, ye bloody men. For they speak against thee wickedly, and thine enemies take thy name in vain. Do not I hate them, O LORD, that hate thee? and am not I grieved with those that rise up against thee? I hate them with perfect hatred: I count them mine enemies.",
+"vv": "17–22"
 },
 {
 "id": "psalm-139-c3",
@@ -7859,7 +7904,8 @@ window.CONTENT = {
 "part": 3,
 "of": 5,
 "pack": 11,
-"text": "For you formed my inward parts;\n    you knitted me together in my mother’s womb.\nI praise you, for I am fearfully and wonderfully made.\nWonderful are your works;\n    my soul knows it very well.\nMy frame was not hidden from you,\nwhen I was being made in secret,\n    intricately woven in the depths of the earth.\nYour eyes saw my unformed substance;\nin your book were written, every one of them,\n    the days that were formed for me,\n    when as yet there was none of them."
+"text": "For thou hast possessed my reins: thou hast covered me in my mother’s womb. I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well. My substance was not hid from thee, when I was made in secret, and curiously wrought in the lowest parts of the earth. Thine eyes did see my substance, yet being unperfect; and in thy book all my members were written, which in continuance were fashioned, when as yet there was none of them.",
+"vv": "13–16"
 },
 {
 "id": "luke-17-3-4",
@@ -7868,7 +7914,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Pay attention to yourselves! If your brother sins, rebuke him, and if he repents, forgive him, and if he sins against you seven times in the day, and turns to you seven times, saying, ‘I repent,’ you must forgive him."
+"text": "Take heed to yourselves: If thy brother trespass against thee, rebuke him; and if he repent, forgive him. And if he trespass against thee seven times in a day, and seven times in a day turn again to thee, saying, I repent; thou shalt forgive him."
 },
 {
 "id": "isaiah-40-30-31",
@@ -7877,7 +7923,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Even youths shall faint and be weary,\n    and young men shall fall exhausted;\nbut they who wait for the LORD shall renew their strength;\n    they shall mount up with wings like eagles;\nthey shall run and not be weary;\n    they shall walk and not faint."
+"text": "Even the youths shall faint and be weary, and the young men shall utterly fall: But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint."
 },
 {
 "id": "galatians-6-1-2",
@@ -7886,7 +7932,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Brothers, if anyone is caught in any transgression, you who are spiritual should restore him in a spirit of gentleness. Keep watch on yourself, lest you too be tempted. Bear one another’s burdens, and so fulfill the law of Christ."
+"text": "Brethren, if a man be overtaken in a fault, ye which are spiritual, restore such an one in the spirit of meekness; considering thyself, lest thou also be tempted. Bear ye one another’s burdens, and so fulfil the law of Christ."
 },
 {
 "id": "galatians-5-22-23",
@@ -7895,7 +7941,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law."
+"text": "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, Meekness, temperance: against such there is no law."
 },
 {
 "id": "2-corinthians-6-14",
@@ -7904,7 +7950,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Do not be unequally yoked with unbelievers. For what partnership has righteousness with lawlessness? Or what fellowship has light with darkness?"
+"text": "Be ye not unequally yoked together with unbelievers: for what fellowship hath righteousness with unrighteousness? and what communion hath light with darkness?"
 },
 {
 "id": "2-peter-3-18",
@@ -7913,7 +7959,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "But grow in the grace and knowledge of our Lord and Savior Jesus Christ. To him be the glory both now and to the day of eternity. Amen."
+"text": "But grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ. To him be glory both now and for ever. Amen."
 },
 {
 "id": "1-timothy-6-6-8",
@@ -7922,7 +7968,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "But godliness with contentment is great gain, for we brought nothing into the world, and we cannot take anything out of the world. But if we have food and clothing, with these we will be content."
+"text": "But godliness with contentment is great gain. For we brought nothing into this world, and it is certain we can carry nothing out. And having food and raiment let us be therewith content."
 },
 {
 "id": "jude-24-25",
@@ -7931,7 +7977,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "Now to him who is able to keep you from stumbling and to present you blameless before the presence of his glory with great joy, to the only God, our Savior, through Jesus Christ our Lord, be glory, majesty, dominion, and authority, before all time and now and forever. Amen."
+"text": "Now unto him that is able to keep you from falling, and to present you faultless before the presence of his glory with exceeding joy, To the only wise God our Saviour, be glory and majesty, dominion and power, both now and ever. Amen."
 },
 {
 "id": "3-john-4",
@@ -7940,7 +7986,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 11,
-"text": "I have no greater joy than to hear that my children are walking in the truth."
+"text": "I have no greater joy than to hear that my children walk in truth."
 },
 {
 "id": "psalm-133-1",
@@ -7949,7 +7995,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "Behold, how good and pleasant it is\n    when brothers dwell in unity!"
+"text": "Behold, how good and how pleasant it is for brethren to dwell together in unity!"
 },
 {
 "id": "psalm-127-c2",
@@ -7958,7 +8004,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 12,
-"text": "Like arrows in the hand of a warrior\n    are the children of one’s youth.\nBlessed is the man\n    who fills his quiver with them!\nHe shall not be put to shame\n    when he speaks with his enemies in the gate."
+"text": "As arrows are in the hand of a mighty man; so are children of the youth. Happy is the man that hath his quiver full of them: they shall not be ashamed, but they shall speak with the enemies in the gate.",
+"vv": "4–5"
 },
 {
 "id": "psalm-127-c1",
@@ -7967,7 +8014,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 12,
-"text": "Unless the LORD builds the house,\n    those who build it labor in vain.\nUnless the LORD watches over the city,\n    the watchman stays awake in vain.\nIt is in vain that you rise up early\n    and go late to rest,\neating the bread of anxious toil;\n    for he gives to his beloved sleep.\n\nBehold, children are a heritage from the LORD,\n    the fruit of the womb a reward."
+"text": "Except the LORD build the house, they labour in vain that build it: except the LORD keep the city, the watchman waketh but in vain. It is vain for you to rise up early, to sit up late, to eat the bread of sorrows: for so he giveth his beloved sleep. Lo, children are an heritage of the LORD: and the fruit of the womb is his reward.",
+"vv": "1–3"
 },
 {
 "id": "psalm-145-c2",
@@ -7976,7 +8024,8 @@ window.CONTENT = {
 "part": 2,
 "of": 4,
 "pack": 12,
-"text": "They shall speak of the might of your awesome deeds,\n    and I will declare your greatness.\nThey shall pour forth the fame of your abundant goodness\n    and shall sing aloud of your righteousness.\n\nThe LORD is gracious and merciful,\n    slow to anger and abounding in steadfast love.\nThe LORD is good to all,\n    and his mercy is over all that he has made.\n\nAll your works shall give thanks to you, O LORD,\n    and all your saints shall bless you!"
+"text": "And men shall speak of the might of thy terrible acts: and I will declare thy greatness. They shall abundantly utter the memory of thy great goodness, and shall sing of thy righteousness. The LORD is gracious, and full of compassion; slow to anger, and of great mercy. The LORD is good to all: and his tender mercies are over all his works. All thy works shall praise thee, O LORD; and thy saints shall bless thee.",
+"vv": "6–10"
 },
 {
 "id": "psalm-145-c1",
@@ -7985,7 +8034,8 @@ window.CONTENT = {
 "part": 1,
 "of": 4,
 "pack": 12,
-"text": "I will extol you, my God and King,\n    and bless your name forever and ever.\nEvery day I will bless you\n    and praise your name forever and ever.\nGreat is the LORD, and greatly to be praised,\n    and his greatness is unsearchable.\n\nOne generation shall commend your works to another,\n    and shall declare your mighty acts.\nOn the glorious splendor of your majesty,\n    and on your wondrous works, I will meditate."
+"text": "I will extol thee, my God, O king; and I will bless thy name for ever and ever. Every day will I bless thee; and I will praise thy name for ever and ever. Great is the LORD, and greatly to be praised; and his greatness is unsearchable. One generation shall praise thy works to another, and shall declare thy mighty acts. I will speak of the glorious honour of thy majesty, and of thy wondrous works.",
+"vv": "1–5"
 },
 {
 "id": "proverbs-18-21",
@@ -7994,7 +8044,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "Death and life are in the power of the tongue,\n    and those who love it will eat its fruits."
+"text": "Death and life are in the power of the tongue: and they that love it shall eat the fruit thereof."
 },
 {
 "id": "psalm-145-c4",
@@ -8003,7 +8053,8 @@ window.CONTENT = {
 "part": 4,
 "of": 4,
 "pack": 12,
-"text": "You open your hand;\n    you satisfy the desire of every living thing.\nThe LORD is righteous in all his ways\n    and kind in all his works.\nThe LORD is near to all who call on him,\n    to all who call on him in truth.\nHe fulfills the desire of those who fear him;\n    he also hears their cry and saves them.\nThe LORD preserves all who love him,\n    but all the wicked he will destroy.\n\nMy mouth will speak the praise of the LORD,\n    and let all flesh bless his holy name forever and ever."
+"text": "The LORD is righteous in all his ways, and holy in all his works. The LORD is nigh unto all them that call upon him, to all that call upon him in truth. He will fulfil the desire of them that fear him: he also will hear their cry, and will save them. The LORD preserveth all them that love him: but all the wicked will he destroy. My mouth shall speak the praise of the LORD: and let all flesh bless his holy name for ever and ever.",
+"vv": "17–21"
 },
 {
 "id": "psalm-145-c3",
@@ -8012,7 +8063,8 @@ window.CONTENT = {
 "part": 3,
 "of": 4,
 "pack": 12,
-"text": "They shall speak of the glory of your kingdom\n    and tell of your power,\nto make known to the children of man your mighty deeds,\n    and the glorious splendor of your kingdom.\nYour kingdom is an everlasting kingdom,\n    and your dominion endures throughout all generations.\n\n[The LORD is faithful in all his words\n    and kind in all his works.]\nThe LORD upholds all who are falling\n    and raises up all who are bowed down.\nThe eyes of all look to you,\n    and you give them their food in due season."
+"text": "They shall speak of the glory of thy kingdom, and talk of thy power; To make known to the sons of men his mighty acts, and the glorious majesty of his kingdom. Thy kingdom is an everlasting kingdom, and thy dominion endureth throughout all generations. The LORD upholdeth all that fall, and raiseth up all those that be bowed down. The eyes of all wait upon thee; and thou givest them their meat in due season. Thou openest thine hand, and satisfiest the desire of every living thing.",
+"vv": "11–16"
 },
 {
 "id": "lamentations-3-22-26",
@@ -8021,7 +8073,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "The steadfast love of the LORD never ceases;\n    his mercies never come to an end;\nthey are new every morning;\n    great is your faithfulness.\n“The LORD is my portion,” says my soul,\n    “therefore I will hope in him.”\n\nThe LORD is good to those who wait for him,\n    to the soul who seeks him.\nIt is good that one should wait quietly\n    for the salvation of the LORD."
+"text": "It is of the LORD’s mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness. The LORD is my portion, saith my soul; therefore will I hope in him. The LORD is good unto them that wait for him, to the soul that seeketh him. It is good that a man should both hope and quietly wait for the salvation of the LORD."
 },
 {
 "id": "jeremiah-23-29",
@@ -8030,7 +8082,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "Is not my word like fire, declares the LORD, and like a hammer that breaks the rock in pieces?"
+"text": "Is not my word like as a fire? saith the LORD; and like a hammer that breaketh the rock in pieces?"
 },
 {
 "id": "1-corinthians-15-51-58-c2",
@@ -8039,7 +8091,8 @@ window.CONTENT = {
 "part": 2,
 "of": 2,
 "pack": 12,
-"text": "Therefore, my beloved brothers, be steadfast, immovable, always abounding in the work of the Lord, knowing that in the Lord your labor is not in vain."
+"text": "Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",
+"vv": "58"
 },
 {
 "id": "1-corinthians-15-51-58-c1",
@@ -8048,7 +8101,8 @@ window.CONTENT = {
 "part": 1,
 "of": 2,
 "pack": 12,
-"text": "Behold! I tell you a mystery. We shall not all sleep, but we shall all be\nchanged, in a moment, in the twinkling of an eye, at the last trumpet.\nFor the trumpet will sound, and the dead will be raised imperishable,\nand we shall be changed. For this perishable body must put on the\nimperishable, and this mortal body must put on immortality. When\nthe perishable puts on the imperishable, and the mortal puts on\nimmortality, then shall come to pass the saying that is written:\n    “Death is swallowed up in victory.”\n    “O death, where is your victory?\n    O death, where is your sting?”\nThe sting of death is sin, and the power of sin is the law. But thanks\nbe to God, who gives us the victory through our Lord Jesus Christ."
+"text": "Behold, I shew you a mystery; We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed. For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory. O death, where is thy sting? O grave, where is thy victory? The sting of death is sin; and the strength of sin is the law. But thanks be to God, which giveth us the victory through our Lord Jesus Christ.",
+"vv": "51–57"
 },
 {
 "id": "romans-6-12-13",
@@ -8057,7 +8111,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "Let not sin therefore reign in your mortal body, to make you obey its passions. Do not present your members to sin as instruments for unrighteousness, but present yourselves to God as those who have been brought from death to life, and your members to God as instruments for righteousness."
+"text": "Let not sin therefore reign in your mortal body, that ye should obey it in the lusts thereof. Neither yield ye your members as instruments of unrighteousness unto sin: but yield yourselves unto God, as those that are alive from the dead, and your members as instruments of righteousness unto God."
 },
 {
 "id": "james-1-22",
@@ -8066,7 +8120,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "But be doers of the word, and not hearers only, deceiving yourselves."
+"text": "But be ye doers of the word, and not hearers only, deceiving your own selves."
 },
 {
 "id": "hebrews-10-24-25",
@@ -8075,7 +8129,7 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "And let us consider how to stir up one another to love and good works, not neglecting to meet together, as is the habit of some, but encouraging one another, and all the more as you see the Day drawing near."
+"text": "And let us consider one another to provoke unto love and to good works: Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching."
 },
 {
 "id": "1-john-2-15-17",
@@ -8084,12 +8138,12 @@ window.CONTENT = {
 "part": 0,
 "of": 0,
 "pack": 12,
-"text": "Do not love the world or the things in the world. If anyone loves the world, the love of the Father is not in him. For all that is in the world—the desires of the flesh and the desires of the eyes and pride of life—is not from the Father but is from the world. And the world is passing away along with its desires, but whoever does the will of God abides forever."
+"text": "Love not the world, neither the things that are in the world. If any man love the world, the love of the Father is not in him. For all that is in the world, the lust of the flesh, and the lust of the eyes, and the pride of life, is not of the Father, but is of the world. And the world passeth away, and the lust thereof: but he that doeth the will of God abideth for ever."
 },
 {
 "id": "ncc-proverbs-4-22",
 "ref": "Proverbs 4:22",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8099,7 +8153,7 @@ window.CONTENT = {
 {
 "id": "ncc-ephesians-3-20",
 "ref": "Ephesians 3:20",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8109,7 +8163,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-19-21",
 "ref": "Romans 4:19–21",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8119,7 +8173,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-10-23",
 "ref": "Hebrews 10:23",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8129,7 +8183,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-11-11",
 "ref": "Hebrews 11:11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8139,7 +8193,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-55-11",
 "ref": "Isaiah 55:11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8149,7 +8203,7 @@ window.CONTENT = {
 {
 "id": "ncc-numbers-23-19",
 "ref": "Numbers 23:19",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8159,7 +8213,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-119-89",
 "ref": "Psalm 119:89",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8169,7 +8223,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-kings-8-56",
 "ref": "1 Kings 8:56",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8179,7 +8233,7 @@ window.CONTENT = {
 {
 "id": "ncc-mark-11-23",
 "ref": "Mark 11:23",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8189,7 +8243,7 @@ window.CONTENT = {
 {
 "id": "ncc-mark-11-24",
 "ref": "Mark 11:24",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8199,7 +8253,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-corinthians-5-7",
 "ref": "2 Corinthians 5:7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8209,7 +8263,7 @@ window.CONTENT = {
 {
 "id": "ncc-galatians-5-6",
 "ref": "Galatians 5:6",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8219,7 +8273,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-17",
 "ref": "Romans 4:17",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8229,7 +8283,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-13-8",
 "ref": "Hebrews 13:8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8239,7 +8293,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-11-32-34",
 "ref": "Hebrews 11:32–34",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8249,7 +8303,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-5-12",
 "ref": "Psalm 5:12",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8259,7 +8313,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-30-5",
 "ref": "Psalm 30:5",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8269,7 +8323,7 @@ window.CONTENT = {
 {
 "id": "ncc-numbers-6-25-26",
 "ref": "Numbers 6:25–26",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8279,7 +8333,7 @@ window.CONTENT = {
 {
 "id": "ncc-genesis-39-3-4",
 "ref": "Genesis 39:3–4",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8289,7 +8343,7 @@ window.CONTENT = {
 {
 "id": "ncc-job-10-12",
 "ref": "Job 10:12",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8299,7 +8353,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-8-4-6",
 "ref": "Psalm 8:4–6",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8309,7 +8363,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-103-4-5",
 "ref": "Psalm 103:4–5",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8319,7 +8373,7 @@ window.CONTENT = {
 {
 "id": "ncc-jeremiah-29-11",
 "ref": "Jeremiah 29:11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8329,7 +8383,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-17-22-23",
 "ref": "John 17:22–23",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8339,7 +8393,7 @@ window.CONTENT = {
 {
 "id": "ncc-acts-2-46-47",
 "ref": "Acts 2:46–47",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8349,7 +8403,7 @@ window.CONTENT = {
 {
 "id": "ncc-jeremiah-33-3",
 "ref": "Jeremiah 33:3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8359,7 +8413,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-5-15",
 "ref": "Romans 5:15",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8369,7 +8423,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-6-14",
 "ref": "Romans 6:14",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8379,7 +8433,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-5-17",
 "ref": "Romans 5:17",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8389,7 +8443,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-corinthians-8-9",
 "ref": "2 Corinthians 8:9",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8399,7 +8453,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-corinthians-9-8",
 "ref": "2 Corinthians 9:8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8409,7 +8463,7 @@ window.CONTENT = {
 {
 "id": "ncc-ephesians-1-3",
 "ref": "Ephesians 1:3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8419,7 +8473,7 @@ window.CONTENT = {
 {
 "id": "ncc-ephesians-1-7-8",
 "ref": "Ephesians 1:7–8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8429,7 +8483,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-thessalonians-2-16-17",
 "ref": "2 Thessalonians 2:16–17",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8439,7 +8493,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-timothy-1-14",
 "ref": "1 Timothy 1:14",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8449,7 +8503,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-4-16",
 "ref": "Hebrews 4:16",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8459,7 +8513,7 @@ window.CONTENT = {
 {
 "id": "ncc-titus-3-4-7",
 "ref": "Titus 3:4–7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8469,7 +8523,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-peter-1-2-3",
 "ref": "2 Peter 1:2–3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8479,7 +8533,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-53-4-5",
 "ref": "Isaiah 53:4–5",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8489,7 +8543,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-peter-2-24",
 "ref": "1 Peter 2:24",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8499,7 +8553,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-8-11",
 "ref": "Romans 8:11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8509,7 +8563,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-8-32",
 "ref": "Romans 8:32",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8519,7 +8573,7 @@ window.CONTENT = {
 {
 "id": "ncc-matthew-8-2-3",
 "ref": "Matthew 8:2–3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8529,7 +8583,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-107-19-20",
 "ref": "Psalm 107:19–20",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8539,7 +8593,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-105-37",
 "ref": "Psalm 105:37",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8549,7 +8603,7 @@ window.CONTENT = {
 {
 "id": "ncc-3-john-1-2",
 "ref": "3 John 1:2",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8559,7 +8613,7 @@ window.CONTENT = {
 {
 "id": "ncc-exodus-15-26",
 "ref": "Exodus 15:26",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8569,7 +8623,7 @@ window.CONTENT = {
 {
 "id": "ncc-jeremiah-30-17",
 "ref": "Jeremiah 30:17",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8579,7 +8633,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-103-2-3",
 "ref": "Psalm 103:2–3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8589,7 +8643,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-4-20-22",
 "ref": "Proverbs 4:20–22",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8599,7 +8653,7 @@ window.CONTENT = {
 {
 "id": "ncc-luke-12-32",
 "ref": "Luke 12:32",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8609,7 +8663,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-peter-5-7",
 "ref": "1 Peter 5:7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8619,7 +8673,7 @@ window.CONTENT = {
 {
 "id": "ncc-matthew-7-9-11",
 "ref": "Matthew 7:9–11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8629,7 +8683,7 @@ window.CONTENT = {
 {
 "id": "ncc-deuteronomy-8-18",
 "ref": "Deuteronomy 8:18",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8639,7 +8693,7 @@ window.CONTENT = {
 {
 "id": "ncc-deuteronomy-28-8",
 "ref": "Deuteronomy 28:8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8649,7 +8703,7 @@ window.CONTENT = {
 {
 "id": "ncc-genesis-22-13",
 "ref": "Genesis 22:13",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8659,7 +8713,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-35-27",
 "ref": "Psalm 35:27",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8669,7 +8723,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-37-4",
 "ref": "Psalm 37:4",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8679,7 +8733,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-68-19",
 "ref": "Psalm 68:19",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8689,7 +8743,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-6-35",
 "ref": "John 6:35",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8699,7 +8753,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-corinthians-1-30",
 "ref": "1 Corinthians 1:30",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8709,7 +8763,7 @@ window.CONTENT = {
 {
 "id": "ncc-colossians-1-27",
 "ref": "Colossians 1:27",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8719,7 +8773,7 @@ window.CONTENT = {
 {
 "id": "ncc-colossians-2-2-3",
 "ref": "Colossians 2:2–3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8729,7 +8783,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-corinthians-1-20",
 "ref": "2 Corinthians 1:20",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8739,7 +8793,7 @@ window.CONTENT = {
 {
 "id": "ncc-colossians-2-10",
 "ref": "Colossians 2:10",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8749,7 +8803,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-8-16-17",
 "ref": "Romans 8:16–17",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8759,7 +8813,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-timothy-6-17",
 "ref": "1 Timothy 6:17",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8769,7 +8823,7 @@ window.CONTENT = {
 {
 "id": "ncc-jeremiah-17-7-8",
 "ref": "Jeremiah 17:7–8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8779,7 +8833,7 @@ window.CONTENT = {
 {
 "id": "ncc-matthew-11-28-30",
 "ref": "Matthew 11:28–30",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8789,7 +8843,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-1-16",
 "ref": "John 1:16",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8799,7 +8853,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-6-11-13",
 "ref": "John 6:11–13",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8809,7 +8863,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-50-10",
 "ref": "Psalm 50:10",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8819,7 +8873,7 @@ window.CONTENT = {
 {
 "id": "ncc-deuteronomy-28-12-13",
 "ref": "Deuteronomy 28:12–13",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8829,7 +8883,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-kings-4-2-7",
 "ref": "2 Kings 4:2–7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8839,7 +8893,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-kings-13-17-19",
 "ref": "2 Kings 13:17–19",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8849,7 +8903,7 @@ window.CONTENT = {
 {
 "id": "ncc-luke-10-19",
 "ref": "Luke 10:19",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8859,7 +8913,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-14-27",
 "ref": "John 14:27",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8869,7 +8923,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-16-33",
 "ref": "John 16:33",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8879,7 +8933,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-18-10",
 "ref": "Proverbs 18:10",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8889,7 +8943,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-32-7",
 "ref": "Psalm 32:7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8899,7 +8953,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-36-7",
 "ref": "Psalm 36:7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8909,7 +8963,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-29-25",
 "ref": "Proverbs 29:25",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8919,7 +8973,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-13-5-6",
 "ref": "Hebrews 13:5–6",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8929,7 +8983,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-4-8",
 "ref": "Psalm 4:8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8939,7 +8993,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-18-30",
 "ref": "Psalm 18:30",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8949,7 +9003,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-31-20",
 "ref": "Psalm 31:20",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8959,7 +9013,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-5-11",
 "ref": "Psalm 5:11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8969,7 +9023,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-41-2",
 "ref": "Psalm 41:2",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8979,17 +9033,17 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-57-1",
 "ref": "Psalm 57:1",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
 "cat": "Protection",
-"text": "To the chief Musician, Al-taschith, Michtam of David, when he fled from Saul in the cave. Be merciful unto me, O God, be merciful unto me: for my soul trusteth in thee: yea, in the shadow of thy wings will I make my refuge, until these calamities be overpast."
+"text": "Be merciful unto me, O God, be merciful unto me: for my soul trusteth in thee: yea, in the shadow of thy wings will I make my refuge, until these calamities be overpast."
 },
 {
 "id": "ncc-ezekiel-34-27",
 "ref": "Ezekiel 34:27",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -8999,7 +9053,7 @@ window.CONTENT = {
 {
 "id": "ncc-colossians-1-13-14",
 "ref": "Colossians 1:13–14",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9009,7 +9063,7 @@ window.CONTENT = {
 {
 "id": "ncc-philippians-3-8-10",
 "ref": "Philippians 3:8–10",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9019,7 +9073,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-5-6",
 "ref": "Romans 4:5–6",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9029,7 +9083,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-13",
 "ref": "Romans 4:13",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9039,7 +9093,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-5-21",
 "ref": "Romans 5:21",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9049,7 +9103,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-41-10",
 "ref": "Isaiah 41:10",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9059,7 +9113,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-3",
 "ref": "Romans 4:3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9069,7 +9123,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-34-19",
 "ref": "Psalm 34:19",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9079,7 +9133,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-10-2-3",
 "ref": "Proverbs 10:2–3",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9089,7 +9143,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-10-6-7",
 "ref": "Proverbs 10:6–7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9099,7 +9153,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-10-16",
 "ref": "Proverbs 10:16",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9109,7 +9163,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-10-24",
 "ref": "Proverbs 10:24",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9119,7 +9173,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-10-28",
 "ref": "Proverbs 10:28",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9129,7 +9183,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-10-30",
 "ref": "Proverbs 10:30",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9139,7 +9193,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-12-28",
 "ref": "Proverbs 12:28",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9149,7 +9203,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-13-21-22",
 "ref": "Proverbs 13:21–22",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9159,7 +9213,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-13-25",
 "ref": "Proverbs 13:25",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9169,7 +9223,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-11-8",
 "ref": "Proverbs 11:8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9179,7 +9233,7 @@ window.CONTENT = {
 {
 "id": "ncc-proverbs-11-21",
 "ref": "Proverbs 11:21",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9189,7 +9243,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-86-5",
 "ref": "Psalm 86:5",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9199,7 +9253,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-103-12",
 "ref": "Psalm 103:12",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9209,7 +9263,7 @@ window.CONTENT = {
 {
 "id": "ncc-psalm-130-3-4",
 "ref": "Psalm 130:3–4",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9219,7 +9273,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-1-18",
 "ref": "Isaiah 1:18",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9229,7 +9283,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-43-25",
 "ref": "Isaiah 43:25",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9239,7 +9293,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-53-5",
 "ref": "Isaiah 53:5",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9249,7 +9303,7 @@ window.CONTENT = {
 {
 "id": "ncc-isaiah-55-7",
 "ref": "Isaiah 55:7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9259,7 +9313,7 @@ window.CONTENT = {
 {
 "id": "ncc-micah-7-18-19",
 "ref": "Micah 7:18–19",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9269,7 +9323,7 @@ window.CONTENT = {
 {
 "id": "ncc-matthew-9-2-7",
 "ref": "Matthew 9:2–7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9279,7 +9333,7 @@ window.CONTENT = {
 {
 "id": "ncc-matthew-26-27-28",
 "ref": "Matthew 26:27–28",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9289,7 +9343,7 @@ window.CONTENT = {
 {
 "id": "ncc-luke-23-34",
 "ref": "Luke 23:34",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9299,7 +9353,7 @@ window.CONTENT = {
 {
 "id": "ncc-john-8-11",
 "ref": "John 8:11",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9309,7 +9363,7 @@ window.CONTENT = {
 {
 "id": "ncc-acts-10-43",
 "ref": "Acts 10:43",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9319,7 +9373,7 @@ window.CONTENT = {
 {
 "id": "ncc-acts-13-38-39",
 "ref": "Acts 13:38–39",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9329,7 +9383,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-5-8-9",
 "ref": "Romans 5:8–9",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9339,7 +9393,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-3-23-24",
 "ref": "Romans 3:23–24",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9349,7 +9403,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-6-8",
 "ref": "Romans 4:6–8",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9359,7 +9413,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-4-25",
 "ref": "Romans 4:25",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9369,7 +9423,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-5-1",
 "ref": "Romans 5:1",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9379,7 +9433,7 @@ window.CONTENT = {
 {
 "id": "ncc-romans-8-1",
 "ref": "Romans 8:1",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9389,7 +9443,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-corinthians-15-3-4",
 "ref": "1 Corinthians 15:3–4",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9399,7 +9453,7 @@ window.CONTENT = {
 {
 "id": "ncc-ephesians-1-7",
 "ref": "Ephesians 1:7",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9409,7 +9463,7 @@ window.CONTENT = {
 {
 "id": "ncc-colossians-1-12-14",
 "ref": "Colossians 1:12–14",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9419,7 +9473,7 @@ window.CONTENT = {
 {
 "id": "ncc-colossians-2-13",
 "ref": "Colossians 2:13",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9429,7 +9483,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-8-12",
 "ref": "Hebrews 8:12",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9439,7 +9493,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-10-10-12-14",
 "ref": "Hebrews 10:10, 12, 14",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9449,7 +9503,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-10-15-18",
 "ref": "Hebrews 10:15–18",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9459,7 +9513,7 @@ window.CONTENT = {
 {
 "id": "ncc-hebrews-10-19-20-22-23",
 "ref": "Hebrews 10:19–20, 22–23",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9469,7 +9523,7 @@ window.CONTENT = {
 {
 "id": "ncc-james-5-14-15",
 "ref": "James 5:14–15",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9479,7 +9533,7 @@ window.CONTENT = {
 {
 "id": "ncc-2-peter-1-5-9",
 "ref": "2 Peter 1:5–9",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9489,7 +9543,7 @@ window.CONTENT = {
 {
 "id": "ncc-1-john-2-2",
 "ref": "1 John 2:2",
-"label": "KJV",
+"label": null,
 "part": 0,
 "of": 0,
 "pack": "NCC",
@@ -9668,7 +9722,7 @@ window.CONTENT = {
 "Then it moves on: the Daily card goes behind Odd or Even, the card that was there goes to a day of the week, and that one goes behind a number. A new verse goes behind Daily.",
 "So a verse is said every day, then every other day, then once a week, then once a month. When every number has a card, start again at 1 and add another."
 ],
-"src": "Simply Charlotte Mason, “Scripture Memory System” (simplycharlottemason.com/timesavers/memorysys). Verses from SCM’s Scripture Memory Verse Packs 1–12 (ESV). Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. New Creation Church verses: the lists in Joseph Prince’s “God’s Promises” (josephprince.org/blog/gods-promises) and the 2026 Theme of the Year (newcreation.org.sg/theme-of-the-year-2026), shown in the King James Version (public domain); verses already in the SCM packs are not repeated."
+"src": "Verses in the King James Version (public domain). The verse list follows Simply Charlotte Mason’s Scripture Memory Verse Packs 1–12 and Scripture Memory System (simplycharlottemason.com/timesavers/memorysys). New Creation Church verses: the lists in Joseph Prince’s “God’s Promises” (josephprince.org/blog/gods-promises) and the 2026 Theme of the Year (newcreation.org.sg/theme-of-the-year-2026); verses already in the SCM packs are not repeated."
 },
 "loops": {
 "L_rhythm": {
