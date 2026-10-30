@@ -1114,7 +1114,13 @@
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var SCMB = null;
   function scmCard(id) { if (!SCMB) { SCMB = {}; (C.scm.bank || []).forEach(function (c) { SCMB[c.id] = c; }); } return SCMB[id]; }
-  function scmBox() { if (!S.scm) { S.scm = JSON.parse(JSON.stringify(C.scm.start)); S.scm.queue = []; S.scm.log = []; save(); } return S.scm; }
+  function scmBox() {
+    if (!S.scm) { S.scm = JSON.parse(JSON.stringify(C.scm.start)); S.scm.queue = []; S.scm.log = []; save(); }
+    if (!scmBox.clean) { scmBox.clean = 1; var ch = false; // passages that used to be split over several cards are now one card
+      Object.keys(S.scm.slots || {}).forEach(function (k) { var sl = S.scm.slots[k]; if (sl && sl.cards) { var f = sl.cards.filter(function (id) { return scmCard(id); }); if (f.length !== sl.cards.length) { sl.cards = f; ch = true; } } });
+      if (S.scm.queue) { var q = S.scm.queue.filter(function (id) { return scmCard(id); }); if (q.length !== S.scm.queue.length) { S.scm.queue = q; ch = true; } }
+      if (ch) save(); }
+    return S.scm; }
   function isoDay(d) { d = d || new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
   function sinceLabel(x) { if (!x) return ''; if (/^\d{4}$/.test(x)) return x; var p = x.split('-'); return (+p[2]) + ' ' + MONTHS[+p[1] - 1] + ' ' + p[0]; }
   function sinceVal(x) { return !x ? 0 : /^\d{4}$/.test(x) ? +x * 10000 : +x.replace(/-/g, ''); }

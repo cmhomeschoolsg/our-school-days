@@ -5876,11 +5876,10 @@ window.CONTENT = {
 "id": "psalm-23-c1",
 "ref": "Psalm 23",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 1,
-"text": "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
-"vv": "1–4"
+"text": "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters. He restoreth my soul: he leadeth me in the paths of righteousness for his name’s sake. Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me. Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over. Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever."
 },
 {
 "id": "genesis-2-7",
@@ -5895,11 +5894,10 @@ window.CONTENT = {
 "id": "psalm-100-c1",
 "ref": "Psalm 100",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 1,
-"text": "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing. Know ye that the LORD he is God: it is he that hath made us, and not we ourselves; we are his people, and the sheep of his pasture. Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
-"vv": "1–4"
+"text": "Make a joyful noise unto the LORD, all ye lands. Serve the LORD with gladness: come before his presence with singing. Know ye that the LORD he is God: it is he that hath made us, and not we ourselves; we are his people, and the sheep of his pasture. Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name. For the LORD is good; his mercy is everlasting; and his truth endureth to all generations."
 },
 {
 "id": "psalm-35-9",
@@ -5911,16 +5909,6 @@ window.CONTENT = {
 "text": "And my soul shall be joyful in the LORD: it shall rejoice in his salvation."
 },
 {
-"id": "psalm-23-c2",
-"ref": "Psalm 23",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 1,
-"text": "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over. Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
-"vv": "5–6"
-},
-{
 "id": "proverbs-4-7",
 "ref": "Proverbs 4:7",
 "label": null,
@@ -5928,16 +5916,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 1,
 "text": "Wisdom is the principal thing; therefore get wisdom: and with all thy getting get understanding."
-},
-{
-"id": "psalm-100-c2",
-"ref": "Psalm 100",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 1,
-"text": "For the LORD is good; his mercy is everlasting; and his truth endureth to all generations.",
-"vv": "5"
 },
 {
 "id": "john-13-34-35",
@@ -6132,11 +6110,10 @@ window.CONTENT = {
 "id": "psalm-46-c1",
 "ref": "Psalm 46",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 2,
-"text": "God is our refuge and strength, a very present help in trouble. Therefore will not we fear, though the earth be removed, and though the mountains be carried into the midst of the sea; Though the waters thereof roar and be troubled, though the mountains shake with the swelling thereof. Selah. There is a river, the streams whereof shall make glad the city of God, the holy place of the tabernacles of the most High. God is in the midst of her; she shall not be moved: God shall help her, and that right early.",
-"vv": "1–5"
+"text": "God is our refuge and strength, a very present help in trouble. Therefore will not we fear, though the earth be removed, and though the mountains be carried into the midst of the sea; Though the waters thereof roar and be troubled, though the mountains shake with the swelling thereof. Selah. There is a river, the streams whereof shall make glad the city of God, the holy place of the tabernacles of the most High. God is in the midst of her; she shall not be moved: God shall help her, and that right early. The heathen raged, the kingdoms were moved: he uttered his voice, the earth melted. The LORD of hosts is with us; the God of Jacob is our refuge. Selah. Come, behold the works of the LORD, what desolations he hath made in the earth. He maketh wars to cease unto the end of the earth; he breaketh the bow, and cutteth the spear in sunder; he burneth the chariot in the fire. Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth. The LORD of hosts is with us; the God of Jacob is our refuge. Selah."
 },
 {
 "id": "genesis-50-20",
@@ -6164,16 +6141,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 2,
 "text": "Give unto the LORD, O ye kindreds of the people, give unto the LORD glory and strength. Give unto the LORD the glory due unto his name: bring an offering, and come into his courts. O worship the LORD in the beauty of holiness: fear before him, all the earth."
-},
-{
-"id": "psalm-46-c2",
-"ref": "Psalm 46",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 2,
-"text": "The heathen raged, the kingdoms were moved: he uttered his voice, the earth melted. The LORD of hosts is with us; the God of Jacob is our refuge. Selah. Come, behold the works of the LORD, what desolations he hath made in the earth. He maketh wars to cease unto the end of the earth; he breaketh the bow, and cutteth the spear in sunder; he burneth the chariot in the fire. Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth. The LORD of hosts is with us; the God of Jacob is our refuge. Selah.",
-"vv": "6–11"
 },
 {
 "id": "jeremiah-17-9",
@@ -6647,31 +6614,19 @@ window.CONTENT = {
 "id": "matthew-5-1-12-c1",
 "ref": "Matthew 5:1–12",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 4,
-"text": "And seeing the multitudes, he went up into a mountain: and when he was set, his disciples came unto him: And he opened his mouth, and taught them, saying, Blessed are the poor in spirit: for theirs is the kingdom of heaven. Blessed are they that mourn: for they shall be comforted. Blessed are the meek: for they shall inherit the earth. Blessed are they which do hunger and thirst after righteousness: for they shall be filled. Blessed are the merciful: for they shall obtain mercy. Blessed are the pure in heart: for they shall see God. Blessed are the peacemakers: for they shall be called the children of God.",
-"vv": "1–9"
-},
-{
-"id": "psalm-1-c2",
-"ref": "Psalm 1",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 4,
-"text": "The ungodly are not so: but are like the chaff which the wind driveth away. Therefore the ungodly shall not stand in the judgment, nor sinners in the congregation of the righteous. For the LORD knoweth the way of the righteous: but the way of the ungodly shall perish.",
-"vv": "4–6"
+"text": "And seeing the multitudes, he went up into a mountain: and when he was set, his disciples came unto him: And he opened his mouth, and taught them, saying, Blessed are the poor in spirit: for theirs is the kingdom of heaven. Blessed are they that mourn: for they shall be comforted. Blessed are the meek: for they shall inherit the earth. Blessed are they which do hunger and thirst after righteousness: for they shall be filled. Blessed are the merciful: for they shall obtain mercy. Blessed are the pure in heart: for they shall see God. Blessed are the peacemakers: for they shall be called the children of God. Blessed are they which are persecuted for righteousness’ sake: for theirs is the kingdom of heaven. Blessed are ye, when men shall revile you, and persecute you, and shall say all manner of evil against you falsely, for my sake. Rejoice, and be exceeding glad: for great is your reward in heaven: for so persecuted they the prophets which were before you."
 },
 {
 "id": "psalm-1-c1",
 "ref": "Psalm 1",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 4,
-"text": "Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful. But his delight is in the law of the LORD; and in his law doth he meditate day and night. And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper.",
-"vv": "1–3"
+"text": "Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful. But his delight is in the law of the LORD; and in his law doth he meditate day and night. And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper. The ungodly are not so: but are like the chaff which the wind driveth away. Therefore the ungodly shall not stand in the judgment, nor sinners in the congregation of the righteous. For the LORD knoweth the way of the righteous: but the way of the ungodly shall perish."
 },
 {
 "id": "matthew-16-16",
@@ -6681,16 +6636,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 4,
 "text": "And Simon Peter answered and said, Thou art the Christ, the Son of the living God."
-},
-{
-"id": "matthew-5-1-12-c2",
-"ref": "Matthew 5:1–12",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 4,
-"text": "Blessed are they which are persecuted for righteousness’ sake: for theirs is the kingdom of heaven. Blessed are ye, when men shall revile you, and persecute you, and shall say all manner of evil against you falsely, for my sake. Rejoice, and be exceeding glad: for great is your reward in heaven: for so persecuted they the prophets which were before you.",
-"vv": "10–12"
 },
 {
 "id": "john-3-3",
@@ -6747,24 +6692,13 @@ window.CONTENT = {
 "text": "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me."
 },
 {
-"id": "john-10-7-16-c2",
-"ref": "John 10:7–16",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 4,
-"text": "I am the good shepherd, and know my sheep, and am known of mine. As the Father knoweth me, even so know I the Father: and I lay down my life for the sheep. And other sheep I have, which are not of this fold: them also I must bring, and they shall hear my voice; and there shall be one fold, and one shepherd.",
-"vv": "14–16"
-},
-{
 "id": "john-10-7-16-c1",
 "ref": "John 10:7–16",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 4,
-"text": "Then said Jesus unto them again, Verily, verily, I say unto you, I am the door of the sheep. All that ever came before me are thieves and robbers: but the sheep did not hear them. I am the door: by me if any man enter in, he shall be saved, and shall go in and out, and find pasture. The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly. I am the good shepherd: the good shepherd giveth his life for the sheep. But he that is an hireling, and not the shepherd, whose own the sheep are not, seeth the wolf coming, and leaveth the sheep, and fleeth: and the wolf catcheth them, and scattereth the sheep. The hireling fleeth, because he is an hireling, and careth not for the sheep.",
-"vv": "7–13"
+"text": "Then said Jesus unto them again, Verily, verily, I say unto you, I am the door of the sheep. All that ever came before me are thieves and robbers: but the sheep did not hear them. I am the door: by me if any man enter in, he shall be saved, and shall go in and out, and find pasture. The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly. I am the good shepherd: the good shepherd giveth his life for the sheep. But he that is an hireling, and not the shepherd, whose own the sheep are not, seeth the wolf coming, and leaveth the sheep, and fleeth: and the wolf catcheth them, and scattereth the sheep. The hireling fleeth, because he is an hireling, and careth not for the sheep. I am the good shepherd, and know my sheep, and am known of mine. As the Father knoweth me, even so know I the Father: and I lay down my life for the sheep. And other sheep I have, which are not of this fold: them also I must bring, and they shall hear my voice; and there shall be one fold, and one shepherd."
 },
 {
 "id": "acts-4-12",
@@ -6851,11 +6785,10 @@ window.CONTENT = {
 "id": "psalm-121-c1",
 "ref": "Psalm 121",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 5,
-"text": "I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth. He will not suffer thy foot to be moved: he that keepeth thee will not slumber. Behold, he that keepeth Israel shall neither slumber nor sleep.",
-"vv": "1–4"
+"text": "I will lift up mine eyes unto the hills, from whence cometh my help. My help cometh from the LORD, which made heaven and earth. He will not suffer thy foot to be moved: he that keepeth thee will not slumber. Behold, he that keepeth Israel shall neither slumber nor sleep. The LORD is thy keeper: the LORD is thy shade upon thy right hand. The sun shall not smite thee by day, nor the moon by night. The LORD shall preserve thee from all evil: he shall preserve thy soul. The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore."
 },
 {
 "id": "psalm-25-5",
@@ -6883,16 +6816,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 5,
 "text": "Ye are the salt of the earth: but if the salt have lost his savour, wherewith shall it be salted? it is thenceforth good for nothing, but to be cast out, and to be trodden under foot of men. Ye are the light of the world. A city that is set on an hill cannot be hid. Neither do men light a candle, and put it under a bushel, but on a candlestick; and it giveth light unto all that are in the house. Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."
-},
-{
-"id": "psalm-121-c2",
-"ref": "Psalm 121",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 5,
-"text": "The LORD is thy keeper: the LORD is thy shade upon thy right hand. The sun shall not smite thee by day, nor the moon by night. The LORD shall preserve thee from all evil: he shall preserve thy soul. The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.",
-"vv": "5–8"
 },
 {
 "id": "romans-8-28-29",
@@ -6940,24 +6863,13 @@ window.CONTENT = {
 "text": "Dare any of you, having a matter against another, go to law before the unjust, and not before the saints? Do ye not know that the saints shall judge the world? and if the world shall be judged by you, are ye unworthy to judge the smallest matters?"
 },
 {
-"id": "ephesians-6-10-20-c2",
-"ref": "Ephesians 6:10–20",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 5,
-"text": "Above all, taking the shield of faith, wherewith ye shall be able to quench all the fiery darts of the wicked. And take the helmet of salvation, and the sword of the Spirit, which is the word of God: Praying always with all prayer and supplication in the Spirit, and watching thereunto with all perseverance and supplication for all saints; And for me, that utterance may be given unto me, that I may open my mouth boldly, to make known the mystery of the gospel, For which I am an ambassador in bonds: that therein I may speak boldly, as I ought to speak.",
-"vv": "16–20"
-},
-{
 "id": "ephesians-6-10-20-c1",
 "ref": "Ephesians 6:10–20",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 5,
-"text": "Finally, my brethren, be strong in the Lord, and in the power of his might. Put on the whole armour of God, that ye may be able to stand against the wiles of the devil. For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places. Wherefore take unto you the whole armour of God, that ye may be able to withstand in the evil day, and having done all, to stand. Stand therefore, having your loins girt about with truth, and having on the breastplate of righteousness; And your feet shod with the preparation of the gospel of peace;",
-"vv": "10–15"
+"text": "Finally, my brethren, be strong in the Lord, and in the power of his might. Put on the whole armour of God, that ye may be able to stand against the wiles of the devil. For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places. Wherefore take unto you the whole armour of God, that ye may be able to withstand in the evil day, and having done all, to stand. Stand therefore, having your loins girt about with truth, and having on the breastplate of righteousness; And your feet shod with the preparation of the gospel of peace; Above all, taking the shield of faith, wherewith ye shall be able to quench all the fiery darts of the wicked. And take the helmet of salvation, and the sword of the Spirit, which is the word of God: Praying always with all prayer and supplication in the Spirit, and watching thereunto with all perseverance and supplication for all saints; And for me, that utterance may be given unto me, that I may open my mouth boldly, to make known the mystery of the gospel, For which I am an ambassador in bonds: that therein I may speak boldly, as I ought to speak."
 },
 {
 "id": "ephesians-5-15-21",
@@ -7026,11 +6938,10 @@ window.CONTENT = {
 "id": "psalm-91-c1",
 "ref": "Psalm 91",
 "label": null,
-"part": 1,
-"of": 3,
+"part": 0,
+"of": 0,
 "pack": 6,
-"text": "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty. I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust. Surely he shall deliver thee from the snare of the fowler, and from the noisome pestilence. He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler. Thou shalt not be afraid for the terror by night; nor for the arrow that flieth by day; Nor for the pestilence that walketh in darkness; nor for the destruction that wasteth at noonday.",
-"vv": "1–6"
+"text": "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty. I will say of the LORD, He is my refuge and my fortress: my God; in him will I trust. Surely he shall deliver thee from the snare of the fowler, and from the noisome pestilence. He shall cover thee with his feathers, and under his wings shalt thou trust: his truth shall be thy shield and buckler. Thou shalt not be afraid for the terror by night; nor for the arrow that flieth by day; Nor for the pestilence that walketh in darkness; nor for the destruction that wasteth at noonday. A thousand shall fall at thy side, and ten thousand at thy right hand; but it shall not come nigh thee. Only with thine eyes shalt thou behold and see the reward of the wicked. Because thou hast made the LORD, which is my refuge, even the most High, thy habitation; There shall no evil befall thee, neither shall any plague come nigh thy dwelling. For he shall give his angels charge over thee, to keep thee in all thy ways. They shall bear thee up in their hands, lest thou dash thy foot against a stone. Thou shalt tread upon the lion and adder: the young lion and the dragon shalt thou trample under feet. Because he hath set his love upon me, therefore will I deliver him: I will set him on high, because he hath known my name. He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him. With long life will I satisfy him, and shew him my salvation."
 },
 {
 "id": "psalm-37-5-6",
@@ -7049,26 +6960,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 6,
 "text": "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?"
-},
-{
-"id": "psalm-91-c3",
-"ref": "Psalm 91",
-"label": null,
-"part": 3,
-"of": 3,
-"pack": 6,
-"text": "For he shall give his angels charge over thee, to keep thee in all thy ways. They shall bear thee up in their hands, lest thou dash thy foot against a stone. Thou shalt tread upon the lion and adder: the young lion and the dragon shalt thou trample under feet. Because he hath set his love upon me, therefore will I deliver him: I will set him on high, because he hath known my name. He shall call upon me, and I will answer him: I will be with him in trouble; I will deliver him, and honour him. With long life will I satisfy him, and shew him my salvation.",
-"vv": "11–16"
-},
-{
-"id": "psalm-91-c2",
-"ref": "Psalm 91",
-"label": null,
-"part": 2,
-"of": 3,
-"pack": 6,
-"text": "A thousand shall fall at thy side, and ten thousand at thy right hand; but it shall not come nigh thee. Only with thine eyes shalt thou behold and see the reward of the wicked. Because thou hast made the LORD, which is my refuge, even the most High, thy habitation; There shall no evil befall thee, neither shall any plague come nigh thy dwelling.",
-"vv": "7–10"
 },
 {
 "id": "luke-11-28",
@@ -7116,24 +7007,13 @@ window.CONTENT = {
 "text": "God is a Spirit: and they that worship him must worship him in spirit and in truth."
 },
 {
-"id": "1-corinthians-13-c2",
-"ref": "1 Corinthians 13",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 6,
-"text": "For we know in part, and we prophesy in part. But when that which is perfect is come, then that which is in part shall be done away. When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things. For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known. And now abideth faith, hope, charity, these three; but the greatest of these is charity.",
-"vv": "9–13"
-},
-{
 "id": "1-corinthians-13-c1",
 "ref": "1 Corinthians 13",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 6,
-"text": "Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal. And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing. And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing. Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things. Charity never faileth: but whether there be prophecies, they shall fail; whether there be tongues, they shall cease; whether there be knowledge, it shall vanish away.",
-"vv": "1–8"
+"text": "Though I speak with the tongues of men and of angels, and have not charity, I am become as sounding brass, or a tinkling cymbal. And though I have the gift of prophecy, and understand all mysteries, and all knowledge; and though I have all faith, so that I could remove mountains, and have not charity, I am nothing. And though I bestow all my goods to feed the poor, and though I give my body to be burned, and have not charity, it profiteth me nothing. Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things. Charity never faileth: but whether there be prophecies, they shall fail; whether there be tongues, they shall cease; whether there be knowledge, it shall vanish away. For we know in part, and we prophesy in part. But when that which is perfect is come, then that which is in part shall be done away. When I was a child, I spake as a child, I understood as a child, I thought as a child: but when I became a man, I put away childish things. For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known. And now abideth faith, hope, charity, these three; but the greatest of these is charity."
 },
 {
 "id": "1-corinthians-10-13",
@@ -7172,24 +7052,13 @@ window.CONTENT = {
 "text": "But I would not have you to be ignorant, brethren, concerning them which are asleep, that ye sorrow not, even as others which have no hope. For if we believe that Jesus died and rose again, even so them also which sleep in Jesus will God bring with him. For this we say unto you by the word of the Lord, that we which are alive and remain unto the coming of the Lord shall not prevent them which are asleep. For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord. Wherefore comfort one another with these words."
 },
 {
-"id": "psalm-113-c2",
-"ref": "Psalm 113",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 7,
-"text": "The LORD is high above all nations, and his glory above the heavens. Who is like unto the LORD our God, who dwelleth on high, Who humbleth himself to behold the things that are in heaven, and in the earth! He raiseth up the poor out of the dust, and lifteth the needy out of the dunghill; That he may set him with princes, even with the princes of his people. He maketh the barren woman to keep house, and to be a joyful mother of children. Praise ye the LORD.",
-"vv": "4–9"
-},
-{
 "id": "psalm-113-c1",
 "ref": "Psalm 113",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 7,
-"text": "Praise ye the LORD. Praise, O ye servants of the LORD, praise the name of the LORD. Blessed be the name of the LORD from this time forth and for evermore. From the rising of the sun unto the going down of the same the LORD’s name is to be praised.",
-"vv": "1–3"
+"text": "Praise ye the LORD. Praise, O ye servants of the LORD, praise the name of the LORD. Blessed be the name of the LORD from this time forth and for evermore. From the rising of the sun unto the going down of the same the LORD’s name is to be praised. The LORD is high above all nations, and his glory above the heavens. Who is like unto the LORD our God, who dwelleth on high, Who humbleth himself to behold the things that are in heaven, and in the earth! He raiseth up the poor out of the dust, and lifteth the needy out of the dunghill; That he may set him with princes, even with the princes of his people. He maketh the barren woman to keep house, and to be a joyful mother of children. Praise ye the LORD."
 },
 {
 "id": "psalm-52-9",
@@ -7246,24 +7115,13 @@ window.CONTENT = {
 "text": "Therefore if thou bring thy gift to the altar, and there rememberest that thy brother hath ought against thee; Leave there thy gift before the altar, and go thy way; first be reconciled to thy brother, and then come and offer thy gift."
 },
 {
-"id": "romans-12-c2",
-"ref": "Romans 12",
-"label": null,
-"part": 2,
-"of": 3,
-"pack": 7,
-"text": "Having then gifts differing according to the grace that is given to us, whether prophecy, let us prophesy according to the proportion of faith; Or ministry, let us wait on our ministering: or he that teacheth, on teaching; Or he that exhorteth, on exhortation: he that giveth, let him do it with simplicity; he that ruleth, with diligence; he that sheweth mercy, with cheerfulness. Let love be without dissimulation. Abhor that which is evil; cleave to that which is good. Be kindly affectioned one to another with brotherly love; in honour preferring one another; Not slothful in business; fervent in spirit; serving the Lord; Rejoicing in hope; patient in tribulation; continuing instant in prayer; Distributing to the necessity of saints; given to hospitality. Bless them which persecute you: bless, and curse not. Rejoice with them that do rejoice, and weep with them that weep.",
-"vv": "6–15"
-},
-{
 "id": "romans-12-c1",
 "ref": "Romans 12",
 "label": null,
-"part": 1,
-"of": 3,
+"part": 0,
+"of": 0,
 "pack": 7,
-"text": "I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service. And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God. For I say, through the grace given unto me, to every man that is among you, not to think of himself more highly than he ought to think; but to think soberly, according as God hath dealt to every man the measure of faith. For as we have many members in one body, and all members have not the same office: So we, being many, are one body in Christ, and every one members one of another.",
-"vv": "1–5"
+"text": "I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service. And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God. For I say, through the grace given unto me, to every man that is among you, not to think of himself more highly than he ought to think; but to think soberly, according as God hath dealt to every man the measure of faith. For as we have many members in one body, and all members have not the same office: So we, being many, are one body in Christ, and every one members one of another. Having then gifts differing according to the grace that is given to us, whether prophecy, let us prophesy according to the proportion of faith; Or ministry, let us wait on our ministering: or he that teacheth, on teaching; Or he that exhorteth, on exhortation: he that giveth, let him do it with simplicity; he that ruleth, with diligence; he that sheweth mercy, with cheerfulness. Let love be without dissimulation. Abhor that which is evil; cleave to that which is good. Be kindly affectioned one to another with brotherly love; in honour preferring one another; Not slothful in business; fervent in spirit; serving the Lord; Rejoicing in hope; patient in tribulation; continuing instant in prayer; Distributing to the necessity of saints; given to hospitality. Bless them which persecute you: bless, and curse not. Rejoice with them that do rejoice, and weep with them that weep. Be of the same mind one toward another. Mind not high things, but condescend to men of low estate. Be not wise in your own conceits. Recompense to no man evil for evil. Provide things honest in the sight of all men. If it be possible, as much as lieth in you, live peaceably with all men. Dearly beloved, avenge not yourselves, but rather give place unto wrath: for it is written, Vengeance is mine; I will repay, saith the Lord. Therefore if thine enemy hunger, feed him; if he thirst, give him drink: for in so doing thou shalt heap coals of fire on his head. Be not overcome of evil, but overcome evil with good."
 },
 {
 "id": "ephesians-4-29-30",
@@ -7282,16 +7140,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 7,
 "text": "What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own? For ye are bought with a price: therefore glorify God in your body, and in your spirit, which are God’s."
-},
-{
-"id": "romans-12-c3",
-"ref": "Romans 12",
-"label": null,
-"part": 3,
-"of": 3,
-"pack": 7,
-"text": "Be of the same mind one toward another. Mind not high things, but condescend to men of low estate. Be not wise in your own conceits. Recompense to no man evil for evil. Provide things honest in the sight of all men. If it be possible, as much as lieth in you, live peaceably with all men. Dearly beloved, avenge not yourselves, but rather give place unto wrath: for it is written, Vengeance is mine; I will repay, saith the Lord. Therefore if thine enemy hunger, feed him; if he thirst, give him drink: for in so doing thou shalt heap coals of fire on his head. Be not overcome of evil, but overcome evil with good.",
-"vv": "16–21"
 },
 {
 "id": "1-timothy-2-5",
@@ -7330,34 +7178,13 @@ window.CONTENT = {
 "text": "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth."
 },
 {
-"id": "psalm-19-c3",
-"ref": "Psalm 19",
-"label": null,
-"part": 3,
-"of": 4,
-"pack": 8,
-"text": "More to be desired are they than gold, yea, than much fine gold: sweeter also than honey and the honeycomb. Moreover by them is thy servant warned: and in keeping of them there is great reward. Who can understand his errors? cleanse thou me from secret faults. Keep back thy servant also from presumptuous sins; let them not have dominion over me: then shall I be upright, and I shall be innocent from the great transgression.",
-"vv": "10–13"
-},
-{
-"id": "psalm-19-c2",
-"ref": "Psalm 19",
-"label": null,
-"part": 2,
-"of": 4,
-"pack": 8,
-"text": "The law of the LORD is perfect, converting the soul: the testimony of the LORD is sure, making wise the simple. The statutes of the LORD are right, rejoicing the heart: the commandment of the LORD is pure, enlightening the eyes. The fear of the LORD is clean, enduring for ever: the judgments of the LORD are true and righteous altogether.",
-"vv": "7–9"
-},
-{
 "id": "psalm-19-c1",
 "ref": "Psalm 19",
 "label": null,
-"part": 1,
-"of": 4,
+"part": 0,
+"of": 0,
 "pack": 8,
-"text": "The heavens declare the glory of God; and the firmament sheweth his handywork. Day unto day uttereth speech, and night unto night sheweth knowledge. There is no speech nor language, where their voice is not heard. Their line is gone out through all the earth, and their words to the end of the world. In them hath he set a tabernacle for the sun, Which is as a bridegroom coming out of his chamber, and rejoiceth as a strong man to run a race. His going forth is from the end of the heaven, and his circuit unto the ends of it: and there is nothing hid from the heat thereof.",
-"vv": "1–6"
+"text": "The heavens declare the glory of God; and the firmament sheweth his handywork. Day unto day uttereth speech, and night unto night sheweth knowledge. There is no speech nor language, where their voice is not heard. Their line is gone out through all the earth, and their words to the end of the world. In them hath he set a tabernacle for the sun, Which is as a bridegroom coming out of his chamber, and rejoiceth as a strong man to run a race. His going forth is from the end of the heaven, and his circuit unto the ends of it: and there is nothing hid from the heat thereof. The law of the LORD is perfect, converting the soul: the testimony of the LORD is sure, making wise the simple. The statutes of the LORD are right, rejoicing the heart: the commandment of the LORD is pure, enlightening the eyes. The fear of the LORD is clean, enduring for ever: the judgments of the LORD are true and righteous altogether. More to be desired are they than gold, yea, than much fine gold: sweeter also than honey and the honeycomb. Moreover by them is thy servant warned: and in keeping of them there is great reward. Who can understand his errors? cleanse thou me from secret faults. Keep back thy servant also from presumptuous sins; let them not have dominion over me: then shall I be upright, and I shall be innocent from the great transgression. Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer."
 },
 {
 "id": "psalm-55-17",
@@ -7367,16 +7194,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 8,
 "text": "Evening, and morning, and at noon, will I pray, and cry aloud: and he shall hear my voice."
-},
-{
-"id": "psalm-19-c4",
-"ref": "Psalm 19",
-"label": null,
-"part": 4,
-"of": 4,
-"pack": 8,
-"text": "Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer.",
-"vv": "14"
 },
 {
 "id": "matthew-7-7",
@@ -7532,34 +7349,13 @@ window.CONTENT = {
 "text": "But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear:"
 },
 {
-"id": "psalm-42-c3",
-"ref": "Psalm 42",
-"label": null,
-"part": 3,
-"of": 4,
-"pack": 9,
-"text": "Deep calleth unto deep at the noise of thy waterspouts: all thy waves and thy billows are gone over me. Yet the LORD will command his lovingkindness in the daytime, and in the night his song shall be with me, and my prayer unto the God of my life. I will say unto God my rock, Why hast thou forgotten me? why go I mourning because of the oppression of the enemy?",
-"vv": "7–9"
-},
-{
-"id": "psalm-42-c2",
-"ref": "Psalm 42",
-"label": null,
-"part": 2,
-"of": 4,
-"pack": 9,
-"text": "When I remember these things, I pour out my soul in me: for I had gone with the multitude, I went with them to the house of God, with the voice of joy and praise, with a multitude that kept holyday. Why art thou cast down, O my soul? and why art thou disquieted in me? hope thou in God: for I shall yet praise him for the help of his countenance. O my God, my soul is cast down within me: therefore will I remember thee from the land of Jordan, and of the Hermonites, from the hill Mizar.",
-"vv": "4–6"
-},
-{
 "id": "psalm-42-c1",
 "ref": "Psalm 42",
 "label": null,
-"part": 1,
-"of": 4,
+"part": 0,
+"of": 0,
 "pack": 9,
-"text": "As the hart panteth after the water brooks, so panteth my soul after thee, O God. My soul thirsteth for God, for the living God: when shall I come and appear before God? My tears have been my meat day and night, while they continually say unto me, Where is thy God?",
-"vv": "1–3"
+"text": "As the hart panteth after the water brooks, so panteth my soul after thee, O God. My soul thirsteth for God, for the living God: when shall I come and appear before God? My tears have been my meat day and night, while they continually say unto me, Where is thy God? When I remember these things, I pour out my soul in me: for I had gone with the multitude, I went with them to the house of God, with the voice of joy and praise, with a multitude that kept holyday. Why art thou cast down, O my soul? and why art thou disquieted in me? hope thou in God: for I shall yet praise him for the help of his countenance. O my God, my soul is cast down within me: therefore will I remember thee from the land of Jordan, and of the Hermonites, from the hill Mizar. Deep calleth unto deep at the noise of thy waterspouts: all thy waves and thy billows are gone over me. Yet the LORD will command his lovingkindness in the daytime, and in the night his song shall be with me, and my prayer unto the God of my life. I will say unto God my rock, Why hast thou forgotten me? why go I mourning because of the oppression of the enemy? As with a sword in my bones, mine enemies reproach me; while they say daily unto me, Where is thy God? Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God: for I shall yet praise him, who is the health of my countenance, and my God."
 },
 {
 "id": "psalm-63-3",
@@ -7569,16 +7365,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 9,
 "text": "Because thy lovingkindness is better than life, my lips shall praise thee."
-},
-{
-"id": "psalm-42-c4",
-"ref": "Psalm 42",
-"label": null,
-"part": 4,
-"of": 4,
-"pack": 9,
-"text": "As with a sword in my bones, mine enemies reproach me; while they say daily unto me, Where is thy God? Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God: for I shall yet praise him, who is the health of my countenance, and my God.",
-"vv": "10–11"
 },
 {
 "id": "matthew-7-12",
@@ -7626,34 +7412,13 @@ window.CONTENT = {
 "text": "No servant can serve two masters: for either he will hate the one, and love the other; or else he will hold to the one, and despise the other. Ye cannot serve God and mammon."
 },
 {
-"id": "colossians-3-c3",
-"ref": "Colossians 3",
-"label": null,
-"part": 3,
-"of": 4,
-"pack": 9,
-"text": "Let the word of Christ dwell in you richly in all wisdom; teaching and admonishing one another in psalms and hymns and spiritual songs, singing with grace in your hearts to the Lord. And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him. Wives, submit yourselves unto your own husbands, as it is fit in the Lord. Husbands, love your wives, and be not bitter against them. Children, obey your parents in all things: for this is well pleasing unto the Lord. Fathers, provoke not your children to anger, lest they be discouraged. Servants, obey in all things your masters according to the flesh; not with eyeservice, as menpleasers; but in singleness of heart, fearing God:",
-"vv": "16–22"
-},
-{
-"id": "colossians-3-c2",
-"ref": "Colossians 3",
-"label": null,
-"part": 2,
-"of": 4,
-"pack": 9,
-"text": "Lie not one to another, seeing that ye have put off the old man with his deeds; And have put on the new man, which is renewed in knowledge after the image of him that created him: Where there is neither Greek nor Jew, circumcision nor uncircumcision, Barbarian, Scythian, bond nor free: but Christ is all, and in all. Put on therefore, as the elect of God, holy and beloved, bowels of mercies, kindness, humbleness of mind, meekness, longsuffering; Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye. And above all these things put on charity, which is the bond of perfectness. And let the peace of God rule in your hearts, to the which also ye are called in one body; and be ye thankful.",
-"vv": "9–15"
-},
-{
 "id": "colossians-3-c1",
 "ref": "Colossians 3",
 "label": null,
-"part": 1,
-"of": 4,
+"part": 0,
+"of": 0,
 "pack": 9,
-"text": "If ye then be risen with Christ, seek those things which are above, where Christ sitteth on the right hand of God. Set your affection on things above, not on things on the earth. For ye are dead, and your life is hid with Christ in God. When Christ, who is our life, shall appear, then shall ye also appear with him in glory. Mortify therefore your members which are upon the earth; fornication, uncleanness, inordinate affection, evil concupiscence, and covetousness, which is idolatry: For which things’ sake the wrath of God cometh on the children of disobedience: In the which ye also walked some time, when ye lived in them. But now ye also put off all these; anger, wrath, malice, blasphemy, filthy communication out of your mouth.",
-"vv": "1–8"
+"text": "If ye then be risen with Christ, seek those things which are above, where Christ sitteth on the right hand of God. Set your affection on things above, not on things on the earth. For ye are dead, and your life is hid with Christ in God. When Christ, who is our life, shall appear, then shall ye also appear with him in glory. Mortify therefore your members which are upon the earth; fornication, uncleanness, inordinate affection, evil concupiscence, and covetousness, which is idolatry: For which things’ sake the wrath of God cometh on the children of disobedience: In the which ye also walked some time, when ye lived in them. But now ye also put off all these; anger, wrath, malice, blasphemy, filthy communication out of your mouth. Lie not one to another, seeing that ye have put off the old man with his deeds; And have put on the new man, which is renewed in knowledge after the image of him that created him: Where there is neither Greek nor Jew, circumcision nor uncircumcision, Barbarian, Scythian, bond nor free: but Christ is all, and in all. Put on therefore, as the elect of God, holy and beloved, bowels of mercies, kindness, humbleness of mind, meekness, longsuffering; Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye. And above all these things put on charity, which is the bond of perfectness. And let the peace of God rule in your hearts, to the which also ye are called in one body; and be ye thankful. Let the word of Christ dwell in you richly in all wisdom; teaching and admonishing one another in psalms and hymns and spiritual songs, singing with grace in your hearts to the Lord. And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him. Wives, submit yourselves unto your own husbands, as it is fit in the Lord. Husbands, love your wives, and be not bitter against them. Children, obey your parents in all things: for this is well pleasing unto the Lord. Fathers, provoke not your children to anger, lest they be discouraged. Servants, obey in all things your masters according to the flesh; not with eyeservice, as menpleasers; but in singleness of heart, fearing God: And whatsoever ye do, do it heartily, as to the Lord, and not unto men; Knowing that of the Lord ye shall receive the reward of the inheritance: for ye serve the Lord Christ. But he that doeth wrong shall receive for the wrong which he hath done: and there is no respect of persons."
 },
 {
 "id": "2-timothy-1-7",
@@ -7663,16 +7428,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 9,
 "text": "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind."
-},
-{
-"id": "colossians-3-c4",
-"ref": "Colossians 3",
-"label": null,
-"part": 4,
-"of": 4,
-"pack": 9,
-"text": "And whatsoever ye do, do it heartily, as to the Lord, and not unto men; Knowing that of the Lord ye shall receive the reward of the inheritance: for ye serve the Lord Christ. But he that doeth wrong shall receive for the wrong which he hath done: and there is no respect of persons.",
-"vv": "23–25"
 },
 {
 "id": "1-john-4-10",
@@ -7711,24 +7466,13 @@ window.CONTENT = {
 "text": "And this is the record, that God hath given to us eternal life, and this life is in his Son. He that hath the Son hath life; and he that hath not the Son of God hath not life. These things have I written unto you that believe on the name of the Son of God; that ye may know that ye have eternal life, and that ye may believe on the name of the Son of God."
 },
 {
-"id": "luke-2-1-20-c2",
-"ref": "Luke 2:1–20",
-"label": null,
-"part": 2,
-"of": 3,
-"pack": 10,
-"text": "And, lo, the angel of the Lord came upon them, and the glory of the Lord shone round about them: and they were sore afraid. And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people. For unto you is born this day in the city of David a Saviour, which is Christ the Lord. And this shall be a sign unto you; Ye shall find the babe wrapped in swaddling clothes, lying in a manger. And suddenly there was with the angel a multitude of the heavenly host praising God, and saying, Glory to God in the highest, and on earth peace, good will toward men. And it came to pass, as the angels were gone away from them into heaven, the shepherds said one to another, Let us now go even unto Bethlehem, and see this thing which is come to pass, which the Lord hath made known unto us.",
-"vv": "9–15"
-},
-{
 "id": "luke-2-1-20-c1",
 "ref": "Luke 2:1–20",
 "label": null,
-"part": 1,
-"of": 3,
+"part": 0,
+"of": 0,
 "pack": 10,
-"text": "And it came to pass in those days, that there went out a decree from Cesar Augustus, that all the world should be taxed. (And this taxing was first made when Cyrenius was governor of Syria.) And all went to be taxed, every one into his own city. And Joseph also went up from Galilee, out of the city of Nazareth, into Judea, unto the city of David, which is called Bethlehem; (because he was of the house and lineage of David:) To be taxed with Mary his espoused wife, being great with child. And so it was, that, while they were there, the days were accomplished that she should be delivered. And she brought forth her firstborn son, and wrapped him in swaddling clothes, and laid him in a manger; because there was no room for them in the inn. And there were in the same country shepherds abiding in the field, keeping watch over their flock by night.",
-"vv": "1–8"
+"text": "And it came to pass in those days, that there went out a decree from Cesar Augustus, that all the world should be taxed. (And this taxing was first made when Cyrenius was governor of Syria.) And all went to be taxed, every one into his own city. And Joseph also went up from Galilee, out of the city of Nazareth, into Judea, unto the city of David, which is called Bethlehem; (because he was of the house and lineage of David:) To be taxed with Mary his espoused wife, being great with child. And so it was, that, while they were there, the days were accomplished that she should be delivered. And she brought forth her firstborn son, and wrapped him in swaddling clothes, and laid him in a manger; because there was no room for them in the inn. And there were in the same country shepherds abiding in the field, keeping watch over their flock by night. And, lo, the angel of the Lord came upon them, and the glory of the Lord shone round about them: and they were sore afraid. And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people. For unto you is born this day in the city of David a Saviour, which is Christ the Lord. And this shall be a sign unto you; Ye shall find the babe wrapped in swaddling clothes, lying in a manger. And suddenly there was with the angel a multitude of the heavenly host praising God, and saying, Glory to God in the highest, and on earth peace, good will toward men. And it came to pass, as the angels were gone away from them into heaven, the shepherds said one to another, Let us now go even unto Bethlehem, and see this thing which is come to pass, which the Lord hath made known unto us. And they came with haste, and found Mary, and Joseph, and the babe lying in a manger. And when they had seen it, they made known abroad the saying which was told them concerning this child. And all they that heard it wondered at those things which were told them by the shepherds. But Mary kept all these things, and pondered them in her heart. And the shepherds returned, glorifying and praising God for all the things that they had heard and seen, as it was told unto them."
 },
 {
 "id": "matthew-28-18-20",
@@ -7747,16 +7491,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 10,
 "text": "In the beginning was the Word, and the Word was with God, and the Word was God. And the Word was made flesh, and dwelt among us, (and we beheld his glory, the glory as of the only begotten of the Father,) full of grace and truth."
-},
-{
-"id": "luke-2-1-20-c3",
-"ref": "Luke 2:1–20",
-"label": null,
-"part": 3,
-"of": 3,
-"pack": 10,
-"text": "And they came with haste, and found Mary, and Joseph, and the babe lying in a manger. And when they had seen it, they made known abroad the saying which was told them concerning this child. And all they that heard it wondered at those things which were told them by the shepherds. But Mary kept all these things, and pondered them in her heart. And the shepherds returned, glorifying and praising God for all the things that they had heard and seen, as it was told unto them.",
-"vv": "16–20"
 },
 {
 "id": "john-10-11",
@@ -7858,54 +7592,13 @@ window.CONTENT = {
 "text": "Hear, O Israel: The LORD our God is one LORD: And thou shalt love the LORD thy God with all thine heart, and with all thy soul, and with all thy might. And these words, which I command thee this day, shall be in thine heart: And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up."
 },
 {
-"id": "psalm-139-c2",
-"ref": "Psalm 139",
-"label": null,
-"part": 2,
-"of": 5,
-"pack": 11,
-"text": "Whither shall I go from thy spirit? or whither shall I flee from thy presence? If I ascend up into heaven, thou art there: if I make my bed in hell, behold, thou art there. If I take the wings of the morning, and dwell in the uttermost parts of the sea; Even there shall thy hand lead me, and thy right hand shall hold me. If I say, Surely the darkness shall cover me; even the night shall be light about me. Yea, the darkness hideth not from thee; but the night shineth as the day: the darkness and the light are both alike to thee.",
-"vv": "7–12"
-},
-{
 "id": "psalm-139-c1",
 "ref": "Psalm 139",
 "label": null,
-"part": 1,
-"of": 5,
+"part": 0,
+"of": 0,
 "pack": 11,
-"text": "O LORD, thou hast searched me, and known me. Thou knowest my downsitting and mine uprising, thou understandest my thought afar off. Thou compassest my path and my lying down, and art acquainted with all my ways. For there is not a word in my tongue, but, lo, O LORD, thou knowest it altogether. Thou hast beset me behind and before, and laid thine hand upon me. Such knowledge is too wonderful for me; it is high, I cannot attain unto it.",
-"vv": "1–6"
-},
-{
-"id": "psalm-139-c5",
-"ref": "Psalm 139",
-"label": null,
-"part": 5,
-"of": 5,
-"pack": 11,
-"text": "Search me, O God, and know my heart: try me, and know my thoughts: And see if there be any wicked way in me, and lead me in the way everlasting.",
-"vv": "23–24"
-},
-{
-"id": "psalm-139-c4",
-"ref": "Psalm 139",
-"label": null,
-"part": 4,
-"of": 5,
-"pack": 11,
-"text": "How precious also are thy thoughts unto me, O God! how great is the sum of them! If I should count them, they are more in number than the sand: when I awake, I am still with thee. Surely thou wilt slay the wicked, O God: depart from me therefore, ye bloody men. For they speak against thee wickedly, and thine enemies take thy name in vain. Do not I hate them, O LORD, that hate thee? and am not I grieved with those that rise up against thee? I hate them with perfect hatred: I count them mine enemies.",
-"vv": "17–22"
-},
-{
-"id": "psalm-139-c3",
-"ref": "Psalm 139",
-"label": null,
-"part": 3,
-"of": 5,
-"pack": 11,
-"text": "For thou hast possessed my reins: thou hast covered me in my mother’s womb. I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well. My substance was not hid from thee, when I was made in secret, and curiously wrought in the lowest parts of the earth. Thine eyes did see my substance, yet being unperfect; and in thy book all my members were written, which in continuance were fashioned, when as yet there was none of them.",
-"vv": "13–16"
+"text": "O LORD, thou hast searched me, and known me. Thou knowest my downsitting and mine uprising, thou understandest my thought afar off. Thou compassest my path and my lying down, and art acquainted with all my ways. For there is not a word in my tongue, but, lo, O LORD, thou knowest it altogether. Thou hast beset me behind and before, and laid thine hand upon me. Such knowledge is too wonderful for me; it is high, I cannot attain unto it. Whither shall I go from thy spirit? or whither shall I flee from thy presence? If I ascend up into heaven, thou art there: if I make my bed in hell, behold, thou art there. If I take the wings of the morning, and dwell in the uttermost parts of the sea; Even there shall thy hand lead me, and thy right hand shall hold me. If I say, Surely the darkness shall cover me; even the night shall be light about me. Yea, the darkness hideth not from thee; but the night shineth as the day: the darkness and the light are both alike to thee. For thou hast possessed my reins: thou hast covered me in my mother’s womb. I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well. My substance was not hid from thee, when I was made in secret, and curiously wrought in the lowest parts of the earth. Thine eyes did see my substance, yet being unperfect; and in thy book all my members were written, which in continuance were fashioned, when as yet there was none of them. How precious also are thy thoughts unto me, O God! how great is the sum of them! If I should count them, they are more in number than the sand: when I awake, I am still with thee. Surely thou wilt slay the wicked, O God: depart from me therefore, ye bloody men. For they speak against thee wickedly, and thine enemies take thy name in vain. Do not I hate them, O LORD, that hate thee? and am not I grieved with those that rise up against thee? I hate them with perfect hatred: I count them mine enemies. Search me, O God, and know my heart: try me, and know my thoughts: And see if there be any wicked way in me, and lead me in the way everlasting."
 },
 {
 "id": "luke-17-3-4",
@@ -7998,44 +7691,22 @@ window.CONTENT = {
 "text": "Behold, how good and how pleasant it is for brethren to dwell together in unity!"
 },
 {
-"id": "psalm-127-c2",
-"ref": "Psalm 127",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 12,
-"text": "As arrows are in the hand of a mighty man; so are children of the youth. Happy is the man that hath his quiver full of them: they shall not be ashamed, but they shall speak with the enemies in the gate.",
-"vv": "4–5"
-},
-{
 "id": "psalm-127-c1",
 "ref": "Psalm 127",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 12,
-"text": "Except the LORD build the house, they labour in vain that build it: except the LORD keep the city, the watchman waketh but in vain. It is vain for you to rise up early, to sit up late, to eat the bread of sorrows: for so he giveth his beloved sleep. Lo, children are an heritage of the LORD: and the fruit of the womb is his reward.",
-"vv": "1–3"
-},
-{
-"id": "psalm-145-c2",
-"ref": "Psalm 145",
-"label": null,
-"part": 2,
-"of": 4,
-"pack": 12,
-"text": "And men shall speak of the might of thy terrible acts: and I will declare thy greatness. They shall abundantly utter the memory of thy great goodness, and shall sing of thy righteousness. The LORD is gracious, and full of compassion; slow to anger, and of great mercy. The LORD is good to all: and his tender mercies are over all his works. All thy works shall praise thee, O LORD; and thy saints shall bless thee.",
-"vv": "6–10"
+"text": "Except the LORD build the house, they labour in vain that build it: except the LORD keep the city, the watchman waketh but in vain. It is vain for you to rise up early, to sit up late, to eat the bread of sorrows: for so he giveth his beloved sleep. Lo, children are an heritage of the LORD: and the fruit of the womb is his reward. As arrows are in the hand of a mighty man; so are children of the youth. Happy is the man that hath his quiver full of them: they shall not be ashamed, but they shall speak with the enemies in the gate."
 },
 {
 "id": "psalm-145-c1",
 "ref": "Psalm 145",
 "label": null,
-"part": 1,
-"of": 4,
+"part": 0,
+"of": 0,
 "pack": 12,
-"text": "I will extol thee, my God, O king; and I will bless thy name for ever and ever. Every day will I bless thee; and I will praise thy name for ever and ever. Great is the LORD, and greatly to be praised; and his greatness is unsearchable. One generation shall praise thy works to another, and shall declare thy mighty acts. I will speak of the glorious honour of thy majesty, and of thy wondrous works.",
-"vv": "1–5"
+"text": "I will extol thee, my God, O king; and I will bless thy name for ever and ever. Every day will I bless thee; and I will praise thy name for ever and ever. Great is the LORD, and greatly to be praised; and his greatness is unsearchable. One generation shall praise thy works to another, and shall declare thy mighty acts. I will speak of the glorious honour of thy majesty, and of thy wondrous works. And men shall speak of the might of thy terrible acts: and I will declare thy greatness. They shall abundantly utter the memory of thy great goodness, and shall sing of thy righteousness. The LORD is gracious, and full of compassion; slow to anger, and of great mercy. The LORD is good to all: and his tender mercies are over all his works. All thy works shall praise thee, O LORD; and thy saints shall bless thee. They shall speak of the glory of thy kingdom, and talk of thy power; To make known to the sons of men his mighty acts, and the glorious majesty of his kingdom. Thy kingdom is an everlasting kingdom, and thy dominion endureth throughout all generations. The LORD upholdeth all that fall, and raiseth up all those that be bowed down. The eyes of all wait upon thee; and thou givest them their meat in due season. Thou openest thine hand, and satisfiest the desire of every living thing. The LORD is righteous in all his ways, and holy in all his works. The LORD is nigh unto all them that call upon him, to all that call upon him in truth. He will fulfil the desire of them that fear him: he also will hear their cry, and will save them. The LORD preserveth all them that love him: but all the wicked will he destroy. My mouth shall speak the praise of the LORD: and let all flesh bless his holy name for ever and ever."
 },
 {
 "id": "proverbs-18-21",
@@ -8045,26 +7716,6 @@ window.CONTENT = {
 "of": 0,
 "pack": 12,
 "text": "Death and life are in the power of the tongue: and they that love it shall eat the fruit thereof."
-},
-{
-"id": "psalm-145-c4",
-"ref": "Psalm 145",
-"label": null,
-"part": 4,
-"of": 4,
-"pack": 12,
-"text": "The LORD is righteous in all his ways, and holy in all his works. The LORD is nigh unto all them that call upon him, to all that call upon him in truth. He will fulfil the desire of them that fear him: he also will hear their cry, and will save them. The LORD preserveth all them that love him: but all the wicked will he destroy. My mouth shall speak the praise of the LORD: and let all flesh bless his holy name for ever and ever.",
-"vv": "17–21"
-},
-{
-"id": "psalm-145-c3",
-"ref": "Psalm 145",
-"label": null,
-"part": 3,
-"of": 4,
-"pack": 12,
-"text": "They shall speak of the glory of thy kingdom, and talk of thy power; To make known to the sons of men his mighty acts, and the glorious majesty of his kingdom. Thy kingdom is an everlasting kingdom, and thy dominion endureth throughout all generations. The LORD upholdeth all that fall, and raiseth up all those that be bowed down. The eyes of all wait upon thee; and thou givest them their meat in due season. Thou openest thine hand, and satisfiest the desire of every living thing.",
-"vv": "11–16"
 },
 {
 "id": "lamentations-3-22-26",
@@ -8085,24 +7736,13 @@ window.CONTENT = {
 "text": "Is not my word like as a fire? saith the LORD; and like a hammer that breaketh the rock in pieces?"
 },
 {
-"id": "1-corinthians-15-51-58-c2",
-"ref": "1 Corinthians 15:51–58",
-"label": null,
-"part": 2,
-"of": 2,
-"pack": 12,
-"text": "Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",
-"vv": "58"
-},
-{
 "id": "1-corinthians-15-51-58-c1",
 "ref": "1 Corinthians 15:51–58",
 "label": null,
-"part": 1,
-"of": 2,
+"part": 0,
+"of": 0,
 "pack": 12,
-"text": "Behold, I shew you a mystery; We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed. For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory. O death, where is thy sting? O grave, where is thy victory? The sting of death is sin; and the strength of sin is the law. But thanks be to God, which giveth us the victory through our Lord Jesus Christ.",
-"vv": "51–57"
+"text": "Behold, I shew you a mystery; We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed. For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory. O death, where is thy sting? O grave, where is thy victory? The sting of death is sin; and the strength of sin is the law. But thanks be to God, which giveth us the victory through our Lord Jesus Christ. Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord."
 },
 {
 "id": "romans-6-12-13",
@@ -9610,8 +9250,7 @@ window.CONTENT = {
 },
 "wd6": {
 "cards": [
-"psalm-23-c1",
-"psalm-23-c2"
+"psalm-23-c1"
 ],
 "since": "2024"
 }
