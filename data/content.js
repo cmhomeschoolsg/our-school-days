@@ -8085,6 +8085,1416 @@ window.CONTENT = {
 "of": 0,
 "pack": 12,
 "text": "Do not love the world or the things in the world. If anyone loves the world, the love of the Father is not in him. For all that is in the world—the desires of the flesh and the desires of the eyes and pride of life—is not from the Father but is from the world. And the world is passing away along with its desires, but whoever does the will of God abides forever."
+},
+{
+"id": "ncc-proverbs-4-22",
+"ref": "Proverbs 4:22",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Theme 2026",
+"text": "For they are life unto those that find them, and health to all their flesh."
+},
+{
+"id": "ncc-ephesians-3-20",
+"ref": "Ephesians 3:20",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Theme 2026",
+"text": "Now unto him that is able to do exceeding abundantly above all that we ask or think, according to the power that worketh in us,"
+},
+{
+"id": "ncc-romans-4-19-21",
+"ref": "Romans 4:19–21",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "And being not weak in faith, he considered not his own body now dead, when he was about an hundred years old, neither yet the deadness of Sara’s womb: He staggered not at the promise of God through unbelief; but was strong in faith, giving glory to God; And being fully persuaded that, what he had promised, he was able also to perform."
+},
+{
+"id": "ncc-hebrews-10-23",
+"ref": "Hebrews 10:23",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "Let us hold fast the profession of our faith without wavering; (for he is faithful that promised;)"
+},
+{
+"id": "ncc-hebrews-11-11",
+"ref": "Hebrews 11:11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "Through faith also Sara herself received strength to conceive seed, and was delivered of a child when she was past age, because she judged him faithful who had promised."
+},
+{
+"id": "ncc-isaiah-55-11",
+"ref": "Isaiah 55:11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "So shall my word be that goeth forth out of my mouth: it shall not return unto me void, but it shall accomplish that which I please, and it shall prosper in the thing whereto I sent it."
+},
+{
+"id": "ncc-numbers-23-19",
+"ref": "Numbers 23:19",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "God is not a man, that he should lie; neither the son of man, that he should repent: hath he said, and shall he not do it? or hath he spoken, and shall he not make it good?"
+},
+{
+"id": "ncc-psalm-119-89",
+"ref": "Psalm 119:89",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "ל LAMED. For ever, O LORD, thy word is settled in heaven."
+},
+{
+"id": "ncc-1-kings-8-56",
+"ref": "1 Kings 8:56",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "Blessed be the LORD, that hath given rest unto his people Israel, according to all that he promised: there hath not failed one word of all his good promise, which he promised by the hand of Moses his servant."
+},
+{
+"id": "ncc-mark-11-23",
+"ref": "Mark 11:23",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "For verily I say unto you, That whosoever shall say unto this mountain, Be thou removed, and be thou cast into the sea; and shall not doubt in his heart, but shall believe that those things which he saith shall come to pass; he shall have whatsoever he saith."
+},
+{
+"id": "ncc-mark-11-24",
+"ref": "Mark 11:24",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "Therefore I say unto you, What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them."
+},
+{
+"id": "ncc-2-corinthians-5-7",
+"ref": "2 Corinthians 5:7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "(For we walk by faith, not by sight:)"
+},
+{
+"id": "ncc-galatians-5-6",
+"ref": "Galatians 5:6",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "For in Jesus Christ neither circumcision availeth any thing, nor uncircumcision; but faith which worketh by love."
+},
+{
+"id": "ncc-romans-4-17",
+"ref": "Romans 4:17",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "(As it is written, I have made thee a father of many nations,) before him whom he believed, even God, who quickeneth the dead, and calleth those things which be not as though they were."
+},
+{
+"id": "ncc-hebrews-13-8",
+"ref": "Hebrews 13:8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "Jesus Christ the same yesterday, and to day, and for ever."
+},
+{
+"id": "ncc-hebrews-11-32-34",
+"ref": "Hebrews 11:32–34",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Faith",
+"text": "And what shall I more say? for the time would fail me to tell of Gedeon, and of Barak, and of Samson, and of Jephthae; of David also, and Samuel, and of the prophets: Who through faith subdued kingdoms, wrought righteousness, obtained promises, stopped the mouths of lions, Quenched the violence of fire, escaped the edge of the sword, out of weakness were made strong, waxed valiant in fight, turned to flight the armies of the aliens."
+},
+{
+"id": "ncc-psalm-5-12",
+"ref": "Psalm 5:12",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "For thou, LORD, wilt bless the righteous; with favour wilt thou compass him as with a shield."
+},
+{
+"id": "ncc-psalm-30-5",
+"ref": "Psalm 30:5",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "For his anger endureth but a moment; in his favour is life: weeping may endure for a night, but joy cometh in the morning."
+},
+{
+"id": "ncc-numbers-6-25-26",
+"ref": "Numbers 6:25–26",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "The LORD make his face shine upon thee, and be gracious unto thee: The LORD lift up his countenance upon thee, and give thee peace."
+},
+{
+"id": "ncc-genesis-39-3-4",
+"ref": "Genesis 39:3–4",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "And his master saw that the LORD was with him, and that the LORD made all that he did to prosper in his hand. And Joseph found grace in his sight, and he served him: and he made him overseer over his house, and all that he had he put into his hand."
+},
+{
+"id": "ncc-job-10-12",
+"ref": "Job 10:12",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Thou hast granted me life and favour, and thy visitation hath preserved my spirit."
+},
+{
+"id": "ncc-psalm-8-4-6",
+"ref": "Psalm 8:4–6",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "What is man, that thou art mindful of him? and the son of man, that thou visitest him? For thou hast made him a little lower than the angels, and hast crowned him with glory and honour. Thou madest him to have dominion over the works of thy hands; thou hast put all things under his feet:"
+},
+{
+"id": "ncc-psalm-103-4-5",
+"ref": "Psalm 103:4–5",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Who redeemeth thy life from destruction; who crowneth thee with lovingkindness and tender mercies; Who satisfieth thy mouth with good things; so that thy youth is renewed like the eagle’s."
+},
+{
+"id": "ncc-jeremiah-29-11",
+"ref": "Jeremiah 29:11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end."
+},
+{
+"id": "ncc-john-17-22-23",
+"ref": "John 17:22–23",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "And the glory which thou gavest me I have given them; that they may be one, even as we are one: I in them, and thou in me, that they may be made perfect in one; and that the world may know that thou hast sent me, and hast loved them, as thou hast loved me."
+},
+{
+"id": "ncc-acts-2-46-47",
+"ref": "Acts 2:46–47",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "And they, continuing daily with one accord in the temple, and breaking bread from house to house, did eat their meat with gladness and singleness of heart, Praising God, and having favour with all the people. And the Lord added to the church daily such as should be saved."
+},
+{
+"id": "ncc-jeremiah-33-3",
+"ref": "Jeremiah 33:3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not."
+},
+{
+"id": "ncc-romans-5-15",
+"ref": "Romans 5:15",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "But not as the offence, so also is the free gift. For if through the offence of one many be dead, much more the grace of God, and the gift by grace, which is by one man, Jesus Christ, hath abounded unto many."
+},
+{
+"id": "ncc-romans-6-14",
+"ref": "Romans 6:14",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "For sin shall not have dominion over you: for ye are not under the law, but under grace."
+},
+{
+"id": "ncc-romans-5-17",
+"ref": "Romans 5:17",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "For if by one man’s offence death reigned by one; much more they which receive abundance of grace and of the gift of righteousness shall reign in life by one, Jesus Christ.)"
+},
+{
+"id": "ncc-2-corinthians-8-9",
+"ref": "2 Corinthians 8:9",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "For ye know the grace of our Lord Jesus Christ, that, though he was rich, yet for your sakes he became poor, that ye through his poverty might be rich."
+},
+{
+"id": "ncc-2-corinthians-9-8",
+"ref": "2 Corinthians 9:8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "And God is able to make all grace abound toward you; that ye, always having all sufficiency in all things, may abound to every good work:"
+},
+{
+"id": "ncc-ephesians-1-3",
+"ref": "Ephesians 1:3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Blessed be the God and Father of our Lord Jesus Christ, who hath blessed us with all spiritual blessings in heavenly places in Christ:"
+},
+{
+"id": "ncc-ephesians-1-7-8",
+"ref": "Ephesians 1:7–8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "In whom we have redemption through his blood, the forgiveness of sins, according to the riches of his grace; Wherein he hath abounded toward us in all wisdom and prudence;"
+},
+{
+"id": "ncc-2-thessalonians-2-16-17",
+"ref": "2 Thessalonians 2:16–17",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Now our Lord Jesus Christ himself, and God, even our Father, which hath loved us, and hath given us everlasting consolation and good hope through grace, Comfort your hearts, and stablish you in every good word and work."
+},
+{
+"id": "ncc-1-timothy-1-14",
+"ref": "1 Timothy 1:14",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "And the grace of our Lord was exceeding abundant with faith and love which is in Christ Jesus."
+},
+{
+"id": "ncc-hebrews-4-16",
+"ref": "Hebrews 4:16",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need."
+},
+{
+"id": "ncc-titus-3-4-7",
+"ref": "Titus 3:4–7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "But after that the kindness and love of God our Saviour toward man appeared, Not by works of righteousness which we have done, but according to his mercy he saved us, by the washing of regeneration, and renewing of the Holy Ghost; Which he shed on us abundantly through Jesus Christ our Saviour; That being justified by his grace, we should be made heirs according to the hope of eternal life."
+},
+{
+"id": "ncc-2-peter-1-2-3",
+"ref": "2 Peter 1:2–3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Favour",
+"text": "Grace and peace be multiplied unto you through the knowledge of God, and of Jesus our Lord, According as his divine power hath given unto us all things that pertain unto life and godliness, through the knowledge of him that hath called us to glory and virtue:"
+},
+{
+"id": "ncc-isaiah-53-4-5",
+"ref": "Isaiah 53:4–5",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "Surely he hath borne our griefs, and carried our sorrows: yet we did esteem him stricken, smitten of God, and afflicted. But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed."
+},
+{
+"id": "ncc-1-peter-2-24",
+"ref": "1 Peter 2:24",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "Who his own self bare our sins in his own body on the tree, that we, being dead to sins, should live unto righteousness: by whose stripes ye were healed."
+},
+{
+"id": "ncc-romans-8-11",
+"ref": "Romans 8:11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "But if the Spirit of him that raised up Jesus from the dead dwell in you, he that raised up Christ from the dead shall also quicken your mortal bodies by his Spirit that dwelleth in you."
+},
+{
+"id": "ncc-romans-8-32",
+"ref": "Romans 8:32",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "He that spared not his own Son, but delivered him up for us all, how shall he not with him also freely give us all things?"
+},
+{
+"id": "ncc-matthew-8-2-3",
+"ref": "Matthew 8:2–3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "And, behold, there came a leper and worshipped him, saying, Lord, if thou wilt, thou canst make me clean. And Jesus put forth his hand, and touched him, saying, I will; be thou clean. And immediately his leprosy was cleansed."
+},
+{
+"id": "ncc-psalm-107-19-20",
+"ref": "Psalm 107:19–20",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "Then they cry unto the LORD in their trouble, and he saveth them out of their distresses. He sent his word, and healed them, and delivered them from their destructions."
+},
+{
+"id": "ncc-psalm-105-37",
+"ref": "Psalm 105:37",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "He brought them forth also with silver and gold: and there was not one feeble person among their tribes."
+},
+{
+"id": "ncc-3-john-1-2",
+"ref": "3 John 1:2",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth."
+},
+{
+"id": "ncc-exodus-15-26",
+"ref": "Exodus 15:26",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "And said, If thou wilt diligently hearken to the voice of the LORD thy God, and wilt do that which is right in his sight, and wilt give ear to his commandments, and keep all his statutes, I will put none of these diseases upon thee, which I have brought upon the Egyptians: for I am the LORD that healeth thee."
+},
+{
+"id": "ncc-jeremiah-30-17",
+"ref": "Jeremiah 30:17",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "For I will restore health unto thee, and I will heal thee of thy wounds, saith the LORD; because they called thee an Outcast, saying, This is Zion, whom no man seeketh after."
+},
+{
+"id": "ncc-psalm-103-2-3",
+"ref": "Psalm 103:2–3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "Bless the LORD, O my soul, and forget not all his benefits: Who forgiveth all thine iniquities; who healeth all thy diseases;"
+},
+{
+"id": "ncc-proverbs-4-20-22",
+"ref": "Proverbs 4:20–22",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Health and healing",
+"text": "My son, attend to my words; incline thine ear unto my sayings. Let them not depart from thine eyes; keep them in the midst of thine heart. For they are life unto those that find them, and health to all their flesh."
+},
+{
+"id": "ncc-luke-12-32",
+"ref": "Luke 12:32",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Fear not, little flock; for it is your Father’s good pleasure to give you the kingdom."
+},
+{
+"id": "ncc-1-peter-5-7",
+"ref": "1 Peter 5:7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Casting all your care upon him; for he careth for you."
+},
+{
+"id": "ncc-matthew-7-9-11",
+"ref": "Matthew 7:9–11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Or what man is there of you, whom if his son ask bread, will he give him a stone? Or if he ask a fish, will he give him a serpent? If ye then, being evil, know how to give good gifts unto your children, how much more shall your Father which is in heaven give good things to them that ask him?"
+},
+{
+"id": "ncc-deuteronomy-8-18",
+"ref": "Deuteronomy 8:18",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "But thou shalt remember the LORD thy God: for it is he that giveth thee power to get wealth, that he may establish his covenant which he sware unto thy fathers, as it is this day."
+},
+{
+"id": "ncc-deuteronomy-28-8",
+"ref": "Deuteronomy 28:8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "The LORD shall command the blessing upon thee in thy storehouses, and in all that thou settest thine hand unto; and he shall bless thee in the land which the LORD thy God giveth thee."
+},
+{
+"id": "ncc-genesis-22-13",
+"ref": "Genesis 22:13",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And Abraham lifted up his eyes, and looked, and behold behind him a ram caught in a thicket by his horns: and Abraham went and took the ram, and offered him up for a burnt offering in the stead of his son."
+},
+{
+"id": "ncc-psalm-35-27",
+"ref": "Psalm 35:27",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Let them shout for joy, and be glad, that favour my righteous cause: yea, let them say continually, Let the LORD be magnified, which hath pleasure in the prosperity of his servant."
+},
+{
+"id": "ncc-psalm-37-4",
+"ref": "Psalm 37:4",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Delight thyself also in the LORD; and he shall give thee the desires of thine heart."
+},
+{
+"id": "ncc-psalm-68-19",
+"ref": "Psalm 68:19",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Blessed be the Lord, who daily loadeth us with benefits, even the God of our salvation. Selah."
+},
+{
+"id": "ncc-john-6-35",
+"ref": "John 6:35",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And Jesus said unto them, I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst."
+},
+{
+"id": "ncc-1-corinthians-1-30",
+"ref": "1 Corinthians 1:30",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "But of him are ye in Christ Jesus, who of God is made unto us wisdom, and righteousness, and sanctification, and redemption:"
+},
+{
+"id": "ncc-colossians-1-27",
+"ref": "Colossians 1:27",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "To whom God would make known what is the riches of the glory of this mystery among the Gentiles; which is Christ in you, the hope of glory:"
+},
+{
+"id": "ncc-colossians-2-2-3",
+"ref": "Colossians 2:2–3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "That their hearts might be comforted, being knit together in love, and unto all riches of the full assurance of understanding, to the acknowledgement of the mystery of God, and of the Father, and of Christ; In whom are hid all the treasures of wisdom and knowledge."
+},
+{
+"id": "ncc-2-corinthians-1-20",
+"ref": "2 Corinthians 1:20",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "For all the promises of God in him are yea, and in him Amen, unto the glory of God by us."
+},
+{
+"id": "ncc-colossians-2-10",
+"ref": "Colossians 2:10",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And ye are complete in him, which is the head of all principality and power:"
+},
+{
+"id": "ncc-romans-8-16-17",
+"ref": "Romans 8:16–17",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "The Spirit itself beareth witness with our spirit, that we are the children of God: And if children, then heirs; heirs of God, and joint-heirs with Christ; if so be that we suffer with him, that we may be also glorified together."
+},
+{
+"id": "ncc-1-timothy-6-17",
+"ref": "1 Timothy 6:17",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Charge them that are rich in this world, that they be not highminded, nor trust in uncertain riches, but in the living God, who giveth us richly all things to enjoy;"
+},
+{
+"id": "ncc-jeremiah-17-7-8",
+"ref": "Jeremiah 17:7–8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Blessed is the man that trusteth in the LORD, and whose hope the LORD is. For he shall be as a tree planted by the waters, and that spreadeth out her roots by the river, and shall not see when heat cometh, but her leaf shall be green; and shall not be careful in the year of drought, neither shall cease from yielding fruit."
+},
+{
+"id": "ncc-matthew-11-28-30",
+"ref": "Matthew 11:28–30",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "Come unto me, all ye that labour and are heavy laden, and I will give you rest. Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls. For my yoke is easy, and my burden is light."
+},
+{
+"id": "ncc-john-1-16",
+"ref": "John 1:16",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And of his fulness have all we received, and grace for grace."
+},
+{
+"id": "ncc-john-6-11-13",
+"ref": "John 6:11–13",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And Jesus took the loaves; and when he had given thanks, he distributed to the disciples, and the disciples to them that were set down; and likewise of the fishes as much as they would. When they were filled, he said unto his disciples, Gather up the fragments that remain, that nothing be lost. Therefore they gathered them together, and filled twelve baskets with the fragments of the five barley loaves, which remained over and above unto them that had eaten."
+},
+{
+"id": "ncc-psalm-50-10",
+"ref": "Psalm 50:10",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "For every beast of the forest is mine, and the cattle upon a thousand hills."
+},
+{
+"id": "ncc-deuteronomy-28-12-13",
+"ref": "Deuteronomy 28:12–13",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "The LORD shall open unto thee his good treasure, the heaven to give the rain unto thy land in his season, and to bless all the work of thine hand: and thou shalt lend unto many nations, and thou shalt not borrow. And the LORD shall make thee the head, and not the tail; and thou shalt be above only, and thou shalt not be beneath; if that thou hearken unto the commandments of the LORD thy God, which I command thee this day, to observe and to do them:"
+},
+{
+"id": "ncc-2-kings-4-2-7",
+"ref": "2 Kings 4:2–7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And Elisha said unto her, What shall I do for thee? tell me, what hast thou in the house? And she said, Thine handmaid hath not any thing in the house, save a pot of oil. Then he said, Go, borrow thee vessels abroad of all thy neighbours, even empty vessels; borrow not a few. And when thou art come in, thou shalt shut the door upon thee and upon thy sons, and shalt pour out into all those vessels, and thou shalt set aside that which is full. So she went from him, and shut the door upon her and upon her sons, who brought the vessels to her; and she poured out. And it came to pass, when the vessels were full, that she said unto her son, Bring me yet a vessel. And he said unto her, There is not a vessel more. And the oil stayed. Then she came and told the man of God. And he said, Go, sell the oil, and pay thy debt, and live thou and thy children of the rest."
+},
+{
+"id": "ncc-2-kings-13-17-19",
+"ref": "2 Kings 13:17–19",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Provision",
+"text": "And he said, Open the window eastward. And he opened it. Then Elisha said, Shoot. And he shot. And he said, The arrow of the LORD’s deliverance, and the arrow of deliverance from Syria: for thou shalt smite the Syrians in Aphek, till thou have consumed them. And he said, Take the arrows. And he took them. And he said unto the king of Israel, Smite upon the ground. And he smote thrice, and stayed. And the man of God was wroth with him, and said, Thou shouldest have smitten five or six times; then hadst thou smitten Syria till thou hadst consumed it: whereas now thou shalt smite Syria but thrice."
+},
+{
+"id": "ncc-luke-10-19",
+"ref": "Luke 10:19",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "Behold, I give unto you power to tread on serpents and scorpions, and over all the power of the enemy: and nothing shall by any means hurt you."
+},
+{
+"id": "ncc-john-14-27",
+"ref": "John 14:27",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid."
+},
+{
+"id": "ncc-john-16-33",
+"ref": "John 16:33",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world."
+},
+{
+"id": "ncc-proverbs-18-10",
+"ref": "Proverbs 18:10",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "The name of the LORD is a strong tower: the righteous runneth into it, and is safe."
+},
+{
+"id": "ncc-psalm-32-7",
+"ref": "Psalm 32:7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "Thou art my hiding place; thou shalt preserve me from trouble; thou shalt compass me about with songs of deliverance. Selah."
+},
+{
+"id": "ncc-psalm-36-7",
+"ref": "Psalm 36:7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "How excellent is thy lovingkindness, O God! therefore the children of men put their trust under the shadow of thy wings."
+},
+{
+"id": "ncc-proverbs-29-25",
+"ref": "Proverbs 29:25",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "The fear of man bringeth a snare: but whoso putteth his trust in the LORD shall be safe."
+},
+{
+"id": "ncc-hebrews-13-5-6",
+"ref": "Hebrews 13:5–6",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee. So that we may boldly say, The Lord is my helper, and I will not fear what man shall do unto me."
+},
+{
+"id": "ncc-psalm-4-8",
+"ref": "Psalm 4:8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "I will both lay me down in peace, and sleep: for thou, LORD, only makest me dwell in safety."
+},
+{
+"id": "ncc-psalm-18-30",
+"ref": "Psalm 18:30",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "As for God, his way is perfect: the word of the LORD is tried: he is a buckler to all those that trust in him."
+},
+{
+"id": "ncc-psalm-31-20",
+"ref": "Psalm 31:20",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "Thou shalt hide them in the secret of thy presence from the pride of man: thou shalt keep them secretly in a pavilion from the strife of tongues."
+},
+{
+"id": "ncc-psalm-5-11",
+"ref": "Psalm 5:11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "But let all those that put their trust in thee rejoice: let them ever shout for joy, because thou defendest them: let them also that love thy name be joyful in thee."
+},
+{
+"id": "ncc-psalm-41-2",
+"ref": "Psalm 41:2",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "The LORD will preserve him, and keep him alive; and he shall be blessed upon the earth: and thou wilt not deliver him unto the will of his enemies."
+},
+{
+"id": "ncc-psalm-57-1",
+"ref": "Psalm 57:1",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "To the chief Musician, Al-taschith, Michtam of David, when he fled from Saul in the cave. Be merciful unto me, O God, be merciful unto me: for my soul trusteth in thee: yea, in the shadow of thy wings will I make my refuge, until these calamities be overpast."
+},
+{
+"id": "ncc-ezekiel-34-27",
+"ref": "Ezekiel 34:27",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "And the tree of the field shall yield her fruit, and the earth shall yield her increase, and they shall be safe in their land, and shall know that I am the LORD, when I have broken the bands of their yoke, and delivered them out of the hand of those that served themselves of them."
+},
+{
+"id": "ncc-colossians-1-13-14",
+"ref": "Colossians 1:13–14",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Protection",
+"text": "Who hath delivered us from the power of darkness, and hath translated us into the kingdom of his dear Son: In whom we have redemption through his blood, even the forgiveness of sins:"
+},
+{
+"id": "ncc-philippians-3-8-10",
+"ref": "Philippians 3:8–10",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Yea doubtless, and I count all things but loss for the excellency of the knowledge of Christ Jesus my Lord: for whom I have suffered the loss of all things, and do count them but dung, that I may win Christ, And be found in him, not having mine own righteousness, which is of the law, but that which is through the faith of Christ, the righteousness which is of God by faith: That I may know him, and the power of his resurrection, and the fellowship of his sufferings, being made conformable unto his death;"
+},
+{
+"id": "ncc-romans-4-5-6",
+"ref": "Romans 4:5–6",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "But to him that worketh not, but believeth on him that justifieth the ungodly, his faith is counted for righteousness. Even as David also describeth the blessedness of the man, unto whom God imputeth righteousness without works,"
+},
+{
+"id": "ncc-romans-4-13",
+"ref": "Romans 4:13",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "For the promise, that he should be the heir of the world, was not to Abraham, or to his seed, through the law, but through the righteousness of faith."
+},
+{
+"id": "ncc-romans-5-21",
+"ref": "Romans 5:21",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "That as sin hath reigned unto death, even so might grace reign through righteousness unto eternal life by Jesus Christ our Lord."
+},
+{
+"id": "ncc-isaiah-41-10",
+"ref": "Isaiah 41:10",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness."
+},
+{
+"id": "ncc-romans-4-3",
+"ref": "Romans 4:3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "For what saith the scripture? Abraham believed God, and it was counted unto him for righteousness."
+},
+{
+"id": "ncc-psalm-34-19",
+"ref": "Psalm 34:19",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Many are the afflictions of the righteous: but the LORD delivereth him out of them all."
+},
+{
+"id": "ncc-proverbs-10-2-3",
+"ref": "Proverbs 10:2–3",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Treasures of wickedness profit nothing: but righteousness delivereth from death. The LORD will not suffer the soul of the righteous to famish: but he casteth away the substance of the wicked."
+},
+{
+"id": "ncc-proverbs-10-6-7",
+"ref": "Proverbs 10:6–7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Blessings are upon the head of the just: but violence covereth the mouth of the wicked. The memory of the just is blessed: but the name of the wicked shall rot."
+},
+{
+"id": "ncc-proverbs-10-16",
+"ref": "Proverbs 10:16",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "The labour of the righteous tendeth to life: the fruit of the wicked to sin."
+},
+{
+"id": "ncc-proverbs-10-24",
+"ref": "Proverbs 10:24",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "The fear of the wicked, it shall come upon him: but the desire of the righteous shall be granted."
+},
+{
+"id": "ncc-proverbs-10-28",
+"ref": "Proverbs 10:28",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "The hope of the righteous shall be gladness: but the expectation of the wicked shall perish."
+},
+{
+"id": "ncc-proverbs-10-30",
+"ref": "Proverbs 10:30",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "The righteous shall never be removed: but the wicked shall not inhabit the earth."
+},
+{
+"id": "ncc-proverbs-12-28",
+"ref": "Proverbs 12:28",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "In the way of righteousness is life; and in the pathway thereof there is no death."
+},
+{
+"id": "ncc-proverbs-13-21-22",
+"ref": "Proverbs 13:21–22",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Evil pursueth sinners: but to the righteous good shall be repayed. A good man leaveth an inheritance to his children’s children: and the wealth of the sinner is laid up for the just."
+},
+{
+"id": "ncc-proverbs-13-25",
+"ref": "Proverbs 13:25",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "The righteous eateth to the satisfying of his soul: but the belly of the wicked shall want."
+},
+{
+"id": "ncc-proverbs-11-8",
+"ref": "Proverbs 11:8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "The righteous is delivered out of trouble, and the wicked cometh in his stead."
+},
+{
+"id": "ncc-proverbs-11-21",
+"ref": "Proverbs 11:21",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Righteousness",
+"text": "Though hand join in hand, the wicked shall not be unpunished: but the seed of the righteous shall be delivered."
+},
+{
+"id": "ncc-psalm-86-5",
+"ref": "Psalm 86:5",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "For thou, Lord, art good, and ready to forgive; and plenteous in mercy unto all them that call upon thee."
+},
+{
+"id": "ncc-psalm-103-12",
+"ref": "Psalm 103:12",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "As far as the east is from the west, so far hath he removed our transgressions from us."
+},
+{
+"id": "ncc-psalm-130-3-4",
+"ref": "Psalm 130:3–4",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "If thou, LORD, shouldest mark iniquities, O Lord, who shall stand? But there is forgiveness with thee, that thou mayest be feared."
+},
+{
+"id": "ncc-isaiah-1-18",
+"ref": "Isaiah 1:18",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Come now, and let us reason together, saith the LORD: though your sins be as scarlet, they shall be as white as snow; though they be red like crimson, they shall be as wool."
+},
+{
+"id": "ncc-isaiah-43-25",
+"ref": "Isaiah 43:25",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "I, even I, am he that blotteth out thy transgressions for mine own sake, and will not remember thy sins."
+},
+{
+"id": "ncc-isaiah-53-5",
+"ref": "Isaiah 53:5",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed."
+},
+{
+"id": "ncc-isaiah-55-7",
+"ref": "Isaiah 55:7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Let the wicked forsake his way, and the unrighteous man his thoughts: and let him return unto the LORD, and he will have mercy upon him; and to our God, for he will abundantly pardon."
+},
+{
+"id": "ncc-micah-7-18-19",
+"ref": "Micah 7:18–19",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Who is a God like unto thee, that pardoneth iniquity, and passeth by the transgression of the remnant of his heritage? he retaineth not his anger for ever, because he delighteth in mercy. He will turn again, he will have compassion upon us; he will subdue our iniquities; and thou wilt cast all their sins into the depths of the sea."
+},
+{
+"id": "ncc-matthew-9-2-7",
+"ref": "Matthew 9:2–7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "And, behold, they brought to him a man sick of the palsy, lying on a bed: and Jesus seeing their faith said unto the sick of the palsy; Son, be of good cheer; thy sins be forgiven thee. And, behold, certain of the scribes said within themselves, This man blasphemeth. And Jesus knowing their thoughts said, Wherefore think ye evil in your hearts? For whether is easier, to say, Thy sins be forgiven thee; or to say, Arise, and walk? But that ye may know that the Son of man hath power on earth to forgive sins, (then saith he to the sick of the palsy,) Arise, take up thy bed, and go unto thine house. And he arose, and departed to his house."
+},
+{
+"id": "ncc-matthew-26-27-28",
+"ref": "Matthew 26:27–28",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "And he took the cup, and gave thanks, and gave it to them, saying, Drink ye all of it; For this is my blood of the new testament, which is shed for many for the remission of sins."
+},
+{
+"id": "ncc-luke-23-34",
+"ref": "Luke 23:34",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Then said Jesus, Father, forgive them; for they know not what they do. And they parted his raiment, and cast lots."
+},
+{
+"id": "ncc-john-8-11",
+"ref": "John 8:11",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "She said, No man, Lord. And Jesus said unto her, Neither do I condemn thee: go, and sin no more."
+},
+{
+"id": "ncc-acts-10-43",
+"ref": "Acts 10:43",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "To him give all the prophets witness, that through his name whosoever believeth in him shall receive remission of sins."
+},
+{
+"id": "ncc-acts-13-38-39",
+"ref": "Acts 13:38–39",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Be it known unto you therefore, men and brethren, that through this man is preached unto you the forgiveness of sins: And by him all that believe are justified from all things, from which ye could not be justified by the law of Moses."
+},
+{
+"id": "ncc-romans-5-8-9",
+"ref": "Romans 5:8–9",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us. Much more then, being now justified by his blood, we shall be saved from wrath through him."
+},
+{
+"id": "ncc-romans-3-23-24",
+"ref": "Romans 3:23–24",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "For all have sinned, and come short of the glory of God; Being justified freely by his grace through the redemption that is in Christ Jesus:"
+},
+{
+"id": "ncc-romans-4-6-8",
+"ref": "Romans 4:6–8",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Even as David also describeth the blessedness of the man, unto whom God imputeth righteousness without works, Saying, Blessed are they whose iniquities are forgiven, and whose sins are covered. Blessed is the man to whom the Lord will not impute sin."
+},
+{
+"id": "ncc-romans-4-25",
+"ref": "Romans 4:25",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Who was delivered for our offences, and was raised again for our justification."
+},
+{
+"id": "ncc-romans-5-1",
+"ref": "Romans 5:1",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:"
+},
+{
+"id": "ncc-romans-8-1",
+"ref": "Romans 8:1",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "There is therefore now no condemnation to them which are in Christ Jesus, who walk not after the flesh, but after the Spirit."
+},
+{
+"id": "ncc-1-corinthians-15-3-4",
+"ref": "1 Corinthians 15:3–4",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "For I delivered unto you first of all that which I also received, how that Christ died for our sins according to the scriptures; And that he was buried, and that he rose again the third day according to the scriptures:"
+},
+{
+"id": "ncc-ephesians-1-7",
+"ref": "Ephesians 1:7",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "In whom we have redemption through his blood, the forgiveness of sins, according to the riches of his grace;"
+},
+{
+"id": "ncc-colossians-1-12-14",
+"ref": "Colossians 1:12–14",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Giving thanks unto the Father, which hath made us meet to be partakers of the inheritance of the saints in light: Who hath delivered us from the power of darkness, and hath translated us into the kingdom of his dear Son: In whom we have redemption through his blood, even the forgiveness of sins:"
+},
+{
+"id": "ncc-colossians-2-13",
+"ref": "Colossians 2:13",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "And you, being dead in your sins and the uncircumcision of your flesh, hath he quickened together with him, having forgiven you all trespasses;"
+},
+{
+"id": "ncc-hebrews-8-12",
+"ref": "Hebrews 8:12",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "For I will be merciful to their unrighteousness, and their sins and their iniquities will I remember no more."
+},
+{
+"id": "ncc-hebrews-10-10-12-14",
+"ref": "Hebrews 10:10, 12, 14",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "By the which will we are sanctified through the offering of the body of Jesus Christ once for all. But this man, after he had offered one sacrifice for sins for ever, sat down on the right hand of God; For by one offering he hath perfected for ever them that are sanctified."
+},
+{
+"id": "ncc-hebrews-10-15-18",
+"ref": "Hebrews 10:15–18",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Whereof the Holy Ghost also is a witness to us: for after that he had said before, This is the covenant that I will make with them after those days, saith the Lord, I will put my laws into their hearts, and in their minds will I write them; And their sins and iniquities will I remember no more. Now where remission of these is, there is no more offering for sin."
+},
+{
+"id": "ncc-hebrews-10-19-20-22-23",
+"ref": "Hebrews 10:19–20, 22–23",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Having therefore, brethren, boldness to enter into the holiest by the blood of Jesus, By a new and living way, which he hath consecrated for us, through the veil, that is to say, his flesh; Let us draw near with a true heart in full assurance of faith, having our hearts sprinkled from an evil conscience, and our bodies washed with pure water. Let us hold fast the profession of our faith without wavering; (for he is faithful that promised;)"
+},
+{
+"id": "ncc-james-5-14-15",
+"ref": "James 5:14–15",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "Is any sick among you? let him call for the elders of the church; and let them pray over him, anointing him with oil in the name of the Lord: And the prayer of faith shall save the sick, and the Lord shall raise him up; and if he have committed sins, they shall be forgiven him."
+},
+{
+"id": "ncc-2-peter-1-5-9",
+"ref": "2 Peter 1:5–9",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "And beside this, giving all diligence, add to your faith virtue; and to virtue knowledge; And to knowledge temperance; and to temperance patience; and to patience godliness; And to godliness brotherly kindness; and to brotherly kindness charity. For if these things be in you, and abound, they make you that ye shall neither be barren nor unfruitful in the knowledge of our Lord Jesus Christ. But he that lacketh these things is blind, and cannot see afar off, and hath forgotten that he was purged from his old sins."
+},
+{
+"id": "ncc-1-john-2-2",
+"ref": "1 John 2:2",
+"label": "KJV",
+"part": 0,
+"of": 0,
+"pack": "NCC",
+"cat": "Forgiveness",
+"text": "And he is the propitiation for our sins: and not for ours only, but also for the sins of the whole world."
 }
 ],
 "start": {
@@ -8258,7 +9668,7 @@ window.CONTENT = {
 "Then it moves on: the Daily card goes behind Odd or Even, the card that was there goes to a day of the week, and that one goes behind a number. A new verse goes behind Daily.",
 "So a verse is said every day, then every other day, then once a week, then once a month. When every number has a card, start again at 1 and add another."
 ],
-"src": "Simply Charlotte Mason, “Scripture Memory System” (simplycharlottemason.com/timesavers/memorysys). Verses from SCM’s Scripture Memory Verse Packs 1–12 (ESV). Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved."
+"src": "Simply Charlotte Mason, “Scripture Memory System” (simplycharlottemason.com/timesavers/memorysys). Verses from SCM’s Scripture Memory Verse Packs 1–12 (ESV). Scripture quotations are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved. New Creation Church verses: the lists in Joseph Prince’s “God’s Promises” (josephprince.org/blog/gods-promises) and the 2026 Theme of the Year (newcreation.org.sg/theme-of-the-year-2026), shown in the King James Version (public domain); verses already in the SCM packs are not repeated."
 },
 "loops": {
 "L_rhythm": {
