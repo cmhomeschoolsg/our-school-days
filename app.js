@@ -1109,7 +1109,7 @@
     return { title: esc(B.label), who: 'emily', body: englishBookBody(key) };
   }
 
-  // ---------- Scripture memory (Simply Charlotte Mason system, real calendar, ESV cards) ----------
+  // ---------- Scripture memory (Simply Charlotte Mason system, real calendar, KJV cards) ----------
   var WD = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var SCMB = null;
@@ -1171,7 +1171,7 @@
     var body = '<div class="seg" role="group">' + [['today', 'Today'], ['box', 'The box'], ['bank', 'Verse bank']].map(function (o) { return '<button data-act="scmview" data-v="' + o[0] + '" aria-pressed="' + (view === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
     if (view === 'today') {
       var d = new Date();
-      body += '<p class="small muted" style="margin:0">' + WD[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' · ESV</p>';
+      body += '<p class="small muted" style="margin:0">' + WD[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' · KJV</p>';
       scmToday().forEach(function (g) {
         body += '<div><div class="kicker" style="margin-bottom:4px">' + esc(g.title) + (g.note ? ' <span class="muted" style="text-transform:none;letter-spacing:0">· ' + esc(g.note) + '</span>' : '') + '</div>';
         var ids = []; g.entries.forEach(function (e) { ids = ids.concat(e.cards); });
