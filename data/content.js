@@ -8374,14 +8374,14 @@ window.CONTENT = {
 "label": "Brush Drawing",
 "icon": "🖌️",
 "mins": 20,
-"open": "drawing"
+"open": "brush"
 },
 {
 "id": "lc_brush2",
 "label": "Brush Drawing",
 "icon": "🖌️",
 "mins": 20,
-"open": "drawing"
+"open": "brush"
 },
 {
 "id": "lc_needle",
