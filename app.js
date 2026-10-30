@@ -736,8 +736,9 @@
   var artUrls = {};
   function artImg(t, cls) {
     var id = 'art_' + t;
+    if (artUrls[id] === 'none') return '<span class="small muted" style="padding:6px;display:block">Photo is on another device</span>';
     if (artUrls[id]) return '<img src="' + artUrls[id] + '" alt="Photo of the drawing"' + (cls === 'thumb' ? '' : ' style="border-radius:8px"') + '>';
-    vget(id).then(function (b) { if (b) { artUrls[id] = URL.createObjectURL(b); refreshSheet(); } });
+    vget(id).then(function (b) { artUrls[id] = b ? URL.createObjectURL(b) : 'none'; refreshSheet(); });
     return '<span class="small muted" style="padding:6px;display:block">Loading…</span>';
   }
   function shrinkPhoto(file) {
@@ -756,6 +757,7 @@
   var ppicker = document.createElement('input'); ppicker.type = 'file'; ppicker.accept = 'image/*'; ppicker.hidden = true; document.body.appendChild(ppicker);
   ppicker.addEventListener('change', function () {
     var f = ppicker.files && ppicker.files[0]; ppicker.value = ''; if (!f) return;
+    if (ui.picFor) { var PF = ui.picFor; ui.picFor = null; shrinkPhoto(f).then(function (b) { var t = Date.now(); return vput('art_' + t, b).then(function () { artUrls['art_' + t] = URL.createObjectURL(b); var m = (S.craftPics = S.craftPics || {}); (m[PF.k] = m[PF.k] || []).push({ who: PF.who, t: t, n: cur() ? cur().n : 0 }); save(); toast('Photo saved'); refreshSheet(); }); }).catch(function () { toast('The photo could not be saved'); }); return; }
     var note = document.getElementById('draw-note'); var g = document.getElementById('draw-goal');
     if (ui.drawAdd) { ui.drawAdd.note = note ? note.value : ''; ui.drawAdd.g = g ? g.value : ui.drawAdd.g; }
     shrinkPhoto(f).then(function (b) { if (ui.drawPhoto) URL.revokeObjectURL(ui.drawPhoto.url); ui.drawPhoto = { blob: b, url: URL.createObjectURL(b) }; refreshSheet(); var n2 = document.getElementById('draw-note'); if (n2 && ui.drawAdd) n2.value = ui.drawAdd.note || ''; });
@@ -800,10 +802,27 @@
       (les.links ? '<div class="btns" style="margin:10px 0 0">' + les.links.map(function (l) { return '<a class="btn ghost small" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>'; }).join('') + '</div>' : '') +
       (les.tip ? '<p class="small" style="background:var(--sunk);padding:8px 10px;border-radius:8px;margin:10px 0 0">' + esc(les.tip) + '</p>' : '') +
       (les.src ? '<p class="small muted" style="margin:10px 0 0">' + esc(les.src) + '</p>' : '') + '</div>';
+    body += lessonPicsHTML(key + ':' + view, L.who);
     if (view === idx) body += '<div class="btns"><button class="btn" data-act="craftdone" data-k="' + key + '">' + (les.skip ? 'I’ve read it ✓' : 'I finished this one ✓') + '</button></div>';
     else body += '<div class="btns"><button class="btn ghost" data-act="crafthere" data-k="' + key + '" data-v="' + view + '">Make this my lesson</button><button class="btn ghost" data-act="craftgo" data-k="' + key + '" data-v="' + idx + '">Back to my lesson</button></div>';
     if (L.source && L.source !== les.src) body += '<p class="small muted">' + esc(L.source) + '</p>';
     return { title: L.title, who: who, body: body };
+  }
+  function lessonPicsHTML(pk, onlyWho) {
+    var pics = (S.craftPics && S.craftPics[pk]) || [];
+    var kids = onlyWho === 'emma' || onlyWho === 'emily' ? [onlyWho] : ['emma', 'emily'];
+    var open = ui.picView;
+    var h = '<div class="card"><h3 style="margin:0 0 6px">Finished work</h3>';
+    if (open && open.k === pk) {
+      var px = pics.filter(function (x) { return x.t === open.t; })[0];
+      if (px) return h + '<div class="pic">' + artImg(px.t, '') + '</div><p class="small muted" style="margin:6px 0">' + (px.who === 'emma' ? 'Emma' : 'Emily') + (px.n ? ' · day ' + px.n : '') + '</p><div class="btns"><button class="btn ghost small" data-act="picview" data-k="' + pk + '">Back</button><button class="btn ghost small" data-act="picdel" data-k="' + pk + '" data-v="' + px.t + '">' + (ui.picDel === px.t ? 'Tap again to remove' : 'Remove photo') + '</button></div></div>';
+    }
+    h += kids.map(function (w) {
+      var mine = pics.filter(function (x) { return x.who === w; });
+      return '<div style="margin:6px 0"><div class="nav"><b style="color:var(--' + w + ')">' + (w === 'emma' ? 'Emma' : 'Emily') + '</b><button class="btn ghost small" data-act="picadd" data-k="' + pk + '" data-who="' + w + '">📷 Add photo</button></div>' +
+        (mine.length ? '<div class="thumbs" style="margin-top:6px">' + mine.map(function (x) { return '<button data-act="picview" data-k="' + pk + '" data-v="' + x.t + '" aria-label="Open photo">' + artImg(x.t, 'thumb') + '</button>'; }).join('') + '</div>' : '<p class="small muted" style="margin:4px 0 0">No photo yet.</p>') + '</div>';
+    }).join('');
+    return h + '</div>';
   }
   function craftData(key) { return (C.crafts || {})[key]; }
   function lessonsSheet(key) {
@@ -1354,6 +1373,9 @@
         if (ui.drawDel !== t) { ui.drawDel = t; refreshSheet(); break; }
         S.drawing[who] = (S.drawing[who] || []).filter(function (x) { return x.t !== t; }); vdel('art_' + t); save(); ui.drawDel = null; ui.drawView = null; toast('Removed'); refreshSheet(); break;
       case 'craftgo': var ck = el.getAttribute('data-k'); var CL = craftData(ck); ui.craftView = { key: ck, i: Math.max(0, Math.min(CL.lessons.length - 1, +v)) }; refreshSheet(1); break;
+      case 'picadd': ui.picFor = { k: el.getAttribute('data-k'), who: el.getAttribute('data-who') }; ppicker.click(); break;
+      case 'picview': ui.picView = v ? { k: el.getAttribute('data-k'), t: +v } : null; ui.picDel = null; refreshSheet(); break;
+      case 'picdel': if (ui.picDel !== +v) { ui.picDel = +v; refreshSheet(); break; } (function () { var pk = el.getAttribute('data-k'); var m = S.craftPics || {}; m[pk] = (m[pk] || []).filter(function (x) { return x.t !== +v; }); ui.picView = null; ui.picDel = null; save(); toast('Photo removed'); refreshSheet(); })(); break;
       case 'crafthere': (S.craft = S.craft || {})[el.getAttribute('data-k')] = +v; ui.craftView = null; save(); refreshSheet(1); break;
       case 'craftdone': var ck2 = el.getAttribute('data-k'); var CL2 = craftData(ck2); var cp = (S.craft = S.craft || {}); var ci = cp[ck2] == null ? (CL2.start || 0) : cp[ck2]; cp[ck2] = Math.min(CL2.lessons.length - 1, ci + 1); ui.craftView = null; save(); toast(ci + 1 >= CL2.lessons.length ? 'That was the last lesson!' : 'Well done! Next lesson is ready'); refreshSheet(1); break;
       case 'brushtrack': (S.craftTrack = S.craftTrack || {}).brush = v; ui.craftView = null; save(); refreshSheet(1); break;
