@@ -1457,7 +1457,7 @@
     if (!s.cut) return h + '<div class="btns rd-go"><button class="btn" data-act="rd-cut">Take away “' + esc(onset) + '”</button></div>';
     var left = F.on.filter(function (o) { return s.made.indexOf(o) < 0; });
     h += '<div class="rd-tiles">' + rdShuffleStable(s, F.on).map(function (o) { var used = s.made.indexOf(o) >= 0; return '<button class="rd-tile wide"' + (used ? ' disabled' : '') + ' data-act="rd-onset" data-v="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>';
-    if (s.made.length) h += '<div class="rd-col">' + [F.from].concat(s.made.map(function (o) { return o + F.rime; })).map(function (w, i) { return '<span>' + (i ? '<i>' + esc(w.slice(0, w.length - F.rime.length)) + '</i>' + esc(F.rime) : esc(w)) + '</span>'; }).join('') + '</div>';
+    if (s.made.length) h += '<div class="rd-col">' + [F.from].concat(s.made.map(function (o) { return o + F.rime; })).map(function (w, i) { return '<span>' + (i ? '<i>' + esc(w.slice(0, w.length - F.rime.length)) + '</i>' + esc(F.rime) : esc(w)) + (i && rdLvl(w) < 9 ? '<sup class="rd-cw" title="A common word">★</sup>' : '') + '</span>'; }).join('') + '</div>' + (s.made.some(function (o) { return rdLvl(o + F.rime) < 9; }) ? '<p class="small muted" style="margin:0;text-align:center">★ one of the common (Dolch) words</p>' : '');
     if (!left.length) h += '<div class="btns rd-go"><button class="btn" data-act="rd-famdone">' + (ui.rd.steps[ui.rd.si + 1].t === 'fam' ? 'Next family ›' : 'Finish ›') + '</button></div>';
     return h;
   }

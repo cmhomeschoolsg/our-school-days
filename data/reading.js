@@ -47,7 +47,8 @@ window.READING = {
       "text": "Rain, rain, go away,\nCome again another day;\nLittle Johnny wants to play.",
       "fam": [
         { "from": "day", "rime": "ay", "on": ["h", "m", "s", "w", "st", "tr"] },
-        { "from": "rain", "rime": "ain", "on": ["m", "p", "g", "tr", "br"] }
+        { "from": "rain", "rime": "ain", "on": ["m", "p", "g", "tr", "br"] },
+        { "from": "go", "rime": "o", "on": ["n", "s"] }
       ],
       "src": "The Real Mother Goose, illustrated by Blanche Fisher Wright (1916), Project Gutenberg #10607."
     },
@@ -90,8 +91,8 @@ window.READING = {
       "by": "Mother Goose",
       "text": "Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall;\nAll the King's horses and all the King's men\nCannot put Humpty Dumpty together again.",
       "fam": [
-        { "from": "sat", "rime": "at", "on": ["c", "h", "m", "b", "r", "fl"] },
-        { "from": "men", "rime": "en", "on": ["h", "t", "p", "d", "wh"] }
+        { "from": "sat", "rime": "at", "on": ["c", "h", "m", "b", "r", "th"] },
+        { "from": "men", "rime": "en", "on": ["h", "t", "p", "th", "wh"] }
       ],
       "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
     },
@@ -134,8 +135,9 @@ window.READING = {
       "by": "Christina Rossetti",
       "text": "Who has seen the wind?\nNeither I nor you:\nBut when the leaves hang trembling\nThe wind is passing thro'.\n\nWho has seen the wind?\nNeither you nor I:\nBut when the trees bow down their heads\nThe wind is passing by.",
       "fam": [
-        { "from": "by", "rime": "y", "on": ["m", "fl", "cr", "dr", "sk"] },
-        { "from": "hang", "rime": "ang", "on": ["b", "r", "s", "f"] }
+        { "from": "by", "rime": "y", "on": ["m", "fl", "tr", "cr", "sk"] },
+        { "from": "bow", "rime": "ow", "on": ["n", "h", "c", "w"] },
+        { "from": "down", "rime": "own", "on": ["br", "t", "cl", "cr", "g"] }
       ],
       "src": "Sing-Song: A Nursery Rhyme Book (1893), Project Gutenberg #76703."
     },
@@ -146,7 +148,7 @@ window.READING = {
       "text": "Little Boy Blue, come, blow your horn!\nThe sheep's in the meadow, the cow's in the corn.\nWhere's the little boy that looks after the sheep?\nUnder the haystack, fast asleep!",
       "fam": [
         { "from": "horn", "rime": "orn", "on": ["c", "b", "t", "w", "th"] },
-        { "from": "fast", "rime": "ast", "on": ["l", "m", "p", "v"] }
+        { "from": "blow", "rime": "ow", "on": ["gr", "sh", "l", "sl", "sn"] }
       ],
       "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
     },
@@ -157,7 +159,7 @@ window.READING = {
       "text": "Boats sail on the rivers,\nAnd ships sail on the seas;\nBut clouds that sail across the sky\nAre prettier far than these.\n\nThere are bridges on the rivers,\nAs pretty as you please;\nBut the bow that bridges heaven,\nAnd overtops the trees,\nAnd builds a road from earth to sky,\nIs prettier far than these.",
       "fam": [
         { "from": "sail", "rime": "ail", "on": ["m", "n", "t", "r", "p", "sn"] },
-        { "from": "road", "rime": "oad", "on": ["l", "t"] }
+        { "from": "but", "rime": "ut", "on": ["c", "n", "h", "sh"] }
       ],
       "src": "Sing-Song: A Nursery Rhyme Book (1893), Project Gutenberg #76703."
     },
@@ -167,7 +169,7 @@ window.READING = {
       "by": "Robert Louis Stevenson",
       "text": "Of speckled eggs the birdie sings\nAnd nests among the trees;\nThe sailor sings of ropes and things\nIn ships upon the seas.\n\nThe children sing in far Japan,\nThe children sing in Spain;\nThe organ with the organ man\nIs singing in the rain.",
       "fam": [
-        { "from": "ships", "rime": "ips", "on": ["h", "l", "d", "t", "sl"] },
+        { "from": "sing", "rime": "ing", "on": ["br", "r", "th", "w", "st"] },
         { "from": "far", "rime": "ar", "on": ["c", "j", "st", "b"] }
       ],
       "src": "A Child's Garden of Verses (1885), Project Gutenberg #25617."
@@ -178,7 +180,7 @@ window.READING = {
       "by": "Christina Rossetti",
       "text": "The city mouse lives in a house;—\nThe garden mouse lives in a bower,\nHe's friendly with the frogs and toads,\nAnd sees the pretty plants in flower.\nThe city mouse eats bread and cheese;—\nThe garden mouse eats what he can;\nWe will not grudge him seeds and stalks,\nPoor little timid furry man.",
       "fam": [
-        { "from": "frogs", "rime": "ogs", "on": ["d", "l", "h", "j"] },
+        { "from": "not", "rime": "ot", "on": ["g", "h", "p", "d", "sp"] },
         { "from": "bread", "rime": "ead", "on": ["h", "spr", "thr"] }
       ],
       "src": "Sing-Song: A Nursery Rhyme Book (1893), Project Gutenberg #76703. The Gutenberg scan reads \"Jives\" in the first line, a scanning slip for \"lives\"."
