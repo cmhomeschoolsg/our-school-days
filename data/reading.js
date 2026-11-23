@@ -25,18 +25,6 @@ window.READING = {
   "proper": ["I", "I'm", "I've", "Johnny", "Jack", "Humpty", "Dumpty", "King's", "London", "Queen", "Japan", "Spain"],
   "poems": [
     {
-      "id": "pussy",
-      "title": "I like little pussy",
-      "by": "Nursery rhyme",
-      "text": "I like little pussy,\nHer coat is so warm",
-      "order": ["pussy", "coat", "little", "like", "is", "her", "warm", "I", "so"],
-      "fam": [
-        { "from": "coat", "rime": "oat", "on": ["b", "fl", "g", "m", "st"] },
-        { "from": "like", "rime": "ike", "on": ["b", "h", "sp"] }
-      ],
-      "src": "The two lines Charlotte Mason uses for Tommy's first lesson, with her order of words (Home Education, Part V, §VI)."
-    },
-    {
       "id": "rainaway",
       "title": "Rain",
       "by": "Mother Goose",
@@ -110,17 +98,6 @@ window.READING = {
       "fam": [
         { "from": "clock", "rime": "ock", "on": ["d", "l", "r", "s", "bl"] },
         { "from": "run", "rime": "un", "on": ["b", "f", "s", "sp"] }
-      ],
-      "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
-    },
-    {
-      "id": "pussycat",
-      "title": "Pussy-Cat and Queen",
-      "by": "Mother Goose",
-      "text": "Pussy-cat, pussy-cat,\nWhere have you been?\nI've been to London\nTo look at the Queen.\nPussy-cat, pussy-cat,\nWhat did you there?\nI frightened a little mouse\nUnder the chair.",
-      "fam": [
-        { "from": "chair", "rime": "air", "on": ["h", "f", "p", "st"] },
-        { "from": "look", "rime": "ook", "on": ["b", "c", "h", "t", "br"] }
       ],
       "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
     },

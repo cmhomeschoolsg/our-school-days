@@ -1541,6 +1541,9 @@
       var sight = mine.filter(function (k) { return r.known[k].s !== 'f'; }), snd = mine.filter(function (k) { return r.known[k].s === 'f'; });
       h += '<div class="card"><div class="kicker">' + esc(p.title) + '</div><div class="rd-chips">' + sight.concat(snd).map(function (k) { return '<button class="rd-chip' + (r.known[k].s === 'f' ? ' snd' : '') + '"' + (ui.rdManage ? ' data-act="rd-forget" data-v="' + esc(k) + '"' : ' disabled') + '>' + esc(k) + '</button>'; }).join('') + '</div></div>';
     });
+    var ids = {}; RD.poems.forEach(function (p) { ids[p.id] = 1; });
+    var other = keys.filter(function (k) { return !ids[r.known[k].p]; });
+    if (other.length) h += '<div class="card"><div class="kicker">Other words</div><div class="rd-chips">' + other.map(function (k) { return '<button class="rd-chip' + (r.known[k].s === 'f' ? ' snd' : '') + '"' + (ui.rdManage ? ' data-act="rd-forget" data-v="' + esc(k) + '"' : ' disabled') + '>' + esc(k) + '</button>'; }).join('') + '</div></div>';
     h += '<p class="small muted">Words in colour came from the poems; words in outline were made by sound in the word families.</p>';
     h += '<div class="btns"><button class="btn ghost small" data-act="rd-manage">' + (ui.rdManage ? 'Done' : 'Take out a word') + '</button></div>';
     return h;
