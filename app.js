@@ -318,6 +318,7 @@
       if (o.indexOf('reading:') === 0) { var R = C.readings[o.split(':')[1]]; if (R.pending) return R.book; var ri = readingIndex(o.split(':')[1]); return R.contents[ri]; }
       if (o.indexOf('book:') === 0) return bookPeek(o.split(':')[1]);
       if (o === 'drawing') return 'Drawing record';
+      if (o === 'rd') return rdPeek();
     } catch (e) {}
     return '';
   }
@@ -440,6 +441,7 @@
       case 'pick': return pickSheet(arg.pick, arg.list);
       case 'settings': return settingsSheet();
       case 'pin': return pinSheet();
+      case 'rd': return rdSheet(tickId);
     }
     return { title: '', body: '' };
   }
@@ -1284,6 +1286,340 @@
   }
   var POEM_TICKS = { e_poetry: ['poem_emma'], m_poetry: ['poem_emily'], t_poetry: ['tpoem_emma', 'tpoem_emily'] };
 
+  // ---------- Emily's reading lessons (Charlotte Mason: reading at sight, then by sound, then the whole poem) ----------
+  var RD = window.READING || { poems: [], proper: [], method: { steps: [], notes: [] } };
+  var RD_PROPER = {}; (RD.proper || []).forEach(function (w) { RD_PROPER[w] = 1; });
+  var RD_TICK = 'm_reading';
+  function rdState() {
+    var r = S.rd || (S.rd = {});
+    if (!r.known) r.known = {}; if (!r.fam) r.fam = {}; if (!r.done) r.done = {}; if (!r.log) r.log = {};
+    return r;
+  }
+  function rdShuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  // A word as printed in the poem, without the punctuation around it. "thro'" keeps its apostrophe.
+  function rdTok(raw) {
+    var t = String(raw).replace(/^[^A-Za-z']+/, '').replace(/[^A-Za-z']+$/, '').replace(/^'+/, '');
+    if (/'$/.test(t) && t.toLowerCase() !== "thro'") t = t.replace(/'+$/, '');
+    return t;
+  }
+  function rdKey(t) { return RD_PROPER[t] ? t : t.toLowerCase(); }
+  function rdLines(p) {
+    if (p._lines) return p._lines;
+    p._lines = p.text.split('\n').filter(function (l) { return l.trim(); }).map(function (l) {
+      return { raw: l, toks: l.split(/\s+/).map(rdTok).filter(Boolean).map(function (t) { return { t: t, k: rdKey(t) }; }) };
+    });
+    return p._lines;
+  }
+  function rdWords(p) {
+    if (p._words) return p._words;
+    var seen = {}, out = [];
+    (p.order || []).concat(rdLines(p).reduce(function (a, l) { return a.concat(l.toks.map(function (x) { return x.k; })); }, [])).forEach(function (k) { if (!seen[k]) { seen[k] = 1; out.push(k); } });
+    return (p._words = out);
+  }
+  function rdKnows(k) { return !!rdState().known[k]; }
+  function rdIdx() {
+    var r = rdState(); var P = RD.poems;
+    if (r.cur != null && r.cur >= 0 && r.cur < P.length && !r.done[P[r.cur].id]) return r.cur;
+    for (var i = 0; i < P.length; i++) if (!r.done[P[i].id]) return i;
+    return P.length - 1;
+  }
+  function rdPoem() { return RD.poems[rdIdx()]; }
+  function rdNew(p) { return rdWords(p).filter(function (k) { return !rdKnows(k); }); }
+  function rdFamTodo(p) { var r = rdState(); return (p.fam || []).map(function (f, i) { return i; }).filter(function (i) { return !r.fam[p.id + ':' + i] && rdKnows(p.fam[i].from); }); }
+  function rdLastKind(p) { var r = rdState(), best = null, bt = 0; Object.keys(r.log).forEach(function (t) { var e = r.log[t]; if (e && e.p === p.id && +t > bt) { bt = +t; best = e.k; } }); return best; }
+  function rdKinds(p) { return { sight: rdNew(p).length > 0, sound: rdFamTodo(p).length > 0, poem: rdNew(p).length === 0 && !rdState().done[p.id] }; }
+  // Mason gives the sound lesson on the day after a sight lesson; the poem comes when every word is known.
+  function rdSuggest(p) {
+    var k = rdKinds(p);
+    if (k.sound && rdLastKind(p) === 'sight') return 'sound';
+    if (k.sight) return 'sight';
+    if (k.sound) return 'sound';
+    if (k.poem) return 'poem';
+    return 'sight';
+  }
+  function rdKnownCount() { return Object.keys(rdState().known).length; }
+  function rdMark(k, src, p) {
+    var r = rdState(); if (r.known[k]) return;
+    var d = cur(); r.known[k] = { n: d ? d.n : 0, d: today(), p: p ? p.id : '', s: src };
+    if (ui.rd) (src === 'f' ? ui.rd.fw : ui.rd.learnt).push(k);
+  }
+
+  function rdStart(kind) {
+    var p = rdPoem(); var r = rdState();
+    var L = { kind: kind, pid: p.id, steps: [], si: 0, learnt: [], fw: [], col: 'down', date: today() };
+    var before = Object.keys(r.known);
+    if (kind === 'sight') {
+      var warm = rdWords(p).filter(rdKnows); if (warm.length < 12) warm = warm.concat(rdShuffle(before.filter(function (k) { return warm.indexOf(k) < 0; })).slice(0, 12 - warm.length));
+      if (warm.length) L.steps.push({ t: 'warm', words: rdShuffle(warm) });
+      rdNew(p).slice(0, r.per || RD.per || 10).forEach(function (w) { L.steps.push({ t: 'word', w: w, ph: 'look' }); });
+      L.steps.push({ t: 'column' }); L.steps.push({ t: 'lines', li: 0 }); L.steps.push({ t: 'end' });
+    } else if (kind === 'sound') {
+      L.steps.push({ t: 'column' });
+      rdFamTodo(p).forEach(function (i) { L.steps.push({ t: 'fam', f: i, made: [], cut: false }); });
+      L.steps.push({ t: 'end' });
+    } else {
+      L.steps.push({ t: 'lines', li: 0, all: true }); L.steps.push({ t: 'reveal' }); L.steps.push({ t: 'end' });
+    }
+    ui.rd = L; ui.rdView = 'today';
+  }
+  function rdById(id) { for (var i = 0; i < RD.poems.length; i++) if (RD.poems[i].id === id) return RD.poems[i]; return null; }
+  function rdLP() { return (ui.rd && rdById(ui.rd.pid)) || rdPoem(); }
+  function rdStep() { return ui.rd && ui.rd.steps[ui.rd.si]; }
+  function rdNext() { if (!ui.rd) return; var s = rdStep(); if (s) s.x = null; ui.rd.si = Math.min(ui.rd.si + 1, ui.rd.steps.length - 1); refreshSheet(true); }
+
+  // ---------- what each step shows ----------
+  function rdBig(text, extra) { return '<div class="rd-big' + (extra ? ' ' + extra : '') + '">' + esc(text) + '</div>'; }
+  function rdWordStep(s, p) {
+    var w = s.w, h = '';
+    if (s.ph === 'look') {
+      h += '<p class="rd-say">Say the word. Emily looks at it until she would know it again.</p>' + rdBig(w) +
+        '<div class="btns rd-go"><button class="btn" data-act="rd-ph" data-v="build">I know it by heart — hide it</button><button class="btn ghost small" data-act="rd-knew">She knew this one already</button></div>';
+      return h;
+    }
+    if (s.ph === 'build') {
+      if (!s.x) {
+        var chars = w.split(''); var letters = chars.filter(function (c) { return /[A-Za-z]/.test(c); });
+        var pool = 'abcdefghijklmnoprstuwy'.split('').filter(function (c) { return w.toLowerCase().indexOf(c) < 0; });
+        var extra = rdShuffle(pool).slice(0, letters.length < 4 ? 2 : 3);
+        s.x = { tiles: rdShuffle(letters.concat(extra)).map(function (c, i) { return { c: c, i: i, used: false }; }), got: 0 };
+      }
+      var X = s.x, k = 0;
+      var slots = w.split('').map(function (c) {
+        if (!/[A-Za-z]/.test(c)) return '<span class="rd-slot fixed">' + esc(c) + '</span>';
+        var filled = k < X.got; k++;
+        return '<span class="rd-slot' + (filled ? ' f' : '') + '">' + (filled ? esc(c) : '') + '</span>';
+      }).join('');
+      var done = X.got >= w.replace(/[^A-Za-z]/g, '').length;
+      h += '<p class="rd-say">' + (done ? 'She made it from memory.' : 'Now Emily makes the word with the letters.') + '</p>' +
+        (ui.rdPeek ? rdBig(w, 'peek') : '') +
+        '<div class="rd-slots" aria-label="The word so far">' + slots + '</div>';
+      if (!done) h += '<div class="rd-tiles">' + X.tiles.map(function (t) { return '<button class="rd-tile"' + (t.used ? ' disabled' : '') + ' data-act="rd-letter" data-v="' + t.i + '">' + esc(t.c) + '</button>'; }).join('') + '</div>' +
+        '<div class="btns rd-go"><button class="btn ghost small" data-act="rd-peek">👀 Peek</button></div>';
+      else h += '<div class="btns rd-go"><button class="btn" data-act="rd-ph" data-v="find">Now find it among the words</button></div>';
+      return h;
+    }
+    // find: every copy of the word among the loose words
+    if (!s.x) {
+      var others = rdWords(p).filter(function (k2) { return k2 !== w; });
+      var more = Object.keys(rdState().known).filter(function (k2) { return k2 !== w && others.indexOf(k2) < 0; });
+      var pick = rdShuffle(others).slice(0, 5); if (pick.length < 5) pick = pick.concat(rdShuffle(more).slice(0, 5 - pick.length));
+      if (pick.length < 5) { var nxt = RD.poems[(rdIdx() + 1) % RD.poems.length]; pick = pick.concat(rdShuffle(rdWords(nxt).filter(function (k2) { return k2 !== w && pick.indexOf(k2) < 0; })).slice(0, 5 - pick.length)); }
+      s.x = { cards: rdShuffle([w, w, w].concat(pick)).map(function (c, i) { return { c: c, i: i, f: false }; }) };
+    }
+    var left = s.x.cards.filter(function (c) { return c.c === w && !c.f; }).length;
+    h += '<p class="rd-say">' + (left ? 'Find every “' + esc(w) + '”. There are ' + left + ' more.' : 'All found!') + '</p>' +
+      '<div class="rd-cards">' + s.x.cards.map(function (c) { return '<button class="rd-card' + (c.f ? ' f' : '') + '"' + (c.f ? ' disabled' : '') + ' data-act="rd-find" data-v="' + c.i + '">' + esc(c.c) + '</button>'; }).join('') + '</div>';
+    if (!left) h += '<div class="btns rd-go"><button class="btn" data-act="rd-learnt">' + (rdNextIsWord() ? 'Next word ›' : 'Read the column ›') + '</button></div>';
+    return h;
+  }
+  function rdNextIsWord() { var n = ui.rd.steps[ui.rd.si + 1]; return n && n.t === 'word'; }
+  function rdColumn(p) {
+    var words = rdWords(p).filter(rdKnows); var c = ui.rd.col;
+    if (c === 'up') words = words.slice().reverse(); else if (c === 'mixed') words = ui.rd.mix || (ui.rd.mix = rdShuffle(words));
+    return '<p class="rd-say">Point to each word for Emily to read' + (ui.rd.kind === 'sound' ? ' — a quick warm-up before the word families.' : '.') + '</p>' +
+      '<div class="seg" role="group" style="align-self:flex-start">' + [['down', 'Down'], ['up', 'Up'], ['mixed', 'Mixed']].map(function (o) { return '<button data-act="rd-col" data-v="' + o[0] + '" aria-pressed="' + (c === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="rd-col">' + words.map(function (w) { return '<span>' + esc(w) + '</span>'; }).join('') + '</div>' +
+      '<div class="btns rd-go"><button class="btn" data-act="rd-next">She read them all ›</button></div>';
+  }
+  function rdLinesStep(s, p) {
+    var lines = rdLines(p);
+    var usable = lines.map(function (l, i) { return i; }).filter(function (i) { return lines[i].toks.some(function (x) { return rdKnows(x.k); }); });
+    if (!usable.length) return '<p class="rd-say">No line has a word she knows yet.</p><div class="btns rd-go"><button class="btn" data-act="rd-next">Go on ›</button></div>';
+    var pos = Math.min(s.li, usable.length - 1); var L = lines[usable[pos]];
+    if (!s.x || s.x.line !== usable[pos]) {
+      var slots = L.toks.map(function (x) { return { t: x.t, k: x.k, known: rdKnows(x.k), f: !rdKnows(x.k) }; });
+      s.x = { line: usable[pos], slots: slots, tray: rdShuffle(slots.map(function (x, i) { return x.known ? { t: x.t, i: i, used: false } : null; }).filter(Boolean)) };
+    }
+    var X = s.x; var done = X.slots.every(function (x) { return x.f; });
+    var hasCounter = X.slots.some(function (x) { return !x.known; });
+    var h = '<div class="kicker">Line ' + (pos + 1) + ' of ' + usable.length + '</div>' +
+      '<details class="rd-mum"><summary>Mum: the line to say</summary><p>' + esc(L.raw) + '</p></details>' +
+      '<p class="rd-say">' + (done ? 'Now she reads it to you.' : 'Say the line. Emily lays out the words in order.' + (hasCounter ? ' A counter ● stands for a word she will learn soon.' : '')) + '</p>' +
+      '<div class="rd-strip">' + X.slots.map(function (x) { return x.f ? (x.known ? '<span class="rd-card f">' + esc(x.t) + '</span>' : '<span class="rd-counter" title="A word to learn soon">●</span>') : '<span class="rd-card empty"></span>'; }).join('') + '</div>';
+    if (!done) h += '<div class="rd-cards">' + X.tray.map(function (c, j) { return '<button class="rd-card"' + (c.used ? ' disabled' : '') + ' data-act="rd-place" data-v="' + j + '">' + esc(c.t) + '</button>'; }).join('') + '</div>';
+    else h += '<div class="btns rd-go">' + (pos < usable.length - 1 ? '<button class="btn" data-act="rd-line">Next line ›</button>' : '<button class="btn" data-act="rd-next">' + (s.all ? 'See the poem ›' : 'Finish ›') + '</button>') + '</div>';
+    if (!done && pos < usable.length - 1) h += '<div class="btns"><button class="btn ghost small" data-act="rd-line">Skip this line</button></div>';
+    if (!done && pos === usable.length - 1) h += '<div class="btns"><button class="btn ghost small" data-act="rd-next">Enough lines for today</button></div>';
+    return h;
+  }
+  function rdFamStep(s, p) {
+    var F = p.fam[s.f]; var onset = F.from.slice(0, F.from.length - F.rime.length);
+    var h = '<p class="rd-say">' + (!s.cut ? 'Emily reads “' + esc(F.from) + '”. Say it slowly. What is left when the beginning is taken away?' : 'Put a new beginning on “' + esc(F.rime) + '” and read the new word. Talk about what it means.') + '</p>';
+    h += '<div class="rd-big rd-fam">' + (s.cut ? '<span class="rd-gone">' + esc(onset) + '</span>' : esc(onset)) + '<b>' + esc(F.rime) + '</b></div>';
+    if (!s.cut) return h + '<div class="btns rd-go"><button class="btn" data-act="rd-cut">Take away “' + esc(onset) + '”</button></div>';
+    var left = F.on.filter(function (o) { return s.made.indexOf(o) < 0; });
+    h += '<div class="rd-tiles">' + rdShuffleStable(s, F.on).map(function (o) { var used = s.made.indexOf(o) >= 0; return '<button class="rd-tile wide"' + (used ? ' disabled' : '') + ' data-act="rd-onset" data-v="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+    if (s.made.length) h += '<div class="rd-col">' + [F.from].concat(s.made.map(function (o) { return o + F.rime; })).map(function (w, i) { return '<span>' + (i ? '<i>' + esc(w.slice(0, w.length - F.rime.length)) + '</i>' + esc(F.rime) : esc(w)) + '</span>'; }).join('') + '</div>';
+    if (!left.length) h += '<div class="btns rd-go"><button class="btn" data-act="rd-famdone">' + (ui.rd.steps[ui.rd.si + 1].t === 'fam' ? 'Next family ›' : 'Finish ›') + '</button></div>';
+    return h;
+  }
+  function rdShuffleStable(s, arr) { return s.order || (s.order = rdShuffle(arr)); }
+  function rdReveal(p) {
+    var id = 'rd_' + p.id;
+    return '<p class="rd-say">Here is the poem she has been learning. She reads it to you, clearly and beautifully.</p>' +
+      '<div class="card"><div class="kicker">' + esc(p.by) + '</div><h3>' + esc(p.title) + '</h3><div class="poem rd-poem">' + esc(p.text) + '</div></div>' +
+      '<div class="card"><h3 style="font-size:18px">Her reading</h3>' + rdRecButton(id) + audioSlot(id) + '</div>' +
+      '<div class="btns rd-go"><button class="btn" data-act="rd-poemdone">She read the whole poem ✓</button></div>';
+  }
+  var rdRec = null;
+  function rdRecButton(id) {
+    if (!(navigator.mediaDevices && window.MediaRecorder)) return '';
+    var on = rdRec && rdRec.id === id;
+    return '<div class="btns"><button class="btn' + (on ? '' : ' ghost') + '" data-act="rd-rec" data-v="' + id + '">' + (on ? '■ Stop recording' : '🎙 Record her reading') + '</button></div>';
+  }
+  function rdRecToggle(id) {
+    if (rdRec) { var R = rdRec; rdRec = null; try { R.mr.stop(); } catch (e) {} return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      var types = ['audio/mp4', 'audio/webm', 'audio/aac'].filter(function (t) { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
+      var mr = types.length ? new MediaRecorder(stream, { mimeType: types[0] }) : new MediaRecorder(stream);
+      var chunks = [];
+      mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+      mr.onstop = function () {
+        stream.getTracks().forEach(function (t) { t.stop(); });
+        var blob = new Blob(chunks, { type: mr.mimeType || types[0] || 'audio/mp4' }); var key = 'aud_' + id;
+        vput(key, blob).then(function () { if (aurls[key]) URL.revokeObjectURL(aurls[key]); aurls[key] = URL.createObjectURL(blob); toast('Recording saved'); refreshSheet(); }).catch(function () { toast('The recording could not be saved'); });
+      };
+      rdRec = { id: id, mr: mr }; mr.start(); refreshSheet();
+    }).catch(function () { toast('The microphone is not available. Allow it in Settings, or add a recording from Files.'); });
+  }
+  function rdEnd(p) {
+    var L = ui.rd; var learnt = L.learnt, fw = L.fw;
+    var h = '<div class="rd-done"><div class="rd-big">Well read!</div>';
+    if (learnt.length) h += '<p>New words today: <b>' + learnt.map(esc).join(', ') + '</b></p>';
+    if (fw.length) h += '<p>Words made by sound: <b>' + fw.map(esc).join(', ') + '</b></p>';
+    if (L.kind === 'poem' && rdState().done[p.id]) h += '<p>She has read <b>' + esc(p.title) + '</b>. The next poem starts tomorrow.</p>';
+    h += '<p class="small muted">' + rdKnownCount() + ' words in her word book so far.</p></div>';
+    var logged = !!L.logged;
+    h += '<div class="btns rd-go">' + (logged ? '<span class="small muted">Lesson saved' + (doneToday(RD_TICK) ? ' and ticked for today ✓' : '') + '</span>' : '<button class="btn" data-act="rd-finish">Finish the lesson ✓</button>') + '</div>';
+    return h;
+  }
+  function rdFinish() {
+    var L = ui.rd; if (!L || L.logged) return; var r = rdState(); var d = cur();
+    if (L.learnt.length || L.fw.length || L.kind !== 'sight') r.log[String(Date.now())] = { n: d ? d.n : 0, d: today(), p: L.pid, k: L.kind, w: L.learnt.slice(), f: L.fw.slice() };
+    L.logged = true;
+    if (d && !doneToday(RD_TICK)) addToday(RD_TICK); else save();
+    render(); refreshSheet(true);
+  }
+
+  // ---------- the sheet ----------
+  function rdPeek() {
+    var p = rdPoem(); if (!p) return '';
+    if (rdState().done[p.id]) return 'All the poems are read';
+    var w = rdWords(p), k = w.filter(rdKnows).length;
+    return 'Poem ' + (rdIdx() + 1) + ' · ' + k + ' of ' + w.length + ' words';
+  }
+  function rdTabs(view) {
+    return '<div class="seg" role="group" aria-label="Reading">' + [['today', 'Today'], ['words', 'Words'], ['poems', 'Poems'], ['record', 'Record'], ['how', 'How']].map(function (o) { return '<button data-act="rd-view" data-v="' + o[0] + '" aria-pressed="' + (view === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+  }
+  function rdToday(p0) {
+    var keep = ui.rd && ui.rd.date === today() && (ui.rd.pid === p0.id || ui.rd.kind === 'poem');
+    if (!keep) rdStart(rdSuggest(p0));
+    var p = rdLP();
+    var w = rdWords(p), k = w.filter(rdKnows).length;
+    var head = '<div class="kicker">Poem ' + (RD.poems.indexOf(p) + 1) + ' of ' + RD.poems.length + ' · ' + k + ' of ' + w.length + ' words known</div>' +
+      '<div class="rd-dots" aria-hidden="true">' + w.map(function (x) { return '<i class="' + (rdKnows(x) ? 'f' : '') + '"></i>'; }).join('') + '</div>';
+    var L = ui.rd;
+    var kinds = rdKinds(rdPoem()); var names = { sight: 'New words', sound: 'Word families', poem: 'The poem' };
+    var pick = '<div class="seg" role="group" aria-label="Kind of lesson">' + ['sight', 'sound', 'poem'].map(function (o) { var ok = kinds[o]; return '<button data-act="rd-kind" data-v="' + o + '" aria-pressed="' + (L.kind === o) + '"' + (ok ? '' : ' disabled') + '>' + names[o] + '</button>'; }).join('') + '</div>';
+    var s = rdStep(); var body = '';
+    if (!s) body = '<p class="rd-say">Nothing left to do in this poem.</p>';
+    else if (s.t === 'warm') body = '<p class="rd-say">Warm-up: point to each word she knows for her to read.</p><div class="rd-cards">' + s.words.map(function (x) { return '<span class="rd-card">' + esc(x) + '</span>'; }).join('') + '</div><div class="btns rd-go"><button class="btn" data-act="rd-next">On to the new words ›</button></div>';
+    else if (s.t === 'word') body = '<div class="kicker">New word ' + (ui.rd.steps.filter(function (x, i) { return x.t === 'word' && i <= ui.rd.si; }).length) + ' of ' + ui.rd.steps.filter(function (x) { return x.t === 'word'; }).length + '</div>' + rdWordStep(s, p);
+    else if (s.t === 'column') body = rdColumn(p);
+    else if (s.t === 'lines') body = rdLinesStep(s, p);
+    else if (s.t === 'fam') body = rdFamStep(s, p);
+    else if (s.t === 'reveal') body = rdReveal(p);
+    else if (s.t === 'end') body = rdEnd(p);
+    var stop = s && s.t !== 'end' && L.kind === 'sight' ? '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="rd-stop">Stop here for today</button></div>' : '';
+    return head + pick + '<div class="rd-stage">' + body + '</div>' + stop;
+  }
+  function rdWordBook() {
+    var r = rdState(); var keys = Object.keys(r.known);
+    var h = '<p style="margin:0"><b>' + keys.length + '</b> words she can read.' + (ui.rdManage ? ' Tap a word to take it out of her book.' : '') + '</p>';
+    RD.poems.forEach(function (p) {
+      var mine = keys.filter(function (k) { return r.known[k].p === p.id; }); if (!mine.length) return;
+      var sight = mine.filter(function (k) { return r.known[k].s !== 'f'; }), snd = mine.filter(function (k) { return r.known[k].s === 'f'; });
+      h += '<div class="card"><div class="kicker">' + esc(p.title) + '</div><div class="rd-chips">' + sight.concat(snd).map(function (k) { return '<button class="rd-chip' + (r.known[k].s === 'f' ? ' snd' : '') + '"' + (ui.rdManage ? ' data-act="rd-forget" data-v="' + esc(k) + '"' : ' disabled') + '>' + esc(k) + '</button>'; }).join('') + '</div></div>';
+    });
+    h += '<p class="small muted">Words in colour came from the poems; words in outline were made by sound in the word families.</p>';
+    h += '<div class="btns"><button class="btn ghost small" data-act="rd-manage">' + (ui.rdManage ? 'Done' : 'Take out a word') + '</button></div>';
+    return h;
+  }
+  function rdPoemsView() {
+    var r = rdState(); var ci = rdIdx();
+    return '<div class="card"><ul class="list">' + RD.poems.map(function (p, i) {
+      var w = rdWords(p), k = w.filter(rdKnows).length; var fd = (p.fam || []).filter(function (f, j) { return r.fam[p.id + ':' + j]; }).length;
+      var st = r.done[p.id] ? '✓ read' : k + '/' + w.length + ' words · ' + fd + '/' + (p.fam || []).length + ' families';
+      return '<li class="' + (i === ci ? 'cur' : '') + '"><span><b>' + (i + 1) + '. ' + esc(p.title) + '</b> <span class="small muted">' + esc(p.by) + ' · ' + st + '</span></span>' + (i === ci ? '<span class="small">Learning now</span>' : r.done[p.id] ? '<button class="btn ghost small" data-act="rd-again" data-v="' + i + '">Read again</button>' : '<button class="btn ghost small" data-act="rd-go" data-v="' + i + '">Learn next</button>') + '</li>';
+    }).join('') + '</ul></div>' +
+      '<div class="card"><h3 style="font-size:18px">New words in one lesson</h3><div class="seg" role="group">' + [3, 5, 8, 10].map(function (n) { var on = (r.per || RD.per || 10) === n; return '<button data-act="rd-per" data-v="' + n + '" aria-pressed="' + on + '">' + n + '</button>'; }).join('') + '</div><p class="small muted" style="margin:6px 0 0">Mason aims at about ten a day. Fewer is fine while Emily is beginning.</p></div>' +
+      '<p class="small muted">Poem texts: ' + esc(Array.from(new Set(RD.poems.map(function (p) { return p.src.split('. ')[0].split(', Project')[0]; }))).join('; ')) + '.</p>';
+  }
+  function rdRecordView() {
+    var r = rdState(); var ts = Object.keys(r.log).sort(function (a, b) { return b - a; });
+    if (!ts.length) return '<p class="muted">Lessons will be listed here once she finishes one.</p>';
+    var byId = {}; RD.poems.forEach(function (p) { byId[p.id] = p; });
+    var names = { sight: 'New words', sound: 'Word families', poem: 'Read the poem' };
+    return '<div class="card"><ul class="list">' + ts.map(function (t) {
+      var e = r.log[t]; var p = byId[e.p];
+      var det = (e.w && e.w.length ? e.w.join(', ') : '') + (e.f && e.f.length ? (e.w && e.w.length ? ' · ' : '') + 'by sound: ' + e.f.join(', ') : '');
+      return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + esc(names[e.k] || e.k) + ', ' + esc(p ? p.title : e.p) + (det ? '<br><span class="small">' + esc(det) + '</span>' : '') + '</li>';
+    }).join('') + '</ul></div>';
+  }
+  function rdHow() {
+    var M = RD.method;
+    return '<div class="card"><h3>How a reading lesson goes</h3><ol style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px">' + M.steps.map(function (x) { return '<li><b>' + esc(x[0]) + '.</b> ' + esc(x[1]) + '</li>'; }).join('') + '</ol>' +
+      '<ul style="margin:10px 0 0;padding-left:20px">' + M.notes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><p class="small muted" style="margin:8px 0 0">' + esc(M.src) + '</p></div>';
+  }
+  function rdSheet(tickId) {
+    if (tickId) RD_TICK = tickId;
+    var p = rdPoem(); var view = ui.rdView || 'today';
+    var body = rdTabs(view);
+    if (!p) body += '<p>No poems yet.</p>';
+    else if (view === 'today') body += rdToday(p);
+    else if (view === 'words') body += rdWordBook();
+    else if (view === 'poems') body += rdPoemsView();
+    else if (view === 'record') body += rdRecordView();
+    else body += rdHow();
+    return { title: 'Reading lessons', who: 'emily', body: body };
+  }
+  function rdAct(act, v, el) {
+    var s = rdStep(); var p = rdLP(); var r = rdState();
+    function no() { el.classList.remove('rd-no'); void el.offsetWidth; el.classList.add('rd-no'); }
+    switch (act) {
+      case 'rd-view': ui.rdView = v; ui.rdManage = false; refreshSheet(true); break;
+      case 'rd-kind': rdStart(v); refreshSheet(true); break;
+      case 'rd-next': rdNext(); break;
+      case 'rd-ph': s.ph = v; s.x = null; ui.rdPeek = false; refreshSheet(); break;
+      case 'rd-knew': rdMark(s.w, 'k', p); save(); rdNext(); break;
+      case 'rd-peek': ui.rdPeek = true; refreshSheet(); setTimeout(function () { ui.rdPeek = false; refreshSheet(); }, 1500); break;
+      case 'rd-letter':
+        var X = s.x, t = X.tiles[+v]; var need = s.w.replace(/[^A-Za-z]/g, '')[X.got];
+        if (t && !t.used && need && t.c === need) { t.used = true; X.got++; refreshSheet(); } else no();
+        break;
+      case 'rd-find': var c = s.x.cards[+v]; if (c && c.c === s.w) { c.f = true; refreshSheet(); } else no(); break;
+      case 'rd-learnt': rdMark(s.w, 's', p); save(); rdNext(); break;
+      case 'rd-col': ui.rd.col = v; if (v === 'mixed') ui.rd.mix = null; refreshSheet(); break;
+      case 'rd-place':
+        var Y = s.x, card = Y.tray[+v]; var slot = Y.slots.filter(function (x) { return !x.f; })[0];
+        if (card && !card.used && slot && rdKey(card.t) === slot.k) { card.used = true; slot.f = true; refreshSheet(); } else no();
+        break;
+      case 'rd-line': s.li++; s.x = null; refreshSheet(); break;
+      case 'rd-cut': s.cut = true; refreshSheet(); break;
+      case 'rd-onset': var F = p.fam[s.f]; if (s.made.indexOf(v) < 0) { s.made.push(v); rdMark(v + F.rime, 'f', p); save(); } refreshSheet(); break;
+      case 'rd-famdone': var d0 = cur(); r.fam[p.id + ':' + s.f] = d0 ? d0.n || 1 : 1; save(); rdNext(); break;
+      case 'rd-rec': rdRecToggle(v); break;
+      case 'rd-poemdone': var d1 = cur(); if (!r.done[p.id]) r.done[p.id] = { n: d1 ? d1.n : 0, d: today() }; if (r.cur != null && RD.poems[r.cur] === p) delete r.cur; save(); rdNext(); break;
+      case 'rd-finish': rdFinish(); break;
+      case 'rd-stop': ui.rd.si = ui.rd.steps.length - 1; refreshSheet(true); break;
+      case 'rd-go': r.cur = +v; save(); ui.rd = null; ui.rdView = 'today'; refreshSheet(true); break;
+      case 'rd-again': var q = RD.poems[+v]; ui.rd = { kind: 'poem', pid: q.id, steps: [{ t: 'reveal' }, { t: 'end' }], si: 0, learnt: [], fw: [], col: 'down', date: today() }; ui.rdView = 'today'; refreshSheet(true); break;
+      case 'rd-per': r.per = +v; save(); refreshSheet(); break;
+      case 'rd-manage': ui.rdManage = !ui.rdManage; refreshSheet(); break;
+      case 'rd-forget': delete r.known[v]; save(); refreshSheet(); break;
+    }
+  }
+
   function toggleTick(id) {
     var d = cur(); if (!d) return;
     var a = dList(d.w, id); var k = a.lastIndexOf(d.n);
@@ -1322,6 +1658,7 @@
     var act = el.getAttribute('data-act'), v = el.getAttribute('data-v');
     if (act === 'scrim') { if (e.target === el) closeSheet(); return; }
     if (el.tagName === 'SELECT' || el.tagName === 'FORM' || el.tagName === 'INPUT') return;
+    if (act.indexOf('rd-') === 0) { rdAct(act, v, el); return; }
     switch (act) {
       case 'setprofile': (function () { var go = function () { S.profile = v; ui.tab = null; save(); if (ui.sheet) closeSheet(); else render(); }; var need = pinFor(v); if (hasPin(need) && S.profile !== v) askPin(need, 'check', go); else go(); })(); break;
       case 'pinkey': pinKey(v); break;

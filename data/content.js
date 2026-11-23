@@ -10246,7 +10246,8 @@ window.CONTENT = {
 "id": "m_reading",
 "label": "Reading lessons",
 "icon": "📖",
-"mins": 20
+"mins": 20,
+"open": "rd"
 },
 {
 "id": "m_math",
