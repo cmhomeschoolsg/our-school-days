@@ -1292,15 +1292,19 @@
   var RD_TICK = 'm_reading';
   function rdState() {
     var r = S.rd || (S.rd = {});
-    if (!r.known) r.known = {}; if (!r.fam) r.fam = {}; if (!r.done) r.done = {}; if (!r.log) r.log = {};
+    if (!r.known) r.known = {}; if (!r.fam) r.fam = {}; if (!r.done) r.done = {}; if (!r.log) r.log = {}; if (!r.again) r.again = {};
     return r;
   }
+  // How common a word is: its Dolch level (0 = pre-primer … 4 = third grade), or 9 if it is not on the list.
+  var RD_LVL = {}; ((RD.common && RD.common.levels) || []).forEach(function (L, i) { L.words.forEach(function (w) { RD_LVL[w] = i; }); });
+  function rdLvl(k) { return RD_LVL[k] != null ? RD_LVL[k] : 9; }
+  function rdAgainList() { var a = rdState().again; return Object.keys(a).sort(function (x, y) { return a[x] - a[y]; }); }
   function rdShuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   // A word as printed in the poem, without the punctuation around it. "thro'" keeps its apostrophe.
   function rdTok(raw) {
-    var t = String(raw).replace(/^[^A-Za-z']+/, '').replace(/[^A-Za-z']+$/, '').replace(/^'+/, '');
-    if (/'$/.test(t) && t.toLowerCase() !== "thro'") t = t.replace(/'+$/, '');
-    return t;
+    var t = String(raw).replace(/^[^A-Za-z]+/, '');
+    if (/^thro'/i.test(t)) return t.slice(0, 5);
+    return t.replace(/[^A-Za-z]+$/, '');
   }
   function rdKey(t) { return RD_PROPER[t] ? t : t.toLowerCase(); }
   function rdLines(p) {
@@ -1327,7 +1331,7 @@
   function rdNew(p) { return rdWords(p).filter(function (k) { return !rdKnows(k); }); }
   function rdFamTodo(p) { var r = rdState(); return (p.fam || []).map(function (f, i) { return i; }).filter(function (i) { return !r.fam[p.id + ':' + i] && rdKnows(p.fam[i].from); }); }
   function rdLastKind(p) { var r = rdState(), best = null, bt = 0; Object.keys(r.log).forEach(function (t) { var e = r.log[t]; if (e && e.p === p.id && +t > bt) { bt = +t; best = e.k; } }); return best; }
-  function rdKinds(p) { return { sight: rdNew(p).length > 0, sound: rdFamTodo(p).length > 0, poem: rdNew(p).length === 0 && !rdState().done[p.id] }; }
+  function rdKinds(p) { return { sight: rdNew(p).length > 0 || rdAgainList().length > 0, sound: rdFamTodo(p).length > 0, poem: rdNew(p).length === 0 && !rdState().done[p.id] }; }
   // Mason gives the sound lesson on the day after a sight lesson; the poem comes when every word is known.
   function rdSuggest(p) {
     var k = rdKinds(p);
@@ -1350,8 +1354,12 @@
     var before = Object.keys(r.known);
     if (kind === 'sight') {
       var warm = rdWords(p).filter(rdKnows); if (warm.length < 12) warm = warm.concat(rdShuffle(before.filter(function (k) { return warm.indexOf(k) < 0; })).slice(0, 12 - warm.length));
+      warm = warm.filter(function (k) { return !r.again[k]; });
       if (warm.length) L.steps.push({ t: 'warm', words: rdShuffle(warm) });
-      rdNew(p).slice(0, r.per || RD.per || 10).forEach(function (w) { L.steps.push({ t: 'word', w: w, ph: 'look' }); });
+      var per = r.per || RD.per || 10; var again = rdAgainList().slice(0, per);
+      again.forEach(function (w) { L.steps.push({ t: 'word', w: w, ph: 'look', again: true }); });
+      var pos = rdWords(p);
+      rdNew(p).sort(function (a, b) { return rdLvl(a) - rdLvl(b) || pos.indexOf(a) - pos.indexOf(b); }).slice(0, Math.max(per - again.length, again.length ? 3 : per)).forEach(function (w) { L.steps.push({ t: 'word', w: w, ph: 'look' }); });
       L.steps.push({ t: 'column' }); L.steps.push({ t: 'lines', li: 0 }); L.steps.push({ t: 'end' });
     } else if (kind === 'sound') {
       L.steps.push({ t: 'column' });
@@ -1372,7 +1380,7 @@
   function rdWordStep(s, p) {
     var w = s.w, h = '';
     if (s.ph === 'look') {
-      h += '<p class="rd-say">Say the word. Emily looks at it until she would know it again.</p>' + rdBig(w) +
+      h += '<p class="rd-say">' + (s.again ? 'A word to look at again. ' : '') + 'Say the word. Emily looks at it until she would know it again.</p>' + rdBig(w) +
         '<div class="btns rd-go"><button class="btn" data-act="rd-ph" data-v="build">I know it by heart — hide it</button><button class="btn ghost small" data-act="rd-knew">She knew this one already</button></div>';
       return h;
     }
@@ -1512,6 +1520,7 @@
     return '<div class="seg" role="group" aria-label="Reading">' + [['today', 'Today'], ['words', 'Words'], ['poems', 'Poems'], ['record', 'Record'], ['how', 'How']].map(function (o) { return '<button data-act="rd-view" data-v="' + o[0] + '" aria-pressed="' + (view === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
   }
   function rdToday(p0) {
+    if (!rdKnownCount() && !ui.rdNoPlace) return '<div class="card"><h3>Before the first lesson</h3><p style="margin:0 0 10px">If Emily can already read some words, a quick placement check saves her learning them again.</p><div class="btns"><button class="btn" data-act="rd-view" data-v="place">Do the placement check</button><button class="btn ghost" data-act="rd-noplace">Start lessons from the beginning</button></div></div>';
     var keep = ui.rd && ui.rd.date === today() && (ui.rd.pid === p0.id || ui.rd.kind === 'poem');
     if (!keep) rdStart(rdSuggest(p0));
     var p = rdLP();
@@ -1523,8 +1532,8 @@
     var pick = '<div class="seg" role="group" aria-label="Kind of lesson">' + ['sight', 'sound', 'poem'].map(function (o) { var ok = kinds[o]; return '<button data-act="rd-kind" data-v="' + o + '" aria-pressed="' + (L.kind === o) + '"' + (ok ? '' : ' disabled') + '>' + names[o] + '</button>'; }).join('') + '</div>';
     var s = rdStep(); var body = '';
     if (!s) body = '<p class="rd-say">Nothing left to do in this poem.</p>';
-    else if (s.t === 'warm') body = '<p class="rd-say">Warm-up: point to each word she knows for her to read.</p><div class="rd-cards">' + s.words.map(function (x) { return '<span class="rd-card">' + esc(x) + '</span>'; }).join('') + '</div><div class="btns rd-go"><button class="btn" data-act="rd-next">On to the new words ›</button></div>';
-    else if (s.t === 'word') body = '<div class="kicker">New word ' + (ui.rd.steps.filter(function (x, i) { return x.t === 'word' && i <= ui.rd.si; }).length) + ' of ' + ui.rd.steps.filter(function (x) { return x.t === 'word'; }).length + '</div>' + rdWordStep(s, p);
+    else if (s.t === 'warm') body = '<p class="rd-say">Warm-up: point to each word for her to read. Tap any word she has forgotten; it comes back to be learnt again next lesson.</p><div class="rd-cards">' + s.words.map(function (x) { var ag = !!rdState().again[x]; return '<button class="rd-card' + (ag ? ' ag' : '') + '" data-act="rd-againw" data-v="' + esc(x) + '" aria-pressed="' + ag + '">' + esc(x) + '</button>'; }).join('') + '</div><div class="btns rd-go"><button class="btn" data-act="rd-next">On to the new words ›</button></div>';
+    else if (s.t === 'word') body = '<div class="kicker">Word ' + (ui.rd.steps.filter(function (x, i) { return x.t === 'word' && i <= ui.rd.si; }).length) + ' of ' + ui.rd.steps.filter(function (x) { return x.t === 'word'; }).length + '</div>' + rdWordStep(s, p);
     else if (s.t === 'column') body = rdColumn(p);
     else if (s.t === 'lines') body = rdLinesStep(s, p);
     else if (s.t === 'fam') body = rdFamStep(s, p);
@@ -1533,18 +1542,31 @@
     var stop = s && s.t !== 'end' && L.kind === 'sight' ? '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="rd-stop">Stop here for today</button></div>' : '';
     return head + pick + '<div class="rd-stage">' + body + '</div>' + stop;
   }
+  function rdChip(k) {
+    var r = rdState(); var ag = !!r.again[k];
+    return '<button class="rd-chip' + (r.known[k].s === 'f' ? ' snd' : '') + (ag ? ' ag' : '') + '" data-act="' + (ui.rdManage ? 'rd-forget' : 'rd-againw') + '" data-v="' + esc(k) + '"' + (ui.rdManage ? '' : ' aria-pressed="' + ag + '"') + '>' + esc(k) + '</button>';
+  }
   function rdWordBook() {
     var r = rdState(); var keys = Object.keys(r.known);
-    var h = '<p style="margin:0"><b>' + keys.length + '</b> words she can read.' + (ui.rdManage ? ' Tap a word to take it out of her book.' : '') + '</p>';
+    var h = '<p style="margin:0"><b>' + keys.length + '</b> words she can read. ' + (ui.rdManage ? 'Tap a word to take it out of her book altogether.' : 'Tap a word she has forgotten to learn it again next lesson.') + '</p>';
+    if (RD.common) {
+      h += '<div class="card"><h3 style="font-size:18px">Common words</h3>' + RD.common.levels.map(function (L) {
+        var k = L.words.filter(rdKnows).length;
+        return '<details class="rd-lvl"><summary><span>' + esc(L.name) + '</span><span class="rd-bar"><i style="width:' + Math.round(100 * k / L.words.length) + '%"></i></span><b>' + k + '/' + L.words.length + '</b></summary><p class="small" style="margin:6px 0 0">Not yet: ' + esc(L.words.filter(function (w) { return !rdKnows(w); }).join(', ') || 'none — all known!') + '</p></details>';
+      }).join('') + '<p class="small muted" style="margin:8px 0 0">' + esc(RD.common.src) + '</p><div class="btns" style="margin-top:8px"><button class="btn ghost small" data-act="rd-view" data-v="place">Placement check</button></div></div>';
+    }
+    var ag = rdAgainList(); if (ag.length) h += '<p class="small" style="margin:0"><b>To look at again:</b> ' + esc(ag.join(', ')) + '</p>';
     RD.poems.forEach(function (p) {
       var mine = keys.filter(function (k) { return r.known[k].p === p.id; }); if (!mine.length) return;
       var sight = mine.filter(function (k) { return r.known[k].s !== 'f'; }), snd = mine.filter(function (k) { return r.known[k].s === 'f'; });
-      h += '<div class="card"><div class="kicker">' + esc(p.title) + '</div><div class="rd-chips">' + sight.concat(snd).map(function (k) { return '<button class="rd-chip' + (r.known[k].s === 'f' ? ' snd' : '') + '"' + (ui.rdManage ? ' data-act="rd-forget" data-v="' + esc(k) + '"' : ' disabled') + '>' + esc(k) + '</button>'; }).join('') + '</div></div>';
+      h += '<div class="card"><div class="kicker">' + esc(p.title) + '</div><div class="rd-chips">' + sight.concat(snd).map(rdChip).join('') + '</div></div>';
     });
     var ids = {}; RD.poems.forEach(function (p) { ids[p.id] = 1; });
     var other = keys.filter(function (k) { return !ids[r.known[k].p]; });
-    if (other.length) h += '<div class="card"><div class="kicker">Other words</div><div class="rd-chips">' + other.map(function (k) { return '<button class="rd-chip' + (r.known[k].s === 'f' ? ' snd' : '') + '"' + (ui.rdManage ? ' data-act="rd-forget" data-v="' + esc(k) + '"' : ' disabled') + '>' + esc(k) + '</button>'; }).join('') + '</div></div>';
-    h += '<p class="small muted">Words in colour came from the poems; words in outline were made by sound in the word families.</p>';
+    var placed = other.filter(function (k) { return r.known[k].s === 'p'; }), rest = other.filter(function (k) { return r.known[k].s !== 'p'; });
+    if (placed.length) h += '<div class="card"><div class="kicker">From the placement check</div><div class="rd-chips">' + placed.sort(function (a, b) { return rdLvl(a) - rdLvl(b); }).map(rdChip).join('') + '</div></div>';
+    if (rest.length) h += '<div class="card"><div class="kicker">Other words</div><div class="rd-chips">' + rest.map(rdChip).join('') + '</div></div>';
+    h += '<p class="small muted">Filled words she reads at sight; outlined words she made by sound in the word families; dashed words are to be looked at again.</p>';
     h += '<div class="btns"><button class="btn ghost small" data-act="rd-manage">' + (ui.rdManage ? 'Done' : 'Take out a word') + '</button></div>';
     return h;
   }
@@ -1553,8 +1575,9 @@
     return '<div class="card"><ul class="list">' + RD.poems.map(function (p, i) {
       var w = rdWords(p), k = w.filter(rdKnows).length; var fd = (p.fam || []).filter(function (f, j) { return r.fam[p.id + ':' + j]; }).length;
       var st = r.done[p.id] ? '✓ read' : k + '/' + w.length + ' words · ' + fd + '/' + (p.fam || []).length + ' families';
-      return '<li class="' + (i === ci ? 'cur' : '') + '"><span><b>' + (i + 1) + '. ' + esc(p.title) + '</b> <span class="small muted">' + esc(p.by) + ' · ' + st + '</span></span>' + (i === ci ? '<span class="small">Learning now</span>' : r.done[p.id] ? '<button class="btn ghost small" data-act="rd-again" data-v="' + i + '">Read again</button>' : '<button class="btn ghost small" data-act="rd-go" data-v="' + i + '">Learn next</button>') + '</li>';
+      return '<li class="' + (i === ci ? 'cur' : '') + '"><span><b>' + (i + 1) + '. ' + esc(p.title) + '</b> <span class="small muted">' + esc(p.by) + ' · ' + st + '</span></span>' + '<span class="btns" style="flex:none">' + (r.done[p.id] ? '<button class="btn ghost small" data-act="rd-again" data-v="' + i + '">Read again</button>' : (i === ci ? '<span class="small">Learning now</span>' : '<button class="btn ghost small" data-act="rd-go" data-v="' + i + '">Learn next</button>') + '<button class="btn ghost small" data-act="rd-knowpoem" data-v="' + i + '">' + (ui.rdKnowAsk === i ? 'Tap again to confirm' : 'She knows it') + '</button>') + '</span></li>';
     }).join('') + '</ul></div>' +
+      '<p class="small muted" style="margin:0">Poems run from the most common words to the least. If she can already read a poem, tap “She knows it”: its words go into her word book and it is marked read.</p>' +
       '<div class="card"><h3 style="font-size:18px">New words in one lesson</h3><div class="seg" role="group">' + [3, 5, 8, 10].map(function (n) { var on = (r.per || RD.per || 10) === n; return '<button data-act="rd-per" data-v="' + n + '" aria-pressed="' + on + '">' + n + '</button>'; }).join('') + '</div><p class="small muted" style="margin:6px 0 0">Mason aims at about ten a day. Fewer is fine while Emily is beginning.</p></div>' +
       '<p class="small muted">Poem texts: ' + esc(Array.from(new Set(RD.poems.map(function (p) { return p.src.split('. ')[0].split(', Project')[0]; }))).join('; ')) + '.</p>';
   }
@@ -1562,17 +1585,52 @@
     var r = rdState(); var ts = Object.keys(r.log).sort(function (a, b) { return b - a; });
     if (!ts.length) return '<p class="muted">Lessons will be listed here once she finishes one.</p>';
     var byId = {}; RD.poems.forEach(function (p) { byId[p.id] = p; });
-    var names = { sight: 'New words', sound: 'Word families', poem: 'Read the poem' };
+    var names = { sight: 'New words', sound: 'Word families', poem: 'Read the poem', place: 'Placement check: read' };
     return '<div class="card"><ul class="list">' + ts.map(function (t) {
       var e = r.log[t]; var p = byId[e.p];
       var det = (e.w && e.w.length ? e.w.join(', ') : '') + (e.f && e.f.length ? (e.w && e.w.length ? ' · ' : '') + 'by sound: ' + e.f.join(', ') : '');
-      return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + esc(names[e.k] || e.k) + ', ' + esc(p ? p.title : e.p) + (det ? '<br><span class="small">' + esc(det) + '</span>' : '') + '</li>';
+      return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + esc(names[e.k] || e.k) + ', ' + esc(p ? p.title : e.p ? e.p : e.w.length + ' words') + (det ? '<br><span class="small">' + esc(det) + '</span>' : '') + '</li>';
     }).join('') + '</ul></div>';
   }
   function rdHow() {
     var M = RD.method;
     return '<div class="card"><h3>How a reading lesson goes</h3><ol style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px">' + M.steps.map(function (x) { return '<li><b>' + esc(x[0]) + '.</b> ' + esc(x[1]) + '</li>'; }).join('') + '</ol>' +
       '<ul style="margin:10px 0 0;padding-left:20px">' + M.notes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><p class="small muted" style="margin:8px 0 0">' + esc(M.src) + '</p></div>';
+  }
+  function rdPlaceStart() {
+    var lv = RD.common.levels.map(function (L) { return rdShuffle(L.words.filter(function (w) { return !rdKnows(w); })); });
+    ui.rdPlace = { lv: lv, l: 0, i: 0, miss: 0, got: [], not: [], over: false };
+  }
+  function rdPlaceView() {
+    if (!RD.common) return '<p>No word list.</p>';
+    var P = ui.rdPlace;
+    if (!P) return '<div class="card"><h3>Placement check</h3><p style="margin:0 0 8px">Show Emily the common words one at a time, easiest first. Tap <b>She read it</b> only if she reads it straight away without sounding it out. The check stops by itself when a level gets too hard.</p><p class="small muted" style="margin:0 0 10px">Words she knows go into her word book, so lessons skip them. About 5 to 10 minutes; you can stop at any time and keep what she has done.</p><div class="btns"><button class="btn" data-act="rd-pstart">Start the check</button></div></div>';
+    while (P.l < P.lv.length && P.i >= P.lv[P.l].length) { P.l++; P.i = 0; P.miss = 0; }
+    if (P.over || P.l >= P.lv.length) {
+      var lvlName = P.l < RD.common.levels.length ? RD.common.levels[P.l].name : '';
+      return '<div class="rd-done"><div class="rd-big">Check done</div><p>She read <b>' + P.got.length + '</b> common words' + (P.not.length ? ' and has <b>' + P.not.length + '</b> to learn' : '') + '.' + (P.over && lvlName ? ' The ' + esc(lvlName.toLowerCase()) + ' words are where she is now.' : '') + '</p>' +
+        (P.not.length ? '<p class="small">Not yet: ' + esc(P.not.join(', ')) + '</p>' : '') + '<p class="small muted">The words she read are in her word book. Her lessons will teach the rest as they come up in the poems.</p></div>' +
+        '<div class="btns rd-go"><button class="btn" data-act="rd-view" data-v="today">Back to today</button><button class="btn ghost small" data-act="rd-pdone">Close the check</button></div>';
+    }
+    var L = RD.common.levels[P.l], w = P.lv[P.l][P.i];
+    var left = P.lv.slice(P.l).reduce(function (t, a, j) { return t + a.length - (j === 0 ? P.i : 0); }, 0);
+    return '<div class="rd-stage"><div class="kicker">' + esc(L.name) + ' · ' + left + ' words left to check</div>' + rdBig(w) +
+      '<div class="btns rd-go"><button class="btn" data-act="rd-pans" data-v="1">She read it</button><button class="btn ghost" data-act="rd-pans" data-v="0">Not yet</button></div></div>' +
+      '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="rd-pstop">Stop the check here</button></div>';
+  }
+  function rdPlaceAns(ok) {
+    var P = ui.rdPlace; var w = P.lv[P.l][P.i]; var r = rdState();
+    if (ok) { P.got.push(w); if (!r.known[w]) { var d = cur(); r.known[w] = { n: d ? d.n : 0, d: today(), p: '', s: 'p' }; } delete r.again[w]; P.miss = 0; }
+    else { P.not.push(w); P.miss++; }
+    P.i++;
+    // Stop when she misses five in a row, or more than half of a level once ten have been tried.
+    var tried = P.i, missedHere = P.not.filter(function (x) { return P.lv[P.l].indexOf(x) >= 0; }).length;
+    if (P.miss >= 5 || (tried >= 10 && missedHere > tried / 2)) P.over = true;
+    save();
+  }
+  function rdPlaceFinish() {
+    var P = ui.rdPlace; if (!P || P.logged) return; P.logged = true;
+    if (P.got.length || P.not.length) { var d = cur(); rdState().log[String(Date.now())] = { n: d ? d.n : 0, d: today(), p: '', k: 'place', w: P.got.slice(), f: [] }; save(); }
   }
   function rdSheet(tickId) {
     if (tickId) RD_TICK = tickId;
@@ -1583,6 +1641,7 @@
     else if (view === 'words') body += rdWordBook();
     else if (view === 'poems') body += rdPoemsView();
     else if (view === 'record') body += rdRecordView();
+    else if (view === 'place') body += rdPlaceView();
     else body += rdHow();
     return { title: 'Reading lessons', who: 'emily', body: body };
   }
@@ -1590,18 +1649,18 @@
     var s = rdStep(); var p = rdLP(); var r = rdState();
     function no() { el.classList.remove('rd-no'); void el.offsetWidth; el.classList.add('rd-no'); }
     switch (act) {
-      case 'rd-view': ui.rdView = v; ui.rdManage = false; refreshSheet(true); break;
+      case 'rd-view': if (ui.rdView === 'place' && v !== 'place' && ui.rdPlace && (ui.rdPlace.over || ui.rdPlace.l >= ui.rdPlace.lv.length)) { rdPlaceFinish(); ui.rdPlace = null; ui.rd = null; } ui.rdView = v; ui.rdManage = false; refreshSheet(true); break;
       case 'rd-kind': rdStart(v); refreshSheet(true); break;
       case 'rd-next': rdNext(); break;
       case 'rd-ph': s.ph = v; s.x = null; ui.rdPeek = false; refreshSheet(); break;
-      case 'rd-knew': rdMark(s.w, 'k', p); save(); rdNext(); break;
+      case 'rd-knew': if (s.again) delete r.again[s.w]; else rdMark(s.w, 'k', p); save(); rdNext(); break;
       case 'rd-peek': ui.rdPeek = true; refreshSheet(); setTimeout(function () { ui.rdPeek = false; refreshSheet(); }, 1500); break;
       case 'rd-letter':
         var X = s.x, t = X.tiles[+v]; var need = s.w.replace(/[^A-Za-z]/g, '')[X.got];
         if (t && !t.used && need && t.c === need) { t.used = true; X.got++; refreshSheet(); } else no();
         break;
       case 'rd-find': var c = s.x.cards[+v]; if (c && c.c === s.w) { c.f = true; refreshSheet(); } else no(); break;
-      case 'rd-learnt': rdMark(s.w, 's', p); save(); rdNext(); break;
+      case 'rd-learnt': if (s.again) delete r.again[s.w]; else rdMark(s.w, 's', p); save(); rdNext(); break;
       case 'rd-col': ui.rd.col = v; if (v === 'mixed') ui.rd.mix = null; refreshSheet(); break;
       case 'rd-place':
         var Y = s.x, card = Y.tray[+v]; var slot = Y.slots.filter(function (x) { return !x.f; })[0];
@@ -1618,6 +1677,16 @@
       case 'rd-go': r.cur = +v; save(); ui.rd = null; ui.rdView = 'today'; refreshSheet(true); break;
       case 'rd-again': var q = RD.poems[+v]; ui.rd = { kind: 'poem', pid: q.id, steps: [{ t: 'reveal' }, { t: 'end' }], si: 0, learnt: [], fw: [], col: 'down', date: today() }; ui.rdView = 'today'; refreshSheet(true); break;
       case 'rd-per': r.per = +v; save(); refreshSheet(); break;
+      case 'rd-againw': if (r.again[v]) delete r.again[v]; else r.again[v] = Date.now(); save(); refreshSheet(); break;
+      case 'rd-knowpoem':
+        if (ui.rdKnowAsk !== +v) { ui.rdKnowAsk = +v; refreshSheet(); break; }
+        ui.rdKnowAsk = null; var kp = RD.poems[+v]; rdWords(kp).forEach(function (k) { if (!r.known[k]) { var dk = cur(); r.known[k] = { n: dk ? dk.n : 0, d: today(), p: kp.id, s: 'k' }; } });
+        var dd = cur(); r.done[kp.id] = { n: dd ? dd.n : 0, d: today(), known: true }; if (r.cur === +v) delete r.cur; save(); ui.rd = null; toast(kp.title + ' marked as known'); refreshSheet(); break;
+      case 'rd-noplace': ui.rdNoPlace = true; refreshSheet(); break;
+      case 'rd-pstart': rdPlaceStart(); refreshSheet(true); break;
+      case 'rd-pans': rdPlaceAns(v === '1'); if (ui.rdPlace.over || ui.rdPlace.l >= ui.rdPlace.lv.length) rdPlaceFinish(); refreshSheet(); break;
+      case 'rd-pstop': ui.rdPlace.over = true; rdPlaceFinish(); refreshSheet(true); break;
+      case 'rd-pdone': rdPlaceFinish(); ui.rdPlace = null; ui.rd = null; ui.rdView = 'today'; refreshSheet(true); break;
       case 'rd-manage': ui.rdManage = !ui.rdManage; refreshSheet(); break;
       case 'rd-forget': delete r.known[v]; save(); refreshSheet(); break;
     }

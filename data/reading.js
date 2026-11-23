@@ -22,8 +22,24 @@ window.READING = {
     ],
     "src": "Charlotte Mason, Home Education (1886), Part V: §IV Reading, §V The First Reading Lesson, §VI Reading by Sight and Sound, §VIII Reading for Older Children (AmblesideOnline text)."
   },
+  "common": {
+    "name": "Dolch sight words",
+    "levels": [{"name": "Pre-primer", "words": ["a", "and", "away", "big", "blue", "can", "come", "down", "find", "for", "funny", "go", "help", "here", "I", "in", "is", "it", "jump", "little", "look", "make", "me", "my", "not", "one", "play", "red", "run", "said", "see", "the", "three", "to", "two", "up", "we", "where", "yellow", "you"]}, {"name": "Primer", "words": ["all", "am", "are", "at", "ate", "be", "black", "brown", "but", "came", "did", "do", "eat", "four", "get", "good", "have", "he", "into", "like", "must", "new", "no", "now", "on", "our", "out", "please", "pretty", "ran", "ride", "saw", "say", "she", "so", "soon", "that", "there", "they", "this", "too", "under", "want", "was", "well", "went", "what", "white", "who", "will", "with", "yes"]}, {"name": "First grade", "words": ["after", "again", "an", "any", "as", "ask", "by", "could", "every", "fly", "from", "give", "going", "had", "has", "her", "him", "his", "how", "just", "know", "let", "live", "may", "of", "old", "once", "open", "over", "put", "round", "some", "stop", "take", "thank", "them", "then", "think", "walk", "were", "when"]}, {"name": "Second grade", "words": ["always", "around", "because", "been", "before", "best", "both", "buy", "call", "cold", "does", "don't", "fast", "first", "five", "found", "gave", "goes", "green", "its", "made", "many", "off", "or", "pull", "read", "right", "sing", "sit", "sleep", "tell", "their", "these", "those", "upon", "us", "use", "very", "wash", "which", "why", "wish", "work", "would", "write", "your"]}, {"name": "Third grade", "words": ["about", "better", "bring", "carry", "clean", "cut", "done", "draw", "drink", "eight", "fall", "far", "full", "got", "grow", "hold", "hot", "hurt", "if", "keep", "kind", "laugh", "light", "long", "much", "myself", "never", "only", "own", "pick", "seven", "shall", "show", "six", "small", "start", "ten", "today", "together", "try", "warm"]}],
+    "src": "E. W. Dolch's 220 basic sight words (1936; Problems in Reading, 1948), the commonest words in children's books, in his five levels, as listed by the University of Utah Reading Clinic. That listing prints \"where\" twice in the first-grade words; the standard list has \"were\" there, used here."
+  },
   "proper": ["I", "I'm", "I've", "Johnny", "Jack", "Humpty", "Dumpty", "King's", "London", "Queen", "Japan", "Spain"],
   "poems": [
+    {
+      "id": "jack",
+      "title": "Jack",
+      "by": "Mother Goose",
+      "text": "Jack be nimble,\nJack be quick,\nJack jump over the candlestick.",
+      "fam": [
+        { "from": "quick", "rime": "ick", "on": ["k", "p", "s", "t", "st", "br"] },
+        { "from": "jump", "rime": "ump", "on": ["b", "h", "l", "p", "st"] }
+      ],
+      "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
+    },
     {
       "id": "rainaway",
       "title": "Rain",
@@ -36,13 +52,13 @@ window.READING = {
       "src": "The Real Mother Goose, illustrated by Blanche Fisher Wright (1916), Project Gutenberg #10607."
     },
     {
-      "id": "jack",
-      "title": "Jack",
+      "id": "hickory",
+      "title": "The Mouse and the Clock",
       "by": "Mother Goose",
-      "text": "Jack be nimble,\nJack be quick,\nJack jump over the candlestick.",
+      "text": "Hickory, dickory, dock!\nThe mouse ran up the clock;\nThe clock struck one,\nAnd down he run,\nHickory, dickory, dock!",
       "fam": [
-        { "from": "quick", "rime": "ick", "on": ["k", "p", "s", "t", "st", "br"] },
-        { "from": "jump", "rime": "ump", "on": ["b", "h", "l", "p", "st"] }
+        { "from": "clock", "rime": "ock", "on": ["d", "l", "r", "s", "bl"] },
+        { "from": "run", "rime": "un", "on": ["b", "f", "s", "sp"] }
       ],
       "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
     },
@@ -91,26 +107,15 @@ window.READING = {
       "src": "A Child's Garden of Verses (1885), Project Gutenberg #25617."
     },
     {
-      "id": "hickory",
-      "title": "The Mouse and the Clock",
-      "by": "Mother Goose",
-      "text": "Hickory, dickory, dock!\nThe mouse ran up the clock;\nThe clock struck one,\nAnd down he run,\nHickory, dickory, dock!",
+      "id": "duty",
+      "title": "Whole Duty of Children",
+      "by": "Robert Louis Stevenson",
+      "text": "A child should always say what's true\nAnd speak when he is spoken to,\nAnd behave mannerly at table:\nAt least as far as he is able.",
       "fam": [
-        { "from": "clock", "rime": "ock", "on": ["d", "l", "r", "s", "bl"] },
-        { "from": "run", "rime": "un", "on": ["b", "f", "s", "sp"] }
+        { "from": "true", "rime": "ue", "on": ["bl", "gl", "cl"] },
+        { "from": "table", "rime": "able", "on": ["c", "f", "st"] }
       ],
-      "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
-    },
-    {
-      "id": "wind",
-      "title": "Who has seen the wind?",
-      "by": "Christina Rossetti",
-      "text": "Who has seen the wind?\nNeither I nor you:\nBut when the leaves hang trembling\nThe wind is passing thro'.\n\nWho has seen the wind?\nNeither you nor I:\nBut when the trees bow down their heads\nThe wind is passing by.",
-      "fam": [
-        { "from": "by", "rime": "y", "on": ["m", "fl", "cr", "dr", "sk"] },
-        { "from": "hang", "rime": "ang", "on": ["b", "r", "s", "f"] }
-      ],
-      "src": "Sing-Song: A Nursery Rhyme Book (1893), Project Gutenberg #76703."
+      "src": "A Child's Garden of Verses (1885), Project Gutenberg #25617."
     },
     {
       "id": "rise",
@@ -124,6 +129,17 @@ window.READING = {
       "src": "A Child's Garden of Verses (1885), Project Gutenberg #25617."
     },
     {
+      "id": "wind",
+      "title": "Who has seen the wind?",
+      "by": "Christina Rossetti",
+      "text": "Who has seen the wind?\nNeither I nor you:\nBut when the leaves hang trembling\nThe wind is passing thro'.\n\nWho has seen the wind?\nNeither you nor I:\nBut when the trees bow down their heads\nThe wind is passing by.",
+      "fam": [
+        { "from": "by", "rime": "y", "on": ["m", "fl", "cr", "dr", "sk"] },
+        { "from": "hang", "rime": "ang", "on": ["b", "r", "s", "f"] }
+      ],
+      "src": "Sing-Song: A Nursery Rhyme Book (1893), Project Gutenberg #76703."
+    },
+    {
       "id": "boyblue",
       "title": "Little Boy Blue",
       "by": "Mother Goose",
@@ -133,17 +149,6 @@ window.READING = {
         { "from": "fast", "rime": "ast", "on": ["l", "m", "p", "v"] }
       ],
       "src": "The Real Mother Goose (1916), Project Gutenberg #10607."
-    },
-    {
-      "id": "singing",
-      "title": "Singing",
-      "by": "Robert Louis Stevenson",
-      "text": "Of speckled eggs the birdie sings\nAnd nests among the trees;\nThe sailor sings of ropes and things\nIn ships upon the seas.\n\nThe children sing in far Japan,\nThe children sing in Spain;\nThe organ with the organ man\nIs singing in the rain.",
-      "fam": [
-        { "from": "ships", "rime": "ips", "on": ["h", "l", "d", "t", "sl"] },
-        { "from": "far", "rime": "ar", "on": ["c", "j", "st", "b"] }
-      ],
-      "src": "A Child's Garden of Verses (1885), Project Gutenberg #25617."
     },
     {
       "id": "boats",
@@ -157,13 +162,13 @@ window.READING = {
       "src": "Sing-Song: A Nursery Rhyme Book (1893), Project Gutenberg #76703."
     },
     {
-      "id": "duty",
-      "title": "Whole Duty of Children",
+      "id": "singing",
+      "title": "Singing",
       "by": "Robert Louis Stevenson",
-      "text": "A child should always say what's true\nAnd speak when he is spoken to,\nAnd behave mannerly at table:\nAt least as far as he is able.",
+      "text": "Of speckled eggs the birdie sings\nAnd nests among the trees;\nThe sailor sings of ropes and things\nIn ships upon the seas.\n\nThe children sing in far Japan,\nThe children sing in Spain;\nThe organ with the organ man\nIs singing in the rain.",
       "fam": [
-        { "from": "true", "rime": "ue", "on": ["bl", "gl", "cl"] },
-        { "from": "table", "rime": "able", "on": ["c", "f", "st"] }
+        { "from": "ships", "rime": "ips", "on": ["h", "l", "d", "t", "sl"] },
+        { "from": "far", "rime": "ar", "on": ["c", "j", "st", "b"] }
       ],
       "src": "A Child's Garden of Verses (1885), Project Gutenberg #25617."
     },
