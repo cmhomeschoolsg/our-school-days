@@ -1802,7 +1802,9 @@
     try {
       var s = window.speechSynthesis; if (!s) { if (done) done(); return; }
       var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; // no voice set: iPadOS then uses the one chosen in Settings
-      u.onend = function () { if (done) setTimeout(done, 200); }; s.speak(u);
+      // Safari can stop an utterance halfway if nothing holds on to it, so keep the last few.
+      ziTTS.keep = (ziTTS.keep || []).concat([u]).slice(-4);
+      u.onend = function () { if (done) setTimeout(done, 120); }; u.onerror = function () { if (done) done(); }; s.speak(u);
     } catch (e) { if (done) done(); }
   }
 
@@ -2030,7 +2032,26 @@
   }
   // Animate one stroke: a thick line runs along the stroke's centre line, clipped to the stroke's outline.
   var hzTimer = null;
-  function hzStop() { clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} if (hzAud) { hzAud.onended = null; hzAud.pause(); } }
+  var hzRaf = null;
+  // Where along the stroke each part of its name begins: the start, then the sharpest turns of the pen, in order.
+  function hzSplits(pts, len, n) {
+    var at = [0]; if (n < 2 || pts.length < 3) { for (var q = 1; q < n; q++) at.push(q / n); return at; }
+    var cum = [0]; for (var a = 1; a < pts.length; a++) cum.push(cum[a - 1] + Math.sqrt(Math.pow(pts[a][0] - pts[a - 1][0], 2) + Math.pow(pts[a][1] - pts[a - 1][1], 2)));
+    var turns = [];
+    for (var b = 1; b < pts.length - 1; b++) {
+      var a1 = Math.atan2(pts[b][1] - pts[b - 1][1], pts[b][0] - pts[b - 1][0]), a2 = Math.atan2(pts[b + 1][1] - pts[b][1], pts[b + 1][0] - pts[b][0]);
+      var dA = Math.abs(((a2 - a1 + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI);
+      turns.push({ i: b, a: dA });
+    }
+    turns.sort(function (x, y) { return y.a - x.a; });
+    var pick = [];
+    turns.forEach(function (tn) { if (pick.length < n - 1 && pick.every(function (p) { return Math.abs(cum[p] - cum[tn.i]) > len * 0.12; })) pick.push(tn.i); });
+    pick.sort(function (x, y) { return x - y; });
+    pick.forEach(function (p) { at.push((cum[p] + 75) / (len + 150)); });
+    while (at.length < n) at.push(Math.min(0.95, at[at.length - 1] + 0.2));
+    return at;
+  }
+  function hzStop() { if (hzRaf) cancelAnimationFrame(hzRaf); hzRaf = null; clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} if (hzAud) { hzAud.onended = null; hzAud.pause(); } }
   function hzPlay(box, c, opts) {
     hzStop(); var d = HZ[c]; if (!d || !box) return;
     box.innerHTML = hzSVG(c, 'grey', opts.size || 220);
@@ -2049,13 +2070,26 @@
       pl.setAttribute('clip-path', 'url(#' + id + ')'); pl.style.strokeDasharray = (len + 150) + ' ' + (len + 150); pl.style.strokeDashoffset = (len + 150);
       g.appendChild(pl);
       if (lab) lab.innerHTML = '<span class="hz-n">' + (i + 1) + '</span> <b>' + esc(d.n[i] || '') + '</b>';
-      var dur = Math.round((350 + len * 0.55) * slow), j = i, said = opts.sound === false, drawn = false;
-      // The next stroke starts once this one is drawn and its name has been said.
-      var go = function () { if (!said || !drawn || !document.body.contains(svg)) return; var o = svg.querySelector('path[data-i="' + j + '"]'); if (o) o.setAttribute('fill', '#222'); pl.setAttribute('stroke', '#222'); i++; hzTimer = setTimeout(step, Math.round(350 * slow)); };
-      if (!said) hzSayStroke(d.n[i] || '', function () { said = true; go(); });
-      pl.getBoundingClientRect();
-      pl.style.transition = 'stroke-dashoffset ' + dur + 'ms linear'; pl.style.strokeDashoffset = '0';
-      hzTimer = setTimeout(function () { drawn = true; go(); }, dur + Math.round(250 * slow));
+      // A stroke name such as 横折钩 has one part for each movement of the pen: 横 as it goes across, 折 at the turn
+      // down, 钩 at the hook. Each part is said as the red reaches that place; the drawing waits if the voice is still speaking.
+      var toks = (d.n[i] || '').split(''), at = hzSplits(pts, len, toks.length), mute = opts.sound === false;
+      var total = Math.max(350 + len * 0.55, toks.length * 520) * slow, t = 0, last = null, k2 = 0, speaking = false, j = i, ended = false;
+      function frame(ts) {
+        if (!document.body.contains(svg) || hzTimer === 'stop') return;
+        if (last == null) last = ts; var dt = ts - last; last = ts;
+        var f = Math.min(1, t / total);
+        if (!mute && k2 < toks.length && f >= at[k2]) {
+          if (!speaking) { speaking = true; var me = k2; k2++; hzSayPart(toks[me], function () { speaking = false; }); }
+        } else if (!(k2 < toks.length && f >= at[k2] && speaking)) t += dt;
+        if (mute) k2 = toks.length;
+        pl.style.strokeDashoffset = String((len + 150) * (1 - f));
+        if (f >= 1 && k2 >= toks.length && !speaking && !ended) {
+          ended = true; var o = svg.querySelector('path[data-i="' + j + '"]'); if (o) o.setAttribute('fill', '#222'); pl.setAttribute('stroke', '#222'); i++;
+          hzTimer = setTimeout(step, Math.round(450 * slow)); return;
+        }
+        hzRaf = requestAnimationFrame(frame);
+      }
+      hzRaf = requestAnimationFrame(frame);
     }
     step();
   }
@@ -2064,13 +2098,13 @@
   }
   var HZSYL = { '横': 'heng2', '竖': 'shu4', '撇': 'pie3', '点': 'dian3', '捺': 'na4', '提': 'ti2', '折': 'zhe2', '钩': 'gou1', '弯': 'wan1', '斜': 'xie2', '卧': 'wo4' };
   var hzAud = null;
-  function hzSayStroke(name, done) {
-    var q = name.split('').map(function (ch) { return HZSYL[ch] ? 'data/audio/s/' + HZSYL[ch] + '.mp3' : null; });
-    if (!name || ziVoicePref() === 'ios' || q.some(function (x) { return !x; })) { var ok = false, fin2 = function () { if (!ok) { ok = true; done(); } }; ziTTS(name, fin2); setTimeout(fin2, 3000); return; }
-    if (!hzAud) hzAud = new Audio();
+  function hzSayPart(ch, done) {
     var fin = false, end = function () { if (!fin) { fin = true; done(); } };
-    (function next() { var u = q.shift(); if (!u) { end(); return; } hzAud.onended = next; hzAud.onerror = next; hzAud.src = u; var p = hzAud.play(); if (p && p.catch) p.catch(function () { end(); }); })();
-    setTimeout(end, 4000);
+    setTimeout(end, 2200);
+    if (ziVoicePref() === 'ios' || !HZSYL[ch]) { ziTTS(ch, end); return; }
+    if (!hzAud) hzAud = new Audio();
+    hzAud.onended = end; hzAud.onerror = end; hzAud.src = 'data/audio/s/' + HZSYL[ch] + '.mp3';
+    var p = hzAud.play(); if (p && p.catch) p.catch(end);
   }
   function hzSayEn(t) {
     try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'en-GB'; u.rate = 0.95; s.speak(u); } catch (e) {}
