@@ -1782,8 +1782,11 @@
   // Anything not recorded is read by the iPad's own Chinese voice.
   var ziAud = null, ziQ = [];
   function ziHex(w) { return w.split('').map(function (ch) { return ch.charCodeAt(0).toString(16); }).join('-'); }
+  // Which voice: the iPad's own (the one chosen in Settings → Accessibility → Spoken Content), or the recordings.
+  function ziVoicePref() { try { return localStorage.getItem('zi-voice') || 'ios'; } catch (e) { return 'ios'; } }
   function ziClips(c, wordOnly) {
     var out = [], au = Z.au && Z.au[c];
+    if (ziVoicePref() === 'ios') { if (!wordOnly) out.push({ tts: c }); ziWords(c).forEach(function (x) { if (!wordOnly || x[0] === wordOnly) out.push({ tts: x[0] }); }); return out; }
     if (!wordOnly) out.push(au === 1 ? 'data/audio/' + ziHex(c) + '.mp3' : au ? 'data/audio/s/' + au + '.mp3' : { tts: c });
     ziWords(c).forEach(function (x) { if (!wordOnly || x[0] === wordOnly) out.push(x[2] ? 'data/audio/' + ziHex(x[0]) + '.mp3' : { tts: x[0] }); });
     return out;
@@ -1989,6 +1992,8 @@
     function row(lbl, key, v) { return '<li><span>' + lbl + '</span><span class="btns"><button class="btn ghost small" data-act="zi-set" data-v="' + key + ':-1">−</button><b style="min-width:2em;text-align:center">' + v + '</b><button class="btn ghost small" data-act="zi-set" data-v="' + key + ':1">+</button></span></li>'; }
     var rs = ui.zi.reset;
     return '<div class="card"><div class="kicker">For Mum</div><ul class="list">' + row('New characters to read each day', 'nr', z.nr) + row('New characters to write each day', 'nw', z.nw) + '</ul>' +
+      '<div class="kicker" style="margin-top:10px">Voice</div><div class="seg" role="group" aria-label="Voice">' + [['ios', 'iPad voice'], ['rec', 'Recorded voice']].map(function (o) { return '<button data-act="zi-voice" data-v="' + o[0] + '" aria-pressed="' + (ziVoicePref() === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
+      '<p class="small muted" style="margin:6px 0 0">' + (ziVoicePref() === 'ios' ? 'Uses the Chinese voice chosen on this iPad in Settings → Accessibility → Spoken Content → Voices → Chinese (China mainland).' : 'Recordings of native speakers (audio-cmn: words by Yue Tan, characters by Chen Wang).') + ' <button class="btn ghost small" data-act="zi-say" data-v="大">🔊 Try it</button></p>' +
       '<p class="small muted">List: ' + esc((Z.lists[z.list] || {}).name || '') + '. Reviews come back after 1, 2, 4, 8, 16, 32 and 64 school days; a character missed starts again at one day.</p>' +
       '<div class="kicker" style="margin-top:10px">Start again</div><div class="btns">' + [['r', 'Reset reading (识读)'], ['w', 'Reset writing (识写)'], ['all', 'Reset all 识字']].map(function (o) { return rs === o[0] ? '<button class="btn small" style="background:#b3261e;border-color:#b3261e" data-act="zi-reset" data-v="' + o[0] + '">Tap again to ' + o[1].toLowerCase() + '</button>' : '<button class="btn ghost small" data-act="zi-reset" data-v="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>' +
       '<p class="small muted">To tick off single characters she already knows, use the Characters tab.</p></div>';
@@ -2058,7 +2063,7 @@
   var hzAud = null;
   function hzSayStroke(name, done) {
     var q = name.split('').map(function (ch) { return HZSYL[ch] ? 'data/audio/s/' + HZSYL[ch] + '.mp3' : null; });
-    if (!name || q.some(function (x) { return !x; })) { hzSpeak(name); setTimeout(done, 900); return; }
+    if (!name || ziVoicePref() === 'ios' || q.some(function (x) { return !x; })) { var ok = false, fin2 = function () { if (!ok) { ok = true; done(); } }; ziTTS(name, fin2); setTimeout(fin2, 3000); return; }
     if (!hzAud) hzAud = new Audio();
     var fin = false, end = function () { if (!fin) { fin = true; done(); } };
     (function next() { var u = q.shift(); if (!u) { end(); return; } hzAud.onended = next; hzAud.onerror = next; hzAud.src = u; var p = hzAud.play(); if (p && p.catch) p.catch(function () { end(); }); })();
@@ -2094,13 +2099,14 @@
     switch (act) {
       case 'zi-view': hzStop(); ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
       case 'zi-say': var sv = v.split('|'); ziSpeakChar(sv[0], sv[1]); return;
+      case 'zi-voice': try { localStorage.setItem('zi-voice', v); } catch (e) {} refreshSheet(); ziSpeakChar('大'); return;
       case 'zi-cmp': ziCmpToggle(v); return;
       case 'zi-cmpplay': ziCmpPlay(v); return;
       case 'zi-pick': ui.zi.sel = v; ziSpeakChar(v); refreshSheet(); return;
       case 'zi-sayen': hzSayEn(v); return;
       case 'zi-play': var pv = v.split(':'); hzLoad(pv[0], function () { hzPlay(document.getElementById('hzbox'), pv[0], { label: document.getElementById('hzlab'), slow: pv[1] === 'slow', size: 200 }); }); return;
       case 'zi-noplace': ui.ziNoPlace = true; refreshSheet(); return;
-      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); hzPrefetch(ui.zi.run.q.map(function (x) { return x.c; })); ui.zi.run.q.forEach(function (x) { ziClips(x.c).forEach(function (u) { if (typeof u === 'string') { try { fetch(u); } catch (e) {} } }); }); save(); refreshSheet(true); return;
+      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); hzPrefetch(ui.zi.run.q.map(function (x) { return x.c; })); if (ziVoicePref() !== 'ios') ui.zi.run.q.forEach(function (x) { ziClips(x.c).forEach(function (u) { if (typeof u === 'string') { try { fetch(u); } catch (e) {} } }); }); save(); refreshSheet(true); return;
       case 'zi-close': hzStop(); ui.zi.run = null; refreshSheet(true); return;
       case 'zi-show': R.shown = true; var it = R.q[R.i]; if (it.k === 'rr') ziSpeakChar(it.c); refreshSheet(); return;
       case 'zi-next': hzStop();
