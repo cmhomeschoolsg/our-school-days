@@ -1733,6 +1733,7 @@
   // ---------- Maths: facts trainer, daily practice by syllabus topic, PSLE heuristics (questions come from math.js) ----------
   var MX = window.SDMath || { topics: [], heuristics: [], facts: [] };
   var MT_WHO = 'emma', MT_TICK = 'e_mathtr';
+  function mtWhoName() { return MT_WHO.charAt(0).toUpperCase() + MT_WHO.slice(1); }
   function mtState() {
     var all = S.mt || (S.mt = {}); var m = all[MT_WHO] || (all[MT_WHO] = {});
     if (!m.facts) m.facts = { best: {}, miss: {} }; if (!m.facts.best) m.facts.best = {}; if (!m.facts.miss) m.facts.miss = {};
@@ -1865,7 +1866,7 @@
     if (R.i >= R.items.length) return mtSetEnd();
     var it = R.items[R.i], Q = it.Q; var g = it.kind === 'h' ? mtHeur(it.id) : mtTopic(it.id);
     var tname = it.kind === 'h' ? 'Heuristic: ' + g.name : 'P' + g.lv + ' ' + g.name;
-    var head = '<div class="kicker">' + esc(R.label) + ' · ' + (R.kind === 'heur' ? 'Level ' + it.lv + ' · problem ' + (R.i + 1) : (R.i + 1) + ' of ' + R.items.length) + (R.label === g.name ? '' : ' · ' + esc(tname) + (it.lv ? ' (level ' + it.lv + ')' : '')) + '</div>';
+    var head = '<div class="mt-top"><button class="btn ghost small" data-act="mt-back">‹ Back</button></div><div class="kicker">' + esc(R.label) + ' · ' + (R.kind === 'heur' ? 'Level ' + it.lv + ' · problem ' + (R.i + 1) : (R.i + 1) + ' of ' + R.items.length) + (R.label === g.name ? '' : ' · ' + esc(tname) + (it.lv ? ' (level ' + it.lv + ')' : '')) + '</div>';
     var body = '<div class="mt-q">' + esc(Q.q) + '</div>';
     var more = R.kind === 'heur' && R.fb && !R.fb.chg && R.i + 1 >= R.items.length && R.items.length < MT_HMAX;
     var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length || more ? 'Next question ›' : 'Finish ›') + '</button>' + (R.kind === 'heur' && (R.i + 1 < R.items.length || more) ? '<button class="btn ghost" data-act="mt-stopset">Stop here</button>' : '');
@@ -1987,8 +1988,11 @@
   }
   function mtRecordView() {
     var m = mtState(); var ts = Object.keys(m.log).sort(function (a, b) { return b - a; });
-    if (!ts.length) return '<p class="muted">Sessions will be listed here.</p>';
-    return '<div class="card"><ul class="list">' + ts.slice(0, 120).map(function (t) { var e = m.log[t];
+    var rs = ui.mt.reset;
+    var reset = '<div class="card"><div class="kicker">Start again</div><p class="small muted" style="margin:0 0 8px">Clears ' + esc(mtWhoName()) + '\'s maths progress — for example after you have been trying the questions yourself. This cannot be undone.</p><div class="btns">' +
+      [['heur', 'Reset heuristics'], ['topics', 'Reset topics and placement'], ['all', 'Reset all maths']].map(function (o) { return rs === o[0] ? '<button class="btn small" style="background:#b3261e;border-color:#b3261e" data-act="mt-reset" data-v="' + o[0] + '">Tap again to ' + o[1].toLowerCase() + '</button>' : '<button class="btn ghost small" data-act="mt-reset" data-v="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div></div>';
+    if (!ts.length) return '<p class="muted">Sessions will be listed here.</p>' + reset;
+    return reset + '<div class="card"><ul class="list">' + ts.slice(0, 120).map(function (t) { var e = m.log[t];
       var what = e.k === 'facts' ? 'Facts · ' + esc(mtFactMode(e.mode).name) + ': ' + e.score + ' in a minute' : esc(e.label || e.k) + ': ' + e.score + '/' + e.total;
       return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + what + '</li>'; }).join('') + '</ul></div>';
   }
@@ -2113,6 +2117,14 @@
       case 'mt-inkundo': ui.mt.ink.strokes.pop(); var cb = document.getElementById('mt-board'); if (cb && cb._redraw) cb._redraw(); break;
       case 'mt-inkclear': ui.mt.ink.strokes = []; var cb2 = document.getElementById('mt-board'); if (cb2 && cb2._redraw) cb2._redraw(); break;
       case 'mt-inkbig': ui.mt.ink.big = !ui.mt.ink.big; refreshSheet(); break;
+      case 'mt-back': clearInterval(mtTimer); ui.mt.run = null; ui.mt.reset = null; refreshSheet(true); break;
+      case 'mt-reset':
+        if (ui.mt.reset !== v) { ui.mt.reset = v; refreshSheet(); break; }
+        ui.mt.reset = null; var mm = mtState();
+        if (v === 'heur' || v === 'all') mm.heur = {};
+        if (v === 'topics' || v === 'all') { mm.topics = {}; mm.place = {}; }
+        if (v === 'all') { mm.facts = { best: {}, miss: {} }; mm.log = {}; }
+        save(); toast(v === 'heur' ? 'Heuristics reset' : v === 'topics' ? 'Topics reset' : 'All maths progress reset'); refreshSheet(); break;
       case 'mt-stopset': R.items = R.items.slice(0, R.i + 1); R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; refreshSheet(true); break;
       case 'mt-next': if (ui.mt.ink) ui.mt.ink.strokes = []; mtAdapt(R);
         R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
