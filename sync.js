@@ -126,7 +126,8 @@ function scan() {
     // or the app started empty), never send that as deletions to the other devices. Forget the local
     // record of those leaves instead, so the family copy in the cloud is read back in.
     const gone = Object.keys(flatPrev).filter(k => !(k in now));
-    const goneCounted = gone.filter(k => k.indexOf('["mt"') !== 0).length;
+    // Maths and 识字 have their own reset and untick-all buttons, so a big drop there is deliberate: don't count it.
+    const goneCounted = gone.filter(k => k.indexOf('["mt"') !== 0 && k.indexOf('["zi"') !== 0).length;
     const total = Object.keys(flatPrev).length;
     if (goneCounted > 40 && goneCounted > total * 0.25) {
       gone.forEach(k => { delete flatPrev[k]; meta[k] = { t: 0, d: '' }; delete pending[k]; });
