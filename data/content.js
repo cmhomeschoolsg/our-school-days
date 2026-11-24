@@ -5783,7 +5783,7 @@ window.CONTENT = {
 "id": "natmem",
 "name": "Animals from memory",
 "target": 6,
-"hint": "Animals she has been able to watch."
+"hint": "Animals you have been able to watch."
 },
 {
 "id": "imag",
@@ -5819,7 +5819,7 @@ window.CONTENT = {
 "id": "natmem",
 "name": "Animals from memory",
 "target": 6,
-"hint": "Animals she has been able to watch."
+"hint": "Animals you have been able to watch."
 },
 {
 "id": "imag",

@@ -9,40 +9,40 @@ window.READING = {
     "steps": [
       [
         "Warm up",
-        "She reads the words she already knows as you point. Mason calls this a minute's work that \"secures the ground\"."
+        "Read the words you already know as Mum points. Mason calls this a minute's work that \"secures the ground\"."
       ],
       [
         "Look",
-        "Say the new word. She looks at it until she would know it again, then hides it."
+        "Mum says the new word. Look at it until you would know it again, then hide it."
       ],
       [
         "Build",
-        "She makes the word from memory with the loose letters. She can peek if she must."
+        "Make the word from memory with the loose letters. You can peek if you must."
       ],
       [
         "Find",
-        "She finds every copy of the word among the loose word cards."
+        "Find every copy of the word among the loose word cards."
       ],
       [
         "Read the column",
-        "Each new word joins the column. She reads it down, up and in mixed order."
+        "Each new word joins the column. Read it down, up and in mixed order."
       ],
       [
         "Lines",
-        "You say a line of the poem; she lays it out with her word cards. A counter stands in for a word she hasn't learnt yet."
+        "Mum says a line of the poem; lay it out with your word cards. A counter stands in for a word you haven't learnt yet."
       ],
       [
         "Word families",
-        "On another day she builds a known word, takes off the first letter, and makes new words from what is left: coat, boat, goat."
+        "On another day, build a known word, take off the first letter, and make new words from what is left: coat, boat, goat."
       ],
       [
         "The poem",
-        "When every word is known she lays out the whole poem, then sees it printed and reads it to you, beautifully."
+        "When every word is known, lay out the whole poem, then see it printed and read it to Mum, beautifully."
       ]
     ],
     "notes": [
-      "About ten new words a day is Mason's pace; stop sooner if she tires. Ten minutes to a quarter of an hour of full attention is enough.",
-      "The poem stays a surprise until she has learnt all its words."
+      "About ten new words a day is Mason's pace; stop sooner if you get tired. Ten minutes to a quarter of an hour of full attention is enough.",
+      "The poem stays a surprise until you have learnt all its words."
     ],
     "src": "Charlotte Mason, Home Education (1886), Part V: §IV Reading, §V The First Reading Lesson, §VI Reading by Sight and Sound, §VIII Reading for Older Children (AmblesideOnline text)."
   },
@@ -1287,6 +1287,6 @@ window.READING = {
       "glassriver",
       "summersun"
     ],
-    "note": "Emma builds the words of five letters or more that are not on the Dolch list; shorter and commoner words count as known."
+    "note": "You build the words of five letters or more that are not on the Dolch list; shorter and commoner words count as known."
   }
 };
