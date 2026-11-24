@@ -59,10 +59,17 @@
   function ptr(key, tickId) {
     var p = S.ptr[key] || (S.ptr[key] = { i: 0, readOn: null });
     var d = cur();
-    if (d && p.readOn && p.readOn < d.n) { p.i++; p.readOn = null; save(); }
+    // Move on once the poem was read on an earlier school day (or an earlier date, in case days were removed and redone).
+    if (d && p.readOn && (p.readOn < d.n || (p.readDate && p.readDate < d.date))) { p.i++; p.readOn = null; p.readDate = null; save(); }
     return p;
   }
-  function markRead(key, n) { var p = S.ptr[key] || (S.ptr[key] = { i: 0, readOn: null }); p.readOn = n; }
+  // Each poem read is also kept in a record, so the place can always be found again.
+  function markRead(key, n) {
+    var p = S.ptr[key] || (S.ptr[key] = { i: 0, readOn: null });
+    p.readOn = n; p.readDate = today();
+    var len = ptrLen(key); var i = len ? ((p.i % len) + len) % len : p.i;
+    if (!p.log) p.log = {}; if (!p.log[i]) p.log[i] = today();
+  }
 
   // ---------- bible ----------
   var EN_BOOKS = ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges', 'Ruth', '1 Samuel', '2 Samuel', '1 Kings', '2 Kings', '1 Chronicles', '2 Chronicles', 'Ezra', 'Nehemiah', 'Esther', 'Job', 'Psalm', 'Proverbs', 'Ecclesiastes', 'Song of Solomon', 'Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel', 'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah', 'Nahum', 'Habakkuk', 'Zephaniah', 'Haggai', 'Zechariah', 'Malachi', 'Matthew', 'Mark', 'Luke', 'John', 'Acts', 'Romans', '1 Corinthians', '2 Corinthians', 'Galatians', 'Ephesians', 'Philippians', 'Colossians', '1 Thessalonians', '2 Thessalonians', '1 Timothy', '2 Timothy', 'Titus', 'Philemon', 'Hebrews', 'James', '1 Peter', '2 Peter', '1 John', '2 John', '3 John', 'Jude', 'Revelation'];
@@ -180,12 +187,12 @@
   function doneToday(id) { var d = cur(); return d ? dList(d.w, id).indexOf(d.n) >= 0 : false; }
   function addToday(id) {
     var d = cur(); if (!d) return false; var a = wkd(d.w)[id] || (wkd(d.w)[id] = []);
-    if (a.length >= 5) { toast('All 5 done this week'); return false; }
+    if (a.length >= 5) { (POEM_TICKS[id] || []).forEach(function (k) { markRead(k, d.n); }); save(); toast('All 5 done this week' + ((POEM_TICKS[id] || []).length ? ' · poem marked as read' : '')); return false; }
     a.push(d.n); (POEM_TICKS[id] || []).forEach(function (k) { markRead(k, d.n); }); save(); return true;
   }
   function removeAt(id, k) {
     var d = cur(); var a = wkd(d.w)[id] || []; var n = a.splice(k, 1)[0];
-    if (n === d.n && a.indexOf(d.n) < 0) (POEM_TICKS[id] || []).forEach(function (pk) { if (S.ptr[pk]) S.ptr[pk].readOn = null; });
+    if (n === d.n && a.indexOf(d.n) < 0) (POEM_TICKS[id] || []).forEach(function (pk) { var q = S.ptr[pk]; if (!q) return; q.readOn = null; q.readDate = null; var len = ptrLen(pk); var i = len ? ((q.i % len) + len) % len : q.i; if (q.log && q.log[i] === today()) delete q.log[i]; });
     save();
   }
   function todayCount(key) {
@@ -327,7 +334,7 @@
       if (o.indexOf('reading:') === 0) { var R = C.readings[o.split(':')[1]]; if (R.pending) return R.book; var ri = readingIndex(o.split(':')[1]); return R.contents[ri]; }
       if (o.indexOf('book:') === 0) return bookPeek(o.split(':')[1]);
       if (o === 'drawing') return 'Drawing record';
-      if (o === 'rd') return rdPeek();
+      if (o === 'rd' || o === 'rd:emma') return rdPeekFor(o === 'rd:emma' ? 'emma' : 'emily');
     } catch (e) {}
     return '';
   }
@@ -450,7 +457,7 @@
       case 'pick': return pickSheet(arg.pick, arg.list);
       case 'settings': return settingsSheet();
       case 'pin': return pinSheet();
-      case 'rd': return rdSheet(tickId);
+      case 'rd': return rdSheet(tickId, parts[1]);
     }
     return { title: '', body: '' };
   }
@@ -460,12 +467,20 @@
     return '<div class="card" style="--who:var(--' + who + ')"><div class="kicker">' + esc(label || P.poet) + ' · poem ' + (i + 1) + ' of ' + P.poems.length + '</div><h3>' + esc(poem.title) + '</h3>' +
       '<div class="poem">' + esc(poem.text) + '</div><div class="nav" style="margin-top:12px"><button class="btn ghost small" data-act="ptr" data-k="' + key + '" data-d="-1">‹ Previous</button><span class="small muted">' + (p.readOn ? 'Read today ✓ · next poem tomorrow' : 'A new poem each school day') + '</span><button class="btn ghost small" data-act="ptr" data-k="' + key + '" data-d="1">Next ›</button></div></div>';
   }
+  // Every poem of the term, with the ones already read ticked, and a way to pick the place again.
+  function poemListHTML(who, key) {
+    var P = C.poets[who]; var p = ptr(key); var len = P.poems.length; var ci = ((p.i % len) + len) % len; var log = p.log || {};
+    var nRead = Object.keys(log).length;
+    return '<details class="card"' + (ui.poemUpto === key || ui.poemListOpen === key ? ' open' : '') + '><summary style="cursor:pointer;font-weight:800" data-act="poemlist" data-k="' + key + '">All ' + len + ' poems · ' + nRead + ' read</summary><p class="small muted" style="margin:6px 0 8px">Tap a poem to make it today\'s poem. Ticks show the poems read, with the date.</p><ul class="list">' +
+      P.poems.map(function (q, k) { return '<li class="' + (k === ci ? 'cur' : '') + '"><span>' + (log[k] ? '✓ ' : '') + '<b>' + (k + 1) + '. ' + esc(q.title) + '</b>' + (/^\d{4}-/.test(log[k] || '') ? ' <span class="small muted">' + esc(fmtDate(log[k])) + '</span>' : '') + '</span>' + (k === ci ? '<span class="small">Today</span>' : '<button class="btn ghost small" data-act="setptr" data-k="' + key + '" data-v="' + k + '">Read this</button>') + '</li>'; }).join('') +
+      '</ul><div class="btns" style="margin-top:8px"><button class="btn ghost small" data-act="poemsupto" data-k="' + key + '">' + (ui.poemUpto === key ? 'Now tap the last poem she read' : 'Mark poems already read…') + '</button></div></details>';
+  }
   function poemSheet(which, tickId) {
     if (which === 'together') {
       return { title: 'Poetry together', who: 'together', body: '<p class="small muted" style="margin:0">One poem from each girl\'s poet. If you read these together, the girls can tick Poetry on their own lists too.</p>' + poemCard('emma', 'tpoem_emma', 'For Emma · ' + C.poets.emma.poet) + poemCard('emily', 'tpoem_emily', 'For Emily · ' + C.poets.emily.poet) + '<div class="btns">' + tickButton(tickId, 'Poetry done', 'We read our poems') + '</div>' };
     }
     var P = C.poets[which];
-    return { title: esc(P.poet), who: which, body: poemCard(which, 'poem_' + which) + '<div class="btns">' + tickButton(tickId, 'Read today', 'I read my poem') + '</div><p class="small muted">' + esc(P.source) + '</p>' };
+    return { title: esc(P.poet), who: which, body: poemCard(which, 'poem_' + which) + '<div class="btns">' + tickButton(tickId, 'Read today', 'I read my poem') + '</div>' + poemListHTML(which, 'poem_' + which) + '<p class="small muted">' + esc(P.source) + '</p>' };
   }
 
   function chineseSheet(tickId) {
@@ -1281,7 +1296,7 @@
   }
 
   // ---------- actions ----------
-  function setPtr(key, i, len) { var p = S.ptr[key] || (S.ptr[key] = { i: 0 }); p.i = len ? Math.max(0, Math.min(len - 1, i)) : Math.max(0, i); p.readOn = null; save(); }
+  function setPtr(key, i, len) { var p = S.ptr[key] || (S.ptr[key] = { i: 0 }); p.i = len ? Math.max(0, Math.min(len - 1, i)) : Math.max(0, i); p.readOn = null; p.readDate = null; save(); }
   function ptrLen(key) {
     if (key === 'poem_emma' || key === 'tpoem_emma') return C.poets.emma.poems.length;
     if (key === 'poem_emily' || key === 'tpoem_emily') return C.poets.emily.poems.length;
@@ -1299,8 +1314,16 @@
   var RD = window.READING || { poems: [], proper: [], method: { steps: [], notes: [] } };
   var RD_PROPER = {}; (RD.proper || []).forEach(function (w) { RD_PROPER[w] = 1; });
   var RD_TICK = 'm_reading';
+  // Whose lessons are open: Emily learns every word of each poem; Emma, who reads fluently, builds only the longer, less common words.
+  var RDW = 'emily';
+  var RD_EMMA = (function () { var E = RD.emma || { list: [], poems: [] }; var by = {}; RD.poems.concat(E.poems || []).forEach(function (p) { by[p.id] = p; }); return (E.list || []).map(function (id) { return by[id]; }).filter(Boolean); })();
+  function rdPer() { var r = rdState(); return r.per || (RDW === 'emma' && RD.emma && RD.emma.per) || RD.per || 10; }
+  function rdPoems() { return RDW === 'emma' ? RD_EMMA : RD.poems; }
+  function rdWith(who, fn) { var keep = RDW; RDW = who || 'emily'; try { return fn(); } finally { RDW = keep; } }
+  function rdTeach(k) { return RDW !== 'emma' || (k.replace(/[^A-Za-z]/g, '').length >= ((RD.emma && RD.emma.minLen) || 5) && rdLvl(k) === 9 && !RD_PROPER[k]); }
   function rdState() {
-    var r = S.rd || (S.rd = {});
+    var key = RDW === 'emma' ? 'rdEmma' : 'rd';
+    var r = S[key] || (S[key] = {});
     if (!r.known) r.known = {}; if (!r.fam) r.fam = {}; if (!r.done) r.done = {}; if (!r.log) r.log = {}; if (!r.again) r.again = {};
     return r;
   }
@@ -1324,21 +1347,21 @@
     return p._lines;
   }
   function rdWords(p) {
-    if (p._words) return p._words;
+    var ck = '_w_' + RDW; if (p[ck]) return p[ck];
     var seen = {}, out = [];
     (p.order || []).concat(rdLines(p).reduce(function (a, l) { return a.concat(l.toks.map(function (x) { return x.k; })); }, [])).forEach(function (k) { if (!seen[k]) { seen[k] = 1; out.push(k); } });
-    return (p._words = out);
+    return (p[ck] = out.filter(rdTeach));
   }
-  function rdKnows(k) { return !!rdState().known[k]; }
+  function rdKnows(k) { return !rdTeach(k) || !!rdState().known[k]; }
   function rdIdx() {
-    var r = rdState(); var P = RD.poems;
+    var r = rdState(); var P = rdPoems();
     if (r.cur != null && r.cur >= 0 && r.cur < P.length && !r.done[P[r.cur].id]) return r.cur;
     for (var i = 0; i < P.length; i++) if (!r.done[P[i].id]) return i;
     return P.length - 1;
   }
-  function rdPoem() { return RD.poems[rdIdx()]; }
+  function rdPoem() { return rdPoems()[rdIdx()]; }
   function rdNew(p) { return rdWords(p).filter(function (k) { return !rdKnows(k); }); }
-  function rdFamTodo(p) { var r = rdState(); return (p.fam || []).map(function (f, i) { return i; }).filter(function (i) { return !r.fam[p.id + ':' + i] && rdKnows(p.fam[i].from); }); }
+  function rdFamTodo(p) { if (RDW === 'emma') return []; var r = rdState(); return (p.fam || []).map(function (f, i) { return i; }).filter(function (i) { return !r.fam[p.id + ':' + i] && rdKnows(p.fam[i].from); }); }
   function rdLastKind(p) { var r = rdState(), best = null, bt = 0; Object.keys(r.log).forEach(function (t) { var e = r.log[t]; if (e && e.p === p.id && +t > bt) { bt = +t; best = e.k; } }); return best; }
   function rdKinds(p) { return { sight: rdNew(p).length > 0 || rdAgainList().length > 0, sound: rdFamTodo(p).length > 0, poem: rdNew(p).length === 0 && !rdState().done[p.id] }; }
   // Mason gives the sound lesson on the day after a sight lesson; the poem comes when every word is known.
@@ -1365,7 +1388,7 @@
       var warm = rdWords(p).filter(rdKnows); if (warm.length < 12) warm = warm.concat(rdShuffle(before.filter(function (k) { return warm.indexOf(k) < 0; })).slice(0, 12 - warm.length));
       warm = warm.filter(function (k) { return !r.again[k]; });
       if (warm.length) L.steps.push({ t: 'warm', words: rdShuffle(warm) });
-      var per = r.per || RD.per || 10; var again = rdAgainList().slice(0, per);
+      var per = rdPer(); var again = rdAgainList().slice(0, per);
       again.forEach(function (w) { L.steps.push({ t: 'word', w: w, ph: 'look', again: true }); });
       var pos = rdWords(p);
       rdNew(p).sort(function (a, b) { return rdLvl(a) - rdLvl(b) || pos.indexOf(a) - pos.indexOf(b); }).slice(0, Math.max(per - again.length, again.length ? 3 : per)).forEach(function (w) { L.steps.push({ t: 'word', w: w, ph: 'look' }); });
@@ -1379,7 +1402,7 @@
     }
     ui.rd = L; ui.rdView = 'today';
   }
-  function rdById(id) { for (var i = 0; i < RD.poems.length; i++) if (RD.poems[i].id === id) return RD.poems[i]; return null; }
+  function rdById(id) { var L = rdPoems(); for (var i = 0; i < L.length; i++) if (L[i].id === id) return L[i]; return null; }
   function rdLP() { return (ui.rd && rdById(ui.rd.pid)) || rdPoem(); }
   function rdStep() { return ui.rd && ui.rd.steps[ui.rd.si]; }
   function rdNext() { if (!ui.rd) return; var s = rdStep(); if (s) s.x = null; ui.rd.si = Math.min(ui.rd.si + 1, ui.rd.steps.length - 1); refreshSheet(true); }
@@ -1420,7 +1443,7 @@
       var others = rdWords(p).filter(function (k2) { return k2 !== w; });
       var more = Object.keys(rdState().known).filter(function (k2) { return k2 !== w && others.indexOf(k2) < 0; });
       var pick = rdShuffle(others).slice(0, 5); if (pick.length < 5) pick = pick.concat(rdShuffle(more).slice(0, 5 - pick.length));
-      if (pick.length < 5) { var nxt = RD.poems[(rdIdx() + 1) % RD.poems.length]; pick = pick.concat(rdShuffle(rdWords(nxt).filter(function (k2) { return k2 !== w && pick.indexOf(k2) < 0; })).slice(0, 5 - pick.length)); }
+      if (pick.length < 5) { var nxt = rdPoems()[(rdIdx() + 1) % rdPoems().length]; pick = pick.concat(rdShuffle(rdWords(nxt).filter(function (k2) { return k2 !== w && pick.indexOf(k2) < 0; })).slice(0, 5 - pick.length)); }
       s.x = { cards: rdShuffle([w, w, w].concat(pick)).map(function (c, i) { return { c: c, i: i, f: false }; }) };
     }
     var left = s.x.cards.filter(function (c) { return c.c === w && !c.f; }).length;
@@ -1472,7 +1495,7 @@
   }
   function rdShuffleStable(s, arr) { return s.order || (s.order = rdShuffle(arr)); }
   function rdReveal(p) {
-    var id = 'rd_' + p.id;
+    var id = (RDW === 'emma' ? 'rde_' : 'rd_') + p.id;
     return '<p class="rd-say">Here is the poem she has been learning. She reads it to you, clearly and beautifully.</p>' +
       '<div class="card"><div class="kicker">' + esc(p.by) + '</div><h3>' + esc(p.title) + '</h3><div class="poem rd-poem">' + esc(p.text) + '</div></div>' +
       '<div class="card"><h3 style="font-size:18px">Her reading</h3>' + rdRecButton(id) + audioSlot(id) + '</div>' +
@@ -1519,6 +1542,7 @@
   }
 
   // ---------- the sheet ----------
+  function rdPeekFor(who) { return rdWith(who, rdPeek); }
   function rdPeek() {
     var p = rdPoem(); if (!p) return '';
     if (rdState().done[p.id]) return 'All the poems are read';
@@ -1529,12 +1553,12 @@
     return '<div class="seg" role="group" aria-label="Reading">' + [['today', 'Today'], ['words', 'Words'], ['poems', 'Poems'], ['record', 'Record'], ['how', 'How']].map(function (o) { return '<button data-act="rd-view" data-v="' + o[0] + '" aria-pressed="' + (view === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
   }
   function rdToday(p0) {
-    if (!rdKnownCount() && !ui.rdNoPlace) return '<div class="card"><h3>Before the first lesson</h3><p style="margin:0 0 10px">If Emily can already read some words, a quick placement check saves her learning them again.</p><div class="btns"><button class="btn" data-act="rd-view" data-v="place">Do the placement check</button><button class="btn ghost" data-act="rd-noplace">Start lessons from the beginning</button></div></div>';
+    if (RDW === 'emily' && !rdKnownCount() && !ui.rdNoPlace) return '<div class="card"><h3>Before the first lesson</h3><p style="margin:0 0 10px">If Emily can already read some words, a quick placement check saves her learning them again.</p><div class="btns"><button class="btn" data-act="rd-view" data-v="place">Do the placement check</button><button class="btn ghost" data-act="rd-noplace">Start lessons from the beginning</button></div></div>';
     var keep = ui.rd && ui.rd.date === today() && (ui.rd.pid === p0.id || ui.rd.kind === 'poem');
     if (!keep) rdStart(rdSuggest(p0));
     var p = rdLP();
     var w = rdWords(p), k = w.filter(rdKnows).length;
-    var head = '<div class="kicker">Poem ' + (RD.poems.indexOf(p) + 1) + ' of ' + RD.poems.length + ' · ' + k + ' of ' + w.length + ' words known</div>' +
+    var head = '<div class="kicker">Poem ' + (rdPoems().indexOf(p) + 1) + ' of ' + rdPoems().length + ' · ' + k + ' of ' + w.length + ' words known</div>' +
       '<div class="rd-dots" aria-hidden="true">' + w.map(function (x) { return '<i class="' + (rdKnows(x) ? 'f' : '') + '"></i>'; }).join('') + '</div>';
     var L = ui.rd;
     var kinds = rdKinds(rdPoem()); var names = { sight: 'New words', sound: 'Word families', poem: 'The poem' };
@@ -1558,19 +1582,19 @@
   function rdWordBook() {
     var r = rdState(); var keys = Object.keys(r.known);
     var h = '<p style="margin:0"><b>' + keys.length + '</b> words she can read. ' + (ui.rdManage ? 'Tap a word to take it out of her book altogether.' : 'Tap a word she has forgotten to learn it again next lesson.') + '</p>';
-    if (RD.common) {
+    if (RD.common && RDW === 'emily') {
       h += '<div class="card"><h3 style="font-size:18px">Common words</h3>' + RD.common.levels.map(function (L) {
         var k = L.words.filter(rdKnows).length;
         return '<details class="rd-lvl"><summary><span>' + esc(L.name) + '</span><span class="rd-bar"><i style="width:' + Math.round(100 * k / L.words.length) + '%"></i></span><b>' + k + '/' + L.words.length + '</b></summary><p class="small" style="margin:6px 0 0">Not yet: ' + esc(L.words.filter(function (w) { return !rdKnows(w); }).join(', ') || 'none — all known!') + '</p></details>';
       }).join('') + '<p class="small muted" style="margin:8px 0 0">' + esc(RD.common.src) + '</p><div class="btns" style="margin-top:8px"><button class="btn ghost small" data-act="rd-view" data-v="place">Placement check</button></div></div>';
     }
     var ag = rdAgainList(); if (ag.length) h += '<p class="small" style="margin:0"><b>To look at again:</b> ' + esc(ag.join(', ')) + '</p>';
-    RD.poems.forEach(function (p) {
+    rdPoems().forEach(function (p) {
       var mine = keys.filter(function (k) { return r.known[k].p === p.id; }); if (!mine.length) return;
       var sight = mine.filter(function (k) { return r.known[k].s !== 'f'; }), snd = mine.filter(function (k) { return r.known[k].s === 'f'; });
       h += '<div class="card"><div class="kicker">' + esc(p.title) + '</div><div class="rd-chips">' + sight.concat(snd).map(rdChip).join('') + '</div></div>';
     });
-    var ids = {}; RD.poems.forEach(function (p) { ids[p.id] = 1; });
+    var ids = {}; rdPoems().forEach(function (p) { ids[p.id] = 1; });
     var other = keys.filter(function (k) { return !ids[r.known[k].p]; });
     var placed = other.filter(function (k) { return r.known[k].s === 'p'; }), rest = other.filter(function (k) { return r.known[k].s !== 'p'; });
     if (placed.length) h += '<div class="card"><div class="kicker">From the placement check</div><div class="rd-chips">' + placed.sort(function (a, b) { return rdLvl(a) - rdLvl(b); }).map(rdChip).join('') + '</div></div>';
@@ -1581,19 +1605,19 @@
   }
   function rdPoemsView() {
     var r = rdState(); var ci = rdIdx();
-    return '<div class="card"><ul class="list">' + RD.poems.map(function (p, i) {
+    return '<div class="card"><ul class="list">' + rdPoems().map(function (p, i) {
       var w = rdWords(p), k = w.filter(rdKnows).length; var fd = (p.fam || []).filter(function (f, j) { return r.fam[p.id + ':' + j]; }).length;
       var st = r.done[p.id] ? '✓ read' : k + '/' + w.length + ' words · ' + fd + '/' + (p.fam || []).length + ' families';
       return '<li class="' + (i === ci ? 'cur' : '') + '"><span><b>' + (i + 1) + '. ' + esc(p.title) + '</b> <span class="small muted">' + esc(p.by) + ' · ' + st + '</span></span>' + '<span class="btns" style="flex:none">' + (r.done[p.id] ? '<button class="btn ghost small" data-act="rd-again" data-v="' + i + '">Read again</button>' : (i === ci ? '<span class="small">Learning now</span>' : '<button class="btn ghost small" data-act="rd-go" data-v="' + i + '">Learn next</button>') + '<button class="btn ghost small" data-act="rd-knowpoem" data-v="' + i + '">' + (ui.rdKnowAsk === i ? 'Tap again to confirm' : 'She knows it') + '</button>') + '</span></li>';
     }).join('') + '</ul></div>' +
-      '<p class="small muted" style="margin:0">Poems run from the most common words to the least. If she can already read a poem, tap “She knows it”: its words go into her word book and it is marked read.</p>' +
-      '<div class="card"><h3 style="font-size:18px">New words in one lesson</h3><div class="seg" role="group">' + [3, 5, 8, 10].map(function (n) { var on = (r.per || RD.per || 10) === n; return '<button data-act="rd-per" data-v="' + n + '" aria-pressed="' + on + '">' + n + '</button>'; }).join('') + '</div><p class="small muted" style="margin:6px 0 0">Mason aims at about ten a day. Fewer is fine while Emily is beginning.</p></div>' +
-      '<p class="small muted">Poem texts: ' + esc(Array.from(new Set(RD.poems.map(function (p) { return p.src.split('. ')[0].split(', Project')[0]; }))).join('; ')) + '.</p>';
+      '<p class="small muted" style="margin:0">' + (RDW === 'emma' ? 'Emma builds the longer, less common words of each poem; the short everyday words count as known.' : 'Poems run from the most common words to the least.') + ' ' + (RDW === 'emma' ? '' : 'If she can already read a poem, tap “She knows it”') + ': ' + (RDW === 'emma' ? '' : 'its words go into her word book and it is marked read.') + '</p>' +
+      '<div class="card"><h3 style="font-size:18px">New words in one lesson</h3><div class="seg" role="group">' + [3, 5, 8, 10].map(function (n) { var on = (rdPer()) === n; return '<button data-act="rd-per" data-v="' + n + '" aria-pressed="' + on + '">' + n + '</button>'; }).join('') + '</div><p class="small muted" style="margin:6px 0 0">Mason aims at about ten a day. Fewer is fine while Emily is beginning.</p></div>' +
+      '<p class="small muted">Poem texts: ' + esc(Array.from(new Set(rdPoems().map(function (p) { return p.src.split('. ')[0].split(', Project')[0]; }))).join('; ')) + '.</p>';
   }
   function rdRecordView() {
     var r = rdState(); var ts = Object.keys(r.log).sort(function (a, b) { return b - a; });
     if (!ts.length) return '<p class="muted">Lessons will be listed here once she finishes one.</p>';
-    var byId = {}; RD.poems.forEach(function (p) { byId[p.id] = p; });
+    var byId = {}; rdPoems().forEach(function (p) { byId[p.id] = p; });
     var names = { sight: 'New words', sound: 'Word families', poem: 'Read the poem', place: 'Placement check: read' };
     return '<div class="card"><ul class="list">' + ts.map(function (t) {
       var e = r.log[t]; var p = byId[e.p];
@@ -1641,8 +1665,10 @@
     var P = ui.rdPlace; if (!P || P.logged) return; P.logged = true;
     if (P.got.length || P.not.length) { var d = cur(); rdState().log[String(Date.now())] = { n: d ? d.n : 0, d: today(), p: '', k: 'place', w: P.got.slice(), f: [] }; save(); }
   }
-  function rdSheet(tickId) {
-    if (tickId) RD_TICK = tickId;
+  function rdSheet(tickId, who) {
+    RDW = who === 'emma' ? 'emma' : 'emily';
+    RD_TICK = tickId || (RDW === 'emma' ? 'e_reading' : 'm_reading');
+    if (ui.rdWho !== RDW) { ui.rd = null; ui.rdPlace = null; ui.rdView = 'today'; ui.rdWho = RDW; }
     var p = rdPoem(); var view = ui.rdView || 'today';
     var body = rdTabs(view);
     if (!p) body += '<p>No poems yet.</p>';
@@ -1652,7 +1678,7 @@
     else if (view === 'record') body += rdRecordView();
     else if (view === 'place') body += rdPlaceView();
     else body += rdHow();
-    return { title: 'Reading lessons', who: 'emily', body: body };
+    return { title: 'Reading lessons', who: RDW, body: body };
   }
   function rdAct(act, v, el) {
     var s = rdStep(); var p = rdLP(); var r = rdState();
@@ -1680,16 +1706,16 @@
       case 'rd-onset': var F = p.fam[s.f]; if (s.made.indexOf(v) < 0) { s.made.push(v); rdMark(v + F.rime, 'f', p); save(); } refreshSheet(); break;
       case 'rd-famdone': var d0 = cur(); r.fam[p.id + ':' + s.f] = d0 ? d0.n || 1 : 1; save(); rdNext(); break;
       case 'rd-rec': rdRecToggle(v); break;
-      case 'rd-poemdone': var d1 = cur(); if (!r.done[p.id]) r.done[p.id] = { n: d1 ? d1.n : 0, d: today() }; if (r.cur != null && RD.poems[r.cur] === p) delete r.cur; save(); rdNext(); break;
+      case 'rd-poemdone': var d1 = cur(); if (!r.done[p.id]) r.done[p.id] = { n: d1 ? d1.n : 0, d: today() }; if (r.cur != null && rdPoems()[r.cur] === p) delete r.cur; save(); rdNext(); break;
       case 'rd-finish': rdFinish(); break;
       case 'rd-stop': ui.rd.si = ui.rd.steps.length - 1; refreshSheet(true); break;
       case 'rd-go': r.cur = +v; save(); ui.rd = null; ui.rdView = 'today'; refreshSheet(true); break;
-      case 'rd-again': var q = RD.poems[+v]; ui.rd = { kind: 'poem', pid: q.id, steps: [{ t: 'reveal' }, { t: 'end' }], si: 0, learnt: [], fw: [], col: 'down', date: today() }; ui.rdView = 'today'; refreshSheet(true); break;
+      case 'rd-again': var q = rdPoems()[+v]; ui.rd = { kind: 'poem', pid: q.id, steps: [{ t: 'reveal' }, { t: 'end' }], si: 0, learnt: [], fw: [], col: 'down', date: today() }; ui.rdView = 'today'; refreshSheet(true); break;
       case 'rd-per': r.per = +v; save(); refreshSheet(); break;
       case 'rd-againw': if (r.again[v]) delete r.again[v]; else r.again[v] = Date.now(); save(); refreshSheet(); break;
       case 'rd-knowpoem':
         if (ui.rdKnowAsk !== +v) { ui.rdKnowAsk = +v; refreshSheet(); break; }
-        ui.rdKnowAsk = null; var kp = RD.poems[+v]; rdWords(kp).forEach(function (k) { if (!r.known[k]) { var dk = cur(); r.known[k] = { n: dk ? dk.n : 0, d: today(), p: kp.id, s: 'k' }; } });
+        ui.rdKnowAsk = null; var kp = rdPoems()[+v]; rdWords(kp).forEach(function (k) { if (!r.known[k]) { var dk = cur(); r.known[k] = { n: dk ? dk.n : 0, d: today(), p: kp.id, s: 'k' }; } });
         var dd = cur(); r.done[kp.id] = { n: dd ? dd.n : 0, d: today(), known: true }; if (r.cur === +v) delete r.cur; save(); ui.rd = null; toast(kp.title + ' marked as known'); refreshSheet(); break;
       case 'rd-noplace': ui.rdNoPlace = true; refreshSheet(); break;
       case 'rd-pstart': rdPlaceStart(); refreshSheet(true); break;
@@ -1763,7 +1789,13 @@
       case 'written': var d = cur(); var k = d.w + ':' + v; if (S.narrWritten[k]) delete S.narrWritten[k]; else S.narrWritten[k] = true; save(); refreshSheet(); render(); break;
       case 'close': closeSheet(); break;
       case 'ptr': var key = el.getAttribute('data-k'); var p = S.ptr[key] || { i: 0 }; setPtr(key, (p.i || 0) + (+el.getAttribute('data-d')), ptrLen(key)); refreshSheet(1); render(); break;
-      case 'setptr': setPtr(el.getAttribute('data-k'), +v, ptrLen(el.getAttribute('data-k'))); refreshSheet(1); render(); break;
+      case 'setptr':
+        var sk = el.getAttribute('data-k');
+        if (ui.poemUpto === sk) { var sp = S.ptr[sk] || (S.ptr[sk] = { i: 0 }); if (!sp.log) sp.log = {}; for (var si = 0; si <= +v; si++) if (!sp.log[si]) sp.log[si] = 'earlier'; ui.poemUpto = null; setPtr(sk, +v + 1, ptrLen(sk)); toast('Poems 1–' + (+v + 1) + ' marked as read'); }
+        else setPtr(sk, +v, ptrLen(sk));
+        refreshSheet(1); render(); break;
+      case 'poemlist': var lk2 = el.getAttribute('data-k'); ui.poemListOpen = ui.poemListOpen === lk2 ? null : lk2; break;
+      case 'poemsupto': var uk = el.getAttribute('data-k'); ui.poemUpto = ui.poemUpto === uk ? null : uk; refreshSheet(); break;
       case 'togglezhen': S.ptr.chineseEn = S.ptr.chineseEn === false; save(); refreshSheet(); break;
       case 'zoompic': el.parentNode.classList.toggle('big'); break;
       case 'pichide': ui.picHide = v === '' ? null : +v; refreshSheet(); break;

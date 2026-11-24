@@ -315,7 +315,9 @@ window.READING = {
     "God",
     "Mars",
     "Sprat",
-    "Nod"
+    "Nod",
+    "Leerie",
+    "Maria"
   ],
   "poems": [
     {
@@ -1165,5 +1167,126 @@ window.READING = {
       ],
       "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136."
     }
-  ]
+  ],
+  "emma": {
+    "minLen": 5,
+    "per": 8,
+    "poems": [
+      {
+        "id": "windy",
+        "title": "Windy Nights",
+        "by": "Robert Louis Stevenson",
+        "text": "Whenever the moon and stars are set,\nWhenever the wind is high,\nAll night long in the dark and wet,\nA man goes riding by.\nLate in the night when the fires are out,\nWhy does he gallop and gallop about?\n\nWhenever the trees are crying aloud,\nAnd ships are tossed at sea,\nBy, on the highway, low and loud,\nBy at the gallop goes he.\nBy at the gallop he goes, and then\nBy he comes back at the gallop again.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "railway",
+        "title": "From a Railway Carriage",
+        "by": "Robert Louis Stevenson",
+        "text": "Faster than fairies, faster than witches,\nBridges and houses, hedges and ditches;\nAnd charging along like troops in a battle,\nAll through the meadows the horses and cattle:\nAll of the sights of the hill and the plain\nFly as thick as driving rain;\nAnd ever again, in the wink of an eye,\nPainted stations whistle by.\nHere is a child who clambers and scrambles,\nAll by himself and gathering brambles;\nHere is a tramp who stands and gazes;\nAnd there is the green for stringing the daisies!\nHere is a cart run away in the road\nLumping along with man and load;\nAnd here is a mill and there is a river:\nEach a glimpse and gone forever!",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "lamplighter",
+        "title": "The Lamplighter",
+        "by": "Robert Louis Stevenson",
+        "text": "My tea is nearly ready and the sun has left the sky;\nIt's time to take the window to see Leerie going by;\nFor every night at teatime and before you take your seat,\nWith lantern and with ladder he comes posting up the street.\n\nNow Tom would be a driver and Maria go to sea,\nAnd my papa's a banker and as rich as he can be;\nBut I, when I am stronger and can choose what I'm to do,\nO Leerie, I'll go round at night and light the lamps with you!\n\nFor we are very lucky, with a lamp before the door,\nAnd Leerie stops to light it as he lights so many more;\nAnd oh! before you hurry by with ladder and with light,\nO Leerie, see a little child and nod to him to-night!",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "bedboat",
+        "title": "My Bed is a Boat",
+        "by": "Robert Louis Stevenson",
+        "text": "My bed is like a little boat;\nNurse helps me in when I embark\nShe girds me in my sailor's coat\nAnd starts me in the dark.\n\nAt night, I go on board and say\nGood-night to all my friends on shore;\nI shut my eyes and sail away\nAnd see and hear no more.\n\nAnd sometimes things to bed I take,\nAs prudent sailors have to do:\nPerhaps a slice of wedding-cake,\nPerhaps a toy or two.\n\nAll night across the dark we steer:\nBut when the day returns at last,\nSafe in my room, beside the pier,\nI find my vessel fast.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "foreign",
+        "title": "Foreign Lands",
+        "by": "Robert Louis Stevenson",
+        "text": "Up into the cherry tree\nWho should climb but little me?\nI held the trunk with both my hands\nAnd looked abroad on foreign lands.\n\nI saw the next door garden lie,\nAdorned with flowers, before my eye,\nAnd many pleasant places more\nThat I had never seen before.\n\nI saw the dimpling river pass\nAnd be the sky's blue looking-glass;\nThe dusty roads go up and down\nWith people tramping in to town.\n\nIf I could find a higher tree\nFarther and farther I should see,\nTo where the grown-up river slips\nInto the sea among the ships,\nTo where the roads on either hand\nLead onward into fairy land,\nWhere all the children dine at five,\nAnd all the playthings come alive.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "autumn",
+        "title": "Autumn Fires",
+        "by": "Robert Louis Stevenson",
+        "text": "In the other gardens\nAnd all up the vale,\nFrom the autumn bonfires\nSee the smoke trail!\n\nPleasant summer over\nAnd all the summer flowers,\nThe red fire blazes,\nThe grey smoke towers.\n\nSing a song of seasons!\nSomething bright in all!\nFlowers in the summer\nFires in the fall!",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "winter",
+        "title": "Winter-Time",
+        "by": "Robert Louis Stevenson",
+        "text": "Late lies the wintry sun a-bed,\nA frosty, fiery sleepy-head;\nBlinks but an hour or two; and then,\nA blood-red orange, sets again.\n\nBefore the stars have left the skies,\nAt morning in the dark I rise;\nAnd shivering in my nakedness,\nBy the cold candle, bathe and dress.\n\nClose by the jolly fire I sit\nTo warm my frozen bones a bit;\nOr with a reindeer-sled, explore\nThe colder countries round the door.\n\nWhen to go out, my nurse doth wrap\nMe in my comforter and cap:\nThe cold wind burns my face, and blows\nIts frosty pepper up my nose.\n\nBlack are my steps on silver sod;\nThick blows my frosty breath abroad;\nAnd tree and house, and hill and lake,\nAre frosted like a wedding-cake.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "moon",
+        "title": "The Moon",
+        "by": "Robert Louis Stevenson",
+        "text": "The moon has a face like the clock in the hall;\nShe shines on thieves on the garden wall,\nOn streets and fields and harbour quays,\nAnd birdies asleep in the forks of the trees.\n\nThe squalling cat and the squeaking mouse,\nThe howling dog by the door of the house,\nThe bat that lies in bed at noon,\nAll love to be out by the light of the moon.\n\nBut all of the things that belong to the day\nCuddle to sleep to be out of her way;\nAnd flowers and children close their eyes\nTill up in the morning the sun shall arise.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "pirate",
+        "title": "Pirate Story",
+        "by": "Robert Louis Stevenson",
+        "text": "Three of us afloat in the meadow by the swing,\nThree of us aboard in the basket on the lea.\nWinds are in the air, they are blowing in the spring,\nAnd waves are on the meadow like the waves there are at sea.\n\nWhere shall we adventure, to-day that we're afloat,\nWary of the weather and steering by a star?\nShall it be to Africa, a-steering of the boat,\nTo Providence, or Babylon, or off to Malabar?\n\nHi! but here's a squadron a-rowing on the sea—\nCattle on the meadow a-charging with a roar!\nQuick, and we'll escape them, they're as mad as they can be,\nThe wicket is the harbour and the garden is the shore.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "glassriver",
+        "title": "Looking-Glass River",
+        "by": "Robert Louis Stevenson",
+        "text": "Smooth it glides upon its travel,\nHere a wimple, there a gleam—\nO the clean gravel!\nO the smooth stream!\n\nSailing blossoms, silver fishes,\nPaven pools as clear as air—\nHow a child wishes\nTo live down there!\n\nWe can see our coloured faces\nFloating on the shaken pool\nDown in cool places,\nDim and very cool;\n\nTill a wind or water wrinkle,\nDipping marten, plumping trout,\nSpreads in a twinkle\nAnd blots all out.\n\nSee the rings pursue each other;\nAll below grows black as night,\nJust as if mother\nHad blown out the light!\n\nPatience, children, just a minute—\nSee the spreading circles die;\nThe stream and all in it\nWill clear by-and-by.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "summersun",
+        "title": "Summer Sun",
+        "by": "Robert Louis Stevenson",
+        "text": "Great is the sun, and wide he goes\nThrough empty heaven without repose;\nAnd in the blue and glowing days\nMore thick than rain he showers his rays\n\nThough closer still the blinds we pull\nTo keep the shady parlour cool,\nYet he will find a chink or two\nTo slip his golden fingers through.\n\nThe dusty attic spider-clad\nHe, through the keyhole, maketh glad;\nAnd through the broken edge of tiles,\nInto the laddered hay-loft smiles.\n\nMeantime his golden face around\nHe bares to all the garden ground,\nAnd sheds a warm and glittering look\nAmong the ivy's inmost nook.\n\nAbove the hills, along the blue,\nRound the bright air with footing true,\nTo please the child, to paint the rose,\nThe gardener of the World, he goes.",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      },
+      {
+        "id": "thewind",
+        "title": "The Wind",
+        "by": "Robert Louis Stevenson",
+        "text": "I saw you toss the kites on high\nAnd blow the birds about the sky;\nAnd all around I heard you pass,\nLike ladies' skirts across the grass—\nO wind, a-blowing all day long,\nO wind, that sings so loud a song!\n\nI saw the different things you did,\nBut always you yourself you hid.\nI felt you push, I heard you call,\nI could not see yourself at all—\nO wind, a-blowing all day long,\nO wind, that sings so loud a song!\n\nO you that are so strong and cold,\nO blower, are you young or old?\nAre you a beast of field and tree,\nOr just a stronger child than me?\nO wind, a-blowing all day long,\nO wind, that sings so loud a song!",
+        "src": "A Child's Garden of Verses (1885); text of the 1919 Lippincott edition, Project Gutenberg #28722, checked against #25609 and #136, taking the reading most of them share."
+      }
+    ],
+    "list": [
+      "wind",
+      "seaside",
+      "swing",
+      "fairybread",
+      "boats",
+      "singing",
+      "windy",
+      "bedsummer",
+      "autumn",
+      "whereboats",
+      "lamb",
+      "citymouse",
+      "cow",
+      "goodplay",
+      "thewind",
+      "nod",
+      "youngnight",
+      "lamplighter",
+      "bedboat",
+      "moon",
+      "escape",
+      "pirate",
+      "shadow",
+      "foreign",
+      "winter",
+      "railway",
+      "glassriver",
+      "summersun"
+    ],
+    "note": "Emma builds the words of five letters or more that are not on the Dolch list; shorter and commoner words count as known."
+  }
 };

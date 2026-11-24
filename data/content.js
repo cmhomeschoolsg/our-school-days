@@ -10085,6 +10085,13 @@ window.CONTENT = {
 "mins": 10
 },
 {
+"id": "e_reading",
+"label": "Reading lessons",
+"icon": "📖",
+"mins": 15,
+"open": "rd:emma"
+},
+{
 "id": "e_p_crecite",
 "pick": "L_ecrecite",
 "n": 1,
