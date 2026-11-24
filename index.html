@@ -91,6 +91,13 @@ button.rd-card:disabled{opacity:.18}
 .mt-board{width:100%;height:340px;border:2px solid var(--line);border-radius:12px;touch-action:none;color:var(--ink);cursor:crosshair;
   background-color:var(--card);background-image:linear-gradient(color-mix(in srgb,var(--line) 55%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 55%,transparent) 1px,transparent 1px);background-size:28px 28px}
 .mt-board.big{height:620px}
+
+.mt-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:14px;align-items:start}
+.mt-right{position:sticky;top:0;background:var(--bg);padding-top:2px}
+.mt-split .mt-board{height:calc(100vh - 260px);min-height:360px;max-height:760px}
+.mt-split .mt-board.big{height:calc(100vh - 200px)}
+.mt-split .mt-pad{max-width:300px}.mt-split .mt-key{height:50px}
+@media (max-width:720px){.mt-split{grid-template-columns:1fr}.mt-right{position:static}.mt-split .mt-board{height:340px}.mt-split .mt-board.big{height:620px}}
 </style>
 <title>Our School Days</title>
 <meta name="claude:viewport-fit-sides" content="cover">

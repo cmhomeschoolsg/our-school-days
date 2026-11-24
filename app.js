@@ -1942,6 +1942,11 @@
   function mtInkHTML() {
     var I = ui.mt.ink || (ui.mt.ink = { strokes: [], tool: 'pen', big: false });
     if (!ui.mt.inkOpen) return '<div class="btns"><button class="btn ghost small" data-act="mt-ink">✏️ Working space</button></div>';
+    return '';
+  }
+  // The board itself sits beside the question (below it on a narrow screen), so the question stays in view.
+  function mtBoardHTML() {
+    var I = ui.mt.ink;
     var tool = function (id, lab) { return '<button data-act="mt-inktool" data-v="' + id + '" aria-pressed="' + (I.tool === id) + '">' + lab + '</button>'; };
     return '<div class="mt-board-wrap"><div class="mt-board-bar"><div class="seg" role="group" aria-label="Pen">' + tool('pen', '✏️ Pencil') + tool('red', '🖍 Red') + tool('rub', '🧽 Rubber') + '</div>' +
       '<span class="btns" style="flex:none"><button class="btn ghost small" data-act="mt-inkundo">↶ Undo</button><button class="btn ghost small" data-act="mt-inkclear">Clear</button><button class="btn ghost small" data-act="mt-inkbig">' + (I.big ? 'Smaller' : 'Bigger') + '</button><button class="btn ghost small" data-act="mt-ink">Hide</button></span></div>' +
@@ -1972,9 +1977,15 @@
   function mtSheet(tickId, who) {
     MT_WHO = who || 'emma'; MT_TICK = tickId || 'e_mathtr'; ui.mt = ui.mt || {};
     var v = ui.mt.view || 'today'; var body;
-    if (ui.mt.run) { body = '<div class="rd-stage">' + mtRunView() + '</div>'; if (ui.mt.inkOpen) setTimeout(mtInkInit, 0); }
+    var wide = false;
+    if (ui.mt.run) {
+      var main = mtRunView(); var R0 = ui.mt.run;
+      var board = ui.mt.inkOpen && R0 && R0.kind !== 'facts' && !(R0.items && R0.i >= R0.items.length);
+      if (board) { mtInkHTML(); body = '<div class="mt-split"><div class="rd-stage mt-left">' + main + '</div><div class="mt-right">' + mtBoardHTML() + '</div></div>'; wide = true; setTimeout(mtInkInit, 0); }
+      else body = '<div class="rd-stage">' + main + '</div>';
+    }
     else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : mtTodayView());
-    return { title: 'Maths', who: MT_WHO, body: body };
+    return { title: 'Maths', who: MT_WHO, body: body, wide: wide };
   }
   window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; if (R.phase === 'guide') { var st = mtAsks(Q)[R.gi]; return st.show; } return Q.ratio ? Q.ratio.join(':') : Q.choices || Q.time ? Q.a : Q.show; };
   // A question is right for mastery only if she got it first time without help.
