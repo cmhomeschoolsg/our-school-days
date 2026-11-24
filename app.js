@@ -486,6 +486,7 @@
       case 'pin': return pinSheet();
       case 'rd': return rdSheet(tickId, parts[1]);
       case 'math': return mtSheet(tickId, parts[1]);
+      case 'zi': return ziSheet(tickId, parts[1]);
     }
     return { title: '', body: '' };
   }
@@ -1694,6 +1695,220 @@
     var P = ui.rdPlace; if (!P || P.logged) return; P.logged = true;
     if (P.got.length || P.not.length) { var d = cur(); rdState().log[String(Date.now())] = { n: d ? d.n : 0, d: today(), p: '', k: 'place', w: P.got.slice(), f: [] }; save(); }
   }
+  // ---------- 识字: MOE 识读字 and 识写字, a few new characters a day, with spaced review ----------
+  // Emma follows the 《欢乐伙伴》 list (P1–P6), Emily the 《欢乐伙伴2.0》 list. Lists are in data/zi.js.
+  // Reading: see the character, say it, check with the pinyin and words (and the voice), say whether you knew it.
+  // Writing: copy new 识写字 three times looking, then on later days write them from memory and check.
+  // Review gaps grow 1, 2, 4, 8 … school days, so breaks for travel do not pile up reviews.
+  var ZW = 'emma', ZI_TICK = 'e_zi', ZGAP = [0, 1, 2, 4, 8, 16, 32, 64];
+  var Z = window.ZI || { lists: {}, py: {}, words: {} };
+  function ziState() {
+    var all = S.zi || (S.zi = {}); var z = all[ZW] || (all[ZW] = {});
+    if (!z.list) z.list = ZW === 'emma' ? 'v1' : 'v2';
+    if (z.rp == null) z.rp = 0; if (z.wp == null) z.wp = 0;
+    if (!z.r) z.r = {}; if (!z.w) z.w = {}; if (!z.log) z.log = {};
+    if (!z.nr) z.nr = ZW === 'emma' ? 5 : 3; if (!z.nw) z.nw = ZW === 'emma' ? 3 : 2;
+    return z;
+  }
+  var ZORD = {};
+  // Flat order of the list: each character once, in lesson order, with the semester (一上 …) it belongs to.
+  function ziOrder(key) {
+    if (ZORD[key]) return ZORD[key];
+    var L = (Z.lists[key] || { lessons: [] }).lessons, r = [], w = [], sr = {}, sw = {}, sems = [];
+    L.forEach(function (l) {
+      if (sems.indexOf(l[0]) < 0) sems.push(l[0]);
+      l[2].split('').forEach(function (c) { if (!sr[c]) { sr[c] = 1; r.push({ c: c, s: l[0], l: l[1] }); } });
+      l[3].split('').forEach(function (c) { if (!sw[c]) { sw[c] = 1; w.push({ c: c, s: l[0], l: l[1] }); } });
+    });
+    return (ZORD[key] = { r: r, w: w, sems: sems });
+  }
+  function ziDay() { var d = cur(); return d ? d.n : (S.days.length ? S.days[S.days.length - 1].n : 0); }
+  function ziWords(c) { var w = Z.words[c]; if (!w) return []; return Array.isArray(w) ? w : (w[ziState().list] || []); }
+  function ziSay(t) {
+    try {
+      var s = window.speechSynthesis; if (!s) return; s.cancel();
+      var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.8;
+      var v = (s.getVoices() || []).filter(function (x) { return /^zh[-_](CN|Hans)/i.test(x.lang); })[0] || (s.getVoices() || []).filter(function (x) { return /^zh/i.test(x.lang); })[0];
+      if (v) u.voice = v; s.speak(u);
+    } catch (e) {}
+  }
+  function ziSayText(c) { var w = ziWords(c); return w.length ? c + '，' + w.map(function (x) { return x[0]; }).join('，') : c; }
+  function ziDue(bag, day) { return Object.keys(bag).filter(function (c) { return bag[c].d <= day; }).sort(function (a, b) { return bag[a].d - bag[b].d || bag[a].b - bag[b].b; }); }
+  function ziGrade(bag, c, ok) {
+    var e = bag[c] || (bag[c] = { b: 0, d: 0 }); var day = ziDay();
+    if (ok) { e.b = Math.min(ZGAP.length - 1, (e.b || 0) + 1); e.d = day + ZGAP[e.b]; } else { e.b = 1; e.d = day + 1; }
+  }
+  function ziCharHTML(c, big) { return '<span class="zi-c' + (big ? ' big' : '') + '">' + esc(c) + '</span>'; }
+  function ziWordsHTML(c, hide) {
+    var w = ziWords(c); if (!w.length) return '';
+    return '<div class="zi-words">' + w.map(function (x) {
+      var t = hide ? x[0].split('').map(function (ch) { return ch === c ? '□' : ch; }).join('') : x[0];
+      return '<span><b>' + esc(t) + '</b><i>' + esc(x[1]) + '</i></span>';
+    }).join('') + '</div>';
+  }
+  function ziSayBtn(text) { return '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(text) + '">🔊 Listen</button>'; }
+
+  // Build today's session: reviews due, then new 识读字, then new 识写字 to copy, then 识写字 due from memory.
+  function ziBuild() {
+    var z = ziState(), O = ziOrder(z.list), day = ziDay(), q = [];
+    ziDue(z.r, day).slice(0, 30).forEach(function (c) { q.push({ k: 'rr', c: c }); });
+    // New characters are taken in list order; the place in the list only moves on once each one has been done.
+    var n = 0, rp = z.rp; while (n < z.nr && rp < O.r.length) { var it = O.r[rp]; if (!z.r[it.c]) { q.push({ k: 'rn', c: it.c, x: rp }); n++; } rp++; }
+    var known = function (c) { return !!z.r[c] || q.some(function (x) { return x.c === c && x.k === 'rn'; }); };
+    var m = 0, wp = z.wp; while (m < z.nw && wp < O.w.length && known(O.w[wp].c)) { var iw = O.w[wp]; if (!z.w[iw.c]) { q.push({ k: 'wn', c: iw.c, x: wp }); m++; } wp++; }
+    ziDue(z.w, day).slice(0, 12).forEach(function (c) { q.push({ k: 'wr', c: c }); });
+    return { q: q, i: 0, shown: false, again: [], got: 0, miss: 0, nNew: n, nWrite: m };
+  }
+  function ziCard(R) {
+    var it = R.q[R.i], c = it.c, h = '<div class="kicker">' + (R.i + 1) + ' of ' + R.q.length + ' · ' + { rr: '认读 · Do you know it?', rn: '认读 · New character', wn: '写字 · Copy it', wr: '写字 · From memory' }[it.k] + '</div><div class="card zi-card">';
+    if (it.k === 'rr') {
+      h += ziCharHTML(c, true);
+      if (!R.shown) h += '<p class="rd-say">Say it aloud, and a word with it. Then check.</p><div class="btns"><button class="btn" data-act="zi-show">Check</button></div>';
+      else h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns">' + ziSayBtn(ziSayText(c)) + '</div><div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I knew it ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
+    } else if (it.k === 'rn') {
+      h += ziCharHTML(c, true) + '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Listen, then read the character and the words aloud twice.</p><div class="btns">' + ziSayBtn(ziSayText(c)) + '<button class="btn" data-act="zi-next">Next ›</button></div>';
+    } else if (it.k === 'wn') {
+      h += '<div class="zi-grid">' + esc(c) + '</div><p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Write it three times in your Chinese book, looking carefully at each stroke. Say it as you write.</p><div class="btns">' + ziSayBtn(ziSayText(c)) + '<button class="btn" data-act="zi-next">I wrote it 3 times ›</button></div>';
+    } else {
+      var w = ziWords(c);
+      h += '<p class="zi-py" style="font-size:22px">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c, true);
+      if (!R.shown) h += '<p class="rd-say">Listen, then write the missing character from memory in your book. Then check.</p><div class="btns">' + ziSayBtn(w.length ? w[0][0] : c) + '<button class="btn" data-act="zi-show">Check</button></div>';
+      else h += '<div class="zi-grid">' + esc(c) + '</div><div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
+    }
+    return h + '</div>';
+  }
+  function ziToday() {
+    var z = ziState(), R = ui.zi && ui.zi.run;
+    if (!z.placed && !Object.keys(z.r).length && !ui.ziNoPlace) return '<div class="card"><h3>Before you start</h3><p style="margin:0 0 10px">If you can already read and write some characters, a quick check finds where to begin, so you don\'t learn them again.</p><div class="btns"><button class="btn" data-act="zi-view" data-v="place">Do the check</button><button class="btn ghost" data-act="zi-noplace">Start from the beginning</button></div></div>';
+    if (!R) {
+      var day = ziDay(), dr = ziDue(z.r, day).length, dw = ziDue(z.w, day).length, O = ziOrder(z.list);
+      var done = z.log[today()];
+      return (done ? '<div class="card"><p style="margin:0">✓ Done today: ' + done.n + ' new, ' + done.rev + ' reviewed. You can do another round if you like.</p></div>' : '') +
+        '<div class="card"><p style="margin:0 0 6px">Today: <b>' + Math.min(z.nr, O.r.length - ziKnownCount(z.r, O.r, z.rp)) + '</b> new characters to read, <b>' + z.nw + '</b> to write, and <b>' + (Math.min(dr, 30) + Math.min(dw, 12)) + '</b> to review.</p>' +
+        '<p class="small muted" style="margin:0 0 10px">Have your Chinese book and pencil ready. About 10–15 minutes.</p><button class="btn" data-act="zi-start">Start</button></div>';
+    }
+    if (R.i >= R.q.length) return ziEnd(R);
+    return ziCard(R);
+  }
+  function ziKnownCount(bag, arr, upto) { var n = 0; for (var i = 0; i < arr.length; i++) if (bag[arr[i].c]) n++; return n; }
+  function ziEnd(R) {
+    var z = ziState(), t = today(), g = z.log[t] || (z.log[t] = { n: 0, rev: 0 });
+    if (!R.logged) {
+      R.logged = true; g.n += R.nNew + R.nWrite; g.rev += R.got + R.miss;
+      var d = cur(); if (d && !doneToday(ZI_TICK)) addToday(ZI_TICK); else save();
+    }
+    return '<div class="card rd-done"><h3>Well done!</h3><p>' + (R.nNew ? R.nNew + ' new characters to read' : 'No new characters') + (R.nWrite ? ', ' + R.nWrite + ' new to write' : '') + '. ' + (R.got + R.miss ? R.got + ' of ' + (R.got + R.miss) + ' remembered.' : '') + '</p>' +
+      (R.again.length ? '<p class="small muted">These come back tomorrow: ' + R.again.map(esc).join(' ') + '</p>' : '') + '<button class="btn" data-act="zi-close">Finish</button></div>';
+  }
+
+  // Characters tab: progress through each semester of the list.
+  function ziBook() {
+    var z = ziState(), O = ziOrder(z.list), L = Z.lists[z.list];
+    var h = '<p class="small muted" style="margin:0 0 8px">' + esc(L ? L.name : '') + '. Filled: you read it (识读) · underlined: you write it too (识写). Tap a character to hear it.</p>';
+    O.sems.forEach(function (s) {
+      var rs = O.r.filter(function (x) { return x.s === s; }), ws = {}; O.w.forEach(function (x) { if (x.s === s) ws[x.c] = 1; });
+      var nr = rs.filter(function (x) { return z.r[x.c]; }).length, nw = Object.keys(ws).filter(function (c) { return z.w[c]; }).length;
+      if (!nr && rs[0] && O.r.indexOf(rs[0]) > z.rp + 40) return;
+      h += '<div class="card"><div class="kicker">' + esc(s) + ' · read ' + nr + '/' + rs.length + ' · write ' + nw + '/' + Object.keys(ws).length + '</div><div class="zi-book">' +
+        rs.map(function (x) { return '<button class="zi-b' + (z.r[x.c] ? ' on' : '') + (ws[x.c] ? ' w' : '') + (z.w[x.c] ? ' won' : '') + '" data-act="zi-say" data-v="' + esc(ziSayText(x.c)) + '">' + esc(x.c) + '</button>'; }).join('') + '</div></div>';
+    });
+    var tr = ziKnownCount(z.r, O.r), tw = ziKnownCount(z.w, O.w);
+    return '<div class="card"><p style="margin:0">You can read <b>' + tr + '</b> of ' + O.r.length + ' and write <b>' + tw + '</b> of ' + O.w.length + ' characters on this list.</p></div>' + h;
+  }
+
+  // Placement: ten characters from each semester to read; five to write. Most right moves you past that semester.
+  function ziPlace() {
+    var z = ziState(), O = ziOrder(z.list), P = ui.zi.place;
+    if (!P) return '<div class="card"><p style="margin:0 0 8px">Ten characters from each half-year of the list. Say each one aloud, then check. If you know nearly all of them, the whole half-year counts as known and the check moves on. Then a few to write from memory.</p><p class="small muted" style="margin:0 0 10px">Have your Chinese book and pencil ready. You can stop at any time and keep what you have done.</p><button class="btn" data-act="zi-pstart">Start the check</button></div>';
+    if (P.end) return '<div class="card rd-done"><h3>Check finished</h3><p>' + esc(P.msg) + '</p><button class="btn" data-act="zi-view" data-v="today">Go to today\'s characters</button></div>';
+    var c = P.items[P.i], wr = P.phase === 'w';
+    var h = '<div class="kicker">' + esc(O.sems[P.si]) + ' · ' + (wr ? 'write ' : 'read ') + (P.i + 1) + ' of ' + P.items.length + '</div><div class="card zi-card">';
+    if (!wr) {
+      h += ziCharHTML(c, true);
+      h += !P.shown ? '<div class="btns"><button class="btn" data-act="zi-pshow">Check</button><button class="btn ghost" data-act="zi-pans" data-v="0">I don\'t know it</button></div>'
+        : '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns"><button class="btn" data-act="zi-pans" data-v="1">I knew it ✓</button><button class="btn ghost" data-act="zi-pans" data-v="0">Not yet</button></div>';
+    } else {
+      var w = ziWords(c);
+      h += '<p class="zi-py" style="font-size:22px">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c, true);
+      h += !P.shown ? '<div class="btns">' + ziSayBtn(w.length ? w[0][0] : c) + '<button class="btn" data-act="zi-pshow">Check</button><button class="btn ghost" data-act="zi-pans" data-v="0">I can\'t write it</button></div>'
+        : '<div class="zi-grid">' + esc(c) + '</div><div class="btns"><button class="btn" data-act="zi-pans" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-pans" data-v="0">Not yet</button></div>';
+    }
+    return h + '</div><div class="btns"><button class="btn ghost small" data-act="zi-pstop">Stop here and keep what I have done</button></div>';
+  }
+  function ziSample(arr, n) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a.slice(0, n); }
+  function ziPlaceSem(P) {
+    var z = ziState(), O = ziOrder(z.list), s = O.sems[P.si];
+    if (P.phase === 'r') P.items = ziSample(O.r.filter(function (x) { return x.s === s; }).map(function (x) { return x.c; }), 10);
+    else P.items = ziSample(O.w.filter(function (x) { return x.s === s; }).map(function (x) { return x.c; }), 5);
+    P.i = 0; P.ok = 0; P.shown = false;
+  }
+  // Mark a whole semester known, with first reviews spread over the coming weeks so they do not arrive all at once.
+  function ziMarkSem(bag, arr, s) { var day = ziDay(); arr.forEach(function (x) { if (x.s === s && !bag[x.c]) bag[x.c] = { b: 5, d: day + 5 + Math.floor(Math.random() * 40) }; }); }
+  function ziPlaceNext(P) {
+    var z = ziState(), O = ziOrder(z.list), s = O.sems[P.si];
+    if (P.phase === 'r') {
+      if (P.ok >= 9) { ziMarkSem(z.r, O.r, s); P.rDone = P.si + 1; if (!P.wStop) { P.phase = 'w'; ziPlaceSem(P); return; } }
+      else return ziPlaceFinish(P);
+    } else {
+      if (P.ok >= 4) { ziMarkSem(z.w, O.w, s); P.wDone = P.si + 1; } else P.wStop = true;
+    }
+    P.si++; P.phase = 'r';
+    if (P.si >= O.sems.length) return ziPlaceFinish(P);
+    ziPlaceSem(P);
+  }
+  function ziPlaceFinish(P) {
+    var z = ziState(), O = ziOrder(z.list);
+    var rs = O.sems[P.rDone || 0], wsem = O.sems[P.wDone || 0];
+    for (var i = 0; i < O.r.length; i++) if (O.r[i].s === rs) { z.rp = i; break; } if (!rs) z.rp = O.r.length;
+    for (var k = 0; k < O.w.length; k++) if (O.w[k].s === wsem) { z.wp = k; break; } if (!wsem) z.wp = O.w.length;
+    z.placed = true; save();
+    P.end = true; P.msg = (P.rDone ? 'You can read the characters up to the end of ' + O.sems[P.rDone - 1] : 'Reading starts at the beginning') + (P.wDone ? ', and write them up to the end of ' + O.sems[P.wDone - 1] : '; writing starts at the beginning') + '. New characters start from ' + (rs || 'the end of the list') + '.';
+  }
+  function ziSettings() {
+    var z = ziState();
+    function row(lbl, key, v) { return '<li><span>' + lbl + '</span><span class="btns"><button class="btn ghost small" data-act="zi-set" data-v="' + key + ':-1">−</button><b style="min-width:2em;text-align:center">' + v + '</b><button class="btn ghost small" data-act="zi-set" data-v="' + key + ':1">+</button></span></li>'; }
+    var rs = ui.zi.reset;
+    return '<div class="card"><div class="kicker">For Mum</div><ul class="list">' + row('New characters to read each day', 'nr', z.nr) + row('New characters to write each day', 'nw', z.nw) + '</ul>' +
+      '<p class="small muted">List: ' + esc((Z.lists[z.list] || {}).name || '') + '. Reviews come back after 1, 2, 4, 8, 16, 32 and 64 school days; a character missed starts again at one day.</p>' +
+      '<div class="btns"><button class="btn ' + (rs ? '' : 'ghost ') + 'small"' + (rs ? ' style="background:#b3261e;border-color:#b3261e"' : '') + ' data-act="zi-reset">' + (rs ? 'Tap again to clear all 识字 progress' : 'Clear all 识字 progress') + '</button></div></div>';
+  }
+  function ziSheet(tickId, who) {
+    ZW = who === 'emily' ? 'emily' : 'emma'; ZI_TICK = tickId || (ZW === 'emma' ? 'e_zi' : 'm_zi');
+    if (!ui.zi || ui.zi.who !== ZW) ui.zi = { who: ZW, view: 'today' };
+    var v = ui.zi.view, body = '<div class="seg" role="group" aria-label="识字">' + [['today', 'Today'], ['book', 'Characters'], ['place', 'Check'], ['set', 'Mum']].map(function (o) { return '<button data-act="zi-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    body += v === 'book' ? ziBook() : v === 'place' ? ziPlace() : v === 'set' ? ziSettings() : ziToday();
+    return { title: '识字 · Chinese characters', who: ZW, body: body };
+  }
+  function ziAct(act, v) {
+    var R = ui.zi && ui.zi.run, P = ui.zi && ui.zi.place, z = ziState();
+    switch (act) {
+      case 'zi-view': ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
+      case 'zi-say': ziSay(v); return;
+      case 'zi-noplace': ui.ziNoPlace = true; refreshSheet(); return;
+      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); save(); refreshSheet(true); return;
+      case 'zi-close': ui.zi.run = null; refreshSheet(true); return;
+      case 'zi-show': R.shown = true; var it = R.q[R.i]; if (it.k === 'rr') ziSay(ziSayText(it.c)); refreshSheet(); return;
+      case 'zi-next':
+        var n = R.q[R.i]; if (n.k === 'rn') { ziGrade(z.r, n.c, true); z.rp = Math.max(z.rp, n.x + 1); } if (n.k === 'wn') { ziGrade(z.w, n.c, true); z.wp = Math.max(z.wp, n.x + 1); }
+        R.i++; R.shown = false; save(); refreshSheet(true); return;
+      case 'zi-grade':
+        var g = R.q[R.i], ok = v === '1'; ziGrade(g.k === 'wr' ? z.w : z.r, g.c, ok);
+        if (ok) R.got++; else { R.miss++; if (R.again.indexOf(g.c) < 0) { R.again.push(g.c); R.q.push({ k: g.k, c: g.c, again: true }); } }
+        R.i++; R.shown = false; save(); refreshSheet(true); return;
+      case 'zi-pstart': ui.zi.place = { si: 0, phase: 'r' }; ziPlaceSem(ui.zi.place); refreshSheet(true); return;
+      case 'zi-pshow': P.shown = true; if (P.phase === 'r') ziSay(ziSayText(P.items[P.i])); refreshSheet(); return;
+      case 'zi-pans':
+        var pc = P.items[P.i];
+        if (v === '1') { P.ok++; if (P.phase === 'r') { if (!z.r[pc]) z.r[pc] = { b: 4, d: ziDay() + 8 }; } else if (!z.w[pc]) z.w[pc] = { b: 4, d: ziDay() + 8 }; }
+        P.i++; P.shown = false;
+        if (P.i >= P.items.length) ziPlaceNext(P);
+        save(); refreshSheet(true); return;
+      case 'zi-pstop': if (P.phase === 'w') P.wStop = true; ziPlaceFinish(P); refreshSheet(true); return;
+      case 'zi-set': var p = v.split(':'); z[p[0]] = Math.max(0, Math.min(15, (z[p[0]] || 0) + (+p[1]))); save(); refreshSheet(); return;
+      case 'zi-reset': if (!ui.zi.reset) { ui.zi.reset = true; refreshSheet(); return; } ui.zi.reset = false; ui.zi.run = null; S.zi[ZW] = {}; ziState(); save(); toast('识字 progress cleared'); refreshSheet(); return;
+    }
+  }
+
   function rdSheet(tickId, who) {
     RDW = who === 'emma' ? 'emma' : 'emily';
     RD_TICK = tickId || (RDW === 'emma' ? 'e_reading' : 'm_reading');
@@ -2198,6 +2413,7 @@
     if (el.tagName === 'SELECT' || el.tagName === 'FORM' || el.tagName === 'INPUT') return;
     if (act.indexOf('rd-') === 0) { rdAct(act, v, el); return; }
     if (act.indexOf('mt-') === 0) { mtAct(act, v, el); return; }
+    if (act.indexOf('zi-') === 0) { ziAct(act, v, el); return; }
     switch (act) {
       case 'setprofile': (function () { var go = function () { S.profile = v; ui.tab = null; save(); if (ui.sheet) closeSheet(); else render(); }; var need = pinFor(v); if (hasPin(need) && S.profile !== v) askPin(need, 'check', go); else go(); })(); break;
       case 'pinkey': pinKey(v); break;

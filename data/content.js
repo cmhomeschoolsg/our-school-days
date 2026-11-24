@@ -10106,6 +10106,13 @@ window.CONTENT = {
 "mins": 10
 },
 {
+"id": "e_zi",
+"label": "识字 · Chinese characters",
+"icon": "🀄",
+"mins": 15,
+"open": "zi:emma"
+},
+{
 "id": "e_cjournal",
 "label": "Chinese journalling",
 "icon": "📔",
@@ -10222,6 +10229,13 @@ window.CONTENT = {
 "label": "Chinese Copywork",
 "icon": "字",
 "mins": 15
+},
+{
+"id": "m_zi",
+"label": "识字 · Chinese characters",
+"icon": "🀄",
+"mins": 10,
+"open": "zi:emily"
 },
 {
 "id": "m_mathp",
