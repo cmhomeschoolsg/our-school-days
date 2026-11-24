@@ -1776,14 +1776,7 @@
   }
   function ziDay() { var d = cur(); return d ? d.n : (S.days.length ? S.days[S.days.length - 1].n : 0); }
   function ziWords(c) { var w = Z.words[c]; if (!w) return []; return Array.isArray(w) ? w : (w[ziState().list] || []); }
-  function ziSayOld(t) {
-    try {
-      var s = window.speechSynthesis; if (!s) return; s.cancel();
-      var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.8;
-      var v = (s.getVoices() || []).filter(function (x) { return /^zh[-_](CN|Hans)/i.test(x.lang); })[0] || (s.getVoices() || []).filter(function (x) { return /^zh/i.test(x.lang); })[0];
-      if (v) u.voice = v; s.speak(u);
-    } catch (e) {}
-  }
+
   function ziSayText(c) { return c; }
   // Recorded voices (audio-cmn: words read by Yue Tan, syllables by Chen Wang): the character, then its words.
   // Anything not recorded is read by the iPad's own Chinese voice.
@@ -1805,16 +1798,11 @@
   function ziTTS(t, done) {
     try {
       var s = window.speechSynthesis; if (!s) { if (done) done(); return; }
-      var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; var v = ziVoice(); if (v) u.voice = v;
+      var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; // no voice set: iPadOS then uses the one chosen in Settings
       u.onend = function () { if (done) setTimeout(done, 200); }; s.speak(u);
     } catch (e) { if (done) done(); }
   }
-  // The most natural Chinese voice on the device: an Enhanced/Premium download if there is one.
-  function ziVoice() {
-    var vs = (window.speechSynthesis && window.speechSynthesis.getVoices()) || [], zh = vs.filter(function (x) { return /^zh[-_](CN|Hans)/i.test(x.lang); });
-    var score = function (x) { return (/premium/i.test(x.name) ? 4 : /enhanced|增强|优化/i.test(x.name) ? 3 : 0) + (/lilian|yu-?shu|lili|瑜/i.test(x.name) ? 1 : 0) - (x.localService === false ? 1 : 0); };
-    zh.sort(function (a, b) { return score(b) - score(a); }); return zh[0] || null;
-  }
+
   function ziSpeakChar(c, wordOnly) { try { window.speechSynthesis.cancel(); } catch (e) {} if (ziAud) ziAud.pause(); ziQ = ziClips(c, wordOnly); ziPlayQ(); }
   function ziDue(bag, day) { return Object.keys(bag).filter(function (c) { return bag[c].d <= day; }).sort(function (a, b) { return bag[a].d - bag[b].d || bag[a].b - bag[b].b; }); }
   function ziGrade(bag, c, ok) {
@@ -2034,7 +2022,7 @@
   }
   // Animate one stroke: a thick line runs along the stroke's centre line, clipped to the stroke's outline.
   var hzTimer = null;
-  function hzStop() { clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} }
+  function hzStop() { clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} if (hzAud) { hzAud.onended = null; hzAud.pause(); } }
   function hzPlay(box, c, opts) {
     hzStop(); var d = HZ[c]; if (!d || !box) return;
     box.innerHTML = hzSVG(c, 'grey', opts.size || 220);
@@ -2053,17 +2041,28 @@
       pl.setAttribute('clip-path', 'url(#' + id + ')'); pl.style.strokeDasharray = (len + 150) + ' ' + (len + 150); pl.style.strokeDashoffset = (len + 150);
       g.appendChild(pl);
       if (lab) lab.innerHTML = '<span class="hz-n">' + (i + 1) + '</span> <b>' + esc(d.n[i] || '') + '</b>';
-      if (opts.sound !== false) hzSpeak(d.n[i] || '');
-      var dur = Math.round((350 + len * 0.55) * slow);
+      var dur = Math.round((350 + len * 0.55) * slow), j = i, said = opts.sound === false, drawn = false;
+      // The next stroke starts once this one is drawn and its name has been said.
+      var go = function () { if (!said || !drawn || !document.body.contains(svg)) return; var o = svg.querySelector('path[data-i="' + j + '"]'); if (o) o.setAttribute('fill', '#222'); pl.setAttribute('stroke', '#222'); i++; hzTimer = setTimeout(step, Math.round(350 * slow)); };
+      if (!said) hzSayStroke(d.n[i] || '', function () { said = true; go(); });
       pl.getBoundingClientRect();
       pl.style.transition = 'stroke-dashoffset ' + dur + 'ms linear'; pl.style.strokeDashoffset = '0';
-      // Once drawn, the stroke turns dark so the next one stands out.
-      var j = i; hzTimer = setTimeout(function () { var o = svg.querySelector('path[data-i="' + j + '"]'); if (o) o.setAttribute('fill', '#222'); pl.setAttribute('stroke', '#222'); i++; step(); }, dur + Math.round(650 * slow));
+      hzTimer = setTimeout(function () { drawn = true; go(); }, dur + Math.round(250 * slow));
     }
     step();
   }
   function hzSpeak(t) {
-    try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; var v = ziVoice(); if (v) u.voice = v; s.speak(u); } catch (e) {}
+    try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; s.speak(u); } catch (e) {}
+  }
+  var HZSYL = { '横': 'heng2', '竖': 'shu4', '撇': 'pie3', '点': 'dian3', '捺': 'na4', '提': 'ti2', '折': 'zhe2', '钩': 'gou1', '弯': 'wan1', '斜': 'xie2', '卧': 'wo4' };
+  var hzAud = null;
+  function hzSayStroke(name, done) {
+    var q = name.split('').map(function (ch) { return HZSYL[ch] ? 'data/audio/s/' + HZSYL[ch] + '.mp3' : null; });
+    if (!name || q.some(function (x) { return !x; })) { hzSpeak(name); setTimeout(done, 900); return; }
+    if (!hzAud) hzAud = new Audio();
+    var fin = false, end = function () { if (!fin) { fin = true; done(); } };
+    (function next() { var u = q.shift(); if (!u) { end(); return; } hzAud.onended = next; hzAud.onerror = next; hzAud.src = u; var p = hzAud.play(); if (p && p.catch) p.catch(function () { end(); }); })();
+    setTimeout(end, 4000);
   }
   function hzSayEn(t) {
     try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'en-GB'; u.rate = 0.95; s.speak(u); } catch (e) {}
