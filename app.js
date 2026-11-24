@@ -2292,7 +2292,7 @@
         return head + body + h2 + '<div class="btns rd-go"><button class="btn" data-act="mt-gnext">' + (R.gi + 1 < asks.length ? 'Next question ›' : 'Now answer the problem ›') + '</button></div>';
       }
       h2 += (st.pre ? MX.stepHTML(st.pre) : prevVis ? MX.stepHTML(prevVis) : '') + '<p class="mt-steptxt"><b>' + esc(st.ask) + '</b></p>' + (R.ghint ? '<p class="mt-msg">Think: ' + esc(st.hint || 'Look at the model again.') + '</p>' : '') + '</div>';
-      return head + body + h2 + mtInkHTML() + mtInput(st, 'mt-gchoose');
+      return head + body + h2 + (R.gfb ? '' : '<div class="btns" style="margin:4px 0"><button class="btn ghost small" data-act="mt-gskip">I know the answer now ›</button></div>') + mtInkHTML() + mtInput(st, 'mt-gchoose');
     }
     if (R.guided && asks.length) { var lv = null; asks.forEach(function (s) { if (s.m || s.tab || s.flow) lv = s; }); body += '<div class="card mt-walk"><div class="kicker">What you have worked out</div><ol class="mt-done">' + asks.map(function (s) { return '<li>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (lv ? MX.stepHTML(lv) : '') + '</div>'; }
     if (R.msg) body += '<p class="mt-msg">' + esc(R.msg) + '</p>';
@@ -2460,6 +2460,9 @@
       if (rg.close) { R.ghint = true; R.typed = ''; refreshSheet(); return; }
       R.typed = '';
       if (rg.ok) { R.gfb = 'ok'; refreshSheet(); return; }
+      // She has worked out the whole problem while being guided: take that as the answer and show the result.
+      var rm = MX.check(Q, typed);
+      if (rm.ok && !Q.choices) { R.phase = 'main'; R.msg = null; mtFinish(true); return; }
       R.gtries = (R.gtries || 0) + 1; if (R.gtries >= 2) R.gfb = 'shown'; else R.ghint = true;
       refreshSheet(); return;
     }
@@ -2501,6 +2504,7 @@
       case 'mt-choose': if (R && !R.fb && R.phase !== 'guide') mtSubmit(v); break;
       case 'mt-gchoose': if (R && R.phase === 'guide' && !R.gfb) mtSubmit(v); break;
       case 'mt-guide': R.phase = 'guide'; R.guided = true; R.helped = true; R.gi = 0; R.gfb = null; R.gtries = 0; R.ghint = false; R.typed = ''; refreshSheet(); break;
+      case 'mt-gskip': R.phase = 'main'; R.gfb = null; R.typed = ''; R.msg = 'Type your answer to the whole problem.'; refreshSheet(true); break;
       case 'mt-gnext':
         var asks3 = mtAsks(R.items[R.i].Q);
         R.gi++; R.gfb = null; R.gtries = 0; R.ghint = false; R.typed = '';
