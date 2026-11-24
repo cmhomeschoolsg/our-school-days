@@ -334,6 +334,7 @@
       if (o.indexOf('reading:') === 0) { var R = C.readings[o.split(':')[1]]; if (R.pending) return R.book; var ri = readingIndex(o.split(':')[1]); return R.contents[ri]; }
       if (o.indexOf('book:') === 0) return bookPeek(o.split(':')[1]);
       if (o === 'drawing') return 'Drawing record';
+      if (o.indexOf('math:') === 0) return mtPeek(o.split(':')[1]);
       if (o === 'rd' || o === 'rd:emma') return rdPeekFor(o === 'rd:emma' ? 'emma' : 'emily');
     } catch (e) {}
     return '';
@@ -458,6 +459,7 @@
       case 'settings': return settingsSheet();
       case 'pin': return pinSheet();
       case 'rd': return rdSheet(tickId, parts[1]);
+      case 'math': return mtSheet(tickId, parts[1]);
     }
     return { title: '', body: '' };
   }
@@ -1727,6 +1729,224 @@
     }
   }
 
+  // ---------- Maths: facts trainer, daily practice by syllabus topic, PSLE heuristics (questions come from math.js) ----------
+  var MX = window.SDMath || { topics: [], heuristics: [], facts: [] };
+  var MT_WHO = 'emma', MT_TICK = 'e_mathtr';
+  function mtState() {
+    var all = S.mt || (S.mt = {}); var m = all[MT_WHO] || (all[MT_WHO] = {});
+    if (!m.facts) m.facts = { best: {}, miss: {} }; if (!m.facts.best) m.facts.best = {}; if (!m.facts.miss) m.facts.miss = {};
+    if (!m.topics) m.topics = {}; if (!m.heur) m.heur = {}; if (!m.log) m.log = {}; if (!m.place) m.place = {};
+    return m;
+  }
+  function mtTopic(id) { for (var i = 0; i < MX.topics.length; i++) if (MX.topics[i].id === id) return MX.topics[i]; return null; }
+  function mtHeur(id) { for (var i = 0; i < MX.heuristics.length; i++) if (MX.heuristics[i].id === id) return MX.heuristics[i]; return null; }
+  function mtRec(kind, id) { var m = mtState(); var bag = kind === 'h' ? m.heur : m.topics; return bag[id] || (bag[id] = { h: [], m: false }); }
+  function mtMastered(id) { return !!(mtState().topics[id] || {}).m; }
+  // Mastered after five right in a row; two wrong in a row on a mastered topic sends it back to learning.
+  function mtScore(kind, id, ok) {
+    var r = mtRec(kind, id); r.h.push(ok ? 1 : 0); if (r.h.length > 12) r.h = r.h.slice(-12); r.seen = today();
+    if (kind === 't') { var last = r.h.slice(-5); if (last.length === 5 && last.every(function (x) { return x; })) r.m = true; var two = r.h.slice(-2); if (r.m && two.length === 2 && !two[0] && !two[1]) r.m = false; }
+  }
+  function mtAcc(r) { if (!r || !r.h.length) return null; return Math.round(100 * r.h.reduce(function (s, x) { return s + x; }, 0) / r.h.length); }
+  function mtLearning() { return MX.topics.filter(function (t) { return !mtMastered(t.id); }); }
+  function mtMake(kind, id) { var g = kind === 'h' ? mtHeur(id) : mtTopic(id); return { kind: kind, id: id, Q: g.gen() }; }
+
+  // The daily set: the next two topics still to master, a little review, and two heuristics problems.
+  function mtTodaySet() {
+    var m = mtState(); var items = [];
+    var learn = mtLearning().slice(0, 2);
+    var mastered = MX.topics.filter(function (t) { return mtMastered(t.id); }).sort(function (a, b) { return String((m.topics[a.id] || {}).seen || '') < String((m.topics[b.id] || {}).seen || '') ? -1 : 1; });
+    var nLearn = mastered.length ? 6 : 8;
+    for (var i = 0; i < nLearn && learn.length; i++) items.push(mtMake('t', learn[i % learn.length].id));
+    mastered.slice(0, 2).forEach(function (t) { items.push(mtMake('t', t.id)); });
+    var hs = MX.heuristics.slice().sort(function (a, b) { return ((m.heur[a.id] || { h: [] }).h.length) - ((m.heur[b.id] || { h: [] }).h.length); });
+    hs.slice(0, 2).forEach(function (h) { items.push(mtMake('h', h.id)); });
+    return items;
+  }
+  function mtStartSet(kind, items, label) { ui.mt = ui.mt || {}; ui.mt.run = { kind: kind, label: label, items: items, n0: items.length, i: 0, typed: '', res: [], fb: null }; }
+  function mtPlaceItems(lv) { return MX.topics.filter(function (t) { return t.lv === lv; }).map(function (t) { return mtMake('t', t.id); }); }
+
+  // ---------- facts rounds ----------
+  var mtTimer = null;
+  function mtFactMode(id) { for (var i = 0; i < MX.facts.length; i++) if (MX.facts[i].id === id) return MX.facts[i]; return MX.facts[0]; }
+  function mtNextFact(R) {
+    var miss = mtState().facts.miss; var sym = mtFactMode(R.mode).sym; var keys = Object.keys(miss).filter(function (k) { return k[0] !== '=' && miss[k] > 0 && (R.mode === 'mix' || k.indexOf(sym) >= 0); });
+    var q;
+    if (keys.length && Math.random() < 0.3) { var k = keys[Math.floor(Math.random() * keys.length)]; q = [k, miss['=' + k]]; if (q[1] == null) q = null; }
+    if (!q) q = mtFactMode(R.mode).make();
+    R.q = q; R.typed = '';
+  }
+  function mtStartFacts(mode) {
+    var R = { kind: 'facts', mode: mode, secs: 60, end: Date.now() + 60000, score: 0, wrong: [], typed: '', q: null, over: false };
+    mtNextFact(R); ui.mt = ui.mt || {}; ui.mt.run = R;
+    clearInterval(mtTimer); mtTimer = setInterval(function () {
+      var r = ui.mt && ui.mt.run; if (!r || r.kind !== 'facts' || r.over) { clearInterval(mtTimer); return; }
+      var left = Math.max(0, Math.ceil((r.end - Date.now()) / 1000)); var el = document.getElementById('mt-clock'); if (el) el.textContent = left + 's';
+      if (left <= 0) { clearInterval(mtTimer); mtEndFacts(); }
+    }, 250);
+  }
+  function mtEndFacts() {
+    var R = ui.mt.run; R.over = true; var m = mtState(); var best = m.facts.best[R.mode] || 0; R.newBest = R.score > best; if (R.newBest) m.facts.best[R.mode] = R.score;
+    var d = cur(); m.log[String(Date.now())] = { d: today(), n: d ? d.n : 0, k: 'facts', mode: R.mode, score: R.score, wrong: R.wrong.length };
+    save(); refreshSheet(true);
+  }
+  function mtFactKey(ch) {
+    var R = ui.mt.run; if (!R || R.over) return;
+    if (ch === '⌫') R.typed = R.typed.slice(0, -1); else if (R.typed.length < 6) R.typed += ch;
+    var ans = String(R.q[1]); var el = document.getElementById('mt-typed');
+    if (R.typed === ans) {
+      R.score++; var miss = mtState().facts.miss; if (miss[R.q[0]]) { miss[R.q[0]]--; if (miss[R.q[0]] <= 0) { delete miss[R.q[0]]; delete miss['=' + R.q[0]]; } }
+      mtNextFact(R); mtFactPaint(true); return;
+    }
+    if (R.typed.length >= ans.length && R.typed !== ans.slice(0, R.typed.length)) {
+      var miss2 = mtState().facts.miss; miss2[R.q[0]] = (miss2[R.q[0]] || 0) + 2; miss2['=' + R.q[0]] = R.q[1]; R.wrong.push(R.q[0] + ' = ' + ans);
+      if (el) { el.textContent = ans; el.classList.add('mt-wrongflash'); }
+      setTimeout(function () { mtNextFact(R); mtFactPaint(false); }, 700); R.typed = ''; return;
+    }
+    if (el) el.textContent = R.typed || ' ';
+  }
+  function mtFactPaint(good) {
+    var R = ui.mt.run; var q = document.getElementById('mt-q'), t = document.getElementById('mt-typed'), s = document.getElementById('mt-score');
+    if (q) q.textContent = R.q[0] + ' ='; if (t) { t.textContent = ' '; t.classList.remove('mt-wrongflash'); } if (s) s.textContent = R.score;
+    if (good && q) { q.classList.remove('mt-good'); void q.offsetWidth; q.classList.add('mt-good'); }
+  }
+  function mtKeypad(keys, act) {
+    return '<div class="mt-pad">' + keys.map(function (k) { var lab = k === ' ' ? '␣' : k; return '<button class="mt-key' + (k === '✓' ? ' go' : '') + '" data-act="' + act + '" data-v="' + esc(k) + '" aria-label="' + (k === ' ' ? 'space' : esc(k)) + '">' + esc(lab) + '</button>'; }).join('') + '</div>';
+  }
+
+  // ---------- views ----------
+  function mtTabs(v) {
+    return '<div class="seg" role="group" aria-label="Maths">' + [['today', 'Today'], ['facts', 'Facts'], ['topics', 'Topics'], ['heur', 'Heuristics'], ['record', 'Record']].map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+  }
+  function mtRunView() {
+    var R = ui.mt.run;
+    if (R.kind === 'facts') {
+      var M = mtFactMode(R.mode);
+      if (R.over) return '<div class="rd-done"><div class="rd-big">' + R.score + '</div><p>' + esc(M.name) + ' in 60 seconds' + (R.newBest ? ' — a new best! 🎉' : ' · best ' + (mtState().facts.best[R.mode] || 0)) + '</p>' + (R.wrong.length ? '<p class="small">To practise: ' + esc(R.wrong.join(', ')) + '</p><p class="small muted">These come back more often until she gets them right.</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-facts" data-v="' + R.mode + '">Again</button><button class="btn ghost" data-act="mt-view" data-v="facts">Done</button></div>';
+      return '<div class="mt-bar"><span>' + esc(M.name) + '</span><b id="mt-score">' + R.score + '</b><span id="mt-clock">' + Math.max(0, Math.ceil((R.end - Date.now()) / 1000)) + 's</span></div>' +
+        '<div class="mt-fact"><span id="mt-q">' + esc(R.q[0]) + ' =</span> <span id="mt-typed" class="mt-typed"> </span></div>' + mtKeypad(['7', '8', '9', '4', '5', '6', '1', '2', '3', '⌫', '0'], 'mt-fkey') +
+        '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-stopfacts">Stop</button></div>';
+    }
+    if (R.i >= R.items.length) return mtSetEnd();
+    var it = R.items[R.i], Q = it.Q; var g = it.kind === 'h' ? mtHeur(it.id) : mtTopic(it.id);
+    var head = '<div class="kicker">' + esc(R.label) + ' · ' + (R.i + 1) + ' of ' + R.items.length + ' · ' + esc(it.kind === 'h' ? 'Heuristic: ' + g.name : 'P' + g.lv + ' ' + g.name) + '</div>';
+    var body = '<div class="mt-q">' + esc(Q.q) + '</div>';
+    if (R.fb) {
+      var fb = R.fb;
+      body += '<div class="mt-fb ' + (fb.ok ? 'ok' : 'no') + '"><b>' + (fb.ok ? '✓ Right!' : '✗ Not this time.') + '</b>' + (fb.ok ? '' : ' The answer is <b>' + esc(Q.show + (Q.unit ? ' ' + Q.unit : '')) + '</b>.') + (fb.typed ? ' <span class="small muted">You wrote ' + esc(fb.typed) + '.</span>' : '') + '</div>';
+      if (Q.steps && (!fb.ok || it.kind === 'h')) body += '<div class="card mt-steps"><h3 style="font-size:16px;margin:0 0 6px">' + (it.kind === 'h' ? 'One way to solve it' : 'How to work it out') + '</h3><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
+      body += '<div class="btns rd-go"><button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length ? 'Next ›' : 'Finish ›') + '</button></div>';
+      return head + body;
+    }
+    if (R.msg) body += '<p class="mt-msg">' + esc(R.msg) + '</p>';
+    if (Q.choices) return head + body + '<div class="rd-cards">' + Q.choices.map(function (c) { return '<button class="rd-card" data-act="mt-choose" data-v="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>';
+    var keys = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', '/', ' ', Q.ratio || Q.time ? ':' : '⌫', Q.ratio || Q.time ? '⌫' : '✓'];
+    if (Q.ratio || Q.time) keys.push('✓');
+    return head + body + '<div class="mt-ans"><span id="mt-typed" class="mt-typed">' + (R.typed ? esc(R.typed) : '&nbsp;') + '</span>' + (Q.unit ? '<span class="muted">' + esc(Q.unit) + '</span>' : '') + '</div>' +
+      '<p class="small muted" style="margin:0;text-align:center">Fractions: 3/4 · mixed numbers: 2 ␣ 1/3' + (Q.ratio ? ' · ratios: 2:3' : '') + (Q.time ? ' · time: 14:05' : '') + '</p>' + mtKeypad(keys, 'mt-key') +
+      '<div class="btns" style="justify-content:space-between"><button class="btn ghost small" data-act="mt-skip">I don\'t know — show me</button><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
+  }
+  function mtSetEnd() {
+    var R = ui.mt.run; var right = R.res.filter(function (x) { return x; }).length;
+    if (!R.res.length) { ui.mt.run = null; return mtTabs(ui.mt.view || 'today') + mtTodayView(); }
+    if (!R.logged) {
+      R.logged = true; var m = mtState(); var d = cur();
+      m.log[String(Date.now())] = { d: today(), n: d ? d.n : 0, k: R.kind, label: R.label, score: right, total: R.res.length, topics: R.items.slice(0, R.res.length).map(function (it, i) { return (R.res[i] ? '✓' : '✗') + it.id; }) };
+      if (R.kind === 'place' && R.lv) m.place['p' + R.lv] = today();
+      R.full = R.res.length >= R.n0;
+      if (R.kind === 'today' && R.full && d && !doneToday(MT_TICK)) addToday(MT_TICK); else save();
+      render();
+    }
+    var newly = R.kind === 'place' ? MX.topics.filter(function (t) { return t.lv === R.lv && mtMastered(t.id); }).length : null;
+    return '<div class="rd-done"><div class="rd-big">' + right + ' / ' + R.res.length + '</div>' +
+      (R.kind === 'place' ? '<p>' + newly + ' of the P' + R.lv + ' topics are marked as known. The rest join her practice, in syllabus order.</p>' : '<p>' + (right === R.res.length ? 'All right — well done!' : 'Well worked.') + '</p>') +
+      (R.kind === 'today' ? '<p class="small muted">' + (R.full ? 'Maths practice is ticked for today.' : 'Finish a whole set to tick Maths practice for today.') + '</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-view" data-v="' + (R.kind === 'place' ? 'topics' : 'today') + '">Done</button></div>';
+  }
+  function mtTodayView() {
+    var m = mtState(); var learn = mtLearning(); var nPlaced = Object.keys(m.place).length;
+    var h = '';
+    if (!nPlaced && !Object.keys(m.log).length) h += '<div class="card"><h3>Start with a placement check</h3><p style="margin:0 0 8px">One question on each topic of a level. Topics she gets right twice are marked as known, so practice starts where her gaps are. Start with P3 and go up while it is going well.</p><div class="btns">' + [3, 4, 5, 6].map(function (lv) { return '<button class="btn' + (lv === 3 ? '' : ' ghost') + ' small" data-act="mt-place" data-v="' + lv + '">P' + lv + ' check</button>'; }).join('') + '</div></div>';
+    var mastered = MX.topics.length - learn.length;
+    h += '<div class="card"><div class="kicker">PSLE syllabus (Standard) · ' + mastered + ' of ' + MX.topics.length + ' topics mastered</div><div class="rd-dots" aria-hidden="true">' + MX.topics.map(function (t) { return '<i class="' + (mtMastered(t.id) ? 'f' : '') + '"></i>'; }).join('') + '</div>' +
+      (learn.length ? '<p style="margin:6px 0 0">Learning now: <b>P' + learn[0].lv + ' ' + esc(learn[0].name) + '</b>' + (learn[1] ? ' and <b>P' + learn[1].lv + ' ' + esc(learn[1].name) + '</b>' : '') + '.</p>' : '<p style="margin:6px 0 0">Every topic is mastered — keep reviewing.</p>') + '</div>';
+    h += '<div class="btns rd-go"><button class="btn" data-act="mt-today">' + (doneToday(MT_TICK) ? 'Do another set' : "Start today's set (10 questions)") + '</button><button class="btn ghost" data-act="mt-facts" data-v="mix">1-minute facts warm-up</button></div>';
+    h += '<p class="small muted" style="margin:0">Each set: six questions on the topics she is learning, two to review mastered ones, and two heuristics problems with the method shown. A topic counts as mastered after five right in a row.</p>';
+    return h;
+  }
+  function mtFactsView() {
+    var m = mtState(); var miss = Object.keys(m.facts.miss).filter(function (k) { return k[0] !== '=' && m.facts.miss[k] > 0; });
+    return '<p style="margin:0">One minute. Type the answer — a right answer moves on by itself.</p><div class="mt-modes">' + MX.facts.map(function (f) { return '<button class="mt-mode" data-act="mt-facts" data-v="' + f.id + '"><b>' + esc(f.sym) + '</b><span>' + esc(f.name) + '</span><small>best ' + (m.facts.best[f.id] || 0) + '</small></button>'; }).join('') + '</div>' +
+      (miss.length ? '<p class="small"><b>Facts to practise:</b> ' + esc(miss.slice(0, 20).join(', ')) + '</p>' : '');
+  }
+  function mtTopicsView() {
+    var m = mtState(); var h = '';
+    [3, 4, 5, 6].forEach(function (lv) {
+      var ts = MX.topics.filter(function (t) { return t.lv === lv; }); var done = ts.filter(function (t) { return mtMastered(t.id); }).length;
+      h += '<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3 style="margin:0">P' + lv + ' · ' + done + '/' + ts.length + '</h3><button class="btn ghost small" data-act="mt-place" data-v="' + lv + '">' + (m.place['p' + lv] ? 'Check again' : 'Placement check') + '</button></div><ul class="list">' +
+        ts.map(function (t) { var r = m.topics[t.id]; var acc = mtAcc(r); return '<li><span>' + (mtMastered(t.id) ? '✓ ' : '') + esc(t.name) + ' <span class="small muted">' + esc(t.strand) + (acc != null ? ' · ' + acc + '% right' : '') + '</span></span><button class="btn ghost small" data-act="mt-topic" data-v="' + t.id + '">Practise</button></li>'; }).join('') + '</ul></div>';
+    });
+    return h + '<p class="small muted">Topics and their order follow MOE\'s 2021 Primary Mathematics Syllabus (Standard), which PSLE uses from 2026. Topics that need drawings to work on — nets, symmetry, graphs and pie charts — are best done on paper and are not here.</p>';
+  }
+  function mtHeurView() {
+    var m = mtState();
+    return '<p style="margin:0">Word problems for each way of thinking PSLE asks for. After each answer the working is shown.</p><div class="card"><ul class="list">' + MX.heuristics.map(function (x) { var r = m.heur[x.id]; var acc = mtAcc(r); return '<li><span><b>' + esc(x.name) + '</b> <span class="small muted">' + (r && r.h.length ? r.h.length + ' done · ' + acc + '% right' : 'not tried yet') + '</span></span><button class="btn ghost small" data-act="mt-heur" data-v="' + x.id + '">3 problems</button></li>'; }).join('') + '</ul></div>' +
+      '<p class="small muted">The methods are the ones Singapore schools teach for PSLE: draw a model, systematic list, before and after, look for a pattern, guess and check, supposition, work backwards, and algebra.</p>';
+  }
+  function mtRecordView() {
+    var m = mtState(); var ts = Object.keys(m.log).sort(function (a, b) { return b - a; });
+    if (!ts.length) return '<p class="muted">Sessions will be listed here.</p>';
+    return '<div class="card"><ul class="list">' + ts.slice(0, 120).map(function (t) { var e = m.log[t];
+      var what = e.k === 'facts' ? 'Facts · ' + esc(mtFactMode(e.mode).name) + ': ' + e.score + ' in a minute' : esc(e.label || e.k) + ': ' + e.score + '/' + e.total;
+      return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + what + '</li>'; }).join('') + '</ul></div>';
+  }
+  function mtPeek(who) { var keep = MT_WHO; MT_WHO = who; try { var l = mtLearning(); return l.length ? 'Learning: ' + l[0].name : 'All topics mastered'; } finally { MT_WHO = keep; } }
+  function mtSheet(tickId, who) {
+    MT_WHO = who || 'emma'; MT_TICK = tickId || 'e_mathtr'; ui.mt = ui.mt || {};
+    var v = ui.mt.view || 'today'; var body;
+    if (ui.mt.run) body = '<div class="rd-stage">' + mtRunView() + '</div>';
+    else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : mtTodayView());
+    return { title: 'Maths', who: MT_WHO, body: body };
+  }
+  window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; return Q.choices || Q.time ? Q.a : Q.show; };
+  function mtSubmit(typed) {
+    var R = ui.mt.run; var it = R.items[R.i]; var r = MX.check(it.Q, typed);
+    if (r.unread) { R.msg = 'Type a number, a fraction like 3/4, or a mixed number like 2 1/3.'; refreshSheet(); return; }
+    if (r.close) { R.msg = r.close; R.typed = ''; refreshSheet(); return; }
+    R.msg = null; R.res[R.i] = r.ok; R.fb = { ok: r.ok, typed: typed };
+    // In a placement check, a right first answer earns a second question on the same topic; two right marks it known.
+    if (R.kind === 'place' && it.kind === 't') {
+      it.tries = (it.tries || 0) + 1;
+      if (r.ok && it.tries === 1) { R.res[R.i] = true; R.fb = null; R.items[R.i] = { kind: 't', id: it.id, Q: mtTopic(it.id).gen(), tries: 1, second: true }; R.typed = ''; R.msg = 'Right! One more on this topic.'; refreshSheet(); return; }
+      if (it.second && r.ok) { var rec = mtRec('t', it.id); rec.h = [1, 1, 1, 1, 1]; rec.m = true; rec.seen = today(); }
+      else mtScore('t', it.id, r.ok);
+    } else mtScore(it.kind, it.id, r.ok);
+    save(); refreshSheet();
+  }
+  function mtAct(act, v, el) {
+    ui.mt = ui.mt || {}; var R = ui.mt.run;
+    function no() { el.classList.remove('rd-no'); void el.offsetWidth; el.classList.add('rd-no'); }
+    switch (act) {
+      case 'mt-view': clearInterval(mtTimer); ui.mt.run = null; ui.mt.view = v; refreshSheet(true); break;
+      case 'mt-facts': mtStartFacts(v); refreshSheet(true); break;
+      case 'mt-fkey': mtFactKey(v); break;
+      case 'mt-stopfacts': clearInterval(mtTimer); mtEndFacts(); break;
+      case 'mt-today': mtStartSet('today', mtTodaySet(), "Today's set"); refreshSheet(true); break;
+      case 'mt-topic': var t = mtTopic(v); mtStartSet('topic', [0, 1, 2, 3, 4].map(function () { return mtMake('t', v); }), t.name); refreshSheet(true); break;
+      case 'mt-heur': var hh = mtHeur(v); mtStartSet('heur', [0, 1, 2].map(function () { return mtMake('h', v); }), hh.name); refreshSheet(true); break;
+      case 'mt-place': mtStartSet('place', mtPlaceItems(+v), 'P' + v + ' placement check'); ui.mt.run.lv = +v; refreshSheet(true); break;
+      case 'mt-key':
+        if (!R || R.fb) return;
+        if (v === '✓') { if (!R.typed.trim()) { no(); return; } mtSubmit(R.typed.trim()); return; }
+        if (v === '⌫') R.typed = R.typed.slice(0, -1); else if (R.typed.length < 14) R.typed += v;
+        var te = document.getElementById('mt-typed'); if (te) te.innerHTML = R.typed ? esc(R.typed).replace(/ /g, '&nbsp;') : '&nbsp;';
+        break;
+      case 'mt-choose': if (R && !R.fb) mtSubmit(v); break;
+      case 'mt-skip': if (R && !R.fb) { var it = R.items[R.i]; R.res[R.i] = false; R.fb = { ok: false, typed: '' }; mtScore(it.kind, it.id, false); save(); refreshSheet(); } break;
+      case 'mt-next': R.i++; R.typed = ''; R.fb = null; R.msg = null; refreshSheet(true); break;
+      case 'mt-quit': R.items = R.items.slice(0, R.i); refreshSheet(true); break;
+    }
+  }
+
   function toggleTick(id) {
     var d = cur(); if (!d) return;
     var a = dList(d.w, id); var k = a.lastIndexOf(d.n);
@@ -1766,6 +1986,7 @@
     if (act === 'scrim') { if (e.target === el) closeSheet(); return; }
     if (el.tagName === 'SELECT' || el.tagName === 'FORM' || el.tagName === 'INPUT') return;
     if (act.indexOf('rd-') === 0) { rdAct(act, v, el); return; }
+    if (act.indexOf('mt-') === 0) { mtAct(act, v, el); return; }
     switch (act) {
       case 'setprofile': (function () { var go = function () { S.profile = v; ui.tab = null; save(); if (ui.sheet) closeSheet(); else render(); }; var need = pinFor(v); if (hasPin(need) && S.profile !== v) askPin(need, 'check', go); else go(); })(); break;
       case 'pinkey': pinKey(v); break;

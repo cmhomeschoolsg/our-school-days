@@ -48,6 +48,29 @@ button.rd-card:disabled{opacity:.18}
 @keyframes rdno{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @media (prefers-reduced-motion: reduce){.rd-no{animation:none;outline:3px solid var(--warn)}}
 @media (max-width:520px){.rd-big{font-size:48px}.rd-tile{min-width:48px;height:54px;font-size:28px}.rd-card{font-size:23px;min-height:48px}.rd-slot{width:40px;font-size:36px}}
+
+/* maths */
+.mt-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:360px;margin:0 auto;width:100%}
+.mt-key{height:58px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:26px;font-weight:800}
+.mt-key.go{background:var(--who);border-color:var(--who);color:var(--on)}
+.mt-key:active{transform:scale(.96)}
+.mt-q{font-size:22px;line-height:1.4;font-weight:600}
+.mt-ans{display:flex;align-items:baseline;justify-content:center;gap:8px}
+.mt-typed{min-width:140px;min-height:50px;border-bottom:3px solid var(--who);font-family:var(--f-display);font-size:38px;font-weight:800;text-align:center;display:inline-block;white-space:pre}
+.mt-fact{text-align:center;font-family:var(--f-display);font-size:52px;font-weight:800;padding:10px 0}
+.mt-fact #mt-q.mt-good{animation:mtgood .3s}
+@keyframes mtgood{50%{color:var(--who)}}
+.mt-wrongflash{color:var(--warn);border-color:var(--warn)}
+.mt-bar{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:18px}
+.mt-bar b{font-size:30px;color:var(--who)}
+.mt-fb{padding:10px 12px;border-radius:12px;font-size:17px}
+.mt-fb.ok{background:color-mix(in srgb,var(--who) 14%,transparent)}
+.mt-fb.no{background:color-mix(in srgb,var(--warn) 14%,transparent)}
+.mt-steps ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.mt-msg{margin:0;color:var(--warn);font-weight:700}
+.mt-modes{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.mt-mode{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 8px;border-radius:14px;border:2px solid var(--who);background:var(--card);color:var(--ink)}
+.mt-mode b{font-size:28px;color:var(--who)}.mt-mode small{color:var(--muted)}
 </style>
 <title>Our School Days</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -245,6 +268,7 @@ textarea{min-height:120px;font-size:13px;font-family:ui-monospace,Menlo,monospac
 <script src="data/content.js"></script>
 <script src="data/books.js"></script>
 <script src="data/reading.js"></script>
+<script src="math.js"></script>
 <script src="app.js"></script>
 <script type="module" src="sync.js"></script>
 

@@ -10119,6 +10119,13 @@ window.CONTENT = {
 "mins": 15
 },
 {
+"id": "e_mathtr",
+"label": "Maths practice",
+"icon": "🧮",
+"mins": 15,
+"open": "math:emma"
+},
+{
 "id": "e_p_math",
 "pick": "L_emath",
 "n": 1,
