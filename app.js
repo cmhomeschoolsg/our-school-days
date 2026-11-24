@@ -51,6 +51,28 @@
     return null;
   }
   function weekDone(w) { return S.weeks[w] || (S.weeks[w] = {}); }
+  // ---------- slipping: work left undone last week is marked 🔴 so the girls do it first ----------
+  // A loop item is flagged if it was not done last week. After a short week (fewer than 4 school days, e.g. travel)
+  // it is flagged only if it was also missed the week before. A daily item is flagged if it was done fewer than
+  // 3 times in a full week. Reads past weeks only; never writes.
+  function schoolDaysIn(v) { return S.days.filter(function (d) { return d.w === v; }).length; }
+  function missedWeeks(id, w, isLoop) {
+    var k = 0;
+    for (var v = w - 1; v >= 1 && v >= w - 4; v--) {
+      var nd = schoolDaysIn(v); if (!nd) continue;
+      var done = isLoop ? !!(S.weeks[v] || {})[id] : ((S.wk[v] || {})[id] || []).length >= Math.min(3, nd);
+      if (done) break; k++;
+    }
+    return k;
+  }
+  function slipFlag(id, w, isLoop) {
+    if (!cur() || w !== cur().w) return 0;
+    var k = missedWeeks(id, w, isLoop); if (!k) return 0;
+    if (isLoop && k === 1 && schoolDaysIn(w - 1) < 4) return 0;
+    if (!isLoop && schoolDaysIn(w - 1) < 4 && k === 1) return 0;
+    return k;
+  }
+  function slipHTML(k, isLoop) { return k ? '<span class="meta slip">🔴 ' + (isLoop ? (k === 1 ? 'Missed last week' : 'Missed ' + k + ' weeks') : 'Not enough last week') + ' — do this first</span>' : ''; }
   function pickCount(day, item) { return (day.picks[item.id] || []).length; }
   function isDone(day, item) { return item.pick ? pickCount(day, item) >= item.n : !!day.ticks[item.id]; }
 
@@ -301,7 +323,8 @@
       if (Lp.note) hint.push(Lp.note);
       if (Lp.narration) hint.push('written so far: ' + Lp.items.filter(function (i) { return S.narrWritten[w + ':' + i.id]; }).length);
       var h = '<section class="section" id="loop-' + lk + '"><h2>' + esc(Lp.name) + '<small>' + done + '/' + Lp.items.length + '</small></h2>' + (hint.length ? '<p class="small muted" style="margin:-4px 0 8px">' + esc(hint.join(' · ')) + '</p>' : '') + '<div class="rows">';
-      Lp.items.forEach(function (li) { h += loopRowHTML(li, w, Lp, readonly); });
+      var order = Lp.items.slice(); if (!readonly) order.sort(function (a, b) { var fa = !wd[a.id] && slipFlag(a.id, w, true) ? 1 : 0, fb = !wd[b.id] && slipFlag(b.id, w, true) ? 1 : 0; return fb - fa || Lp.items.indexOf(a) - Lp.items.indexOf(b); });
+      order.forEach(function (li) { h += loopRowHTML(li, w, Lp, readonly); });
       return h + '</div></section>';
     }
     var own = L.sections.filter(function (s) { return !isMomName(s.name); }), mom = L.sections.filter(function (s) { return isMomName(s.name); });
@@ -361,7 +384,8 @@
     }
     boxes += '</span>';
     var act = readonly ? 'disabled' : (it.open ? 'data-act="sheet" data-v="' + it.open + '" data-tick="' + it.id + '"' : 'data-act="addday" data-v="' + it.id + '"');
-    return '<div class="row' + (full ? ' done' : '') + '">' + labelPart(it, act) + boxes + (readonly ? '' : timerPart(it)) + '</div>';
+    var slip = !readonly && a.length < 3 ? slipFlag(it.id, w, false) : 0;
+    return '<div class="row' + (full ? ' done' : '') + (slip ? ' slipping' : '') + '">' + labelPart(it, act, slipHTML(slip, false)) + boxes + (readonly ? '' : timerPart(it)) + '</div>';
   }
 
   // A daily row for a loop: it ticks itself, one box for every n loop items done this week.
@@ -383,9 +407,9 @@
 
   function loopRowHTML(li, w, Lp, readonly) {
     var wd = weekDone(w); var on = !!wd[li.id];
-    var extra = on ? '<span class="meta">Done on day ' + wd[li.id] + (S.narrWritten[w + ':' + li.id] ? ' · ✍️ written' : '') + '</span>' : '';
+    var extra = on ? '<span class="meta">Done on day ' + wd[li.id] + (S.narrWritten[w + ':' + li.id] ? ' · ✍️ written' : '') + '</span>' : (readonly ? '' : slipHTML(slipFlag(li.id, w, true), true));
     var act = readonly ? 'disabled' : (li.open ? 'data-act="sheet" data-v="' + li.open + '"' : 'data-act="loopdone" data-v="' + li.id + '"');
-    return '<div class="row' + (on ? ' done' : '') + '">' +
+    return '<div class="row' + (on ? ' done' : '') + (!on && !readonly && slipFlag(li.id, w, true) ? ' slipping' : '') + '">' +
       (readonly ? '<span class="check">' + (on ? '✓' : '') + '</span>' : '<button class="check" data-act="loopdone" data-v="' + li.id + '" aria-pressed="' + on + '" aria-label="Done: ' + esc(li.label) + '">✓</button>') +
       labelPart(li, act, extra) +
       (!readonly && Lp.narration && on ? '<button class="btn small' + (S.narrWritten[w + ':' + li.id] ? '' : ' ghost') + '" data-act="written" data-v="' + li.id + '">' + (S.narrWritten[w + ':' + li.id] ? '✍️ Written' : 'Written?') + '</button>' : '') +
