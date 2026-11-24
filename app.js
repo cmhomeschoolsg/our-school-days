@@ -1848,7 +1848,7 @@
         if (Q.walk && R.kind !== 'place') body += '<div class="card mt-walk"><div class="kicker">The thinking, step by step</div><ol class="mt-done">' + asks.map(function (s) { return '<li><b>' + esc(s.ask) + '</b><br>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (function () { var v = (Q.walk || []).filter(function (s) { return s.m || s.tab || s.flow; }).pop(); return v ? MX.stepHTML(v) : ''; })() + '</div><p class="mt-steptxt tell">Read the steps through, then tell Mum in your own words why the answer is ' + esc(Q.show) + '.</p>';
         else if (Q.steps && R.kind !== 'place') body += '<div class="card mt-steps"><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
       }
-      return head + body + '<div class="btns rd-go">' + nextBtn + '</div>';
+      return head + body + (R.kind !== 'place' && ui.mt.ink && ui.mt.ink.strokes.length ? mtInkHTML() : '') + '<div class="btns rd-go">' + nextBtn + '</div>';
     }
     // Thinking it through: one question at a time; the model grows as she answers.
     if (R.phase === 'guide') {
@@ -1861,12 +1861,12 @@
         return head + body + h2 + '<div class="btns rd-go"><button class="btn" data-act="mt-gnext">' + (R.gi + 1 < asks.length ? 'Next question ›' : 'Now answer the problem ›') + '</button></div>';
       }
       h2 += (st.pre ? MX.stepHTML(st.pre) : prevVis ? MX.stepHTML(prevVis) : '') + '<p class="mt-steptxt"><b>' + esc(st.ask) + '</b></p>' + (R.ghint ? '<p class="mt-msg">Think: ' + esc(st.hint || 'Look at the model again.') + '</p>' : '') + '</div>';
-      return head + body + h2 + mtInput(st, 'mt-gchoose');
+      return head + body + h2 + mtInkHTML() + mtInput(st, 'mt-gchoose');
     }
     if (R.guided && asks.length) { var lv = null; asks.forEach(function (s) { if (s.m || s.tab || s.flow) lv = s; }); body += '<div class="card mt-walk"><div class="kicker">What you have worked out</div><ol class="mt-done">' + asks.map(function (s) { return '<li>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (lv ? MX.stepHTML(lv) : '') + '</div>'; }
     if (R.msg) body += '<p class="mt-msg">' + esc(R.msg) + '</p>';
     if (asks.length && R.kind !== 'place' && !R.guided) body += '<div class="btns"><button class="btn ghost small" data-act="mt-guide">🤔 Help me think it through</button></div>' + (it.kind === 'h' ? '<p class="small muted" style="margin:0">Try drawing a model on paper first.</p>' : '');
-    return head + body + mtInput(Q, 'mt-choose') + '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
+    return head + body + mtInkHTML() + mtInput(Q, 'mt-choose') + '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
   }
   // The guiding questions for a problem — but never its final step: she takes that one herself.
   function mtAsks(Q) {
@@ -1937,10 +1937,42 @@
       return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + what + '</li>'; }).join('') + '</ul></div>';
   }
   function mtPeek(who) { var keep = MT_WHO; MT_WHO = who; try { var l = mtLearning(); return l.length ? 'Learning: ' + l[0].name : 'All topics mastered'; } finally { MT_WHO = keep; } }
+  // ---------- working space: a whiteboard under each question, drawn with a finger or pencil ----------
+  // Strokes are kept as points relative to the board's width, so they survive the page redrawing and a rotated iPad.
+  function mtInkHTML() {
+    var I = ui.mt.ink || (ui.mt.ink = { strokes: [], tool: 'pen', big: false });
+    if (!ui.mt.inkOpen) return '<div class="btns"><button class="btn ghost small" data-act="mt-ink">✏️ Working space</button></div>';
+    var tool = function (id, lab) { return '<button data-act="mt-inktool" data-v="' + id + '" aria-pressed="' + (I.tool === id) + '">' + lab + '</button>'; };
+    return '<div class="mt-board-wrap"><div class="mt-board-bar"><div class="seg" role="group" aria-label="Pen">' + tool('pen', '✏️ Pencil') + tool('red', '🖍 Red') + tool('rub', '🧽 Rubber') + '</div>' +
+      '<span class="btns" style="flex:none"><button class="btn ghost small" data-act="mt-inkundo">↶ Undo</button><button class="btn ghost small" data-act="mt-inkclear">Clear</button><button class="btn ghost small" data-act="mt-inkbig">' + (I.big ? 'Smaller' : 'Bigger') + '</button><button class="btn ghost small" data-act="mt-ink">Hide</button></span></div>' +
+      '<canvas id="mt-board" class="mt-board' + (I.big ? ' big' : '') + '" aria-label="Working space: draw your working here"></canvas></div>';
+  }
+  function mtInkInit() {
+    var c = document.getElementById('mt-board'); if (!c || c._ready) return; c._ready = true;
+    var I = ui.mt.ink; var ctx = c.getContext('2d');
+    function size() { var r = c.getBoundingClientRect(); var d = window.devicePixelRatio || 1; c.width = Math.round(r.width * d); c.height = Math.round(r.height * d); ctx.setTransform(d, 0, 0, d, 0, 0); redraw(); }
+    function W() { return c.getBoundingClientRect().width || 1; }
+    function drawStroke(st) {
+      var w = W(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.globalCompositeOperation = st.tool === 'rub' ? 'destination-out' : 'source-over';
+      ctx.strokeStyle = st.tool === 'red' ? '#c0392b' : getComputedStyle(c).color || '#222'; ctx.lineWidth = st.tool === 'rub' ? 22 : 2.6;
+      ctx.beginPath(); st.p.forEach(function (pt, i) { var x = pt[0] * w, y = pt[1] * w; if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
+      if (st.p.length === 1) ctx.lineTo(st.p[0][0] * w + 0.1, st.p[0][1] * w + 0.1);
+      ctx.stroke(); ctx.globalCompositeOperation = 'source-over';
+    }
+    function redraw() { ctx.clearRect(0, 0, c.width, c.height); I.strokes.forEach(drawStroke); }
+    var cur = null;
+    function pt(e) { var r = c.getBoundingClientRect(); var w = r.width || 1; return [(e.clientX - r.left) / w, (e.clientY - r.top) / w]; }
+    c.addEventListener('pointerdown', function (e) { e.preventDefault(); try { c.setPointerCapture(e.pointerId); } catch (x) {} cur = { tool: I.tool, p: [pt(e)] }; I.strokes.push(cur); drawStroke(cur); });
+    c.addEventListener('pointermove', function (e) { if (!cur) return; e.preventDefault(); cur.p.push(pt(e)); redraw(); });
+    function end() { cur = null; }
+    c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end); c.addEventListener('pointerleave', end);
+    c._redraw = redraw; size();
+  }
   function mtSheet(tickId, who) {
     MT_WHO = who || 'emma'; MT_TICK = tickId || 'e_mathtr'; ui.mt = ui.mt || {};
     var v = ui.mt.view || 'today'; var body;
-    if (ui.mt.run) body = '<div class="rd-stage">' + mtRunView() + '</div>';
+    if (ui.mt.run) { body = '<div class="rd-stage">' + mtRunView() + '</div>'; if (ui.mt.inkOpen) setTimeout(mtInkInit, 0); }
     else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : mtTodayView());
     return { title: 'Maths', who: MT_WHO, body: body };
   }
@@ -2008,7 +2040,12 @@
         if (R.gi >= asks3.length) { R.phase = 'main'; R.msg = 'Now answer the problem.'; }
         refreshSheet(true); break;
       case 'mt-cmp': R.cmp = true; refreshSheet(); break;
-      case 'mt-next': R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
+      case 'mt-ink': ui.mt.inkOpen = !ui.mt.inkOpen; refreshSheet(); break;
+      case 'mt-inktool': ui.mt.ink.tool = v; refreshSheet(); break;
+      case 'mt-inkundo': ui.mt.ink.strokes.pop(); var cb = document.getElementById('mt-board'); if (cb && cb._redraw) cb._redraw(); break;
+      case 'mt-inkclear': ui.mt.ink.strokes = []; var cb2 = document.getElementById('mt-board'); if (cb2 && cb2._redraw) cb2._redraw(); break;
+      case 'mt-inkbig': ui.mt.ink.big = !ui.mt.ink.big; refreshSheet(); break;
+      case 'mt-next': if (ui.mt.ink) ui.mt.ink.strokes = []; R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
       case 'mt-quit': R.items = R.items.slice(0, R.i); refreshSheet(true); break;
     }
   }
