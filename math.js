@@ -369,8 +369,6 @@
   // A walk is a list of steps; each step has words (t) and may show a bar model (m), a table (tab) or a number machine (flow).
   // Bar models: rows of bars made of parts measured in units (w); k marks a part: 'x' extra, 'q' unknown, 'gone' taken away,
   // 'hl' the answer. 'tops' are braces over part of a row; 'right' is a brace down the side covering several rows.
-  var H = [];
-  function heur(id, name, gen) { H.push({ id: id, name: name, gen: gen }); }
   var names = ['Aisha', 'Ben', 'Chloe', 'Daniel', 'Farah', 'Hui Min', 'Jun Wei', 'Kumar', 'Mei Ling', 'Nur', 'Priya', 'Ravi', 'Siti', 'Wei Jie'];
   function two() { var s = shuffle(names); return [s[0], s[1], s[2]]; }
   function units(n, t, k) { var a = []; for (var i = 0; i < n; i++) a.push({ w: 1, t: t || '', k: k || '' }); return a; }
@@ -382,142 +380,561 @@
   }
   var TELL = { t: 'Now tell it back: explain to Mum, in your own words, how you worked it out. What did your model show?', tell: true };
 
-  heur('model', 'Draw a model', function () {
-    var p = two(), k = ri(0, 1);
-    if (k === 0) {
-      var diff = ri(2, 30) * 5, small = ri(5, 60) * 5; var tot = small * 2 + diff;
-      var m1 = { rows: [{ label: p[0], parts: [{ w: 3 }, { w: 1, k: 'x', t: money(diff) }] }, { label: p[1], parts: [{ w: 3, k: 'q', t: '?' }] }], right: { rows: [0, 1], t: money(tot) } };
+  // ---------- the 13 heuristics, each with three levels and a bank of varied problems per level ----------
+  // Level 1 is P3–P4 style (one idea, small numbers), Level 2 is P5 style (two steps, fractions or three people),
+  // Level 3 is PSLE style (several steps, ratio and fraction changes). Each template builds the problem from its answer,
+  // so the answer is always exact, and comes with guiding questions (G) and the picture that grows as she answers.
+  var HS = [];
+  function method(id, group, name, levels) { HS.push({ id: id, group: group, name: name, levels: levels }); }
+  function ord(n) { var t = n % 100, u = n % 10; return n + (t > 10 && t < 14 ? 'th' : u === 1 ? 'st' : u === 2 ? 'nd' : u === 3 ? 'rd' : 'th'); }
+  function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+  var KIDS = names;
+
+  // 1. Draw a diagram or model
+  method('model', 'Give a representation', 'Draw a model', [
+    [function () {
+      var p = two(), diff = ri(2, 20) * 5, small = ri(4, 40) * 5, tot = small * 2 + diff;
       return Qn(p[0] + ' and ' + p[1] + ' have ' + money(tot) + ' altogether. ' + p[0] + ' has ' + money(diff) + ' more than ' + p[1] + '. How much does ' + p[1] + ' have?', F(small), W([
-        G('Who has more money?', p[0], 'So ' + p[0] + "'s bar is longer than " + p[1] + "'s by " + money(diff) + ', and both bars together make ' + money(tot) + '.', { m: m1 }, 'Read the second sentence again.', [p[0], p[1]]),
-        G('Imagine covering up the extra piece. Then the two bars are the same length. How much do the two equal bars make together?', F(tot - diff), 'Two equal bars make ' + money(tot - diff) + '.', { m: { rows: [{ label: p[0], parts: [{ w: 3 }, { w: 1, k: 'gone', t: money(diff) }] }, { label: p[1], parts: [{ w: 3 }] }], right: { rows: [0, 1], t: money(tot - diff) } } }, 'The total includes the extra piece. What happens to the total if you take the extra away?', { show: money(tot - diff) }),
-        G('How much is one of those equal bars?', F(small), 'One bar is ' + money(small) + ' — and that is ' + p[1] + "'s bar.", { m: { rows: [{ label: p[0], parts: [{ w: 3, t: money(small) }, { w: 1, k: 'x', t: money(diff) }] }, { label: p[1], parts: [{ w: 3, k: 'hl', t: money(small) }] }] } }, 'Two bars share ' + money(tot - diff) + ' equally.', { show: money(small) }),
+        G('Who has more money?', p[0], 'So ' + p[0] + "'s bar is longer than " + p[1] + "'s by " + money(diff) + '; both bars together make ' + money(tot) + '.', { m: { rows: [{ label: p[0], parts: [{ w: 3 }, { w: 1, k: 'x', t: money(diff) }] }, { label: p[1], parts: [{ w: 3, k: 'q', t: '?' }] }], right: { rows: [0, 1], t: money(tot) } } }, 'Read the second sentence again.', [p[0], p[1]]),
+        G('Imagine covering the extra piece. Then the two bars are equal. How much do the two equal bars make together?', F(tot - diff), 'Two equal bars make ' + money(tot - diff) + '.', { m: { rows: [{ label: p[0], parts: [{ w: 3 }, { w: 1, k: 'gone', t: money(diff) }] }, { label: p[1], parts: [{ w: 3 }] }], right: { rows: [0, 1], t: money(tot - diff) } } }, 'Take the extra away from the total.', { show: money(tot - diff) }),
+        G('How much is one of those equal bars?', F(small), 'One bar is ' + money(small) + '.', {}, 'Two bars share it equally.', { show: money(small) }),
         TELL], { show: money(small) }));
-    }
-    var u = ri(4, 25), m = ri(2, 5), tot2 = u * (m + 1);
-    return Qn(p[0] + ' has ' + m + ' times as many stamps as ' + p[1] + '. They have ' + tot2 + ' stamps altogether. How many more stamps does ' + p[0] + ' have than ' + p[1] + '?', F(u * (m - 1)), W([
-      G('Give ' + p[1] + ' one unit. How many of those units does ' + p[0] + ' have?', F(m), p[1] + ' has 1 unit; ' + p[0] + ' has ' + m + ' units the same size.', { m: { rows: [{ label: p[0], parts: units(m) }, { label: p[1], parts: units(1) }], right: { rows: [0, 1], t: String(tot2) } } }, '"' + m + ' times as many" — how many units is that?'),
-      G('How many units are there altogether?', F(m + 1), (m + 1) + ' units make ' + tot2 + ' stamps.', {}, 'Count every box in both bars.'),
-      G('So how many stamps is 1 unit?', F(u), '1 unit = ' + u + ' stamps.', { m: { rows: [{ label: p[0], parts: units(m, String(u)) }, { label: p[1], parts: units(1, String(u)) }] } }, tot2 + ' stamps are shared equally among ' + (m + 1) + ' units.'),
-      G('Look at the bars. How many units longer is ' + p[0] + "'s bar than " + p[1] + "'s?", F(m - 1), 'The extra part is ' + (m - 1) + ' units.', { m: { rows: [{ label: p[0], parts: units(1, String(u)).concat(units(m - 1, String(u), 'hl')) }, { label: p[1], parts: units(1, String(u)) }], tops: [{ row: 0, from: 1, to: m, t: '?' }] } }, 'Line the bars up at the left. How many boxes stick out?'),
-      G('How many stamps is that?', F(u * (m - 1)), p[0] + ' has ' + u * (m - 1) + ' more stamps.', {}, 'Each unit is ' + u + ' stamps.'),
-      TELL]));
-  });
-
-  heur('beforeafter', 'Before and after', function () {
-    var p = two(); var k = ri(0, 1);
-    if (k === 0) {
-      var m = pick([3, 5]), u = ri(3, 20) * 2; var halfDiff = (m - 1) / 2; var give = halfDiff * u;
-      return Qn(p[0] + ' had ' + m + ' times as many marbles as ' + p[1] + '. After ' + p[0] + ' gave ' + give + ' marbles to ' + p[1] + ', they had the same number. How many marbles did ' + p[0] + ' have at first?', F(m * u), W([
-        G('Before the giving: if ' + p[1] + ' has 1 unit, how many units does ' + p[0] + ' have?', F(m), 'Before: ' + p[0] + ' ' + m + ' units, ' + p[1] + ' 1 unit.', { m: { rows: [{ label: p[0], parts: units(m) }, { label: p[1], parts: units(1) }] } }, '"' + m + ' times as many."'),
-        G('How many units more does ' + p[0] + ' have?', F(m - 1), 'The difference is ' + (m - 1) + ' units.', {}, 'Compare the two bars.'),
-        G('To end up equal, what fraction of that difference must ' + p[0] + ' give away? (Think: if ' + p[0] + ' gave all of it, who would have more?)', F(1, 2), p[0] + ' gives half the difference — ' + (halfDiff === 1 ? '1 unit' : halfDiff + ' units') + ' — and that is the ' + give + ' marbles.', { m: { rows: [{ label: p[0], parts: units(m - halfDiff).concat(units(halfDiff, '', 'x')) }, { label: p[1], parts: units(1).concat(units(halfDiff, '', 'q')) }], tops: [{ row: 0, from: m - halfDiff, to: m, t: 'gives ' + give }] } }, 'Giving takes from one bar AND adds to the other. Try it with the bars.', { simplest: true }),
-        G('So how many marbles is 1 unit?', F(u), '1 unit = ' + u + ' marbles.', { m: { rows: [{ label: p[0], parts: units(m, String(u)) }, { label: p[1], parts: units(1, String(u)) }] } }, (halfDiff === 1 ? '1 unit' : halfDiff + ' units') + ' make ' + give + ' marbles.'),
-        G('How many marbles did ' + p[0] + ' have at first?', F(m * u), p[0] + ' had ' + m * u + '.', {}, 'At first ' + p[0] + ' had ' + m + ' units.'),
+    }, function () {
+      var p = two(), u = ri(4, 20), m = ri(2, 5), tot = u * (m + 1), thing = pick(['stamps', 'shells', 'marbles', 'stickers']);
+      return Qn(p[0] + ' has ' + m + ' times as many ' + thing + ' as ' + p[1] + '. They have ' + tot + ' ' + thing + ' altogether. How many ' + thing + ' does ' + p[1] + ' have?', F(u), W([
+        G('Give ' + p[1] + ' one unit. How many of those units does ' + p[0] + ' have?', F(m), p[1] + ' 1 unit, ' + p[0] + ' ' + m + ' units.', { m: { rows: [{ label: p[0], parts: units(m) }, { label: p[1], parts: units(1) }], right: { rows: [0, 1], t: String(tot) } } }, '"' + m + ' times as many."'),
+        G('How many units altogether?', F(m + 1), (m + 1) + ' units make ' + tot + '.', {}, 'Count every box.'),
         TELL]));
-    }
-    var a = ri(2, 5), b = ri(a + 1, 8), u2 = ri(3, 15), add = (b - a) * u2;
-    return Qn('The ratio of ' + p[0] + "'s money to " + p[1] + "'s money was " + a + ' : ' + b + '. After ' + p[0] + ' saved another ' + money(add) + ', they had the same amount. How much did ' + p[1] + ' have?', F(b * u2), W([
-      G('Whose money did not change?', p[1], p[1] + "'s money stays " + b + ' units the whole time.', { m: { rows: [{ label: p[0], parts: units(a) }, { label: p[1], parts: units(b) }] } }, 'Who saved more money?', [p[0], p[1]]),
-      G('How many more units does ' + p[0] + ' need to catch up?', F(b - a), 'The ' + money(add) + ' fills a gap of ' + (b - a) + (b - a === 1 ? ' unit.' : ' units.'), { m: { rows: [{ label: p[0], parts: units(a).concat([{ w: b - a, k: 'x', t: '+' + money(add) }]) }, { label: p[1], parts: units(b) }] } }, 'Compare ' + a + ' units with ' + b + ' units.'),
-      G('So how much is 1 unit?', F(u2), '1 unit = ' + money(u2) + '.', { m: { rows: [{ label: p[0], parts: units(a, money(u2)).concat(units(b - a, money(u2), 'x')) }, { label: p[1], parts: units(b, money(u2)) }] } }, money(add) + ' is ' + (b - a) + ' equal units.', { show: money(u2) }),
-      G('How much did ' + p[1] + ' have?', F(b * u2), p[1] + ' had ' + money(b * u2) + '.', {}, p[1] + ' has ' + b + ' units.', { show: money(b * u2) }),
-      TELL], { show: money(b * u2) }));
-  });
+    }, function () {
+      var p = two(), short = ri(3, 30), diff = ri(2, 15), tot = 2 * short + diff;
+      return Qn('A ' + tot + ' m rope is cut into two pieces. One piece is ' + diff + ' m longer than the other. How long is the shorter piece?', F(short), W([
+        G('Draw the two pieces as bars. If you cut the extra ' + diff + ' m off the longer piece, how long are the two equal pieces together?', F(tot - diff), 'Two equal pieces make ' + (tot - diff) + ' m.', { m: { rows: [{ label: 'Long', parts: [{ w: 3 }, { w: 1, k: 'gone', t: diff + ' m' }] }, { label: 'Short', parts: [{ w: 3, k: 'q', t: '?' }] }], right: { rows: [0, 1], t: tot + ' m' } } }, 'Total take away the extra.'),
+        TELL], { unit: 'm' }));
+    }],
+    [function () {
+      var p = two(), c = ri(5, 30), y = ri(2, 12), x = ri(2, 12), b = c + y, a = b + x, tot = a + b + c;
+      return Qn(p[0] + ' has ' + x + ' more beads than ' + p[1] + '. ' + p[1] + ' has ' + y + ' more beads than ' + p[2] + '. They have ' + tot + ' beads altogether. How many beads does ' + p[2] + ' have?', F(c), W([
+        G('Who has the fewest beads?', p[2], p[2] + ' has the shortest bar; ' + p[1] + ' has ' + y + ' more; ' + p[0] + ' has ' + x + ' more than ' + p[1] + '.', { m: { rows: [{ label: p[0], parts: [{ w: 3 }, { w: 1, k: 'x', t: String(y) }, { w: 1, k: 'x', t: String(x) }] }, { label: p[1], parts: [{ w: 3 }, { w: 1, k: 'x', t: String(y) }] }, { label: p[2], parts: [{ w: 3, k: 'q', t: '?' }] }], right: { rows: [0, 2], t: String(tot) } } }, 'Follow the "more than"s.', [p[0], p[1], p[2]]),
+        G('Add up all the extra pieces in the model. How many beads are they altogether?', F(2 * y + x), 'The extras make ' + (2 * y + x) + ' beads.', {}, p[0] + ' has two extras (' + y + ' and ' + x + '), ' + p[1] + ' has one (' + y + ').'),
+        G('Take the extras away. How many beads do the three equal bars make?', F(3 * c), 'Three equal bars make ' + 3 * c + '.', {}, tot + ' minus the extras.'),
+        TELL]));
+    }, function () {
+      var p = two(), n = pick([2, 3, 4]), d = pick([3, 5, 7]); while (n >= d) n = 2; var u = ri(3, 20); var tot = (n + d) * u;
+      return Qn(p[0] + ' has ' + n + '/' + d + ' as much money as ' + p[1] + '. Together they have ' + money(tot) + '. How much does ' + p[1] + ' have?', F(d * u), W([
+        G('If ' + p[1] + "'s money is cut into " + d + ' equal units, how many of those units does ' + p[0] + ' have?', F(n), p[1] + ' ' + d + ' units, ' + p[0] + ' ' + n + ' units.', { m: { rows: [{ label: p[0], parts: units(n) }, { label: p[1], parts: units(d) }], right: { rows: [0, 1], t: money(tot) } } }, n + '/' + d + ' means ' + n + ' parts out of ' + d + '.'),
+        G('How many units altogether, and how much is 1 unit?   (Type 1 unit.)', F(u), (n + d) + ' units = ' + money(tot) + ', so 1 unit = ' + money(u) + '.', {}, 'Count all the units first.', { show: money(u) }),
+        TELL], { show: money(d * u) }));
+    }],
+    [function () {
+      var p = two(), u = ri(3, 15) * 3; var B = 4 * u, A = 3 * u, C = u; var tot = A + B + C;
+      return Qn(p[0] + ' has 3/4 as many cards as ' + p[1] + '. ' + p[2] + ' has 1/3 as many cards as ' + p[0] + '. They have ' + tot + ' cards altogether. How many cards does ' + p[1] + ' have?', F(B), W([
+        G('Whose amount is the easiest to cut into units first? (Everyone else is described from them.)', p[1], 'Cut ' + p[1] + ' into 4 units; ' + p[0] + ' is 3 of those units.', { m: { rows: [{ label: p[0], parts: units(3) }, { label: p[1], parts: units(4) }] } }, 'Who is never compared to anyone else?', [p[0], p[1], p[2]]),
+        G(p[2] + ' has 1/3 of ' + p[0] + "'s 3 units. How many units is that?", F(1), p[2] + ' has 1 unit.', { m: { rows: [{ label: p[0], parts: units(3) }, { label: p[1], parts: units(4) }, { label: p[2], parts: units(1) }], right: { rows: [0, 2], t: String(tot) } } }, '1/3 of 3.'),
+        G('How many units altogether?', F(8), '8 units = ' + tot + ' cards.', {}, 'Count all the boxes.'),
+        G('How many cards is 1 unit?', F(u), '1 unit = ' + u + '.', {}, tot + ' ÷ 8.'),
+        TELL]));
+    }, function () {
+      var p = two(), u = ri(3, 20), k = ri(2, 12) * 5; var A = 3 * u, B = 2 * u + k, tot = A + B;
+      return Qn(p[0] + ' and ' + p[1] + ' had ' + money(tot) + ' altogether. After ' + p[0] + ' spent 1/3 of ' + p[0] + "'s money and " + p[1] + ' spent ' + money(k) + ', they had the same amount left. How much did ' + p[0] + ' have at first?', F(A), W([
+        G(p[0] + ' spent 1/3. Into how many units should you cut ' + p[0] + "'s bar?", F(3), p[0] + ': 3 units, 1 spent, 2 left.', { m: { rows: [{ label: p[0], parts: [{ w: 1, k: 'gone', t: '' }, { w: 1 }, { w: 1 }] }] } }, 'Look at the bottom of 1/3.'),
+        G('After spending, ' + p[1] + ' has the same as ' + p[0] + "'s 2 units. So at first " + p[1] + ' had 2 units and how much more?', F(k), p[1] + ' = 2 units + ' + money(k) + '.', { m: { rows: [{ label: p[0], parts: [{ w: 1, k: 'gone', t: '' }, { w: 1 }, { w: 1 }] }, { label: p[1], parts: [{ w: 1 }, { w: 1 }, { w: 1.3, k: 'gone', t: money(k) }] }], right: { rows: [0, 1], t: money(tot) } } }, 'What did ' + p[1] + ' spend?', { show: money(k) }),
+        G('Altogether: 5 units + ' + money(k) + ' = ' + money(tot) + '. How much is 1 unit?', F(u), '1 unit = ' + money(u) + '.', {}, 'Take ' + money(k) + ' away, then share among 5 units.', { show: money(u) }),
+        TELL], { show: money(A) }));
+    }]
+  ]);
 
-  heur('backwards', 'Work backwards', function () {
-    var p = two();
-    if (Math.random() < 0.5) {
-      var left = ri(4, 30) * 2, spent2 = ri(2, 20), half = left + spent2, start = half * 2;
-      return Qn(p[0] + ' spent half of the money in the purse on a book and then ' + money(spent2) + ' on lunch. ' + money(left) + ' was left. How much was in the purse at first?', F(start), W([
-        G('What fraction of the purse went on the book?', F(1, 2), 'Half went on the book; the other half was used for lunch and what was left.', { m: { rows: [{ label: 'Purse', parts: [{ w: 3, t: 'book' }, { w: 1.2, k: 'x', t: money(spent2) }, { w: 1.8, t: money(left) }] }], tops: [{ row: 0, from: 3, to: 6, t: '?' }] } }, 'Read the first part of the question.'),
-        G('Work backwards from the end. How much was the second half before lunch was bought?', F(half), 'That half was ' + money(half) + '.', { m: { rows: [{ label: 'Purse', parts: [{ w: 3, t: 'book' }, { w: 3, k: 'hl', t: money(half) }] }] } }, 'Put the lunch money back with what was left.', { show: money(half) }),
-        G('So how much was in the purse at first?', F(start), 'At first: ' + money(start) + '.', { m: { rows: [{ label: 'Purse', parts: [{ w: 3, t: money(half) }, { w: 3, t: money(half) }] }], right: { rows: [0, 0], t: money(start) } } }, 'Both halves are the same size.', { show: money(start) }),
-        TELL], { show: money(start) }));
-    }
-    var n = ri(2, 12), add = ri(3, 20), mul = ri(2, 5), res = n * mul + add;
-    return Qn('I think of a number, multiply it by ' + mul + ' and add ' + add + '. The answer is ' + res + '. What was my number?', F(n), W([
-      G('What was the LAST thing done to the number?', 'add ' + add, 'So undo that first.', { flow: ['?', '× ' + mul, '+ ' + add, String(res)] }, 'Read the steps in order.', ['multiply by ' + mul, 'add ' + add]),
-      G('What undoes "add ' + add + '"? Work it out: what is ' + res + ' with that step undone?', F(res - add), 'Before the adding, the number was ' + (res - add) + '.', { flow: [String(res), '− ' + add, String(res - add)] }, 'The opposite of adding is…'),
-      G('Now undo "multiply by ' + mul + '". What was the number at the start?', F(n), 'The number was ' + n + '.', { flow: [String(res), '− ' + add, String(res - add), '÷ ' + mul, String(n)] }, 'The opposite of multiplying is…'),
-      TELL]));
-  });
-
-  heur('remainder', 'Fraction of a remainder', function () {
-    var p = two(); var d1 = pick([3, 4, 5]), d2 = pick([2, 3, 4]), n2 = ri(1, d2 - 1); if (gcd(n2, d2) !== 1) n2 = 1; var u = ri(2, 12) * d2; var tot = u * d1; var r1 = tot - u; var piece = r1 / d2; var left = piece * (d2 - n2);
-    function rem(labLeft, labPen) { var a = []; for (var i = 0; i < d2; i++) a.push({ w: (d1 - 1) * 2 / d2, k: i < n2 ? 'x' : '', t: i < n2 ? labPen : labLeft }); return a; }
-    var top = { rows: [{ label: 'All', parts: [{ w: 2, k: 'x', t: 'book' }].concat(units(d1 - 1).map(function (x) { x.w = 2; return x; })) }] };
-    return Qn(p[0] + ' spent 1/' + d1 + ' of some pocket money on a book and ' + n2 + '/' + d2 + ' of the remainder on a pen. ' + money(left) + ' was left. How much pocket money was there at first?', F(tot), W([
-      G('The book is 1/' + d1 + ' of the money. Into how many equal units should you cut the bar for all the money?', F(d1), 'Cut the whole bar into ' + d1 + ' units; 1 unit is the book.', { m: top }, 'Look at the bottom of the fraction.'),
-      G('How many units are left after the book — the remainder?', F(d1 - 1), 'The remainder is ' + (d1 - 1) + ' units.', { m: { rows: top.rows, tops: [{ row: 0, from: 2, to: 2 * d1, t: 'remainder' }] } }, 'Take the book unit away.'),
-      G('Draw the remainder again below and cut it into ' + d2 + ' equal parts. ' + n2 + ' went on the pen. How many parts are left?', F(d2 - n2), (d2 - n2) + ' part' + (d2 - n2 > 1 ? 's are' : ' is') + ' left, and ' + (d2 - n2 > 1 ? 'they make' : 'it makes') + ' ' + money(left) + '.', { m: { rows: top.rows.concat([{ label: 'Remainder', indent: 2, parts: rem('', 'pen') }]), tops: [{ row: 1, from: 2 + n2 * (d1 - 1) * 2 / d2, to: 2 + (d1 - 1) * 2, t: money(left) }] } }, d2 + ' parts, take away the pen.'),
-      G('How much is 1 of those parts?', F(piece), '1 part = ' + money(piece) + '.', {}, money(left) + ' shared among ' + (d2 - n2) + ' part' + (d2 - n2 > 1 ? 's' : '') + '.', { show: money(piece) }),
-      G('So how much was the whole remainder?', F(r1), 'The remainder was ' + money(r1) + '.', { m: { rows: [{ label: 'Remainder', parts: rem(money(piece), money(piece)) }], right: { rows: [0, 0], t: money(r1) } } }, 'The remainder has ' + d2 + ' parts.', { show: money(r1) }),
-      G('The remainder is ' + (d1 - 1) + ' units of the top bar. How much is 1 unit?', F(u), '1 unit = ' + money(u) + '.', {}, money(r1) + ' shared among ' + (d1 - 1) + ' units.', { show: money(u) }),
-      G('How much pocket money was there at first?', F(tot), 'At first: ' + money(tot) + '.', { m: { rows: [{ label: 'All', parts: units(d1, money(u), 'hl').map(function (x) { x.w = 2; return x; }) }], right: { rows: [0, 0], t: money(tot) } } }, 'The whole bar has ' + d1 + ' units.', { show: money(tot) }),
-      TELL], { show: money(tot) }));
-  });
-
-  heur('supposition', 'Make a supposition', function () {
-    var c = ri(5, 25), g = ri(3, 20); var heads = c + g, legs = 2 * c + 4 * g;
-    var rows = [['0', String(heads), String(2 * heads)], ['1', String(heads - 1), String(2 * heads + 2)], ['2', String(heads - 2), String(2 * heads + 4)], ['…', '…', '…']];
-    return Qn('A farm has chickens and goats. There are ' + heads + ' heads and ' + legs + ' legs. How many goats are there?', F(g), W([
-      G('Suppose every one of the ' + heads + ' animals were a chicken. How many legs would there be?', F(2 * heads), 'All chickens: ' + 2 * heads + ' legs.', {}, 'Each animal has one head. How many legs has a chicken?'),
-      G('There are really ' + legs + ' legs. How many legs are missing from our all-chicken farm?', F(legs - 2 * heads), legs - 2 * heads + ' legs still to find.', {}, 'Compare ' + legs + ' with ' + 2 * heads + '.'),
-      G('Swap one chicken for a goat. How many more legs does that add?', F(2), 'Each swap adds 2 legs:', { tab: { head: ['Goats', 'Chickens', 'Legs'], rows: rows } }, 'A goat has 4 legs, a chicken 2.'),
-      G('So how many goats?', F(g), g + ' goats.', {}, 'How many swaps of 2 legs make ' + (legs - 2 * heads) + '?'),
-      TELL]));
-  });
-
-  heur('guess', 'Guess and check', function () {
-    var a = ri(3, 12), b = ri(3, 12); var p5 = ri(4, 12), p2 = ri(2, p5 - 1); var tot = a * p5 + b * p2; var n = a + b;
-    var g0 = Math.round(n / 2); if (g0 === a) g0 = a > 1 ? a - 1 : a + 1; var c0 = g0 * p5 + (n - g0) * p2;
-    var tries = [], g = g0, lo = 0, hi = n, seen = {};
-    for (var s = 0; s < 6; s++) { if (seen[g]) break; seen[g] = 1; var cost = g * p5 + (n - g) * p2; tries.push([String(g), String(n - g), money(cost), cost === tot ? '✓ just right' : cost > tot ? 'too much' : 'too little']); if (cost === tot) break; if (cost > tot) hi = g; else lo = g; g = Math.round((lo + hi) / 2); if (seen[g]) g = cost > tot ? g - 1 : g + 1; }
-    if (tries[tries.length - 1][3].indexOf('✓') < 0) tries.push([String(a), String(b), money(tot), '✓ just right']);
-    return Qn('Notebooks cost ' + money(p5) + ' and pencils cost ' + money(p2) + '. Siti bought ' + n + ' items for ' + money(tot) + ' altogether. How many notebooks did she buy?', F(a), W([
-      G('Try a guess: ' + g0 + ' notebooks and ' + (n - g0) + ' pencils. What would they cost?', F(c0), g0 + ' notebooks and ' + (n - g0) + ' pencils cost ' + money(c0) + '.', { pre: { tab: { head: ['Notebooks', 'Pencils', 'Cost', 'Check'], rows: [[String(g0), String(n - g0), '?', '']] } }, tab: { head: ['Notebooks', 'Pencils', 'Cost', 'Check'], rows: [[String(g0), String(n - g0), money(c0), '']] } }, g0 + ' × ' + money(p5) + ', plus ' + (n - g0) + ' × ' + money(p2) + '.', { show: money(c0) }),
-      G('Is that too much or too little?', c0 > tot ? 'too much' : 'too little', c0 > tot ? 'Too much — so try FEWER notebooks (they are the dearer ones).' : 'Too little — so try MORE notebooks (they are the dearer ones).', {}, 'Compare with ' + money(tot) + '.', ['too much', 'too little']),
-      G('Keep adjusting and record each try in a table, like this. How many notebooks did she buy?', F(a), 'She bought ' + a + ' notebooks.', { tab: { head: ['Notebooks', 'Pencils', 'Cost', 'Check'], rows: tries } }, 'Find the row that costs exactly ' + money(tot) + '.'),
-      TELL]));
-  });
-
-  heur('pattern', 'Look for a pattern', function () {
-    var s = ri(2, 5), add = ri(2, 6), n = ri(8, 25); var term = s + (n - 1) * add;
-    return Qn('Figure 1 uses ' + s + ' sticks, Figure 2 uses ' + (s + add) + ', Figure 3 uses ' + (s + 2 * add) + '. The pattern goes on. How many sticks does Figure ' + n + ' use?', F(term), W([
-      G('Look at the table. How many sticks are added each time?', F(add), 'Each figure adds ' + add + ' sticks.', { pre: { tab: { head: ['Figure', 'Sticks'], rows: [['1', String(s)], ['2', String(s + add)], ['3', String(s + 2 * add)], ['4', '?']] } }, tab: { head: ['Figure', 'Sticks'], rows: [['1', String(s)], ['2', String(s + add)], ['3', String(s + 2 * add)], ['4', String(s + 3 * add)]] } }, 'Subtract one figure from the next.'),
-      G('Going from Figure 1 to Figure ' + n + ', how many times are ' + add + ' sticks added?', F(n - 1), (n - 1) + ' times.', { pre: { tab: { head: ['Figure', 'Sticks', 'Times added'], rows: [['1', String(s), '0'], ['2', String(s + add), '1'], ['3', String(s + 2 * add), '2'], ['…', '…', '…'], [String(n), '?', '?']] } }, tab: { head: ['Figure', 'Sticks', 'Times added'], rows: [['1', String(s), '0'], ['2', String(s + add), '1'], ['3', String(s + 2 * add), '2'], ['…', '…', '…'], [String(n), '?', String(n - 1)]] } }, 'Figure 2 has had it added once, Figure 3 twice…'),
-      G('So how many sticks in Figure ' + n + '?', F(term), 'Figure ' + n + ' uses ' + term + ' sticks.', {}, 'Start with Figure 1 and add on.'),
-      TELL]));
-  });
-
-  heur('list', 'Make a systematic list', function () {
-    if (Math.random() < 0.5) {
+  // 2. Make a systematic list
+  method('list', 'Give a representation', 'Make a systematic list', [
+    [function () {
       var tt = ri(3, 4), bb = ri(2, 3); var toasts = ['kaya', 'butter', 'peanut', 'egg'].slice(0, tt), drinks = ['kopi', 'teh', 'milo'].slice(0, bb);
       var rows = []; toasts.forEach(function (x) { drinks.forEach(function (y) { rows.push([x + ' toast', y]); }); });
       return Qn('A kopitiam has ' + tt + ' kinds of toast (' + toasts.join(', ') + ') and ' + bb + ' drinks (' + drinks.join(', ') + '). How many different breakfasts of one toast and one drink can you choose?', F(tt * bb), W([
-        G('Start with kaya toast. How many different drinks can go with it?', F(bb), 'Kaya toast makes ' + bb + ' breakfasts.', { tab: { head: ['Toast', 'Drink'], rows: rows.slice(0, bb) } }, 'List them: kaya with each drink.'),
-        G('Does each of the other toasts also go with ' + bb + ' drinks?', 'yes', 'Yes — list them in the same order so none is missed.', { tab: { head: ['Toast', 'Drink'], rows: rows } }, 'Try butter toast.', ['yes', 'no']),
-        G('So how many breakfasts altogether?', F(tt * bb), tt * bb + ' breakfasts.', {}, tt + ' toasts, ' + bb + ' each.'),
+        G('Start with kaya toast. How many breakfasts can you make with it?', F(bb), 'Kaya toast makes ' + bb + ' breakfasts.', { tab: { head: ['Toast', 'Drink'], rows: rows.slice(0, bb) } }, 'Kaya with each drink.'),
+        G('Does each of the other toasts also make ' + bb + '?', 'yes', 'Yes — keep the same order so none is missed.', {}, 'Try butter toast.', ['yes', 'no']),
         TELL]));
-    }
-    var tot = pick([20, 25, 30, 35, 40]); var rows2 = [], ways = 0;
-    for (var x = 0; x * 5 <= tot; x++) { var rest = tot - 5 * x; var ok = rest % 2 === 0; if (ok) ways++; rows2.push([String(x), rest + '¢', ok ? rest / 2 + ' × 2¢ ✓' : 'no ✗']); }
-    return Qn('In how many ways can you make exactly ' + tot + '¢ using only 2¢ and 5¢ coins?', F(ways), W([
-      G('Go in order of 5¢ coins. With no 5¢ coins, can ' + tot + '¢ be made from 2¢ coins alone?', tot % 2 === 0 ? 'yes' : 'no', tot % 2 === 0 ? 'Yes: ' + tot / 2 + ' two-cent coins.' : 'No — 2¢ coins only make even amounts.', { tab: { head: ['5¢ coins', 'Left', '2¢ coins'], rows: rows2.slice(0, 1) } }, 'Can 2¢ coins make an odd amount?', ['yes', 'no']),
-      G('What must be true of the amount left over, for 2¢ coins to make it?', 'it is even', 'It must be even.', {}, 'Count in 2s: 2, 4, 6…', ['it is even', 'it is odd', 'it is more than 10']),
-      G('Carry on the list for 1, 2, 3 … five-cent coins. How many ways are there?', F(ways), ways + ' ways.', { tab: { head: ['5¢ coins', 'Left', '2¢ coins'], rows: rows2 } }, 'Count the ticks.'),
-      TELL]));
-  });
+    }, function () {
+      var tot = pick([20, 25, 30, 35]); var rows2 = [], ways = 0;
+      for (var x = 0; x * 5 <= tot; x++) { var rest = tot - 5 * x; var ok = rest % 2 === 0; if (ok) ways++; rows2.push([String(x), rest + '¢', ok ? rest / 2 + ' × 2¢ ✓' : 'no ✗']); }
+      return Qn('In how many ways can you make exactly ' + tot + '¢ using only 2¢ and 5¢ coins?', F(ways), W([
+        G('Go in order of 5¢ coins: 0, 1, 2… What must be true of the amount left over for 2¢ coins to make it?', 'it is even', 'It must be even.', { pre: { tab: { head: ['5¢ coins', 'Left', '2¢ coins'], rows: rows2.slice(0, 2) } } }, 'Count in 2s.', ['it is even', 'it is odd', 'it is more than 10']),
+        TELL]));
+    }],
+    [function () {
+      var d = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 2); var digs = [0, d[0], d[1]]; var list = [];
+      digs.forEach(function (a) { digs.forEach(function (b) { digs.forEach(function (c) { if (a && a !== b && b !== c && a !== c) list.push('' + a + b + c); }); }); });
+      return Qn('How many different 3-digit numbers can you make with the digits 0, ' + d[0] + ' and ' + d[1] + ', using each digit once?', F(list.length), W([
+        G('Which digit can NOT go in the hundreds place?', '0', '0 cannot start a 3-digit number.', {}, 'What would 0' + d[0] + d[1] + ' really be?', ['0', String(d[0]), String(d[1])]),
+        G('Start with ' + d[0] + ' in the hundreds place. How many numbers can you make?', F(2), d[0] + '0' + d[1] + ' and ' + d[0] + d[1] + '0.', { tab: { head: ['Hundreds', 'Numbers'], rows: [[String(d[0]), d[0] + '0' + d[1] + ', ' + d[0] + d[1] + '0']] } }, 'List them.'),
+        TELL]));
+    }, function () {
+      var n = ri(5, 9); var rows = []; for (var i = 1; i < n; i++) rows.push(['Person ' + i, 'shakes hands with ' + (n - i) + ' new people']);
+      return Qn(n + ' friends meet and each shakes hands once with every other friend. How many handshakes are there?', F(n * (n - 1) / 2), W([
+        G('Person 1 shakes hands with everyone else. How many handshakes is that?', F(n - 1), 'Person 1: ' + (n - 1) + ' handshakes.', {}, 'Everyone except Person 1.'),
+        G('Person 2 has already shaken Person 1\'s hand. How many NEW handshakes does Person 2 make?', F(n - 2), 'Person 2: ' + (n - 2) + ' new ones — the list keeps getting shorter by one.', { tab: { head: ['Who', 'New handshakes'], rows: rows } }, 'Leave out Person 1 and Person 2.'),
+        TELL]));
+    }],
+    [function () {
+      var tot = pick([50, 60, 70, 80, 100]); var rows = [], ways = 0;
+      for (var a = 0; a * 50 <= tot; a++) for (var b = 0; a * 50 + b * 20 <= tot; b++) { var rest = tot - 50 * a - 20 * b; if (rest % 10 === 0) { ways++; rows.push([String(a), String(b), String(rest / 10)]); } }
+      return Qn('How many different ways can you pay exactly ' + tot + '¢ using 10¢, 20¢ and 50¢ coins?', F(ways), W([
+        G('Be systematic: start with the biggest coin. What is the greatest number of 50¢ coins you could use?', F(Math.floor(tot / 50)), 'Up to ' + Math.floor(tot / 50) + '.', {}, 'How many 50s fit in ' + tot + '?'),
+        G('With no 50¢ coins, how many ways are there using 20¢ and 10¢? (20¢ coins can go from 0 up to ' + Math.floor(tot / 20) + '.)', F(Math.floor(tot / 20) + 1), (Math.floor(tot / 20) + 1) + ' ways — the 10¢ coins always fill the rest.', { tab: { head: ['50¢', '20¢', '10¢'], rows: rows.filter(function (r) { return r[0] === '0'; }) } }, 'Count 0, 1, 2 … twenty-cent coins.'),
+        TELL]));
+    }, function () {
+      var half = ri(8, 15), P = 2 * half; var rows = []; for (var w = 1; w <= half / 2; w++) rows.push([String(half - w), String(w), String((half - w) * w)]);
+      return Qn('How many different rectangles with whole-centimetre sides have a perimeter of ' + P + ' cm? (A rectangle and the same one turned round count once.)', F(rows.length), W([
+        G('Length + width must make what?', F(half), 'Length + width = ' + half + ' cm.', {}, 'The perimeter goes round two lengths and two widths.'),
+        G('List widths from 1 cm upwards. What is the biggest width before the list starts repeating?', F(Math.floor(half / 2)), 'Stop at ' + Math.floor(half / 2) + ' cm.', { tab: { head: ['Length', 'Width', 'Area'], rows: rows } }, 'When does the width become bigger than the length?'),
+        TELL]));
+    }]
+  ]);
 
-  heur('algebra', 'Use algebra', function () {
-    var x = ri(4, 20), a = ri(2, 4), b = ri(3, 15); var p = two(); var total = (a + 1) * x + 2 * b;
-    return Qn(p[0] + ' is ' + a + ' times as old as ' + p[1] + '. In ' + b + ' years, their ages will add up to ' + total + '. How old is ' + p[1] + ' now?', F(x), W([
-      G('Let ' + p[1] + ' be y years old now. ' + p[0] + ' is how many y? (Type the number in front of y.)', F(a), p[0] + ' is ' + a + 'y now.', { m: { rows: [{ label: p[0], parts: units(a, 'y') }, { label: p[1], parts: units(1, 'y') }] } }, '"' + a + ' times as old."'),
-      G('In ' + b + ' years, how many years older will EACH of them be?', F(b), 'Each adds ' + b + ' years.', { m: { rows: [{ label: p[0], parts: units(a, 'y').concat([{ w: 1, k: 'x', t: '+' + b }]) }, { label: p[1], parts: units(1, 'y').concat([{ w: 1, k: 'x', t: '+' + b }]) }], right: { rows: [0, 1], t: String(total) } } }, 'Everyone gets older at the same speed.'),
-      G('Together that is ' + (a + 1) + 'y + ? = ' + total + '. What number goes in place of the ?', F(2 * b), (a + 1) + 'y + ' + 2 * b + ' = ' + total + '.', {}, 'Two people each add ' + b + '.'),
-      G('So ' + (a + 1) + 'y = ?', F((a + 1) * x), (a + 1) + 'y = ' + (a + 1) * x + '.', {}, 'Take ' + 2 * b + ' away from ' + total + '.'),
-      G('So y = ?', F(x), p[1] + ' is ' + x + '.', { m: { rows: [{ label: p[1], parts: units(1, String(x), 'hl') }] } }, 'Share ' + (a + 1) * x + ' among ' + (a + 1) + '.'),
-      TELL]));
+  // 3. Use equations (the algebraic method)
+  method('equation', 'Give a representation', 'Use equations', [
+    [function () {
+      var x = ri(3, 15), a = ri(2, 9), b = ri(2, 20), c = a * x + b;
+      return Qn(a + ' × □ + ' + b + ' = ' + c + '. What number goes in the box?', F(x), W([
+        G('What is ' + a + ' × □ on its own? (Undo the + ' + b + '.)', F(a * x), a + ' × □ = ' + a * x + '.', {}, 'Take ' + b + ' from both sides.'),
+        TELL]));
+    }, function () {
+      var y = ri(2, 9), n = ri(3, 8), f = ri(2, 9), tot = n * y + f;
+      return Qn(n + ' pens and a $' + f + ' file cost ' + money(tot) + ' altogether. How much is one pen?', F(y), W([
+        G('Let one pen be p dollars. Fill in: ' + n + 'p + ? = ' + tot, F(f), n + 'p + ' + f + ' = ' + tot + '.', {}, 'What else was bought?'),
+        G('So ' + n + 'p = ?', F(n * y), n + 'p = ' + n * y + '.', {}, 'Take away ' + f + '.'),
+        TELL], { show: money(y) }));
+    }],
+    [function () {
+      var x = ri(4, 20), a = ri(2, 4), b = ri(3, 12), p = two(), total = (a + 1) * x + 2 * b;
+      return Qn(p[0] + ' is ' + a + ' times as old as ' + p[1] + '. In ' + b + ' years, their ages will add up to ' + total + '. How old is ' + p[1] + ' now?', F(x), W([
+        G('Let ' + p[1] + ' be y. ' + p[0] + ' is how many y?', F(a), p[0] + ' = ' + a + 'y.', { m: { rows: [{ label: p[0], parts: units(a, 'y') }, { label: p[1], parts: units(1, 'y') }] } }, '"' + a + ' times as old."'),
+        G('In ' + b + ' years, together: ' + (a + 1) + 'y + ? = ' + total, F(2 * b), (a + 1) + 'y + ' + 2 * b + ' = ' + total + '.', {}, 'Each of the two gets ' + b + ' years older.'),
+        TELL]));
+    }, function () {
+      var n = ri(10, 60), S = 3 * n + 3;
+      return Qn('Three numbers in a row (like 7, 8, 9) add up to ' + S + '. What is the smallest?', F(n), W([
+        G('Call the smallest n. The next two are n + 1 and n + ?', F(2), 'n + (n + 1) + (n + 2) = 3n + 3.', {}, 'Count on.'),
+        G('3n + 3 = ' + S + '. So 3n = ?', F(3 * n), '3n = ' + 3 * n + '.', {}, 'Take away 3.'),
+        TELL]));
+    }],
+    [function () {
+      var x = ri(3, 12), p = ri(2, 4), q = ri(2, 4), T = x * p + 2 * x * q;
+      return Qn('Mrs Lim bought some cups of kopi at $' + p + ' each and twice as many cups of teh at $' + q + ' each. She paid $' + T + '. How many cups of kopi did she buy?', F(x), W([
+        G('Let the kopi be k cups. How many cups of teh, in terms of k? (Type the number in front of k.)', F(2), 'Teh = 2k cups.', {}, '"Twice as many."'),
+        G('Cost: ' + p + 'k + ' + q + ' × 2k = ' + T + '. So how many dollars for each k altogether? (' + p + ' + ' + 2 * q + ' = ?)', F(p + 2 * q), (p + 2 * q) + 'k = ' + T + '.', {}, 'Collect the k\'s.'),
+        TELL]));
+    }, function () {
+      var b = ri(2, 3), a = b + ri(1, 2), y = (b - 1) * ri(2, 8), n = y * (a - b) / (b - 1);
+      return Qn('A father is ' + a + ' times as old as his son. In ' + n + ' years, the father will be ' + b + ' times as old as his son. How old is the son now?', F(y), W([
+        G('Let the son be s now; the father is ' + a + 's. In ' + n + ' years the son is s + ' + n + '. The father is ' + a + 's + ?', F(n), 'Father then: ' + a + 's + ' + n + '.', {}, 'Both get older by the same number of years.'),
+        G('Then ' + a + 's + ' + n + ' = ' + b + ' × (s + ' + n + ') = ' + b + 's + ' + b * n + '. So ' + (a - b) + 's = ?', F(b * n - n), (a - b) + 's = ' + (b * n - n) + '.', {}, 'Take ' + b + 's and ' + n + ' from both sides.'),
+        TELL]));
+    }]
+  ]);
+
+  // 4. Look for a pattern
+  method('pattern', 'Make a calculated guess', 'Look for a pattern', [
+    [function () {
+      var s = ri(2, 5), add = ri(2, 6), n = ri(8, 20), term = s + (n - 1) * add;
+      return Qn('Figure 1 uses ' + s + ' sticks, Figure 2 uses ' + (s + add) + ', Figure 3 uses ' + (s + 2 * add) + '. How many sticks does Figure ' + n + ' use?', F(term), W([
+        G('How many sticks are added each time?', F(add), '+' + add + ' each time.', { pre: { tab: { head: ['Figure', 'Sticks'], rows: [['1', String(s)], ['2', String(s + add)], ['3', String(s + 2 * add)]] } } }, 'Subtract one figure from the next.'),
+        G('From Figure 1 to Figure ' + n + ', how many times is ' + add + ' added?', F(n - 1), (n - 1) + ' times.', {}, 'Figure 2 once, Figure 3 twice…'),
+        TELL]));
+    }, function () {
+      var cols = shuffle(['red', 'blue', 'green', 'yellow']); var pat = [cols[0], cols[1], cols[1], cols[2]].slice(0, pick([3, 4])); var n = ri(20, 60);
+      var ans = pat[(n - 1) % pat.length];
+      return Qn('Beads are threaded in a repeating pattern: ' + pat.join(', ') + ', ' + pat.join(', ') + ', … What colour is the ' + ord(n) + ' bead?', ans, W([
+        G('How many beads before the pattern repeats?', F(pat.length), 'The pattern repeats every ' + pat.length + ' beads.', {}, 'Find where it starts again.'),
+        G(n + ' ÷ ' + pat.length + ' gives what remainder?', F(n % pat.length), 'Remainder ' + (n % pat.length) + (n % pat.length ? ' — count that far into the pattern.' : ' — so it is the last bead of a group.'), {}, 'Divide and see what is left.'),
+        TELL], { choices: [cols[0], cols[1], cols[2]], a: ans, show: ans }));
+    }],
+    [function () {
+      var n = ri(8, 15);
+      return Qn('Square patterns of tiles: Figure 1 has 1 tile, Figure 2 has 4, Figure 3 has 9. How many tiles in Figure ' + n + '?', F(n * n), W([
+        G('Figure 3 is a square of 3 rows. How many tiles in each row?', F(3), '3 rows of 3 = 9.', { tab: { head: ['Figure', 'Tiles'], rows: [['1', '1 × 1 = 1'], ['2', '2 × 2 = 4'], ['3', '3 × 3 = 9']] } }, 'It is a square.'),
+        TELL]));
+    }, function () {
+      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; var st = ri(0, 6), d = ri(10, 31), ans = days[(st + d - 1) % 7];
+      return Qn('1 March is a ' + days[st] + '. What day of the week is ' + d + ' March?', ans, W([
+        G('Every how many days does the same weekday come back?', F(7), 'Every 7 days.', {}, 'Count a week.'),
+        G('How many days after 1 March is ' + d + ' March? Then what is the remainder when you divide by 7?', F((d - 1) % 7), (d - 1) + ' days after; remainder ' + (d - 1) % 7 + '.', {}, (d - 1) + ' ÷ 7.'),
+        TELL], { choices: days, a: ans, show: ans }));
+    }],
+    [function () {
+      var n = ri(8, 20), sh = 4 * n - 4;
+      return Qn('Square figures are made of tiles. Figure n is an n by n square, and only the tiles round the edge are shaded. Which figure has ' + sh + ' shaded tiles?', F(n), W([
+        G('Figure 3 is 3 by 3. How many tiles are on its edge?', F(8), 'Figure 3: 8 shaded.', { tab: { head: ['Figure', 'Shaded'], rows: [['3', '8'], ['4', '12'], ['5', '16']] } }, 'All tiles except the middle one.'),
+        G('Each new figure adds how many shaded tiles?', F(4), 'Shaded = 4 × n − 4.', {}, 'Compare 8, 12, 16.'),
+        TELL]));
+    }, function () {
+      var n = ri(10, 30), last = 2 * n - 1;
+      return Qn('Find 1 + 3 + 5 + 7 + … + ' + last + '.', F(n * n), W([
+        G('1 + 3 = 4, 1 + 3 + 5 = 9, 1 + 3 + 5 + 7 = 16. What kind of numbers are these totals?', 'square numbers', 'They are square numbers: 2×2, 3×3, 4×4.', { tab: { head: ['Odd numbers added', 'Total'], rows: [['2', '4'], ['3', '9'], ['4', '16']] } }, 'Try 2 × 2, 3 × 3…', ['square numbers', 'even numbers', 'multiples of 3']),
+        G('How many odd numbers are in 1 + 3 + … + ' + last + '?', F(n), n + ' odd numbers.', {}, 'The nth odd number is 2n − 1.'),
+        TELL]));
+    }]
+  ]);
+
+  // 5. Guess and check
+  method('guess', 'Make a calculated guess', 'Guess and check', [
+    [function () {
+      var a = ri(2, 9), b = ri(a + 2, 14);
+      return Qn('Two whole numbers add up to ' + (a + b) + ' and multiply to ' + a * b + '. What is the smaller number?', F(a), W([
+        G('Guess: try two numbers that add up to ' + (a + b) + ', such as ' + Math.floor((a + b) / 2) + ' and ' + Math.ceil((a + b) / 2) + '. What do they multiply to?', F(Math.floor((a + b) / 2) * Math.ceil((a + b) / 2)), 'They make ' + Math.floor((a + b) / 2) * Math.ceil((a + b) / 2) + ' — too big, so move the numbers further apart.', {}, 'Multiply them.'),
+        TELL]));
+    }, function () {
+      var a = ri(2, 6), b = ri(2, 6), pa = 5, pc = 3, tot = a * pa + b * pc;
+      return Qn('Adult tickets cost $5 and child tickets $3. A family bought ' + (a + b) + ' tickets for $' + tot + '. How many adult tickets?', F(a), W([
+        G('Guess half and half. If ' + Math.round((a + b) / 2) + ' were adult tickets, what would all ' + (a + b) + ' tickets cost?', F(Math.round((a + b) / 2) * 5 + ((a + b) - Math.round((a + b) / 2)) * 3), 'Compare that with $' + tot + ' and adjust: more adults costs more.', {}, 'Adults × 5 plus children × 3.', { show: money(Math.round((a + b) / 2) * 5 + ((a + b) - Math.round((a + b) / 2)) * 3) }),
+        TELL]));
+    }],
+    [function () {
+      var a = ri(4, 12), b = ri(4, 12), p5 = ri(4, 9), p2 = ri(2, p5 - 1), tot = a * p5 + b * p2, n = a + b, g0 = Math.round(n / 2), c0 = g0 * p5 + (n - g0) * p2;
+      return Qn('Notebooks cost ' + money(p5) + ' and pencils cost ' + money(p2) + '. Siti bought ' + n + ' items for ' + money(tot) + '. How many notebooks did she buy?', F(a), W([
+        G('Try ' + g0 + ' notebooks and ' + (n - g0) + ' pencils. What would they cost?', F(c0), 'That costs ' + money(c0) + '.', { tab: { head: ['Notebooks', 'Pencils', 'Cost'], rows: [[String(g0), String(n - g0), money(c0)]] } }, 'Notebooks × price + pencils × price.', { show: money(c0) }),
+        G('Too much or too little?', c0 > tot ? 'too much' : c0 < tot ? 'too little' : 'just right', c0 > tot ? 'Too much: try fewer notebooks.' : c0 < tot ? 'Too little: try more notebooks.' : 'Just right!', {}, 'Compare with ' + money(tot) + '.', ['too much', 'too little', 'just right']),
+        TELL]));
+    }, function () {
+      var bags = ri(8, 15), x = ri(2, bags - 2), y = bags - x, s1 = 6, s2 = 9, tot = x * s1 + y * s2;
+      return Qn('Sweets come in bags of 6 and bags of 9. ' + bags + ' bags hold ' + tot + ' sweets. How many bags of 6 are there?', F(x), W([
+        G('Guess: half the bags are bags of 6 (' + Math.round(bags / 2) + '). How many sweets would that be?', F(Math.round(bags / 2) * 6 + (bags - Math.round(bags / 2)) * 9), 'Check against ' + tot + ' and adjust.', {}, 'Multiply and add.'),
+        TELL]));
+    }],
+    [function () {
+      var q = ri(15, 25), c = ri(Math.ceil(q / 2) + 1, q), w = q - c, sc = 4 * c - w;
+      return Qn('In a quiz of ' + q + ' questions, each right answer scores 4 marks and each wrong answer loses 1 mark. Mei answered every question and scored ' + sc + '. How many did she get right?', F(c), W([
+        G('Guess ' + (q - 3) + ' right. What would she score?', F(4 * (q - 3) - 3), (q - 3) + ' right scores ' + (4 * (q - 3) - 3) + '.', { tab: { head: ['Right', 'Wrong', 'Score'], rows: [[String(q - 3), '3', String(4 * (q - 3) - 3)]] } }, 'Right × 4, minus the wrong ones.'),
+        G('Changing one wrong answer into a right one changes the score by how much?', F(5), 'Each swap changes the score by 5 (+4 and the −1 is gone).', {}, 'Gain 4 and stop losing 1.'),
+        TELL]));
+    }, function () {
+      var n = ri(6, 20) * 2, P = n * (n + 2);
+      return Qn('Two even numbers that follow each other (like 6 and 8) multiply to ' + P + '. What is the smaller one?', F(n), W([
+        G('The two numbers are close together, so each is near the number that times itself makes about ' + P + '. Which is closest: 10 × 10, 20 × 20 or 30 × 30?', n < 15 ? '10 × 10' : n < 25 ? '20 × 20' : '30 × 30', 'Start guessing near there, trying even numbers.', {}, 'Work out each one.', ['10 × 10', '20 × 20', '30 × 30']),
+        TELL]));
+    }]
+  ]);
+
+  // 6. Make suppositions
+  method('suppose', 'Make a calculated guess', 'Make suppositions', [
+    [function () {
+      var c = ri(3, 12), g = ri(2, 10), heads = c + g, legs = 2 * c + 4 * g;
+      return Qn('A farm has chickens and goats: ' + heads + ' heads and ' + legs + ' legs. How many goats?', F(g), W([
+        G('Suppose all ' + heads + ' were chickens. How many legs?', F(2 * heads), 'All chickens: ' + 2 * heads + ' legs.', {}, '2 legs each.'),
+        G('How many legs short is that?', F(legs - 2 * heads), (legs - 2 * heads) + ' legs short.', {}, legs + ' − ' + 2 * heads + '.'),
+        G('Changing a chicken into a goat adds how many legs?', F(2), '+2 legs each time.', {}, '4 − 2.'),
+        TELL]));
+    }, function () {
+      var b = ri(3, 12), t = ri(2, 10), n = b + t, wh = 2 * b + 3 * t;
+      return Qn('In a park there are bicycles and tricycles: ' + n + ' of them with ' + wh + ' wheels. How many tricycles?', F(t), W([
+        G('Suppose all ' + n + ' were bicycles. How many wheels?', F(2 * n), 'All bicycles: ' + 2 * n + ' wheels.', {}, '2 each.'),
+        G('How many extra wheels must the tricycles explain?', F(wh - 2 * n), (wh - 2 * n) + ' extra wheels; each tricycle adds 1.', {}, wh + ' − ' + 2 * n + '.'),
+        TELL]));
+    }],
+    [function () {
+      var a = ri(3, 15), b = ri(3, 15), n = a + b, tot = 2 * a + 5 * b;
+      return Qn('Ravi has ' + n + ' notes, all $2 and $5, worth $' + tot + ' altogether. How many $5 notes has he?', F(b), W([
+        G('Suppose they were all $2 notes. How much would that be?', F(2 * n), 'All $2: $' + 2 * n + '.', {}, n + ' × 2.', { show: money(2 * n) }),
+        G('Swapping a $2 note for a $5 note adds how much?', F(3), '+$3 each swap.', {}, '5 − 2.', { show: '$3' }),
+        TELL]));
+    }, function () {
+      var t = ri(3, 12), s = ri(3, 12), n = t + s, legs = 4 * t + 3 * s;
+      return Qn('A room has tables with 4 legs and stools with 3 legs: ' + n + ' pieces and ' + legs + ' legs. How many stools?', F(s), W([
+        G('Suppose all were tables. How many legs?', F(4 * n), 'All tables: ' + 4 * n + ' legs.', {}, '4 each.'),
+        G('That is too many by how much?', F(4 * n - legs), (4 * n - legs) + ' too many; each stool has 1 fewer leg.', {}, 'Compare with ' + legs + '.'),
+        TELL]));
+    }],
+    [function () {
+      var q = ri(20, 30), c = ri(Math.ceil(q * 0.6), q - 1), w = q - c, sc = 3 * c - w;
+      return Qn('A quiz has ' + q + ' questions: +3 for each right answer, −1 for each wrong one. Ali answered all and scored ' + sc + '. How many were wrong?', F(w), W([
+        G('Suppose he got all ' + q + ' right. What score?', F(3 * q), 'All right: ' + 3 * q + '.', {}, q + ' × 3.'),
+        G('How many marks short is he?', F(3 * q - sc), (3 * q - sc) + ' marks short.', {}, 3 * q + ' − ' + sc + '.'),
+        G('Changing one right answer into a wrong one loses how many marks?', F(4), 'Each wrong answer costs 4 (lose 3, then −1).', {}, 'Lose the 3 and take off 1 more.'),
+        TELL]));
+    }, function () {
+      var tens = ri(3, 12), extra = ri(2, 10), fives = tens + extra, tot = 10 * tens + 5 * fives;
+      return Qn('A box has $10 and $5 notes, with ' + extra + ' more $5 notes than $10 notes. The notes are worth $' + tot + '. How many $10 notes are there?', F(tens), W([
+        G('Take out the ' + extra + ' extra $5 notes. How much money is left?', F(tot - 5 * extra), 'Left: $' + (tot - 5 * extra) + ', with equal numbers of $10 and $5 notes.', {}, extra + ' × $5 taken away.', { show: money(tot - 5 * extra) }),
+        G('One $10 note and one $5 note make a pair. How much is a pair?', F(15), 'Each pair is $15.', {}, '10 + 5.', { show: '$15' }),
+        TELL]));
+    }]
+  ]);
+
+  // 7. Act it out
+  method('act', 'Go through the process', 'Act it out', [
+    [function () {
+      var f = ri(3, 12), b = ri(3, 12);
+      return Qn('Children stand in a line. Wei Jie is ' + ord(f) + ' from the front and ' + ord(b) + ' from the back. How many children are in the line?', F(f + b - 1), W([
+        G('Act it out with counters. Counting from the front up to Wei Jie gives ' + f + '. Counting from the back up to Wei Jie gives ' + b + '. Who was counted twice?', 'Wei Jie', 'Wei Jie is in both counts.', {}, 'Who is in both groups?', ['Wei Jie', 'the first child', 'nobody']),
+        TELL]));
+    }, function () {
+      var up = ri(3, 5), down = ri(1, up - 1), H = ri(10, 20); var d = 1; while ((d - 1) * (up - down) + up < H) d++;
+      return Qn('A snail is at the bottom of a ' + H + ' m well. Each day it climbs ' + up + ' m, and each night it slips back ' + down + ' m. On which day does it reach the top?', F(d), W([
+        G('After the first whole day and night, how high is the snail?', F(up - down), 'It gains ' + (up - down) + ' m a day — but careful near the top!', { tab: { head: ['Day', 'Top of the climb', 'After the night'], rows: [['1', up + ' m', (up - down) + ' m'], ['2', (2 * up - down) + ' m', 2 * (up - down) + ' m'], ['…', '…', '…']] } }, up + ' up, ' + down + ' down.'),
+        G('Once the snail reaches the top during a day, does it slip back?', 'no', 'No — it is out. So look for the day its climb first reaches ' + H + ' m.', {}, 'It has left the well.', ['yes', 'no']),
+        TELL]));
+    }],
+    [function () {
+      var pieces = ri(4, 9), t = ri(2, 8);
+      return Qn('It takes ' + t + ' minutes to make one cut through a log. How long does it take to cut the log into ' + pieces + ' pieces?', F((pieces - 1) * t), W([
+        G('Act it out with a strip of paper: how many cuts make 2 pieces? And how many cuts make ' + pieces + ' pieces?', F(pieces - 1), plural(pieces - 1, 'cut') + ' make ' + pieces + ' pieces — always one fewer cut than pieces.', {}, 'Try 2 pieces, 3 pieces…'),
+        TELL], { unit: 'min' }));
+    }, function () {
+      var gap = pick([3, 4, 5, 6]), L = gap * ri(6, 20);
+      return Qn('Trees are planted along one side of a ' + L + ' m path, one at each end and one every ' + gap + ' m. How many trees are there?', F(L / gap + 1), W([
+        G('How many gaps of ' + gap + ' m are there along the path?', F(L / gap), L / gap + ' gaps.', {}, L + ' ÷ ' + gap + '.'),
+        G('Draw a short path with 2 gaps. How many trees does it need?', F(3), '2 gaps need 3 trees — always one more tree than gaps.', {}, 'Draw it!'),
+        TELL]));
+    }],
+    [function () {
+      var gap = pick([2, 3, 4, 5]), a = gap * ri(5, 12), b = gap * ri(3, 8);
+      return Qn('Posts are put around a rectangular field ' + a + ' m long and ' + b + ' m wide, one every ' + gap + ' m, with a post at each corner. How many posts are there?', F(2 * (a + b) / gap), W([
+        G('How far is it all the way round the field?', F(2 * (a + b)), 'The perimeter is ' + 2 * (a + b) + ' m.', {}, 'Two lengths and two widths.'),
+        G('On a closed loop, is the number of posts the same as the number of gaps, or one more?', 'the same', 'The same — the last gap ends at the first post.', {}, 'Act it out round a table with 4 pens.', ['the same', 'one more']),
+        TELL]));
+    }, function () {
+      var up = ri(5, 8), down = ri(2, up - 1), H = ri(25, 45); var d = 1; while ((d - 1) * (up - down) + up < H) d++;
+      return Qn('A lizard climbs a ' + H + ' m wall. Each day it climbs ' + up + ' m; each night it slides down ' + down + ' m. On which day does it first reach the top?', F(d), W([
+        G('Before the last day it must be within ' + up + ' m of the top. What height must it reach by the night before?', F(H - up), 'It needs ' + (H - up) + ' m by the end of a night.', {}, H + ' − ' + up + '.'),
+        G('It gains ' + (up - down) + ' m per full day. How many full days to reach at least ' + (H - up) + ' m? (Round up.)', F(d - 1), (d - 1) + ' full days, then it climbs out the next day.', {}, (H - up) + ' ÷ ' + (up - down) + ', rounded up.'),
+        TELL]));
+    }]
+  ]);
+
+  // 8. Work backwards
+  method('backwards', 'Go through the process', 'Work backwards', [
+    [function () {
+      var p = two(), left = ri(4, 30) * 2, spent2 = ri(2, 20), half = left + spent2, start = half * 2;
+      return Qn(p[0] + ' spent half of the money in the purse on a book and then ' + money(spent2) + ' on lunch. ' + money(left) + ' was left. How much was in the purse at first?', F(start), W([
+        G('Work backwards. Before lunch, how much was there?', F(half), 'Before lunch: ' + money(half) + '.', { m: { rows: [{ label: 'Purse', parts: [{ w: 3, t: 'book' }, { w: 1.2, k: 'x', t: money(spent2) }, { w: 1.8, t: money(left) }] }] } }, 'Put the lunch money back.', { show: money(half) }),
+        TELL], { show: money(start) }));
+    }, function () {
+      var n = ri(2, 12), add = ri(3, 20), mul = ri(2, 5), res = n * mul + add;
+      return Qn('I think of a number, multiply it by ' + mul + ' and add ' + add + '. The answer is ' + res + '. What was my number?', F(n), W([
+        G('What was the LAST thing done?', 'add ' + add, 'Undo that first.', { flow: ['?', '× ' + mul, '+ ' + add, String(res)] }, 'Read the steps in order.', ['multiply by ' + mul, 'add ' + add]),
+        G('Undo it: what is ' + res + ' − ' + add + '?', F(res - add), (res - add) + '.', { flow: [String(res), '− ' + add, String(res - add)] }, 'Subtract.'),
+        TELL]));
+    }],
+    [function () {
+      var p = two(), now = ri(20, 40), bought = ri(5, 15), gave = ri(3, 10), half = now - bought + gave, start = 2 * half;
+      return Qn(p[0] + ' gave half of a pile of stickers to ' + p[1] + ', then gave ' + gave + ' to ' + p[2] + ', then bought ' + bought + ' more. Now ' + p[0] + ' has ' + now + '. How many stickers were there at first?', F(start), W([
+        G('Undo the last step. Before buying ' + bought + ', how many?', F(now - bought), (now - bought) + '.', { flow: ['?', '÷ 2', '− ' + gave, '+ ' + bought, String(now)] }, 'Take away what he bought.'),
+        G('Before giving ' + gave + ' away?', F(half), half + '.', {}, 'Give them back.'),
+        TELL]));
+    }, function () {
+      var n = ri(3, 12) * 3, a = ri(2, 4), b = ri(4, 15), r = (n / 3) * a - b; if (r <= 0) { b = 1; r = (n / 3) * a - 1; }
+      return Qn('A number is divided by 3, multiplied by ' + a + ', and then ' + b + ' is taken away. The result is ' + r + '. What was the number?', F(n), W([
+        G('Undo the last step: ' + r + ' + ' + b + ' = ?', F(r + b), (r + b) + '.', { flow: ['?', '÷ 3', '× ' + a, '− ' + b, String(r)] }, 'The opposite of taking away.'),
+        G('Undo "× ' + a + '": ' + (r + b) + ' ÷ ' + a + ' = ?', F((r + b) / a), String((r + b) / a) + '.', {}, 'Divide.'),
+        TELL]));
+    }],
+    [function () {
+      var e = ri(3, 12) * 4, p = two(); var C1 = e / 2, B1 = 3 * e / 4, A1 = 7 * e / 4;
+      return Qn(p[0] + ', ' + p[1] + ' and ' + p[2] + ' have some marbles. First ' + p[0] + ' gives ' + p[1] + ' as many marbles as ' + p[1] + ' already has. Then ' + p[1] + ' gives ' + p[2] + ' as many as ' + p[2] + ' already has. In the end each of them has ' + e + ' marbles. How many did ' + p[0] + ' have at first?', F(A1), W([
+        G('Work backwards from the end. In the last step ' + p[2] + "'s marbles were doubled. So before it, how many did " + p[2] + ' have?', F(C1), p[2] + ' had ' + C1 + ', and ' + p[1] + ' gave ' + C1 + ' away.', { tab: { head: ['', p[0], p[1], p[2]], rows: [['End', String(e), String(e), String(e)], ['Before ' + p[1] + ' gave', String(e), '?', String(C1)]] } }, 'Half of ' + e + '.'),
+        G('So before that step, how many did ' + p[1] + ' have?', F(e + C1), p[1] + ' had ' + (e + C1) + '.', { tab: { head: ['', p[0], p[1], p[2]], rows: [['End', String(e), String(e), String(e)], ['Before ' + p[1] + ' gave', String(e), String(e + C1), String(C1)]] } }, 'Give back the ' + C1 + '.'),
+        G('In the first step ' + p[1] + "'s marbles were doubled. How many did " + p[1] + ' have at the very start?', F(B1), p[1] + ' started with ' + B1 + ', and ' + p[0] + ' gave ' + B1 + '.', { tab: { head: ['', p[0], p[1], p[2]], rows: [['End', String(e), String(e), String(e)], ['Before ' + p[1] + ' gave', String(e), String(e + C1), String(C1)], ['Start', '?', String(B1), String(C1)]] } }, 'Half of ' + (e + C1) + '.'),
+        TELL]));
+    }, function () {
+      var p = two(), left = ri(2, 10) * 6, k = ri(3, 12), r2 = left + k, before = r2 * 4 / 3, start = before * 3 / 2;
+      if (before % 1 || start % 1) { left = 24; k = 6; r2 = 30; before = 40; start = 60; }
+      return Qn(p[0] + ' spent 1/3 of some savings on a book, then 1/4 of the remainder on a pen, then ' + money(k) + ' on lunch. ' + money(left) + ' was left. How much were the savings at first?', F(start), W([
+        G('Before lunch, how much was left?', F(r2), money(r2) + '.', {}, 'Add back the lunch.', { show: money(r2) }),
+        G('That was what remained after spending 1/4 of the remainder on the pen — so it is what fraction of the remainder?', F(3, 4), '3/4 of the remainder = ' + money(r2) + ', so the remainder was ' + money(before) + '.', { m: { rows: [{ label: 'Remainder', parts: [{ w: 1, k: 'x', t: 'pen' }, { w: 1, t: '' }, { w: 1, t: '' }, { w: 1, t: '' }] }], tops: [{ row: 0, from: 1, to: 4, t: money(r2) }] } }, '1 − 1/4.', { simplest: true }),
+        G('That remainder (' + money(before) + ') is what fraction of all the savings?', F(2, 3), '2/3 of the savings = ' + money(before) + '.', {}, '1 − 1/3.', { simplest: true }),
+        TELL], { show: money(start) }));
+    }]
+  ]);
+
+  // 9. Use the before-after concept
+  method('beforeafter', 'Go through the process', 'Before and after', [
+    [function () {
+      var p = two(), s = ri(5, 30), d = ri(2, 15) * 2, a = s + d;
+      return Qn(p[0] + ' has ' + a + ' stickers and ' + p[1] + ' has ' + s + '. How many stickers must ' + p[0] + ' give ' + p[1] + ' so that they have the same number?', F(d / 2), W([
+        G('How many more stickers does ' + p[0] + ' have?', F(d), 'The difference is ' + d + '.', { m: { rows: [{ label: p[0], parts: [{ w: 3 }, { w: 2, k: 'x', t: String(d) }] }, { label: p[1], parts: [{ w: 3 }] }] } }, a + ' − ' + s + '.'),
+        G('If ' + p[0] + ' gave all ' + d + ', who would have more?', p[1], p[1] + ' would — so only part of the difference moves across.', {}, 'Giving takes from one and adds to the other.', [p[0], p[1]]),
+        TELL]));
+    }, function () {
+      var p = two(), m = pick([3, 5]), u = ri(3, 15) * 2, hd = (m - 1) / 2, give = hd * u;
+      return Qn(p[0] + ' had ' + m + ' times as many marbles as ' + p[1] + '. After ' + p[0] + ' gave ' + give + ' marbles to ' + p[1] + ', they had the same number. How many marbles did ' + p[0] + ' have at first?', F(m * u), W([
+        G('Before: ' + p[1] + ' 1 unit. How many units has ' + p[0] + '?', F(m), p[0] + ' ' + m + ' units.', { m: { rows: [{ label: p[0], parts: units(m) }, { label: p[1], parts: units(1) }] } }, '"' + m + ' times as many."'),
+        G('To end up equal, ' + p[0] + ' gives what fraction of the difference?', F(1, 2), 'Half the difference: ' + plural(hd, 'unit') + ' = ' + give + ' marbles.', { m: { rows: [{ label: p[0], parts: units(m - hd).concat(units(hd, '', 'x')) }, { label: p[1], parts: units(1).concat(units(hd, '', 'q')) }], tops: [{ row: 0, from: m - hd, to: m, t: 'gives ' + give }] } }, 'If ' + p[0] + ' gave all of it, who would have more?', { simplest: true }),
+        TELL]));
+    }],
+    [function () {
+      var p = two(), a = ri(2, 5), b = ri(a + 1, 8), u2 = ri(3, 15); while (gcd(a, b) > 1) b = ri(a + 1, 9); var add = (b - a) * u2;
+      return Qn('The ratio of ' + p[0] + "'s money to " + p[1] + "'s was " + a + ' : ' + b + '. After ' + p[0] + ' saved another ' + money(add) + ', they had the same amount. How much did ' + p[1] + ' have?', F(b * u2), W([
+        G('Whose money did not change?', p[1], p[1] + ' stays ' + b + ' units.', { m: { rows: [{ label: p[0], parts: units(a) }, { label: p[1], parts: units(b) }] } }, 'Who saved?', [p[0], p[1]]),
+        G('How many units does ' + p[0] + ' gain to catch up?', F(b - a), money(add) + ' = ' + plural(b - a, 'unit') + '.', { m: { rows: [{ label: p[0], parts: units(a).concat([{ w: b - a, k: 'x', t: '+' + money(add) }]) }, { label: p[1], parts: units(b) }] } }, 'Compare the bars.'),
+        TELL], { show: money(b * u2) }));
+    }, function () {
+      var p = two(), U = ri(2, 12) * 2, k = U; // before 1:3, both get k, after 1:2 (2U = V, U + k = V)
+      return Qn('The ratio of ' + p[0] + "'s stamps to " + p[1] + "'s was 1 : 3. Each of them was then given " + k + ' more stamps, and the ratio became 1 : 2. How many stamps did ' + p[0] + ' have at first?', F(U), W([
+        G('Both were given the same number. Does the DIFFERENCE between them change?', 'no', 'No — the difference stays the same. Before it is 2 units (3 − 1); after it is 1 part (2 − 1).', {}, 'Add the same to both bars.', ['yes', 'no']),
+        G('So 1 part after = 2 units before. ' + p[0] + ' after has 1 part = 2 units, and before had 1 unit. How many units is the ' + k + ' stamps?', F(1), '1 unit = ' + k + ' stamps.', { m: { rows: [{ label: p[0], parts: [{ w: 1 }, { w: 1, k: 'x', t: '+' + k }] }, { label: p[1], parts: [{ w: 1 }, { w: 1 }, { w: 1 }, { w: 1, k: 'x', t: '+' + k }] }] } }, 'Compare ' + p[0] + ' before and after.'),
+        TELL]));
+    }],
+    [function () {
+      var p = two(), u = ri(2, 10) * 2, k = 3 * u / 2;
+      return Qn(p[0] + ' had 2/5 as much money as ' + p[1] + '. After ' + p[0] + ' received ' + money(k) + ' and ' + p[1] + ' spent ' + money(k) + ', they had the same amount. How much did ' + p[1] + ' have at first?', F(5 * u), W([
+        G('Before: ' + p[1] + ' 5 units. How many units has ' + p[0] + '?', F(2), p[0] + ' 2 units.', { m: { rows: [{ label: p[0], parts: units(2) }, { label: p[1], parts: units(5) }] } }, '2/5 of 5 units.'),
+        G('The gap of 3 units is closed from both ends: ' + p[0] + ' goes up ' + money(k) + ' and ' + p[1] + ' comes down ' + money(k) + '. So 3 units = ?', F(2 * k), '3 units = ' + money(2 * k) + '.', { m: { rows: [{ label: p[0], parts: units(2).concat([{ w: 1.5, k: 'x', t: '+' + money(k) }]) }, { label: p[1], parts: units(3.5).slice(0, 3).concat([{ w: 0.5 }, { w: 1.5, k: 'gone', t: '−' + money(k) }]) }] } }, 'Add the two amounts.', { show: money(2 * k) }),
+        TELL], { show: money(5 * u) }));
+    }, function () {
+      var p = two(), a = 3, b = 5, u = ri(2, 10) * 3, k = ri(1, 4) * 5; // A=3u spends 1/3 -> 2u; B=5u spends k -> 2u*2 = 4u => k = u
+      k = u; var A = 3 * u, B = 5 * u;
+      return Qn('The ratio of ' + p[0] + "'s money to " + p[1] + "'s was 3 : 5. " + p[0] + ' spent 1/3 of ' + p[0] + "'s money and " + p[1] + ' spent ' + money(k) + '. Then ' + p[1] + ' had twice as much as ' + p[0] + '. How much did ' + p[0] + ' have at first?', F(A), W([
+        G(p[0] + ' had 3 units and spent 1/3. How many units are left?', F(2), p[0] + ' has 2 units left.', { m: { rows: [{ label: p[0], parts: [{ w: 1, k: 'gone' }, { w: 1 }, { w: 1 }] }, { label: p[1], parts: units(5) }] } }, '1/3 of 3 units.'),
+        G(p[1] + ' then has twice ' + p[0] + "'s 2 units. How many units?", F(4), p[1] + ' has 4 units — so the ' + money(k) + ' spent was 1 unit.', { m: { rows: [{ label: p[0], parts: [{ w: 1, k: 'gone' }, { w: 1 }, { w: 1 }] }, { label: p[1], parts: units(4).concat([{ w: 1, k: 'gone', t: money(k) }]) }] } }, '2 × 2.'),
+        TELL], { show: money(A) }));
+    }]
+  ]);
+
+  // 10. Restate the problem in another way
+  method('restate', 'Change the problem', 'Restate the problem', [
+    [function () {
+      var kids = ri(5, 15), each = ri(2, 5), left = ri(1, each - 1 || 1), tot = kids * each + left;
+      return Qn('Some sweets are shared so that each child gets ' + each + ' and ' + left + ' are left over. There are ' + tot + ' sweets. How many children are there?', F(kids), W([
+        G('Say it another way: if the ' + left + ' left-over sweets were put aside, how many sweets would be shared exactly?', F(tot - left), (tot - left) + ' sweets shared equally, ' + each + ' each.', {}, tot + ' − ' + left + '.'),
+        TELL]));
+    }, function () {
+      var p = two(), m = ri(2, 6), b = ri(4, 15), a = m * b;
+      return Qn(p[1] + ' has 1/' + m + ' as many stamps as ' + p[0] + '. ' + p[0] + ' has ' + a + ' stamps. How many more stamps does ' + p[0] + ' have than ' + p[1] + '?', F(a - b), W([
+        G('Say it another way: ' + p[0] + ' has how many times as many as ' + p[1] + '?', F(m), p[0] + ' has ' + m + ' times as many.', { m: { rows: [{ label: p[0], parts: units(m) }, { label: p[1], parts: units(1) }] } }, '1/' + m + ' the other way round.'),
+        TELL]));
+    }],
+    [function () {
+      var u = ri(2, 12), boys = 5 * u, girls = 6 * u; // 3/5 of boys = 1/2 of girls → 3u = 3u
+      return Qn('3/5 of the boys in a hall is the same number as 1/2 of the girls. There are ' + (boys + girls) + ' children. How many boys are there?', F(boys), W([
+        G('Restate it with equal parts: 3/5 of the boys = 1/2 of the girls. Make both 3 parts: 1/2 is the same as ?/6', F(3), '1/2 = 3/6, so: 3 of 5 boy-parts = 3 of 6 girl-parts. Boys : girls = 5 : 6.', { m: { rows: [{ label: 'Boys', parts: units(3, '', 'hl').concat(units(2)) }, { label: 'Girls', parts: units(3, '', 'hl').concat(units(3)) }] } }, 'Double the top and the bottom.'),
+        G('How many parts altogether?', F(11), '11 parts = ' + (boys + girls) + ' children.', {}, '5 + 6.'),
+        TELL]));
+    }, function () {
+      var b = ri(2, 12) * 5, a = b * 6 / 5, p = two();
+      return Qn(p[0] + ' has 20% more money than ' + p[1] + '. Together they have ' + money(a + b) + '. How much does ' + p[1] + ' have?', F(b), W([
+        G('Say it as a ratio: if ' + p[1] + ' is 100%, ' + p[0] + ' is 120%. 120 : 100 in simplest form is ? : 5', F(6), p[0] + ' : ' + p[1] + ' = 6 : 5.', { m: { rows: [{ label: p[0], parts: units(6) }, { label: p[1], parts: units(5) }] } }, 'Divide both by 20.'),
+        TELL], { show: money(b) }));
+    }],
+    [function () {
+      var u = ri(2, 10), A = 6 * u, B = 5 * u, p = two(); // 1/3 A = 2/5 B → 2u = 2u
+      return Qn('1/3 of ' + p[0] + "'s money equals 2/5 of " + p[1] + "'s. Together they have " + money(A + B) + '. How much has ' + p[0] + '?', F(A), W([
+        G('Make the tops the same: 1/3 = ?/6', F(2), '1/3 = 2/6, so 2/6 of ' + p[0] + ' = 2/5 of ' + p[1] + ': ' + p[0] + ' : ' + p[1] + ' = 6 : 5.', { m: { rows: [{ label: p[0], parts: units(2, '', 'hl').concat(units(4)) }, { label: p[1], parts: units(2, '', 'hl').concat(units(3)) }] } }, 'Both fractions should have 2 on top.'),
+        TELL], { show: money(A) }));
+    }, function () {
+      var a = pick([3, 4, 5]), b = a - 1, k = ri(1, 6), pen = b * k, file = pen + k;
+      return Qn(a + ' pens cost the same as ' + b + ' files. A file costs ' + money(k) + ' more than a pen. How much is a pen?', F(pen), W([
+        G('Restate: ' + b + ' files = ' + b + ' pens + ' + b + ' × ' + money(k) + '. So ' + a + ' pens = ' + b + ' pens + how much?', F(b * k), a + ' pens = ' + b + ' pens + ' + money(b * k) + '.', {}, b + ' lots of the extra.', { show: money(b * k) }),
+        G('So ' + (a - b) + ' pen' + (a - b > 1 ? 's' : '') + ' cost how much?', F(b * k), (a - b) + ' pen = ' + money(b * k) + '.', {}, 'Take ' + b + ' pens off both sides.', { show: money(b * k) }),
+        TELL], { show: money(pen) }));
+    }]
+  ]);
+
+  // 11. Simplify the problem
+  method('simplify', 'Change the problem', 'Simplify the problem', [
+    [function () {
+      var n = ri(5, 12) * 2;
+      return Qn('Find 1 + 2 + 3 + … + ' + n + '.', F(n * (n + 1) / 2), W([
+        G('Try a small case: 1 + 2 + 3 + 4. Pair the first and last (1 + 4) and the middle two (2 + 3). What does each pair make?', F(5), 'Each pair makes 5; 2 pairs make 10.', {}, 'Add them.'),
+        G('For 1 to ' + n + ', each pair (1 + ' + n + ', 2 + ' + (n - 1) + ', …) makes ' + (n + 1) + '. How many pairs?', F(n / 2), (n / 2) + ' pairs of ' + (n + 1) + '.', {}, n + ' numbers, two in each pair.'),
+        TELL]));
+    }, function () {
+      var n = ri(3, 4);
+      var tot = 0; for (var k = 1; k <= n; k++) tot += k * k;
+      return Qn('How many squares of any size are there on a ' + n + ' by ' + n + ' grid?', F(tot), W([
+        G('Start small: a 2 by 2 grid has 4 small squares and how many big ones?', F(1), '2 by 2: 4 + 1 = 5 squares.', {}, 'The whole grid is a square too.'),
+        G('On the ' + n + ' by ' + n + ' grid, how many 2 by 2 squares fit?', F((n - 1) * (n - 1)), ((n - 1) * (n - 1)) + ' of them — the counts are square numbers.', { tab: { head: ['Size', 'How many'], rows: [['1 by 1', String(n * n)], ['2 by 2', '?'], ['…', '…']] } }, 'Slide a 2 by 2 frame along and down.'),
+        TELL]));
+    }],
+    [function () {
+      var N = ri(60, 200);
+      return Qn('The pages of a book are numbered 1 to ' + N + '. How many digits are printed altogether?', F(9 + 180 + (N - 99) * 3), W([
+        G('Split it into simpler parts. Pages 1 to 9 use how many digits?', F(9), '9 digits.', {}, 'One digit each.'),
+        G('Pages 10 to 99: how many pages, and 2 digits each. How many digits?', F(180), '90 pages × 2 = 180 digits.', {}, '99 − 10 + 1 = 90 pages.'),
+        G('Pages 100 to ' + N + ': how many pages?', F(N - 99), (N - 99) + ' pages × 3 digits.', {}, N + ' − 100 + 1.'),
+        TELL]));
+    }, function () {
+      var n = ri(8, 20);
+      return Qn('Find 2 + 4 + 6 + … + ' + 2 * n + '.', F(n * (n + 1)), W([
+        G('Simplify: 2 + 4 + 6 + … + ' + 2 * n + ' is 2 times which simpler sum? 1 + 2 + … + ?', F(n), '2 × (1 + 2 + … + ' + n + ').', {}, 'Halve each number.'),
+        G('What is 1 + 2 + … + ' + n + '? (Pair the ends!)', F(n * (n + 1) / 2), String(n * (n + 1) / 2) + '.', {}, '(1 + ' + n + ') × ' + n + ' ÷ 2.'),
+        TELL]));
+    }],
+    [function () {
+      var n = ri(5, 8); var tot = 0; for (var k = 1; k <= n; k++) tot += k * k;
+      return Qn('How many squares of all sizes are there on a ' + n + ' by ' + n + ' chessboard-like grid?', F(tot), W([
+        G('Simplify: on a 3 by 3 grid there are 9 small, 4 middle and 1 big square. What kind of numbers are 9, 4, 1?', 'square numbers', 'Square numbers! So on ' + n + ' by ' + n + ': ' + n + '² + … + 1².', { tab: { head: ['Grid', 'Squares'], rows: [['1 by 1', '1'], ['2 by 2', '4 + 1 = 5'], ['3 by 3', '9 + 4 + 1 = 14']] } }, '3 × 3, 2 × 2, 1 × 1.', ['square numbers', 'even numbers', 'odd numbers']),
+        TELL]));
+    }, function () {
+      var a = ri(20, 60), b = a + ri(20, 60) ; var cnt = b - a + 1;
+      return Qn('Find the sum of all the whole numbers from ' + a + ' to ' + b + '.', F((a + b) * cnt / 2), W([
+        G('How many numbers are there from ' + a + ' to ' + b + '?', F(cnt), cnt + ' numbers.', {}, b + ' − ' + a + ' + 1.'),
+        G('Pair the first and last. What does each pair make?', F(a + b), 'Each pair makes ' + (a + b) + '; there are ' + cnt + ' ÷ 2 pairs.', {}, a + ' + ' + b + '.'),
+        TELL]));
+    }]
+  ]);
+
+  // 12. Solve part of the problem
+  method('part', 'Change the problem', 'Solve part of the problem', [
+    [function () {
+      var n = ri(2, 5), pr = ri(2, 6), bag = ri(8, 25), paid = n * pr + bag < 45 ? pick([50, 100]) : 100;
+      return Qn('Ali bought ' + n + ' pens at ' + money(pr) + ' each and a bag for ' + money(bag) + '. He paid with a ' + money(paid) + ' note. How much change did he get?', F(paid - n * pr - bag), W([
+        G('Part 1: how much were the pens?', F(n * pr), 'Pens: ' + money(n * pr) + '.', {}, n + ' × ' + money(pr) + '.', { show: money(n * pr) }),
+        G('Part 2: how much did he spend altogether?', F(n * pr + bag), 'Spent: ' + money(n * pr + bag) + '.', {}, 'Add the bag.', { show: money(n * pr + bag) }),
+        TELL], { show: money(paid - n * pr - bag) }));
+    }, function () {
+      var cap = ri(4, 8) * 10, b = ri(2, 4), s = ri(4, 9);
+      return Qn('A tank holds ' + cap + ' ℓ. ' + b + ' buckets of ' + s + ' ℓ each are poured in. How much more water is needed to fill it?', F(cap - b * s), W([
+        G('Part 1: how much water has been poured in?', F(b * s), b * s + ' ℓ so far.', {}, b + ' × ' + s + '.'),
+        TELL], { unit: 'ℓ' }));
+    }],
+    [function () {
+      var L = ri(10, 16), Wd = ri(8, 12), s = ri(2, 3);
+      return Qn('A ' + L + ' cm by ' + Wd + ' cm card has a ' + s + ' cm square cut out from two of its corners. What is the area of the card left?', F(L * Wd - 2 * s * s), W([
+        G('Part 1: area of the whole card?', F(L * Wd), L * Wd + ' cm².', {}, 'Length × width.'),
+        G('Part 2: area of the two squares cut out?', F(2 * s * s), 2 * s * s + ' cm².', {}, '2 × ' + s + ' × ' + s + '.'),
+        TELL], { unit: 'cm²' }));
+    }, function () {
+      var packs = ri(4, 10), er = ri(3, 8);
+      return Qn('Pencils are sold at 3 for $1. Erasers cost 60¢ each. Mei bought ' + 3 * packs + ' pencils and ' + er + ' erasers. How much did she spend?', fromDec(dec(packs + 0.6 * er, 2)), W([
+        G('Part 1: ' + 3 * packs + ' pencils is how many groups of 3?', F(packs), packs + ' groups, so the pencils cost ' + money(packs) + '.', {}, 3 * packs + ' ÷ 3.'),
+        G('Part 2: how much are the erasers?', fromDec(dec(0.6 * er, 2)), 'Erasers: ' + money(0.6 * er) + '.', {}, er + ' × 60¢.', { show: money(0.6 * er) }),
+        TELL], { show: money(packs + 0.6 * er) }));
+    }],
+    [function () {
+      var eggs = ri(4, 12) * 20, m = pick([25, 35, 40, 45]); var sold1 = eggs * m / 100, rem = eggs - sold1; if (rem % 4) { eggs = 240; m = 35; sold1 = 84; rem = 156; }
+      return Qn('A shop had ' + eggs + ' eggs. It sold ' + m + '% of them in the morning and 3/4 of the remaining eggs in the afternoon. How many eggs were left?', F(rem / 4), W([
+        G('Part 1: how many were sold in the morning?', F(sold1), sold1 + ' in the morning.', {}, m + '% of ' + eggs + '.'),
+        G('Part 2: how many were left after the morning?', F(rem), rem + ' left.', {}, eggs + ' − ' + sold1 + '.'),
+        G('Part 3: 3/4 of those were sold. What fraction of them is left?', F(1, 4), '1/4 of ' + rem + ' is left.', { m: { rows: [{ label: 'After morning', parts: [{ w: 1, k: 'x', t: '' }, { w: 1, k: 'x', t: '' }, { w: 1, k: 'x', t: '' }, { w: 1, k: 'hl', t: '?' }] }], right: { rows: [0, 0], t: String(rem) } } }, '1 − 3/4.', { simplest: true }),
+        TELL]));
+    }, function () {
+      var L = 50, Wd = 40, H = 30, frac = pick([[3, 5], [1, 2], [2, 3]]), v = L * Wd * H * frac[0] / frac[1]; var bl = 40, bw = pick([25, 20]), h2 = v / (bl * bw);
+      if (h2 % 1) { bw = 25; h2 = v / (bl * bw); }
+      return Qn('Tank A is 50 cm long, 40 cm wide and 30 cm high, and is ' + frac[0] + '/' + frac[1] + ' full of water. All the water is poured into empty Tank B, whose base is 40 cm by ' + bw + ' cm. How deep is the water in Tank B?', fromDec(dec(h2, 2)), W([
+        G('Part 1: what is the volume of Tank A when full? (cm³)', F(L * Wd * H), L * Wd * H + ' cm³.', {}, '50 × 40 × 30.'),
+        G('Part 2: how much water is in it?', F(v), v + ' cm³ of water.', {}, frac[0] + '/' + frac[1] + ' of it.'),
+        G('Part 3: what is the base area of Tank B?', F(bl * bw), (bl * bw) + ' cm².', {}, '40 × ' + bw + '.'),
+        TELL], { unit: 'cm', show: dec(h2, 2) }));
+    }]
+  ]);
+
+  // 13. Think of a related problem: recognise a problem as one of a kind she has solved, then solve it.
+  var RELATED = ['model', 'beforeafter', 'suppose', 'backwards', 'part', 'restate'];
+  method('related', 'Change the problem', 'Think of a related problem', [0, 1, 2].map(function (li) {
+    return [function () {
+      var mid = pick(RELATED), M = null; HS.forEach(function (x) { if (x.id === mid) M = x; });
+      var Q = pick(M.levels[li])(); var opts = shuffle(RELATED.map(function (id) { var nm = ''; HS.forEach(function (x) { if (x.id === id) nm = x.name; }); return nm; })).slice(0, 3);
+      if (opts.indexOf(M.name) < 0) opts[0] = M.name; opts = shuffle(opts);
+      var walk = [G('Think of a problem you have solved before that is like this one. Which method did it use?', M.name, 'Yes — it is a "' + M.name + '" problem. Use that method again.', {}, 'What happens in the story: does something change, is something supposed, is it in steps?', opts)].concat(Q.walk || []);
+      Q.walk = walk; Q.steps = walk.filter(function (s) { return s.t; }).map(function (s) { return s.t; }); Q.related = M.name; return Q;
+    }];
+  }));
+
+  // Each method gives one problem at a chosen level, avoiding the template used last time.
+  var H = HS.map(function (M) {
+    return { id: M.id, name: M.name, group: M.group, levels: M.levels.length, gen: function (lv, last) {
+      var bank = M.levels[Math.max(0, Math.min(M.levels.length - 1, (lv || 1) - 1))]; var i = Math.floor(Math.random() * bank.length);
+      if (bank.length > 1 && i === last) i = (i + 1) % bank.length;
+      var Q = bank[i](); Q.tpl = i; return Q;
+    } };
   });
 
   // ---------- drawing a bar model as SVG ----------

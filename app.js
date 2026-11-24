@@ -1741,16 +1741,30 @@
   }
   function mtTopic(id) { for (var i = 0; i < MX.topics.length; i++) if (MX.topics[i].id === id) return MX.topics[i]; return null; }
   function mtHeur(id) { for (var i = 0; i < MX.heuristics.length; i++) if (MX.heuristics[i].id === id) return MX.heuristics[i]; return null; }
-  function mtRec(kind, id) { var m = mtState(); var bag = kind === 'h' ? m.heur : m.topics; return bag[id] || (bag[id] = { h: [], m: false }); }
+  function mtRec(kind, id) { var m = mtState(); var bag = kind === 'h' ? m.heur : m.topics; var r = bag[id] || (bag[id] = { h: [], m: false }); if (!r.h) r.h = []; if (kind === 'h') { if (!r.lv) r.lv = 1; if (r.st == null) r.st = 0; if (r.miss == null) r.miss = 0; } return r; }
+  var MT_UP = 3; // right first time, unaided, this many times in a row to move on
   function mtMastered(id) { return !!(mtState().topics[id] || {}).m; }
-  // Mastered after five right in a row; two wrong in a row on a mastered topic sends it back to learning.
-  function mtScore(kind, id, ok) {
+  // A topic is mastered after three right in a row; two wrong in a row on a mastered topic sends it back to learning.
+  // A heuristic moves up a level after three right in a row (first try, no help); after level 3 it is mastered.
+  // Three misses in a row above level 1 steps it back down a level, so the practice fits her again.
+  // Returns what changed: 'mastered', 'up', 'down' or ''.
+  function mtScore(kind, id, ok, lv) {
     var r = mtRec(kind, id); r.h.push(ok ? 1 : 0); if (r.h.length > 12) r.h = r.h.slice(-12); r.seen = today();
-    if (kind === 't') { var last = r.h.slice(-5); if (last.length === 5 && last.every(function (x) { return x; })) r.m = true; var two = r.h.slice(-2); if (r.m && two.length === 2 && !two[0] && !two[1]) r.m = false; }
+    if (kind === 't') {
+      var was = r.m; var last = r.h.slice(-MT_UP); if (last.length === MT_UP && last.every(function (x) { return x; })) r.m = true;
+      var two = r.h.slice(-2); if (was && two.length === 2 && !two[0] && !two[1]) r.m = false;
+      return !was && r.m ? 'mastered' : '';
+    }
+    if (lv && lv !== r.lv) return ''; // a problem made before she changed level does not count
+    if (ok) { r.miss = 0; r.st++; if (r.st >= MT_UP) { r.st = 0; if (r.lv < 3) { r.lv++; return 'up'; } if (!r.m) { r.m = true; return 'mastered'; } } return ''; }
+    r.st = 0; r.miss++; if (r.miss >= 3 && r.lv > 1 && !r.m) { r.lv--; r.miss = 0; return 'down'; } return '';
   }
   function mtAcc(r) { if (!r || !r.h.length) return null; return Math.round(100 * r.h.reduce(function (s, x) { return s + x; }, 0) / r.h.length); }
   function mtLearning() { return MX.topics.filter(function (t) { return !mtMastered(t.id); }); }
-  function mtMake(kind, id) { var g = kind === 'h' ? mtHeur(id) : mtTopic(id); return { kind: kind, id: id, Q: g.gen() }; }
+  function mtMake(kind, id) {
+    if (kind !== 'h') return { kind: kind, id: id, Q: mtTopic(id).gen() };
+    var r = mtRec('h', id); var Q = mtHeur(id).gen(r.lv, r.last); r.last = Q.tpl; return { kind: 'h', id: id, lv: r.lv, Q: Q };
+  }
 
   // The daily set: the next two topics still to master, a little review, and two heuristics problems.
   function mtTodaySet() {
@@ -1760,9 +1774,29 @@
     var nLearn = mastered.length ? 6 : 8;
     for (var i = 0; i < nLearn && learn.length; i++) items.push(mtMake('t', learn[i % learn.length].id));
     mastered.slice(0, 2).forEach(function (t) { items.push(mtMake('t', t.id)); });
-    var hs = MX.heuristics.slice().sort(function (a, b) { return ((m.heur[a.id] || { h: [] }).h.length) - ((m.heur[b.id] || { h: [] }).h.length); });
+    // Two heuristics: methods not yet mastered first, the one practised longest ago first.
+    var hs = MX.heuristics.slice().sort(function (a, b) { var ra = m.heur[a.id] || {}, rb = m.heur[b.id] || {}; if (!!ra.m !== !!rb.m) return ra.m ? 1 : -1; var sa = String(ra.seen || ''), sb = String(rb.seen || ''); return sa < sb ? -1 : sa > sb ? 1 : (ra.h || []).length - (rb.h || []).length; });
     hs.slice(0, 2).forEach(function (h) { items.push(mtMake('h', h.id)); });
     return items;
+  }
+  // After each answer: a level change or a newly mastered topic means no more practice of the same thing in this set.
+  function mtAdapt(R) {
+    var it = R.items[R.i]; var chg = R.fb && R.fb.chg; R.chg = null;
+    if (chg && chg !== 'down') { R.ups = R.ups || []; R.ups.push(it.kind === 'h' ? mtHeur(it.id).name + (chg === 'up' ? ': up to level ' + mtRec('h', it.id).lv : ': mastered') : 'P' + mtTopic(it.id).lv + ' ' + mtTopic(it.id).name + ': mastered'); }
+    if (R.kind === 'heur') {
+      if (chg === 'up' || chg === 'mastered') { R.items = R.items.slice(0, R.i + 1); return; }
+      if (R.i + 1 >= R.items.length && R.items.length < MT_HMAX) { R.items.push(mtMake('h', it.id)); return; }
+      if (chg === 'down') R.items = R.items.slice(0, R.i + 1).concat(R.items.slice(R.i + 1).map(function () { return mtMake('h', it.id); }));
+      return;
+    }
+    if (it.kind === 't' && chg === 'mastered' && R.kind !== 'place') {
+      if (R.kind === 'topic') { R.items = R.items.slice(0, R.i + 1); return; }
+      var inSet = {}; R.items.forEach(function (x) { inSet[x.id] = 1; });
+      var nxt = mtLearning().filter(function (t) { return !inSet[t.id]; })[0] || mtLearning().filter(function (t) { return t.id !== it.id; })[0];
+      for (var j = R.i + 1; j < R.items.length; j++) if (R.items[j].kind === 't' && R.items[j].id === it.id) R.items[j] = nxt ? mtMake('t', nxt.id) : null;
+      R.items = R.items.filter(function (x) { return x; });
+    }
+    if (it.kind === 'h' && chg) for (var k = R.i + 1; k < R.items.length; k++) if (R.items[k].kind === 'h' && R.items[k].id === it.id) R.items[k] = mtMake('h', it.id);
   }
   function mtStartSet(kind, items, label) { ui.mt = ui.mt || {}; ui.mt.run = { kind: kind, label: label, items: items, n0: items.length, i: 0, typed: '', res: [], fb: null }; }
   function mtPlaceItems(lv) { return MX.topics.filter(function (t) { return t.lv === lv; }).map(function (t) { return mtMake('t', t.id); }); }
@@ -1831,20 +1865,21 @@
     if (R.i >= R.items.length) return mtSetEnd();
     var it = R.items[R.i], Q = it.Q; var g = it.kind === 'h' ? mtHeur(it.id) : mtTopic(it.id);
     var tname = it.kind === 'h' ? 'Heuristic: ' + g.name : 'P' + g.lv + ' ' + g.name;
-    var head = '<div class="kicker">' + esc(R.label) + ' · ' + (R.i + 1) + ' of ' + R.items.length + (R.label === g.name ? '' : ' · ' + esc(tname)) + '</div>';
+    var head = '<div class="kicker">' + esc(R.label) + ' · ' + (R.kind === 'heur' ? 'Level ' + it.lv + ' · problem ' + (R.i + 1) : (R.i + 1) + ' of ' + R.items.length) + (R.label === g.name ? '' : ' · ' + esc(tname) + (it.lv ? ' (level ' + it.lv + ')' : '')) + '</div>';
     var body = '<div class="mt-q">' + esc(Q.q) + '</div>';
-    var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length ? 'Next question ›' : 'Finish ›') + '</button>';
+    var more = R.kind === 'heur' && R.fb && !R.fb.chg && R.i + 1 >= R.items.length && R.items.length < MT_HMAX;
+    var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length || more ? 'Next question ›' : 'Finish ›') + '</button>' + (R.kind === 'heur' && (R.i + 1 < R.items.length || more) ? '<button class="btn ghost" data-act="mt-stopset">Stop here</button>' : '');
     var asks = mtAsks(Q);
     // Finished with this question.
     if (R.fb) {
       var fb = R.fb;
       if (fb.ok) {
-        body += '<div class="mt-fb ok"><b>✓ ' + (R.helped ? 'Yes — you worked it out.' : 'Right!') + '</b></div>';
+        body += '<div class="mt-fb ok"><b>✓ ' + (R.helped ? 'Yes — you worked it out.' : 'Right!') + '</b>' + mtChgHTML(it, fb.chg) + '</div>';
         if (R.kind !== 'place') body += '<p class="mt-steptxt tell">' + esc(Q.walk ? 'Tell it back: explain to Mum, in your own words, how you worked it out. What did your model show?' : 'Tell Mum how you worked it out.') + '</p>';
         var lastVis = (Q.walk || []).filter(function (s) { return s.m || s.tab || s.flow; }).pop();
         if (lastVis && R.kind !== 'place') body += R.cmp ? '<div class="card mt-walk"><div class="kicker">One model for it — how does yours compare?</div>' + MX.stepHTML(lastVis) + '</div>' : '<div class="btns"><button class="btn ghost small" data-act="mt-cmp">Compare with a model</button></div>';
       } else {
-        body += '<div class="mt-fb no"><b>Let\'s look at it together.</b> The answer is <b>' + esc(Q.show + (Q.unit ? ' ' + Q.unit : '')) + '</b>.</div>';
+        body += (fb.chg === 'down' ? '<div class="mt-fb">' + mtChgHTML(it, 'down') + '</div>' : '') + '<div class="mt-fb no"><b>Let\'s look at it together.</b> The answer is <b>' + esc(Q.show + (Q.unit ? ' ' + Q.unit : '')) + '</b>.</div>';
         if (Q.walk && R.kind !== 'place') body += '<div class="card mt-walk"><div class="kicker">The thinking, step by step</div><ol class="mt-done">' + asks.map(function (s) { return '<li><b>' + esc(s.ask) + '</b><br>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (function () { var v = (Q.walk || []).filter(function (s) { return s.m || s.tab || s.flow; }).pop(); return v ? MX.stepHTML(v) : ''; })() + '</div><p class="mt-steptxt tell">Read the steps through, then tell Mum in your own words why the answer is ' + esc(Q.show) + '.</p>';
         else if (Q.steps && R.kind !== 'place') body += '<div class="card mt-steps"><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
       }
@@ -1883,6 +1918,15 @@
       '<p class="small muted" style="margin:0;text-align:center">Fractions: 3/4 · mixed numbers: 2 ␣ 1/3' + (Q.ratio ? ' · ratios: 2:3' : '') + (Q.time ? ' · time: 14:05' : '') + '</p>' + mtKeypad(keys, 'mt-key');
   }
 
+  var MT_HMAX = 8; // a heuristics session ends at a level change, or after this many problems
+  function mtChgHTML(it, chg) {
+    if (!chg) { if (it.kind !== 'h') return ''; var r = mtRec('h', it.id); return r.lv === it.lv && r.st ? '<br><span class="small">' + r.st + ' of ' + MT_UP + ' in a row at level ' + r.lv + '.</span>' : ''; }
+    var nm = it.kind === 'h' ? mtHeur(it.id).name : mtTopic(it.id).name; var r2 = it.kind === 'h' ? mtRec('h', it.id) : null;
+    if (chg === 'up') return '<br>🎉 <b>Level ' + r2.lv + '!</b> Three in a row — ' + esc(nm) + ' moves up to harder problems.';
+    if (chg === 'mastered') return '<br>🎉 <b>' + esc(nm) + ' is mastered!</b> Three in a row' + (it.kind === 'h' ? ' at the top level.' : ' — on to the next topic.');
+    if (chg === 'down') return '<b>' + esc(nm) + ' goes back to level ' + r2.lv + '</b> for a while, to build it up again.';
+    return '';
+  }
   function mtSetEnd() {
     var R = ui.mt.run; var right = R.res.filter(function (x) { return x; }).length;
     if (!R.res.length) { ui.mt.run = null; return mtTabs(ui.mt.view || 'today') + mtTodayView(); }
@@ -1896,6 +1940,7 @@
     }
     var newly = R.kind === 'place' ? MX.topics.filter(function (t) { return t.lv === R.lv && mtMastered(t.id); }).length : null;
     return '<div class="rd-done"><div class="rd-big">' + right + ' / ' + R.res.length + '</div>' +
+      (R.ups && R.ups.length ? '<p>' + R.ups.map(function (x) { return esc(x); }).join('<br>') + '</p>' : '') +
       (R.kind === 'place' ? '<p>' + newly + ' of the P' + R.lv + ' topics are marked as known. The rest join her practice, in syllabus order.</p>' : '<p>' + (right === R.res.length ? 'All right — well done!' : 'Well worked.') + '</p>') +
       (R.kind === 'today' ? '<p class="small muted">' + (R.full ? 'Maths practice is ticked for today.' : 'Finish a whole set to tick Maths practice for today.') + '</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-view" data-v="' + (R.kind === 'place' ? 'topics' : 'today') + '">Done</button></div>';
   }
@@ -1907,7 +1952,7 @@
     h += '<div class="card"><div class="kicker">PSLE syllabus (Standard) · ' + mastered + ' of ' + MX.topics.length + ' topics mastered</div><div class="rd-dots" aria-hidden="true">' + MX.topics.map(function (t) { return '<i class="' + (mtMastered(t.id) ? 'f' : '') + '"></i>'; }).join('') + '</div>' +
       (learn.length ? '<p style="margin:6px 0 0">Learning now: <b>P' + learn[0].lv + ' ' + esc(learn[0].name) + '</b>' + (learn[1] ? ' and <b>P' + learn[1].lv + ' ' + esc(learn[1].name) + '</b>' : '') + '.</p>' : '<p style="margin:6px 0 0">Every topic is mastered — keep reviewing.</p>') + '</div>';
     h += '<div class="btns rd-go"><button class="btn" data-act="mt-today">' + (doneToday(MT_TICK) ? 'Do another set' : "Start today's set (10 questions)") + '</button><button class="btn ghost" data-act="mt-facts" data-v="mix">1-minute facts warm-up</button></div>';
-    h += '<p class="small muted" style="margin:0">Each set: six questions on the topics she is learning, two to review mastered ones, and two heuristics problems with the method shown. A topic counts as mastered after five right in a row.</p>';
+    h += '<p class="small muted" style="margin:0">Each set: six questions on the topics she is learning, two to review mastered ones, and two heuristics problems with the method shown. A topic counts as mastered after three right in a row (first try, no help); then the next topic takes its place, even in the middle of a set.</p>';
     return h;
   }
   function mtFactsView() {
@@ -1925,9 +1970,20 @@
     return h + '<p class="small muted">Topics and their order follow MOE\'s 2021 Primary Mathematics Syllabus (Standard), which PSLE uses from 2026. Topics that need drawings to work on — nets, symmetry, graphs and pie charts — are best done on paper and are not here.</p>';
   }
   function mtHeurView() {
-    var m = mtState();
-    return '<p style="margin:0">Word problems for each way of thinking PSLE asks for. After each answer the working is shown.</p><div class="card"><ul class="list">' + MX.heuristics.map(function (x) { var r = m.heur[x.id]; var acc = mtAcc(r); return '<li><span><b>' + esc(x.name) + '</b> <span class="small muted">' + (r && r.h.length ? r.h.length + ' done · ' + acc + '% right' : 'not tried yet') + '</span></span><button class="btn ghost small" data-act="mt-heur" data-v="' + x.id + '">3 problems</button></li>'; }).join('') + '</ul></div>' +
-      '<p class="small muted">The methods are the ones Singapore schools teach for PSLE: draw a model, systematic list, before and after, look for a pattern, guess and check, supposition, work backwards, and algebra.</p>';
+    var m = mtState(); var groups = []; MX.heuristics.forEach(function (x) { if (groups.indexOf(x.group) < 0) groups.push(x.group); });
+    var nM = MX.heuristics.filter(function (x) { return (m.heur[x.id] || {}).m; }).length;
+    var h = '<p style="margin:0">The 13 thinking methods for PSLE word problems. Each has three levels, from P3–P4 problems up to PSLE ones, with a bank of different problems for every level. Three right in a row — first try, no help — moves a method up a level; while she is finding it hard, more problems at the same level keep coming.</p>' +
+      '<div class="card"><div class="kicker">' + nM + ' of ' + MX.heuristics.length + ' methods mastered</div><div class="rd-dots" aria-hidden="true">' + MX.heuristics.map(function (x) { var r = m.heur[x.id] || {}; return '<i class="' + (r.m ? 'f' : r.lv > 1 ? 'h' + r.lv : '') + '"></i>'; }).join('') + '</div></div>';
+    groups.forEach(function (gname) {
+      h += '<div class="card"><div class="kicker">' + esc(gname) + '</div><ul class="list">' + MX.heuristics.filter(function (x) { return x.group === gname; }).map(function (x) {
+        var r = m.heur[x.id]; var lv = (r && r.lv) || 1; var acc = mtAcc(r);
+        var st = r && r.m ? '✓ mastered' : 'Level ' + lv + (r && r.st ? ' · ' + r.st + ' of ' + MT_UP + ' in a row' : '');
+        return '<li><span><b>' + esc(x.name) + '</b> <span class="small muted">' + st + (r && r.h && r.h.length ? ' · ' + acc + '% right lately' : ' · not tried yet') + '</span>' +
+          '<span class="mt-lvs">' + [1, 2, 3].map(function (n) { return '<button class="chip' + (n === lv && !(r && r.m) ? ' on' : '') + '" data-act="mt-hlv" data-v="' + x.id + ':' + n + '" aria-label="Set level ' + n + '">L' + n + '</button>'; }).join('') + '</span></span>' +
+          '<button class="btn ghost small" data-act="mt-heur" data-v="' + x.id + '">Practise</button></li>';
+      }).join('') + '</ul></div>';
+    });
+    return h + '<p class="small muted">The L1–L3 buttons are for Mum, to set where a method starts. Three misses in a row above level 1 steps a method back down a level. Methods follow the list Singapore schools teach (MOE\'s problem-solving heuristics); "Think of a related problem" mixes problems from the other methods and asks her first which method fits.</p>';
   }
   function mtRecordView() {
     var m = mtState(); var ts = Object.keys(m.log).sort(function (a, b) { return b - a; });
@@ -1994,7 +2050,7 @@
     if (R.kind === 'place' && it.kind === 't') {
       if (it.second && ok && !R.att) { var rec = mtRec('t', it.id); rec.h = [1, 1, 1, 1, 1]; rec.m = true; rec.seen = today(); }
       else mtScore('t', it.id, R.res[R.i]);
-    } else mtScore(it.kind, it.id, R.res[R.i]);
+    } else { R.fb.chg = mtScore(it.kind, it.id, R.res[R.i], it.lv); }
     save(); refreshSheet();
   }
   function mtSubmit(typed) {
@@ -2034,7 +2090,8 @@
       case 'mt-stopfacts': clearInterval(mtTimer); mtEndFacts(); break;
       case 'mt-today': mtStartSet('today', mtTodaySet(), "Today's set"); refreshSheet(true); break;
       case 'mt-topic': var t = mtTopic(v); mtStartSet('topic', [0, 1, 2, 3, 4].map(function () { return mtMake('t', v); }), t.name); refreshSheet(true); break;
-      case 'mt-heur': var hh = mtHeur(v); mtStartSet('heur', [0, 1, 2].map(function () { return mtMake('h', v); }), hh.name); refreshSheet(true); break;
+      case 'mt-heur': var hh = mtHeur(v); mtStartSet('heur', [mtMake('h', v), mtMake('h', v), mtMake('h', v)], hh.name); refreshSheet(true); break;
+      case 'mt-hlv': var hp = String(v).split(':'), hr = mtRec('h', hp[0]); hr.lv = +hp[1]; hr.st = 0; hr.miss = 0; hr.m = false; save(); refreshSheet(); break;
       case 'mt-place': mtStartSet('place', mtPlaceItems(+v), 'P' + v + ' placement check'); ui.mt.run.lv = +v; refreshSheet(true); break;
       case 'mt-key':
         if (!R || R.fb || (R.phase === 'guide' && R.gfb)) return;
@@ -2056,7 +2113,9 @@
       case 'mt-inkundo': ui.mt.ink.strokes.pop(); var cb = document.getElementById('mt-board'); if (cb && cb._redraw) cb._redraw(); break;
       case 'mt-inkclear': ui.mt.ink.strokes = []; var cb2 = document.getElementById('mt-board'); if (cb2 && cb2._redraw) cb2._redraw(); break;
       case 'mt-inkbig': ui.mt.ink.big = !ui.mt.ink.big; refreshSheet(); break;
-      case 'mt-next': if (ui.mt.ink) ui.mt.ink.strokes = []; R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
+      case 'mt-stopset': R.items = R.items.slice(0, R.i + 1); R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; refreshSheet(true); break;
+      case 'mt-next': if (ui.mt.ink) ui.mt.ink.strokes = []; mtAdapt(R);
+        R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
       case 'mt-quit': R.items = R.items.slice(0, R.i); refreshSheet(true); break;
     }
   }
