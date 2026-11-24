@@ -1319,6 +1319,7 @@
   // Whose lessons are open: Emily learns every word of each poem; Emma, who reads fluently, builds only the longer, less common words.
   var RDW = 'emily';
   var RD_EMMA = (function () { var E = RD.emma || { list: [], poems: [] }; var by = {}; RD.poems.concat(E.poems || []).forEach(function (p) { by[p.id] = p; }); return (E.list || []).map(function (id) { return by[id]; }).filter(Boolean); })();
+  function rdName() { return RDW === 'emma' ? 'Emma' : 'Emily'; }
   function rdPer() { var r = rdState(); return r.per || (RDW === 'emma' && RD.emma && RD.emma.per) || RD.per || 10; }
   function rdPoems() { return RDW === 'emma' ? RD_EMMA : RD.poems; }
   function rdWith(who, fn) { var keep = RDW; RDW = who || 'emily'; try { return fn(); } finally { RDW = keep; } }
@@ -1414,7 +1415,7 @@
   function rdWordStep(s, p) {
     var w = s.w, h = '';
     if (s.ph === 'look') {
-      h += '<p class="rd-say">' + (s.again ? 'A word to look at again. ' : '') + 'Say the word. Emily looks at it until she would know it again.</p>' + rdBig(w) +
+      h += '<p class="rd-say">' + (s.again ? 'A word to look at again. ' : '') + 'Say the word. ' + rdName() + ' looks at it until she would know it again.</p>' + rdBig(w) +
         '<div class="btns rd-go"><button class="btn" data-act="rd-ph" data-v="build">I know it by heart — hide it</button><button class="btn ghost small" data-act="rd-knew">She knew this one already</button></div>';
       return h;
     }
@@ -1432,7 +1433,7 @@
         return '<span class="rd-slot' + (filled ? ' f' : '') + '">' + (filled ? esc(c) : '') + '</span>';
       }).join('');
       var done = X.got >= w.replace(/[^A-Za-z]/g, '').length;
-      h += '<p class="rd-say">' + (done ? 'She made it from memory.' : 'Now Emily makes the word with the letters.') + '</p>' +
+      h += '<p class="rd-say">' + (done ? 'She made it from memory.' : 'Now ' + rdName() + ' makes the word with the letters.') + '</p>' +
         (ui.rdPeek ? rdBig(w, 'peek') : '') +
         '<div class="rd-slots" aria-label="The word so far">' + slots + '</div>';
       if (!done) h += '<div class="rd-tiles">' + X.tiles.map(function (t) { return '<button class="rd-tile"' + (t.used ? ' disabled' : '') + ' data-act="rd-letter" data-v="' + t.i + '">' + esc(t.c) + '</button>'; }).join('') + '</div>' +
@@ -1458,7 +1459,7 @@
   function rdColumn(p) {
     var words = rdWords(p).filter(rdKnows); var c = ui.rd.col;
     if (c === 'up') words = words.slice().reverse(); else if (c === 'mixed') words = ui.rd.mix || (ui.rd.mix = rdShuffle(words));
-    return '<p class="rd-say">Point to each word for Emily to read' + (ui.rd.kind === 'sound' ? ' — a quick warm-up before the word families.' : '.') + '</p>' +
+    return '<p class="rd-say">Point to each word for ' + rdName() + ' to read' + (ui.rd.kind === 'sound' ? ' — a quick warm-up before the word families.' : '.') + '</p>' +
       '<div class="seg" role="group" style="align-self:flex-start">' + [['down', 'Down'], ['up', 'Up'], ['mixed', 'Mixed']].map(function (o) { return '<button data-act="rd-col" data-v="' + o[0] + '" aria-pressed="' + (c === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
       '<div class="rd-col">' + words.map(function (w) { return '<span>' + esc(w) + '</span>'; }).join('') + '</div>' +
       '<div class="btns rd-go"><button class="btn" data-act="rd-next">She read them all ›</button></div>';
@@ -1476,7 +1477,7 @@
     var hasCounter = X.slots.some(function (x) { return !x.known; });
     var h = '<div class="kicker">Line ' + (pos + 1) + ' of ' + usable.length + '</div>' +
       '<details class="rd-mum"><summary>Mum: the line to say</summary><p>' + esc(L.raw) + '</p></details>' +
-      '<p class="rd-say">' + (done ? 'Now she reads it to you.' : 'Say the line. Emily lays out the words in order.' + (hasCounter ? ' A counter ● stands for a word she will learn soon.' : '')) + '</p>' +
+      '<p class="rd-say">' + (done ? 'Now she reads it to you.' : 'Say the line. ' + rdName() + ' lays out the words in order.' + (hasCounter ? ' A counter ● stands for a word she will learn soon.' : '')) + '</p>' +
       '<div class="rd-strip">' + X.slots.map(function (x) { return x.f ? (x.known ? '<span class="rd-card f">' + esc(x.t) + '</span>' : '<span class="rd-counter" title="A word to learn soon">●</span>') : '<span class="rd-card empty"></span>'; }).join('') + '</div>';
     if (!done) h += '<div class="rd-cards">' + X.tray.map(function (c, j) { return '<button class="rd-card"' + (c.used ? ' disabled' : '') + ' data-act="rd-place" data-v="' + j + '">' + esc(c.t) + '</button>'; }).join('') + '</div>';
     else h += '<div class="btns rd-go">' + (pos < usable.length - 1 ? '<button class="btn" data-act="rd-line">Next line ›</button>' : '<button class="btn" data-act="rd-next">' + (s.all ? 'See the poem ›' : 'Finish ›') + '</button>') + '</div>';
@@ -1486,7 +1487,7 @@
   }
   function rdFamStep(s, p) {
     var F = p.fam[s.f]; var onset = F.from.slice(0, F.from.length - F.rime.length);
-    var h = '<p class="rd-say">' + (!s.cut ? 'Emily reads “' + esc(F.from) + '”. Say it slowly. What is left when the beginning is taken away?' : 'Put a new beginning on “' + esc(F.rime) + '” and read the new word. Talk about what it means.') + '</p>';
+    var h = '<p class="rd-say">' + (!s.cut ? rdName() + ' reads “' + esc(F.from) + '”. Say it slowly. What is left when the beginning is taken away?' : 'Put a new beginning on “' + esc(F.rime) + '” and read the new word. Talk about what it means.') + '</p>';
     h += '<div class="rd-big rd-fam">' + (s.cut ? '<span class="rd-gone">' + esc(onset) + '</span>' : esc(onset)) + '<b>' + esc(F.rime) + '</b></div>';
     if (!s.cut) return h + '<div class="btns rd-go"><button class="btn" data-act="rd-cut">Take away “' + esc(onset) + '”</button></div>';
     var left = F.on.filter(function (o) { return s.made.indexOf(o) < 0; });
@@ -1555,7 +1556,7 @@
     return '<div class="seg" role="group" aria-label="Reading">' + [['today', 'Today'], ['words', 'Words'], ['poems', 'Poems'], ['record', 'Record'], ['how', 'How']].map(function (o) { return '<button data-act="rd-view" data-v="' + o[0] + '" aria-pressed="' + (view === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
   }
   function rdToday(p0) {
-    if (RDW === 'emily' && !rdKnownCount() && !ui.rdNoPlace) return '<div class="card"><h3>Before the first lesson</h3><p style="margin:0 0 10px">If Emily can already read some words, a quick placement check saves her learning them again.</p><div class="btns"><button class="btn" data-act="rd-view" data-v="place">Do the placement check</button><button class="btn ghost" data-act="rd-noplace">Start lessons from the beginning</button></div></div>';
+    if (RDW === 'emily' && !rdKnownCount() && !ui.rdNoPlace) return '<div class="card"><h3>Before the first lesson</h3><p style="margin:0 0 10px">If ' + rdName() + ' can already read some words, a quick placement check saves her learning them again.</p><div class="btns"><button class="btn" data-act="rd-view" data-v="place">Do the placement check</button><button class="btn ghost" data-act="rd-noplace">Start lessons from the beginning</button></div></div>';
     var keep = ui.rd && ui.rd.date === today() && (ui.rd.pid === p0.id || ui.rd.kind === 'poem');
     if (!keep) rdStart(rdSuggest(p0));
     var p = rdLP();
@@ -1613,7 +1614,7 @@
       return '<li class="' + (i === ci ? 'cur' : '') + '"><span><b>' + (i + 1) + '. ' + esc(p.title) + '</b> <span class="small muted">' + esc(p.by) + ' · ' + st + '</span></span>' + '<span class="btns" style="flex:none">' + (r.done[p.id] ? '<button class="btn ghost small" data-act="rd-again" data-v="' + i + '">Read again</button>' : (i === ci ? '<span class="small">Learning now</span>' : '<button class="btn ghost small" data-act="rd-go" data-v="' + i + '">Learn next</button>') + '<button class="btn ghost small" data-act="rd-knowpoem" data-v="' + i + '">' + (ui.rdKnowAsk === i ? 'Tap again to confirm' : 'She knows it') + '</button>') + '</span></li>';
     }).join('') + '</ul></div>' +
       '<p class="small muted" style="margin:0">' + (RDW === 'emma' ? 'Emma builds the longer, less common words of each poem; the short everyday words count as known.' : 'Poems run from the most common words to the least.') + ' ' + (RDW === 'emma' ? '' : 'If she can already read a poem, tap “She knows it”') + ': ' + (RDW === 'emma' ? '' : 'its words go into her word book and it is marked read.') + '</p>' +
-      '<div class="card"><h3 style="font-size:18px">New words in one lesson</h3><div class="seg" role="group">' + [3, 5, 8, 10].map(function (n) { var on = (rdPer()) === n; return '<button data-act="rd-per" data-v="' + n + '" aria-pressed="' + on + '">' + n + '</button>'; }).join('') + '</div><p class="small muted" style="margin:6px 0 0">Mason aims at about ten a day. Fewer is fine while Emily is beginning.</p></div>' +
+      '<div class="card"><h3 style="font-size:18px">New words in one lesson</h3><div class="seg" role="group">' + [3, 5, 8, 10].map(function (n) { var on = (rdPer()) === n; return '<button data-act="rd-per" data-v="' + n + '" aria-pressed="' + on + '">' + n + '</button>'; }).join('') + '</div><p class="small muted" style="margin:6px 0 0">Mason aims at about ten a day. ' + (RDW === 'emma' ? 'Fewer is fine when the words are long.' : 'Fewer is fine while Emily is beginning.') + '</p></div>' +
       '<p class="small muted">Poem texts: ' + esc(Array.from(new Set(rdPoems().map(function (p) { return p.src.split('. ')[0].split(', Project')[0]; }))).join('; ')) + '.</p>';
   }
   function rdRecordView() {
@@ -1639,7 +1640,7 @@
   function rdPlaceView() {
     if (!RD.common) return '<p>No word list.</p>';
     var P = ui.rdPlace;
-    if (!P) return '<div class="card"><h3>Placement check</h3><p style="margin:0 0 8px">Show Emily the common words one at a time, easiest first. Tap <b>She read it</b> only if she reads it straight away without sounding it out. The check stops by itself when a level gets too hard.</p><p class="small muted" style="margin:0 0 10px">Words she knows go into her word book, so lessons skip them. About 5 to 10 minutes; you can stop at any time and keep what she has done.</p><div class="btns"><button class="btn" data-act="rd-pstart">Start the check</button></div></div>';
+    if (!P) return '<div class="card"><h3>Placement check</h3><p style="margin:0 0 8px">Show ' + rdName() + ' the common words one at a time, easiest first. Tap <b>She read it</b> only if she reads it straight away without sounding it out. The check stops by itself when a level gets too hard.</p><p class="small muted" style="margin:0 0 10px">Words she knows go into her word book, so lessons skip them. About 5 to 10 minutes; you can stop at any time and keep what she has done.</p><div class="btns"><button class="btn" data-act="rd-pstart">Start the check</button></div></div>';
     while (P.l < P.lv.length && P.i >= P.lv[P.l].length) { P.l++; P.i = 0; P.miss = 0; }
     if (P.over || P.l >= P.lv.length) {
       var lvlName = P.l < RD.common.levels.length ? RD.common.levels[P.l].name : '';
