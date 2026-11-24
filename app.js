@@ -1834,10 +1834,21 @@
     if (R.fb) {
       var fb = R.fb;
       body += '<div class="mt-fb ' + (fb.ok ? 'ok' : 'no') + '"><b>' + (fb.ok ? '✓ Right!' : '✗ Not this time.') + '</b>' + (fb.ok ? '' : ' The answer is <b>' + esc(Q.show + (Q.unit ? ' ' + Q.unit : '')) + '</b>.') + (fb.typed ? ' <span class="small muted">You wrote ' + esc(fb.typed) + '.</span>' : '') + '</div>';
-      if (Q.steps && (!fb.ok || it.kind === 'h')) body += '<div class="card mt-steps"><h3 style="font-size:16px;margin:0 0 6px">' + (it.kind === 'h' ? 'One way to solve it' : 'How to work it out') + '</h3><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
-      body += '<div class="btns rd-go"><button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length ? 'Next ›' : 'Finish ›') + '</button></div>';
+      var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length ? 'Next question ›' : 'Finish ›') + '</button>';
+      if (Q.walk) {
+        // Walk through the solution one step at a time, with the model growing as she goes.
+        var ws = R.ws || 0, st = Q.walk[ws];
+        body += '<div class="card mt-walk"><div class="kicker">One way to solve it · step ' + (ws + 1) + ' of ' + Q.walk.length + '</div>' +
+          (ws ? '<ol class="mt-done">' + Q.walk.slice(0, ws).map(function (x) { return '<li>' + esc(x.t) + '</li>'; }).join('') + '</ol>' : '') +
+          '<p class="mt-steptxt' + (st.tell ? ' tell' : '') + '">' + esc(st.t) + '</p>' + MX.stepHTML(st) + '</div>' +
+          '<div class="btns rd-go">' + (ws ? '<button class="btn ghost" data-act="mt-ws" data-v="-1">‹ Back</button>' : '') + (ws + 1 < Q.walk.length ? '<button class="btn" data-act="mt-ws" data-v="1">Next step ›</button>' : nextBtn) + '</div>';
+        return head + body;
+      }
+      if (Q.steps && !fb.ok) body += '<div class="card mt-steps"><h3 style="font-size:16px;margin:0 0 6px">How to work it out</h3><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
+      body += '<div class="btns rd-go">' + nextBtn + '</div>';
       return head + body;
     }
+    if (Q.walk) body += R.hint ? '<div class="card mt-walk"><div class="kicker">How to start</div><p class="mt-steptxt">' + esc(Q.walk[0].t) + '</p>' + MX.stepHTML(Q.walk[0]) + '<p class="small muted" style="margin:6px 0 0">Copy this model onto paper and finish it, then type your answer.</p></div>' : '<div class="btns"><button class="btn ghost small" data-act="mt-hint">✏️ Show me how to start the model</button></div><p class="small muted" style="margin:0">Draw it on paper first. A model makes the problem easy to see.</p>';
     if (R.msg) body += '<p class="mt-msg">' + esc(R.msg) + '</p>';
     if (Q.choices) return head + body + '<div class="rd-cards">' + Q.choices.map(function (c) { return '<button class="rd-card" data-act="mt-choose" data-v="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>';
     var keys = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', '/', ' ', Q.ratio || Q.time ? ':' : '⌫', Q.ratio || Q.time ? '⌫' : '✓'];
@@ -1942,7 +1953,9 @@
         break;
       case 'mt-choose': if (R && !R.fb) mtSubmit(v); break;
       case 'mt-skip': if (R && !R.fb) { var it = R.items[R.i]; R.res[R.i] = false; R.fb = { ok: false, typed: '' }; mtScore(it.kind, it.id, false); save(); refreshSheet(); } break;
-      case 'mt-next': R.i++; R.typed = ''; R.fb = null; R.msg = null; refreshSheet(true); break;
+      case 'mt-next': R.i++; R.typed = ''; R.fb = null; R.msg = null; R.ws = 0; R.hint = false; refreshSheet(true); break;
+      case 'mt-ws': R.ws = Math.max(0, (R.ws || 0) + (+v)); refreshSheet(true); break;
+      case 'mt-hint': R.hint = true; refreshSheet(); break;
       case 'mt-quit': R.items = R.items.slice(0, R.i); refreshSheet(true); break;
     }
   }
