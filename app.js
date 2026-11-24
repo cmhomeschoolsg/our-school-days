@@ -249,10 +249,19 @@
   function startHTML() {
     return '<div class="banner"><p><b>Start your first school day.</b> The app counts school days, not dates, so travel and breaks never put you behind. Each week\'s work is on one page; finish it early and the next week starts.</p><button class="btn" data-act="startday">Start Day 1</button></div>';
   }
+  // The Monday of the calendar week a date falls in, so a break that crosses a weekend can start a fresh week.
+  function mondayOf(iso) { var p = String(iso || '').split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); if (isNaN(d)) return ''; d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
+  function newCalWeek(day) { return !!day && mondayOf(day.date) !== mondayOf(today()); }
   function newDayBanner(day) {
     var used = S.days.filter(function (d) { return d.w === day.w; }).length;
     var complete = weekComplete(day.w);
     var nextWeek = S.forceNewWeek || complete || used >= 5;
+    if (!nextWeek && newCalWeek(day)) {
+      return '<div class="banner"><p>Last school day was Day ' + day.n + ' (' + esc(fmtDate(day.date)) + '), in an earlier week. Today can begin a fresh week, or carry on with what is left of Week ' + day.w + '.</p><div class="btns">' +
+        '<button class="btn" data-act="startweek">Start Week ' + (day.w + 1) + ' · Day ' + (day.n + 1) + '</button>' +
+        '<button class="btn ghost" data-act="startday">Day ' + (day.n + 1) + ', carry on Week ' + day.w + ' (school day ' + (used + 1) + ')</button>' +
+        '<button class="btn ghost" data-act="keepday">Keep working on Day ' + day.n + '</button></div></div>';
+    }
     var msg = complete ? 'Week ' + day.w + ' is all done. Well done!' : (used >= 5 ? 'Five school days of Week ' + day.w + ' are used.' : 'Last school day was Day ' + day.n + ' (' + esc(fmtDate(day.date)) + ').');
     return '<div class="banner"><p>' + msg + '</p><div class="btns"><button class="btn" data-act="startday">Start Day ' + (day.n + 1) + (nextWeek ? ' · Week ' + (day.w + 1) : '') + '</button>' +
       (used >= 5 && !complete ? '<button class="btn ghost" data-act="stayweek">Day ' + (day.n + 1) + ', finish Week ' + day.w + '</button>' : '') +
@@ -1740,6 +1749,7 @@
       case 'syncout': if (window.SDsync) window.SDsync.signOut().then(function () { refreshSheet(); }); break;
       case 'tab': ui.tab = v; ui.weekView = null; stopTimer(); render(); window.scrollTo(0, 0); break;
       case 'startday': startDay(); break;
+      case 'startweek': S.forceNewWeek = true; startDay(); break;
       case 'keepday': S.keepDay = today(); save(); render(); break;
       case 'tick':
         if (!cur()) { toast('Start a school day first'); return; }
