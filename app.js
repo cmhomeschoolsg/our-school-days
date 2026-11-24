@@ -1759,21 +1759,29 @@
     ziDue(z.w, day).slice(0, 12).forEach(function (c) { q.push({ k: 'wr', c: c }); });
     return { q: q, i: 0, shown: false, again: [], got: 0, miss: 0, nNew: n, nWrite: m };
   }
+  function ziNeed(c) { if (!HZ[c]) { hzLoad(c, function () { if (ui.zi) refreshSheet(); }); } }
+  function ziWriteHTML(c, recall) {
+    var d = HZ[c];
+    return '<div class="zi-play"><div id="hzbox">' + hzSVG(c, 'plain', 200) + '</div><div id="hzlab" class="zi-lab">' + (d ? '<b>' + d.s.length + ' strokes</b> · ' + d.n.map(esc).join('、') : '') + '</div>' +
+      '<div class="btns" style="justify-content:center"><button class="btn" data-act="zi-play" data-v="' + esc(c) + '">▶ Watch the strokes</button><button class="btn ghost small" data-act="zi-play" data-v="' + esc(c) + ':slow">Slower</button></div></div>';
+  }
   function ziCard(R) {
-    var it = R.q[R.i], c = it.c, h = '<div class="kicker">' + (R.i + 1) + ' of ' + R.q.length + ' · ' + { rr: '认读 · Do you know it?', rn: '认读 · New character', wn: '写字 · Copy it', wr: '写字 · From memory' }[it.k] + '</div><div class="card zi-card">';
+    var it = R.q[R.i], c = it.c; ziNeed(c); var h = '<div class="kicker">' + (R.i + 1) + ' of ' + R.q.length + ' · ' + { rr: '认读 · Do you know it?', rn: '认读 · New character', wn: '写字 · Copy it', wr: '写字 · From memory' }[it.k] + '</div><div class="card zi-card">';
     if (it.k === 'rr') {
       h += ziCharHTML(c, true);
       if (!R.shown) h += '<p class="rd-say">Say it aloud, and a word with it. Then check.</p><div class="btns"><button class="btn" data-act="zi-show">Check</button></div>';
-      else h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns">' + ziSayBtn(ziSayText(c)) + '</div><div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I knew it ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
+      else h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns" style="justify-content:center">' + ziSayBtn(ziSayText(c)) + '</div>' + hzExplain(c) + '<div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I knew it ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
     } else if (it.k === 'rn') {
-      h += ziCharHTML(c, true) + '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Listen, then read the character and the words aloud twice.</p><div class="btns">' + ziSayBtn(ziSayText(c)) + '<button class="btn" data-act="zi-next">Next ›</button></div>';
+      h += ziCharHTML(c, true) + '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Listen, then read the character and the words aloud twice. Then look at how it is built.</p><div class="btns" style="justify-content:center">' + ziSayBtn(ziSayText(c)) + '</div>' + hzExplain(c) + '<div class="btns"><button class="btn" data-act="zi-next">Next ›</button></div>';
     } else if (it.k === 'wn') {
-      h += '<div class="zi-grid">' + esc(c) + '</div><p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Write it three times in your Chinese book, looking carefully at each stroke. Say it as you write.</p><div class="btns">' + ziSayBtn(ziSayText(c)) + '<button class="btn" data-act="zi-next">I wrote it 3 times ›</button></div>';
+      h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + ziWriteHTML(c) +
+        '<ol class="zi-steps"><li><b>Watch and listen.</b> Each stroke is drawn in red and its name is read out.</li><li><b>书空.</b> Watch again and write it in the air with your finger, saying each stroke name.</li><li><b>Copy it twice</b> in your Chinese book, saying the stroke names as you write. Look at the whole character first; do not trace.</li><li><b>Cover the screen</b> and write it once more from memory, then check.</li></ol>' +
+        '<div class="btns">' + ziSayBtn(ziSayText(c)) + '<button class="btn" data-act="zi-next">I wrote it ›</button></div>';
     } else {
       var w = ziWords(c);
       h += '<p class="zi-py" style="font-size:22px">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c, true);
       if (!R.shown) h += '<p class="rd-say">Listen, then write the missing character from memory in your book. Then check.</p><div class="btns">' + ziSayBtn(w.length ? w[0][0] : c) + '<button class="btn" data-act="zi-show">Check</button></div>';
-      else h += '<div class="zi-grid">' + esc(c) + '</div><div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
+      else h += ziWriteHTML(c) + '<p class="small muted">Check the strokes as well as the shape. If any stroke was different, tap Not yet.</p><div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
     }
     return h + '</div>';
   }
@@ -1821,7 +1829,7 @@
     var z = ziState(), O = ziOrder(z.list), P = ui.zi.place;
     if (!P) return '<div class="card"><p style="margin:0 0 8px">Ten characters from each half-year of the list. Say each one aloud, then check. If you know nearly all of them, the whole half-year counts as known and the check moves on. Then a few to write from memory.</p><p class="small muted" style="margin:0 0 10px">Have your Chinese book and pencil ready. You can stop at any time and keep what you have done.</p><button class="btn" data-act="zi-pstart">Start the check</button></div>';
     if (P.end) return '<div class="card rd-done"><h3>Check finished</h3><p>' + esc(P.msg) + '</p><button class="btn" data-act="zi-view" data-v="today">Go to today\'s characters</button></div>';
-    var c = P.items[P.i], wr = P.phase === 'w';
+    var c = P.items[P.i], wr = P.phase === 'w'; ziNeed(c);
     var h = '<div class="kicker">' + esc(O.sems[P.si]) + ' · ' + (wr ? 'write ' : 'read ') + (P.i + 1) + ' of ' + P.items.length + '</div><div class="card zi-card">';
     if (!wr) {
       h += ziCharHTML(c, true);
@@ -1831,7 +1839,7 @@
       var w = ziWords(c);
       h += '<p class="zi-py" style="font-size:22px">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c, true);
       h += !P.shown ? '<div class="btns">' + ziSayBtn(w.length ? w[0][0] : c) + '<button class="btn" data-act="zi-pshow">Check</button><button class="btn ghost" data-act="zi-pans" data-v="0">I can\'t write it</button></div>'
-        : '<div class="zi-grid">' + esc(c) + '</div><div class="btns"><button class="btn" data-act="zi-pans" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-pans" data-v="0">Not yet</button></div>';
+        : ziWriteHTML(c) + '<div class="btns"><button class="btn" data-act="zi-pans" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-pans" data-v="0">Not yet</button></div>';
     }
     return h + '</div><div class="btns"><button class="btn ghost small" data-act="zi-pstop">Stop here and keep what I have done</button></div>';
   }
@@ -1872,6 +1880,84 @@
       '<p class="small muted">List: ' + esc((Z.lists[z.list] || {}).name || '') + '. Reviews come back after 1, 2, 4, 8, 16, 32 and 64 school days; a character missed starts again at one day.</p>' +
       '<div class="btns"><button class="btn ' + (rs ? '' : 'ghost ') + 'small"' + (rs ? ' style="background:#b3261e;border-color:#b3261e"' : '') + ' data-act="zi-reset">' + (rs ? 'Tap again to clear all 识字 progress' : 'Clear all 识字 progress') + '</button></div></div>';
   }
+  // ---------- 识字: stroke animation with stroke names read aloud, and how each character is built ----------
+  // Per-character data (data/hz/<code>.json): stroke outlines and centre lines from Make Me a Hanzi, stroke names
+  // (笔画名称), the character's parts (偏旁部首) and how it was formed (象形, 会意, 形声), loaded when first needed.
+  var HZ = {}, HZWAIT = {};
+  function hzLoad(c, cb) {
+    if (HZ[c]) { if (cb) cb(HZ[c]); return; }
+    if (HZWAIT[c]) { if (cb) HZWAIT[c].push(cb); return; }
+    HZWAIT[c] = cb ? [cb] : [];
+    var x = new XMLHttpRequest(); x.open('GET', 'data/hz/' + c.charCodeAt(0).toString(16) + '.json');
+    x.onload = function () { try { HZ[c] = JSON.parse(x.responseText); } catch (e) { HZ[c] = null; } var l = HZWAIT[c]; delete HZWAIT[c]; if (HZ[c]) l.forEach(function (f) { f(HZ[c]); }); };
+    x.onerror = function () { delete HZWAIT[c]; };
+    x.send();
+  }
+  // Fetch every character a session will need, so it still works if the internet drops halfway.
+  function hzPrefetch(list) { list.forEach(function (c) { hzLoad(c); }); }
+  var HZCOL = ['#c0392b', '#1f6fb2', '#2e8b57', '#8e44ad', '#d35400'];
+  // The character drawn from its strokes. mode 'parts' colours each part; 'grey' draws it faint for animating over.
+  function hzSVG(c, mode, size) {
+    var d = HZ[c]; if (!d) return '<div class="zi-grid" style="width:' + size + 'px;height:' + size + 'px;line-height:' + (size - 4) + 'px;font-size:' + Math.round(size * 0.8) + 'px">' + esc(c) + '</div>';
+    var paths = d.s.map(function (p, i) {
+      var ci = d.t[i] >= 0 ? (d.tc ? d.tc[d.t[i]] : d.t[i]) : -1;
+      var col = mode === 'parts' ? (ci >= 0 && ci != null ? HZCOL[ci % HZCOL.length] : '#333') : mode === 'grey' ? '#e3e3e3' : '#222';
+      return '<path d="' + p + '" fill="' + col + '" data-i="' + i + '"/>';
+    }).join('');
+    var grid = '<rect x="0" y="0" width="1024" height="1024" fill="#fff" stroke="#c0392b" stroke-width="12"/><path d="M512 0V1024M0 512H1024" stroke="rgba(192,57,43,.35)" stroke-width="6" stroke-dasharray="24 18"/>';
+    return '<svg class="hz" viewBox="0 0 1024 1024" width="' + size + '" height="' + size + '">' + grid + '<g transform="scale(1,-1) translate(0,-900)">' + paths + '<g class="hz-anim"></g></g></svg>';
+  }
+  // Animate one stroke: a thick line runs along the stroke's centre line, clipped to the stroke's outline.
+  var hzTimer = null;
+  function hzStop() { clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} }
+  function hzPlay(box, c, opts) {
+    hzStop(); var d = HZ[c]; if (!d || !box) return;
+    box.innerHTML = hzSVG(c, 'grey', opts.size || 220);
+    var svg = box.querySelector('svg'), g = svg.querySelector('.hz-anim'), lab = opts.label, NS = 'http://www.w3.org/2000/svg';
+    var i = 0, slow = opts.slow ? 1.6 : 1;
+    function step() {
+      if (!document.body.contains(svg)) return;
+      if (i >= d.s.length) { if (lab) lab.innerHTML = '<b>' + d.s.length + ' strokes</b> · ' + d.n.map(esc).join('、'); if (opts.done) opts.done(); return; }
+      var id = 'hzc' + Math.random().toString(36).slice(2);
+      var cp = document.createElementNS(NS, 'clipPath'); cp.setAttribute('id', id);
+      var pp = document.createElementNS(NS, 'path'); pp.setAttribute('d', d.s[i]); cp.appendChild(pp); g.appendChild(cp);
+      var pts = d.m[i], len = 0; for (var k = 1; k < pts.length; k++) len += Math.sqrt(Math.pow(pts[k][0] - pts[k - 1][0], 2) + Math.pow(pts[k][1] - pts[k - 1][1], 2));
+      var pl = document.createElementNS(NS, 'polyline');
+      pl.setAttribute('points', pts.map(function (p) { return p.join(','); }).join(' '));
+      pl.setAttribute('fill', 'none'); pl.setAttribute('stroke', '#c0392b'); pl.setAttribute('stroke-width', '150'); pl.setAttribute('stroke-linecap', 'round'); pl.setAttribute('stroke-linejoin', 'round');
+      pl.setAttribute('clip-path', 'url(#' + id + ')'); pl.style.strokeDasharray = (len + 150) + ' ' + (len + 150); pl.style.strokeDashoffset = (len + 150);
+      g.appendChild(pl);
+      if (lab) lab.innerHTML = '<span class="hz-n">' + (i + 1) + '</span> <b>' + esc(d.n[i] || '') + '</b>';
+      if (opts.sound !== false) hzSpeak(d.n[i] || '');
+      var dur = Math.round((350 + len * 0.55) * slow);
+      pl.getBoundingClientRect();
+      pl.style.transition = 'stroke-dashoffset ' + dur + 'ms linear'; pl.style.strokeDashoffset = '0';
+      // Once drawn, the stroke turns dark so the next one stands out.
+      var j = i; hzTimer = setTimeout(function () { var o = svg.querySelector('path[data-i="' + j + '"]'); if (o) o.setAttribute('fill', '#222'); pl.setAttribute('stroke', '#222'); i++; step(); }, dur + Math.round(650 * slow));
+    }
+    step();
+  }
+  function hzSpeak(t) {
+    try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.9; var v = (s.getVoices() || []).filter(function (x) { return /^zh[-_](CN|Hans)/i.test(x.lang); })[0]; if (v) u.voice = v; s.speak(u); } catch (e) {}
+  }
+  function hzSayEn(t) {
+    try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'en-GB'; u.rate = 0.95; s.speak(u); } catch (e) {}
+  }
+  // How the character is built: its 部首, its parts in colour, and why it is put together that way.
+  function hzExplain(c) {
+    var d = HZ[c]; if (!d) return '<p class="small muted">Loading…</p>';
+    var e = d.ety || {}, cdef = d.cdef || {}, cpy = d.cpy || {}, h = '', say = '';
+    var kind = { pictographic: ['象形字', 'a picture'], ideographic: ['会意字', 'ideas put together'], pictophonetic: ['形声字', 'one part for meaning, one for sound'] }[e.type];
+    if (kind) h += '<div class="kicker">' + kind[0] + ' · ' + kind[1] + '</div>';
+    if (e.type === 'pictophonetic') {
+      h += '<p style="margin:4px 0"><b class="zi-part" style="color:' + HZCOL[0] + '">' + esc(e.semantic || '') + '</b> shows the meaning' + (e.hint ? ' — ' + esc(e.hint) : (cdef[e.semantic] ? ' — ' + esc(cdef[e.semantic]) : '')) + '.<br><b class="zi-part" style="color:' + HZCOL[1] + '">' + esc(e.phonetic || '') + '</b>' + (cpy[e.phonetic] ? ' (' + esc(cpy[e.phonetic]) + ')' : '') + ' gives the sound.</p>';
+      say = (e.semantic ? 'This part shows the meaning: ' + (e.hint || cdef[e.semantic] || '') + '. ' : '') + 'The other part gives the sound.';
+    } else if (e.hint) { h += '<p style="margin:4px 0">' + esc(e.hint) + '.</p>'; say = e.hint; }
+    if (d.rad && d.rad !== c) h += '<p class="small" style="margin:6px 0 0">部首 <b class="zi-part">' + esc(d.rad) + '</b>' + (d.rn ? ' · ' + esc(d.rn) : '') + (d.rdef ? ' · ' + esc(d.rdef) : '') + '</p>';
+    if (d.def) h += '<p class="small muted" style="margin:4px 0 0">Means: ' + esc(d.def.split(';').slice(0, 2).join(';')) + '</p>';
+    return '<div class="zi-why"><div class="zi-whypic">' + hzSVG(c, e.type === 'pictographic' ? 'plain' : 'parts', 120) + '</div><div>' + h + (say ? '<button class="btn ghost small" data-act="zi-sayen" data-v="' + esc(say) + '">🔊 Read this to me</button>' : '') + '</div></div>';
+  }
+
   function ziSheet(tickId, who) {
     ZW = who === 'emily' ? 'emily' : 'emma'; ZI_TICK = tickId || (ZW === 'emma' ? 'e_zi' : 'm_zi');
     if (!ui.zi || ui.zi.who !== ZW) ui.zi = { who: ZW, view: 'today' };
@@ -1882,16 +1968,18 @@
   function ziAct(act, v) {
     var R = ui.zi && ui.zi.run, P = ui.zi && ui.zi.place, z = ziState();
     switch (act) {
-      case 'zi-view': ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
+      case 'zi-view': hzStop(); ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
       case 'zi-say': ziSay(v); return;
+      case 'zi-sayen': hzSayEn(v); return;
+      case 'zi-play': var pv = v.split(':'); hzLoad(pv[0], function () { hzPlay(document.getElementById('hzbox'), pv[0], { label: document.getElementById('hzlab'), slow: pv[1] === 'slow', size: 200 }); }); return;
       case 'zi-noplace': ui.ziNoPlace = true; refreshSheet(); return;
-      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); save(); refreshSheet(true); return;
-      case 'zi-close': ui.zi.run = null; refreshSheet(true); return;
+      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); hzPrefetch(ui.zi.run.q.map(function (x) { return x.c; })); save(); refreshSheet(true); return;
+      case 'zi-close': hzStop(); ui.zi.run = null; refreshSheet(true); return;
       case 'zi-show': R.shown = true; var it = R.q[R.i]; if (it.k === 'rr') ziSay(ziSayText(it.c)); refreshSheet(); return;
-      case 'zi-next':
+      case 'zi-next': hzStop();
         var n = R.q[R.i]; if (n.k === 'rn') { ziGrade(z.r, n.c, true); z.rp = Math.max(z.rp, n.x + 1); } if (n.k === 'wn') { ziGrade(z.w, n.c, true); z.wp = Math.max(z.wp, n.x + 1); }
         R.i++; R.shown = false; save(); refreshSheet(true); return;
-      case 'zi-grade':
+      case 'zi-grade': hzStop();
         var g = R.q[R.i], ok = v === '1'; ziGrade(g.k === 'wr' ? z.w : z.r, g.c, ok);
         if (ok) R.got++; else { R.miss++; if (R.again.indexOf(g.c) < 0) { R.again.push(g.c); R.q.push({ k: g.k, c: g.c, again: true }); } }
         R.i++; R.shown = false; save(); refreshSheet(true); return;
