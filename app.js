@@ -600,6 +600,56 @@
     return { title: 'Bible', who: 'together', body: body, wide: true };
   }
 
+
+  // ---------- recordings over time: every take is kept (on this iPad), so progress can be heard ----------
+  // Audio stays in the iPad's own storage (like the videos); only the list of takes and their dates is kept with it.
+  var recIdx = {}, recUrl = {}, recOn = null, recDel = null;
+  function recList(key) {
+    if (recIdx[key] === undefined) { recIdx[key] = null; vget('recidx_' + key).then(function (a) { recIdx[key] = a || []; refreshSheet(); }).catch(function () { recIdx[key] = []; }); }
+    return recIdx[key];
+  }
+  function recSrc(id) {
+    if (recUrl[id] === undefined) { recUrl[id] = null; vget('rec_' + id).then(function (b) { if (b) { recUrl[id] = URL.createObjectURL(b); refreshSheet(); } }); }
+    return recUrl[id];
+  }
+  function recWhen(t) { var d = new Date(t); return d.getDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getFullYear(); }
+  function recAudio(r) { var u = recSrc(r.id); return u ? '<audio controls preload="metadata" src="' + u + '" style="width:100%"></audio>' : '<p class="small muted" style="margin:0">Loading…</p>'; }
+  // The record button, then the first and the latest take side by side, then all the takes.
+  function recBox(key, label) {
+    if (!(navigator.mediaDevices && window.MediaRecorder)) return '';
+    var on = recOn && recOn.key === key, L = recList(key) || [], open = ui.recOpen === key;
+    var h = '<div class="rec"><div class="btns"><button class="btn' + (on ? '' : ' ghost') + ' small" data-act="recgo" data-v="' + esc(key) + '">' + (on ? '■ Stop and keep it' : '🎙 ' + esc(label || 'Record yourself')) + '</button>' + (on ? '<span class="small" style="color:#b3261e">● recording…</span>' : '') + '</div>';
+    if (L.length === 1) h += '<div class="rec-one"><div class="small muted">' + recWhen(L[0].t) + '</div>' + recAudio(L[0]) + '</div>';
+    if (L.length > 1) {
+      var a = L[0], b = L[L.length - 1];
+      h += '<div class="rec-two"><div><div class="small muted">First · ' + recWhen(a.t) + '</div>' + recAudio(a) + '</div><div><div class="small muted">Latest · ' + recWhen(b.t) + '</div>' + recAudio(b) + '</div></div>' +
+        '<button class="btn ghost small" data-act="recall" data-v="' + esc(key) + '">' + (open ? 'Hide' : 'All ' + L.length + ' recordings') + '</button>';
+      if (open) h += '<ul class="list">' + L.slice().reverse().map(function (r) { return '<li style="display:block"><div class="nav"><span class="small">' + recWhen(r.t) + '</span><button class="btn ghost small" data-act="recdel" data-v="' + esc(key + '|' + r.id) + '">' + (recDel === r.id ? 'Tap again to delete' : 'Delete') + '</button></div>' + recAudio(r) + '</li>'; }).join('') + '</ul>';
+    }
+    return h + '</div>';
+  }
+  function recToggle(key) {
+    if (recOn) { var R = recOn; recOn = null; try { R.mr.stop(); } catch (e) {} return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      var types = ['audio/mp4', 'audio/webm', 'audio/aac'].filter(function (t) { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
+      var mr = types.length ? new MediaRecorder(stream, { mimeType: types[0] }) : new MediaRecorder(stream), chunks = [];
+      mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+      mr.onstop = function () {
+        stream.getTracks().forEach(function (t) { t.stop(); });
+        var blob = new Blob(chunks, { type: mr.mimeType || types[0] || 'audio/mp4' }), t = Date.now(), id = key + '@' + t;
+        vput('rec_' + id, blob).then(function () {
+          var L = (recIdx[key] || []).concat([{ id: id, t: t }]); recIdx[key] = L; recUrl[id] = URL.createObjectURL(blob);
+          return vput('recidx_' + key, L);
+        }).then(function () { toast('Recording kept'); refreshSheet(); }).catch(function () { toast('The recording could not be saved'); });
+      };
+      recOn = { key: key, mr: mr }; mr.start(); refreshSheet();
+    }).catch(function () { toast('The microphone is not available. Allow it in Settings.'); });
+  }
+  function recRemove(key, id) {
+    var L = (recIdx[key] || []).filter(function (r) { return r.id !== id; }); recIdx[key] = L;
+    vdel('rec_' + id); vput('recidx_' + key, L); if (recUrl[id]) URL.revokeObjectURL(recUrl[id]); delete recUrl[id];
+  }
+
   // One piece a day for each list, taken in turn. A new day moves on to the next piece.
   function reciteList(who, lang) { return lang === 'zh' ? C.recitationZh[who] : C.recitation[who]; }
   function reciteToday(who, lang) {
@@ -645,7 +695,8 @@
       body += '<div class="card"><div class="nav"><div style="min-width:0"><h3 style="margin:0">' + (st.known ? '⭐ ' : '') + esc(r.title) + '</h3>' + (r.by ? '<span class="small muted">' + esc(r.by) + '</span>' : '') + '<div class="small muted">Practised ' + (st.count || 0) + ' time' + ((st.count || 0) === 1 ? '' : 's') + '</div></div>' +
         '<button class="btn ghost small" data-act="reciteopen" data-v="' + r.id + '">' + (isOpen ? 'Hide words' : 'Show words') + '</button></div>' +
         (isOpen ? reciteText(r, who) : '') +
-        '<div class="btns" style="margin-top:10px"><button class="btn small" data-act="recitepractise" data-v="' + r.id + '">Practised ✓</button><button class="btn ghost small" data-act="reciteknown" data-v="' + r.id + '">' + (st.known ? 'Remove star' : 'I know it by heart ⭐') + '</button></div></div>';
+        '<div class="btns" style="margin-top:10px"><button class="btn small" data-act="recitepractise" data-v="' + r.id + '">Practised ✓</button><button class="btn ghost small" data-act="reciteknown" data-v="' + r.id + '">' + (st.known ? 'Remove star' : 'I know it by heart ⭐') + '</button></div>' +
+        (isOpen || idx === 0 ? recBox('recite:' + who + ':' + (zh ? 'zh' : 'en') + ':' + r.id, zh ? '录音 · Record your recitation' : 'Record your recitation') : '') + '</div>';
     });
     body += '<div class="btns">' + tickButton(tickId, 'Recitation done', 'Recitation done for today') + '</div>';
     return { title: (zh ? 'Chinese recitation · ' : 'Recitation · ') + (who === 'emma' ? 'Emma' : 'Emily'), who: who, body: body };
@@ -659,7 +710,8 @@
     var body = '<p class="small muted" style="margin:0">' + (zh ? '今天背这一首。' : '') + 'Say it once, carefully. Tap "Practised" when you have, and give it a star once you can say it all by heart.</p>' +
       '<div class="card"><h3 style="margin:0">' + (st.known ? '⭐ ' : '') + esc(r.title) + '</h3>' + (r.by ? '<span class="small muted">' + esc(r.by) + '</span>' : '') +
       '<div class="small muted">Practised ' + (st.count || 0) + ' time' + ((st.count || 0) === 1 ? '' : 's') + '</div>' + reciteText(r, who) +
-      '<div class="btns" style="margin-top:10px"><button class="btn small" data-act="recitepractise" data-v="' + r.id + '">Practised ✓</button><button class="btn ghost small" data-act="reciteknown" data-v="' + r.id + '">' + (st.known ? 'Remove star' : 'I know it by heart ⭐') + '</button></div></div>';
+      '<div class="btns" style="margin-top:10px"><button class="btn small" data-act="recitepractise" data-v="' + r.id + '">Practised ✓</button><button class="btn ghost small" data-act="reciteknown" data-v="' + r.id + '">' + (st.known ? 'Remove star' : 'I know it by heart ⭐') + '</button></div>' +
+      recBox('recite:' + who + ':' + (zh ? 'zh' : 'en') + ':' + r.id, zh ? '录音 · Record your recitation' : 'Record your recitation') + '</div>';
     var lid = (zh ? 'lrz_' : 'lre_') + r.id, cdx = cur();
     if (cdx) { var wdx = weekDone(cdx.w); body += '<div class="btns"><button class="btn' + (wdx[lid] ? ' ghost' : '') + '" data-act="loopdone" data-v="' + lid + '">' + (wdx[lid] ? '✓ Said this week (tap to undo)' : 'Said it today') + '</button></div>'; }
     return { title: (zh ? 'Chinese recitation · ' : 'Recitation · ') + (who === 'emma' ? 'Emma' : 'Emily'), who: who, body: body };
@@ -2537,6 +2589,9 @@
       case 'pichide': ui.picHide = v === '' ? null : +v; refreshSheet(); break;
       case 'picmore': ui.picMore = v === '' ? null : +v; refreshSheet(); break;
       case 'audpick': apicker.setAttribute('data-for', v); apicker.click(); break;
+      case 'recgo': recToggle(v); break;
+      case 'recall': ui.recOpen = ui.recOpen === v ? null : v; refreshSheet(); break;
+      case 'recdel': var rp = v.split('|'); if (recDel !== rp[1]) { recDel = rp[1]; refreshSheet(); break; } recDel = null; recRemove(rp[0], rp[1]); refreshSheet(); break;
       case 'auddel': vdel(v); if (aurls[v]) { URL.revokeObjectURL(aurls[v]); delete aurls[v]; } refreshSheet(); break;
       case 'wordsedit': ui.wordsEdit = v || null; refreshSheet(); break;
       case 'wordssave': var ta = document.getElementById('mywords'); (S.lyrics = S.lyrics || {})[v] = ta ? ta.value.trim() : ''; save(); ui.wordsEdit = null; toast('Words saved'); refreshSheet(); break;
