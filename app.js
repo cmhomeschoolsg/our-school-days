@@ -1829,6 +1829,39 @@
       return '<span><b>' + esc(t) + '</b><i>' + esc(x[1]) + '</i></span>';
     }).join('') + '</div>';
   }
+  // Say it, then compare: she records herself; then the model (the character and its first word) plays, then her own voice.
+  // Nothing is graded or kept: it is for her ear only.
+  var ziCmp = null;
+  function ziCmpHTML(c) {
+    if (!(navigator.mediaDevices && window.MediaRecorder)) return '';
+    var on = ziCmp && ziCmp.c === c && ziCmp.mr, has = ziCmp && ziCmp.c === c && ziCmp.url;
+    return '<div class="btns" style="justify-content:center">' + (on ? '<button class="btn small" data-act="zi-cmp" data-v="' + esc(c) + '">■ Done</button><span class="small" style="color:#b3261e">● listening to you…</span>'
+      : '<button class="btn ghost small" data-act="zi-cmp" data-v="' + esc(c) + '">🎙 Say it, then compare</button>' + (has ? '<button class="btn ghost small" data-act="zi-cmpplay" data-v="' + esc(c) + '">▶ Compare again</button>' : '')) + '</div>' +
+      (has && !on ? '<p class="small muted" style="margin:2px 0 0;text-align:center">First the recording, then you. Do they sound the same, tones too?</p>' : '');
+  }
+  function ziCmpPlay(c) {
+    try { window.speechSynthesis.cancel(); } catch (e) {} if (ziAud) ziAud.pause();
+    ziQ = ziClips(c).slice(0, 2);
+    if (ziCmp && ziCmp.url) ziQ.push(ziCmp.url);
+    ziPlayQ();
+  }
+  function ziCmpToggle(c) {
+    if (ziCmp && ziCmp.mr) { var M = ziCmp.mr; ziCmp.mr = null; try { M.stop(); } catch (e) {} return; }
+    try { window.speechSynthesis.cancel(); } catch (e) {} if (ziAud) ziAud.pause();
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      var types = ['audio/mp4', 'audio/webm', 'audio/aac'].filter(function (t) { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
+      var mr = types.length ? new MediaRecorder(stream, { mimeType: types[0] }) : new MediaRecorder(stream), chunks = [];
+      mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+      mr.onstop = function () {
+        stream.getTracks().forEach(function (t) { t.stop(); });
+        if (ziCmp && ziCmp.url) URL.revokeObjectURL(ziCmp.url);
+        ziCmp = { c: c, url: URL.createObjectURL(new Blob(chunks, { type: mr.mimeType || types[0] || 'audio/mp4' })) };
+        refreshSheet(); ziCmpPlay(c);
+      };
+      if (ziCmp && ziCmp.url && ziCmp.c !== c) URL.revokeObjectURL(ziCmp.url);
+      ziCmp = { c: c, mr: mr, url: ziCmp && ziCmp.c === c ? ziCmp.url : null }; mr.start(); refreshSheet();
+    }).catch(function () { toast('The microphone is not available. Allow it in Settings.'); });
+  }
   function ziSayBtn(c, word) { return '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(c) + (word ? '|' + esc(word) : '') + '">🔊 Listen</button>'; }
 
   // Build today's session: reviews due, then new 识读字, then new 识写字 to copy, then 识写字 due from memory.
@@ -1853,9 +1886,9 @@
     if (it.k === 'rr') {
       h += ziCharHTML(c, true);
       if (!R.shown) h += '<p class="rd-say">Say it aloud, and a word with it. Then check.</p><div class="btns"><button class="btn" data-act="zi-show">Check</button></div>';
-      else h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns" style="justify-content:center">' + ziSayBtn(ziSayText(c)) + '</div>' + hzExplain(c) + '<div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I knew it ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
+      else h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns" style="justify-content:center">' + ziSayBtn(ziSayText(c)) + '</div>' + ziCmpHTML(c) + hzExplain(c) + '<div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I knew it ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
     } else if (it.k === 'rn') {
-      h += ziCharHTML(c, true) + '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Listen, then read the character and the words aloud twice. Then look at how it is built.</p><div class="btns" style="justify-content:center">' + ziSayBtn(ziSayText(c)) + '</div>' + hzExplain(c) + '<div class="btns"><button class="btn" data-act="zi-next">Next ›</button><button class="btn ghost" data-act="zi-known">I already know this ✓</button></div>';
+      h += ziCharHTML(c, true) + '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<p class="rd-say">Listen, then read the character and the words aloud twice. Then look at how it is built.</p><div class="btns" style="justify-content:center">' + ziSayBtn(ziSayText(c)) + '</div>' + ziCmpHTML(c) + hzExplain(c) + '<div class="btns"><button class="btn" data-act="zi-next">Next ›</button><button class="btn ghost" data-act="zi-known">I already know this ✓</button></div>';
     } else if (it.k === 'wn') {
       h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + ziWriteHTML(c) +
         '<ol class="zi-steps"><li><b>Watch and listen.</b> Each stroke is drawn in red and its name is read out.</li><li><b>书空.</b> Watch again and write it in the air with your finger, saying each stroke name.</li><li><b>Copy it twice</b> in your Chinese book, saying the stroke names as you write. Look at the whole character first; do not trace.</li><li><b>Cover the screen</b> and write it once more from memory, then check.</li></ol>' +
@@ -1902,7 +1935,7 @@
       h += '<div class="card zi-selp"><div class="zi-selrow"><span class="zi-c">' + esc(sel) + '</span><div><div class="zi-py" style="margin:0">' + esc(Z.py[sel] || '') + '</div>' + ziWordsHTML(sel) + '</div></div><div class="btns">' +
         '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(sel) + '">🔊 Again</button>' +
         '<button class="btn small' + (z.r[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="r:' + esc(sel) + '">' + (z.r[sel] ? '✓ Can read it' : 'I can read it') + '</button>' +
-        (wset[sel] ? '<button class="btn small' + (z.w[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="w:' + esc(sel) + '">' + (z.w[sel] ? '✍️ Can write it' : 'I can write it') + '</button>' : '') + '</div></div>';
+        (wset[sel] ? '<button class="btn small' + (z.w[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="w:' + esc(sel) + '">' + (z.w[sel] ? '✍️ Can write it' : 'I can write it') + '</button>' : '') + '</div>' + ziCmpHTML(sel) + '</div>';
     }
     O.sems.forEach(function (s) {
       var rs = O.r.filter(function (x) { return x.s === s; }), ws = {}; O.w.forEach(function (x) { if (x.s === s) ws[x.c] = 1; });
@@ -2062,6 +2095,8 @@
     switch (act) {
       case 'zi-view': hzStop(); ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
       case 'zi-say': var sv = v.split('|'); ziSpeakChar(sv[0], sv[1]); return;
+      case 'zi-cmp': ziCmpToggle(v); return;
+      case 'zi-cmpplay': ziCmpPlay(v); return;
       case 'zi-pick': ui.zi.sel = v; ziSpeakChar(v); refreshSheet(); return;
       case 'zi-sayen': hzSayEn(v); return;
       case 'zi-play': var pv = v.split(':'); hzLoad(pv[0], function () { hzPlay(document.getElementById('hzbox'), pv[0], { label: document.getElementById('hzlab'), slow: pv[1] === 'slow', size: 200 }); }); return;
