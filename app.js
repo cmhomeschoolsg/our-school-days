@@ -1829,34 +1829,59 @@
     }
     if (R.i >= R.items.length) return mtSetEnd();
     var it = R.items[R.i], Q = it.Q; var g = it.kind === 'h' ? mtHeur(it.id) : mtTopic(it.id);
-    var head = '<div class="kicker">' + esc(R.label) + ' · ' + (R.i + 1) + ' of ' + R.items.length + ' · ' + esc(it.kind === 'h' ? 'Heuristic: ' + g.name : 'P' + g.lv + ' ' + g.name) + '</div>';
+    var tname = it.kind === 'h' ? 'Heuristic: ' + g.name : 'P' + g.lv + ' ' + g.name;
+    var head = '<div class="kicker">' + esc(R.label) + ' · ' + (R.i + 1) + ' of ' + R.items.length + (R.label === g.name ? '' : ' · ' + esc(tname)) + '</div>';
     var body = '<div class="mt-q">' + esc(Q.q) + '</div>';
+    var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length ? 'Next question ›' : 'Finish ›') + '</button>';
+    var asks = mtAsks(Q);
+    // Finished with this question.
     if (R.fb) {
       var fb = R.fb;
-      body += '<div class="mt-fb ' + (fb.ok ? 'ok' : 'no') + '"><b>' + (fb.ok ? '✓ Right!' : '✗ Not this time.') + '</b>' + (fb.ok ? '' : ' The answer is <b>' + esc(Q.show + (Q.unit ? ' ' + Q.unit : '')) + '</b>.') + (fb.typed ? ' <span class="small muted">You wrote ' + esc(fb.typed) + '.</span>' : '') + '</div>';
-      var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length ? 'Next question ›' : 'Finish ›') + '</button>';
-      if (Q.walk) {
-        // Walk through the solution one step at a time, with the model growing as she goes.
-        var ws = R.ws || 0, st = Q.walk[ws];
-        body += '<div class="card mt-walk"><div class="kicker">One way to solve it · step ' + (ws + 1) + ' of ' + Q.walk.length + '</div>' +
-          (ws ? '<ol class="mt-done">' + Q.walk.slice(0, ws).map(function (x) { return '<li>' + esc(x.t) + '</li>'; }).join('') + '</ol>' : '') +
-          '<p class="mt-steptxt' + (st.tell ? ' tell' : '') + '">' + esc(st.t) + '</p>' + MX.stepHTML(st) + '</div>' +
-          '<div class="btns rd-go">' + (ws ? '<button class="btn ghost" data-act="mt-ws" data-v="-1">‹ Back</button>' : '') + (ws + 1 < Q.walk.length ? '<button class="btn" data-act="mt-ws" data-v="1">Next step ›</button>' : nextBtn) + '</div>';
-        return head + body;
+      if (fb.ok) {
+        body += '<div class="mt-fb ok"><b>✓ ' + (R.helped ? 'Yes — you worked it out.' : 'Right!') + '</b></div>';
+        if (R.kind !== 'place') body += '<p class="mt-steptxt tell">' + esc(Q.walk ? 'Tell it back: explain to Mum, in your own words, how you worked it out. What did your model show?' : 'Tell Mum how you worked it out.') + '</p>';
+        var lastVis = (Q.walk || []).filter(function (s) { return s.m || s.tab || s.flow; }).pop();
+        if (lastVis && R.kind !== 'place') body += R.cmp ? '<div class="card mt-walk"><div class="kicker">One model for it — how does yours compare?</div>' + MX.stepHTML(lastVis) + '</div>' : '<div class="btns"><button class="btn ghost small" data-act="mt-cmp">Compare with a model</button></div>';
+      } else {
+        body += '<div class="mt-fb no"><b>Let\'s look at it together.</b> The answer is <b>' + esc(Q.show + (Q.unit ? ' ' + Q.unit : '')) + '</b>.</div>';
+        if (Q.walk && R.kind !== 'place') body += '<div class="card mt-walk"><div class="kicker">The thinking, step by step</div><ol class="mt-done">' + asks.map(function (s) { return '<li><b>' + esc(s.ask) + '</b><br>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (function () { var v = (Q.walk || []).filter(function (s) { return s.m || s.tab || s.flow; }).pop(); return v ? MX.stepHTML(v) : ''; })() + '</div><p class="mt-steptxt tell">Read the steps through, then tell Mum in your own words why the answer is ' + esc(Q.show) + '.</p>';
+        else if (Q.steps && R.kind !== 'place') body += '<div class="card mt-steps"><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
       }
-      if (Q.steps && !fb.ok) body += '<div class="card mt-steps"><h3 style="font-size:16px;margin:0 0 6px">How to work it out</h3><ol>' + Q.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol></div>';
-      body += '<div class="btns rd-go">' + nextBtn + '</div>';
-      return head + body;
+      return head + body + '<div class="btns rd-go">' + nextBtn + '</div>';
     }
-    if (Q.walk) body += R.hint ? '<div class="card mt-walk"><div class="kicker">How to start</div><p class="mt-steptxt">' + esc(Q.walk[0].t) + '</p>' + MX.stepHTML(Q.walk[0]) + '<p class="small muted" style="margin:6px 0 0">Copy this model onto paper and finish it, then type your answer.</p></div>' : '<div class="btns"><button class="btn ghost small" data-act="mt-hint">✏️ Show me how to start the model</button></div><p class="small muted" style="margin:0">Draw it on paper first. A model makes the problem easy to see.</p>';
+    // Thinking it through: one question at a time; the model grows as she answers.
+    if (R.phase === 'guide') {
+      var st = asks[R.gi];
+      var prevVis = null; for (var pi = R.gi - 1; pi >= 0; pi--) if (asks[pi].m || asks[pi].tab || asks[pi].flow) { prevVis = asks[pi]; break; }
+      var h2 = '<div class="card mt-walk"><div class="kicker">Thinking it through · question ' + (R.gi + 1) + ' of ' + asks.length + '</div>';
+      if (R.gi) h2 += '<ol class="mt-done">' + asks.slice(0, R.gi).map(function (s) { return '<li>' + esc(s.t) + '</li>'; }).join('') + '</ol>';
+      if (R.gfb) {
+        h2 += '<p class="mt-steptxt">' + (R.gfb === 'ok' ? '✓ ' : 'It is <b>' + esc(st.show) + '</b>. ') + esc(st.t) + '</p>' + MX.stepHTML(st.m || st.tab || st.flow ? st : (prevVis || {})) + '</div>';
+        return head + body + h2 + '<div class="btns rd-go"><button class="btn" data-act="mt-gnext">' + (R.gi + 1 < asks.length ? 'Next question ›' : 'Now answer the problem ›') + '</button></div>';
+      }
+      h2 += (st.pre ? MX.stepHTML(st.pre) : prevVis ? MX.stepHTML(prevVis) : '') + '<p class="mt-steptxt"><b>' + esc(st.ask) + '</b></p>' + (R.ghint ? '<p class="mt-msg">Think: ' + esc(st.hint || 'Look at the model again.') + '</p>' : '') + '</div>';
+      return head + body + h2 + mtInput(st, 'mt-gchoose');
+    }
+    if (R.guided && asks.length) { var lv = null; asks.forEach(function (s) { if (s.m || s.tab || s.flow) lv = s; }); body += '<div class="card mt-walk"><div class="kicker">What you have worked out</div><ol class="mt-done">' + asks.map(function (s) { return '<li>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (lv ? MX.stepHTML(lv) : '') + '</div>'; }
     if (R.msg) body += '<p class="mt-msg">' + esc(R.msg) + '</p>';
-    if (Q.choices) return head + body + '<div class="rd-cards">' + Q.choices.map(function (c) { return '<button class="rd-card" data-act="mt-choose" data-v="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>';
+    if (asks.length && R.kind !== 'place' && !R.guided) body += '<div class="btns"><button class="btn ghost small" data-act="mt-guide">🤔 Help me think it through</button></div>' + (it.kind === 'h' ? '<p class="small muted" style="margin:0">Try drawing a model on paper first.</p>' : '');
+    return head + body + mtInput(Q, 'mt-choose') + '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
+  }
+  // The guiding questions for a problem — but never its final step: she takes that one herself.
+  function mtAsks(Q) {
+    var a = (Q.walk || []).filter(function (s) { return s.ask; }); var last = a[a.length - 1];
+    if (last && Q.a && last.a && last.a.n != null && Q.a.n != null && last.a.n * Q.a.d === Q.a.n * last.a.d) a = a.slice(0, -1);
+    return a;
+  }
+  function mtInput(Q, chooseAct) {
+    if (Q.choices) return '<div class="rd-cards">' + Q.choices.map(function (c) { return '<button class="rd-card" data-act="' + chooseAct + '" data-v="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>';
     var keys = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', '/', ' ', Q.ratio || Q.time ? ':' : '⌫', Q.ratio || Q.time ? '⌫' : '✓'];
     if (Q.ratio || Q.time) keys.push('✓');
-    return head + body + '<div class="mt-ans"><span id="mt-typed" class="mt-typed">' + (R.typed ? esc(R.typed) : '&nbsp;') + '</span>' + (Q.unit ? '<span class="muted">' + esc(Q.unit) + '</span>' : '') + '</div>' +
-      '<p class="small muted" style="margin:0;text-align:center">Fractions: 3/4 · mixed numbers: 2 ␣ 1/3' + (Q.ratio ? ' · ratios: 2:3' : '') + (Q.time ? ' · time: 14:05' : '') + '</p>' + mtKeypad(keys, 'mt-key') +
-      '<div class="btns" style="justify-content:space-between"><button class="btn ghost small" data-act="mt-skip">I don\'t know — show me</button><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
+    var R = ui.mt.run;
+    return '<div class="mt-ans"><span id="mt-typed" class="mt-typed">' + (R.typed ? esc(R.typed) : '&nbsp;') + '</span>' + (Q.unit ? '<span class="muted">' + esc(Q.unit) + '</span>' : '') + '</div>' +
+      '<p class="small muted" style="margin:0;text-align:center">Fractions: 3/4 · mixed numbers: 2 ␣ 1/3' + (Q.ratio ? ' · ratios: 2:3' : '') + (Q.time ? ' · time: 14:05' : '') + '</p>' + mtKeypad(keys, 'mt-key');
   }
+
   function mtSetEnd() {
     var R = ui.mt.run; var right = R.res.filter(function (x) { return x; }).length;
     if (!R.res.length) { ui.mt.run = null; return mtTabs(ui.mt.view || 'today') + mtTodayView(); }
@@ -1918,20 +1943,42 @@
     else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : mtTodayView());
     return { title: 'Maths', who: MT_WHO, body: body };
   }
-  window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; return Q.choices || Q.time ? Q.a : Q.show; };
+  window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; if (R.phase === 'guide') { var st = mtAsks(Q)[R.gi]; return st.show; } return Q.ratio ? Q.ratio.join(':') : Q.choices || Q.time ? Q.a : Q.show; };
+  // A question is right for mastery only if she got it first time without help.
+  function mtFinish(ok) {
+    var R = ui.mt.run; var it = R.items[R.i]; R.res[R.i] = ok && !R.helped && !R.att; R.fb = { ok: ok };
+    if (R.kind === 'place' && it.kind === 't') {
+      if (it.second && ok && !R.att) { var rec = mtRec('t', it.id); rec.h = [1, 1, 1, 1, 1]; rec.m = true; rec.seen = today(); }
+      else mtScore('t', it.id, R.res[R.i]);
+    } else mtScore(it.kind, it.id, R.res[R.i]);
+    save(); refreshSheet();
+  }
   function mtSubmit(typed) {
-    var R = ui.mt.run; var it = R.items[R.i]; var r = MX.check(it.Q, typed);
+    var R = ui.mt.run; var it = R.items[R.i]; var Q = it.Q;
+    if (R.phase === 'guide') {
+      var asks = mtAsks(Q); var st = asks[R.gi]; var rg = MX.check(st, typed);
+      if (rg.unread) { R.ghint = true; refreshSheet(); return; }
+      if (rg.close) { R.ghint = true; R.typed = ''; refreshSheet(); return; }
+      R.typed = '';
+      if (rg.ok) { R.gfb = 'ok'; refreshSheet(); return; }
+      R.gtries = (R.gtries || 0) + 1; if (R.gtries >= 2) R.gfb = 'shown'; else R.ghint = true;
+      refreshSheet(); return;
+    }
+    var r = MX.check(Q, typed);
     if (r.unread) { R.msg = 'Type a number, a fraction like 3/4, or a mixed number like 2 1/3.'; refreshSheet(); return; }
     if (r.close) { R.msg = r.close; R.typed = ''; refreshSheet(); return; }
-    R.msg = null; R.res[R.i] = r.ok; R.fb = { ok: r.ok, typed: typed };
-    // In a placement check, a right first answer earns a second question on the same topic; two right marks it known.
+    R.typed = '';
+    // Placement: a right first answer earns a second question on the same topic; two right marks it known.
     if (R.kind === 'place' && it.kind === 't') {
-      it.tries = (it.tries || 0) + 1;
-      if (r.ok && it.tries === 1) { R.res[R.i] = true; R.fb = null; R.items[R.i] = { kind: 't', id: it.id, Q: mtTopic(it.id).gen(), tries: 1, second: true }; R.typed = ''; R.msg = 'Right! One more on this topic.'; refreshSheet(); return; }
-      if (it.second && r.ok) { var rec = mtRec('t', it.id); rec.h = [1, 1, 1, 1, 1]; rec.m = true; rec.seen = today(); }
-      else mtScore('t', it.id, r.ok);
-    } else mtScore(it.kind, it.id, r.ok);
-    save(); refreshSheet();
+      if (r.ok && !it.second) { R.res[R.i] = true; R.items[R.i] = { kind: 't', id: it.id, Q: mtTopic(it.id).gen(), second: true }; R.msg = 'Right! One more on this topic.'; refreshSheet(); return; }
+      R.msg = null; mtFinish(r.ok); return;
+    }
+    if (r.ok) { R.msg = null; mtFinish(true); return; }
+    R.att = (R.att || 0) + 1;
+    var asks2 = mtAsks(Q);
+    if (asks2.length && !R.guided) { R.phase = 'guide'; R.guided = true; R.helped = true; R.gi = 0; R.gfb = null; R.gtries = 0; R.ghint = false; R.msg = null; refreshSheet(); return; }
+    if (R.att === 1 && !asks2.length) { R.msg = 'Not quite. ' + (MX.nudge[it.id] || 'Look at it again.') + ' Have another go.'; refreshSheet(); return; }
+    R.msg = null; mtFinish(false);
   }
   function mtAct(act, v, el) {
     ui.mt = ui.mt || {}; var R = ui.mt.run;
@@ -1946,16 +1993,21 @@
       case 'mt-heur': var hh = mtHeur(v); mtStartSet('heur', [0, 1, 2].map(function () { return mtMake('h', v); }), hh.name); refreshSheet(true); break;
       case 'mt-place': mtStartSet('place', mtPlaceItems(+v), 'P' + v + ' placement check'); ui.mt.run.lv = +v; refreshSheet(true); break;
       case 'mt-key':
-        if (!R || R.fb) return;
+        if (!R || R.fb || (R.phase === 'guide' && R.gfb)) return;
         if (v === '✓') { if (!R.typed.trim()) { no(); return; } mtSubmit(R.typed.trim()); return; }
         if (v === '⌫') R.typed = R.typed.slice(0, -1); else if (R.typed.length < 14) R.typed += v;
         var te = document.getElementById('mt-typed'); if (te) te.innerHTML = R.typed ? esc(R.typed).replace(/ /g, '&nbsp;') : '&nbsp;';
         break;
-      case 'mt-choose': if (R && !R.fb) mtSubmit(v); break;
-      case 'mt-skip': if (R && !R.fb) { var it = R.items[R.i]; R.res[R.i] = false; R.fb = { ok: false, typed: '' }; mtScore(it.kind, it.id, false); save(); refreshSheet(); } break;
-      case 'mt-next': R.i++; R.typed = ''; R.fb = null; R.msg = null; R.ws = 0; R.hint = false; refreshSheet(true); break;
-      case 'mt-ws': R.ws = Math.max(0, (R.ws || 0) + (+v)); refreshSheet(true); break;
-      case 'mt-hint': R.hint = true; refreshSheet(); break;
+      case 'mt-choose': if (R && !R.fb && R.phase !== 'guide') mtSubmit(v); break;
+      case 'mt-gchoose': if (R && R.phase === 'guide' && !R.gfb) mtSubmit(v); break;
+      case 'mt-guide': R.phase = 'guide'; R.guided = true; R.helped = true; R.gi = 0; R.gfb = null; R.gtries = 0; R.ghint = false; R.typed = ''; refreshSheet(); break;
+      case 'mt-gnext':
+        var asks3 = mtAsks(R.items[R.i].Q);
+        R.gi++; R.gfb = null; R.gtries = 0; R.ghint = false; R.typed = '';
+        if (R.gi >= asks3.length) { R.phase = 'main'; R.msg = 'Now answer the problem.'; }
+        refreshSheet(true); break;
+      case 'mt-cmp': R.cmp = true; refreshSheet(); break;
+      case 'mt-next': R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
       case 'mt-quit': R.items = R.items.slice(0, R.i); refreshSheet(true); break;
     }
   }
