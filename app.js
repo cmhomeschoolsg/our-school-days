@@ -1922,11 +1922,14 @@
     var z = ziState(), O = ziOrder(z.list), L = Z.lists[z.list], sel = ui.zi.sel, wset = {};
     O.w.forEach(function (x) { wset[x.c] = 1; });
     var h = '<p class="small muted" style="margin:0 0 8px">' + esc(L ? L.name : '') + '. Tap a character to hear it and tick it off. Blue: you can read it · yellow line: you can write it too.</p>';
+    var bar = '';
     if (sel) {
-      h += '<div class="card zi-selp"><div class="zi-selrow"><span class="zi-c">' + esc(sel) + '</span><div><div class="zi-py" style="margin:0">' + esc(Z.py[sel] || '') + '</div>' + ziWordsHTML(sel) + '</div></div><div class="btns">' +
-        '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(sel) + '">🔊 Again</button>' +
-        '<button class="btn small' + (z.r[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="r:' + esc(sel) + '">' + (z.r[sel] ? '✓ Can read it' : 'I can read it') + '</button>' +
-        (wset[sel] ? '<button class="btn small' + (z.w[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="w:' + esc(sel) + '">' + (z.w[sel] ? '✍️ Can write it' : 'I can write it') + '</button>' : '') + '</div>' + ziCmpHTML(sel) + '</div>';
+      var w1 = ziWords(sel)[0];
+      bar = '<div class="zi-selp"><span class="zi-c">' + esc(sel) + '</span><span class="zi-selpy">' + esc(Z.py[sel] || '') + (w1 ? '<br><span class="small">' + esc(w1[0]) + ' ' + esc(w1[1]) + '</span>' : '') + '</span>' +
+        '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(sel) + '" aria-label="Hear it again">🔊</button>' +
+        '<button class="btn small' + (z.r[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="r:' + esc(sel) + '">' + (z.r[sel] ? '✓ Can read' : 'Can read') + '</button>' +
+        (wset[sel] ? '<button class="btn small' + (z.w[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="w:' + esc(sel) + '">' + (z.w[sel] ? '✍️ Can write' : 'Can write') + '</button>' : '') +
+        '<button class="btn ghost small" data-act="zi-pick" data-v="" aria-label="Close">✕</button>' + ziCmpHTML(sel) + '</div>';
     }
     O.sems.forEach(function (s) {
       var rs = O.r.filter(function (x) { return x.s === s; }), ws = {}; O.w.forEach(function (x) { if (x.s === s) ws[x.c] = 1; });
@@ -1936,7 +1939,7 @@
         rs.map(function (x) { return '<button class="zi-b' + (z.r[x.c] ? ' on' : '') + (ws[x.c] ? ' w' : '') + (z.w[x.c] ? ' won' : '') + (sel === x.c ? ' sel' : '') + '" data-act="zi-pick" data-v="' + esc(x.c) + '">' + esc(x.c) + '</button>'; }).join('') + '</div></div>';
     });
     var tr = ziKnownCount(z.r, O.r), tw = ziKnownCount(z.w, O.w);
-    return '<div class="card"><p style="margin:0">You can read <b>' + tr + '</b> of ' + O.r.length + ' and write <b>' + tw + '</b> of ' + O.w.length + ' characters on this list.</p></div>' + h;
+    return '<div class="card"><p style="margin:0">You can read <b>' + tr + '</b> of ' + O.r.length + ' and write <b>' + tw + '</b> of ' + O.w.length + ' characters on this list.</p></div>' + h + bar;
   }
 
   // Placement: ten characters from each semester to read; five to write. Most right moves you past that semester.
@@ -2102,7 +2105,7 @@
       case 'zi-voice': try { localStorage.setItem('zi-voice', v); } catch (e) {} refreshSheet(); ziSpeakChar('大'); return;
       case 'zi-cmp': ziCmpToggle(v); return;
       case 'zi-cmpplay': ziCmpPlay(v); return;
-      case 'zi-pick': ui.zi.sel = v; ziSpeakChar(v); refreshSheet(); return;
+      case 'zi-pick': ui.zi.sel = v || null; if (v) ziSpeakChar(v); refreshSheet(); return;
       case 'zi-sayen': hzSayEn(v); return;
       case 'zi-play': var pv = v.split(':'); hzLoad(pv[0], function () { hzPlay(document.getElementById('hzbox'), pv[0], { label: document.getElementById('hzlab'), slow: pv[1] === 'slow', size: 200 }); }); return;
       case 'zi-noplace': ui.ziNoPlace = true; refreshSheet(); return;
