@@ -1776,7 +1776,7 @@
   }
   function ziDay() { var d = cur(); return d ? d.n : (S.days.length ? S.days[S.days.length - 1].n : 0); }
   function ziWords(c) { var w = Z.words[c]; if (!w) return []; return Array.isArray(w) ? w : (w[ziState().list] || []); }
-  function ziSay(t) {
+  function ziSayOld(t) {
     try {
       var s = window.speechSynthesis; if (!s) return; s.cancel();
       var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.8;
@@ -1784,7 +1784,38 @@
       if (v) u.voice = v; s.speak(u);
     } catch (e) {}
   }
-  function ziSayText(c) { var w = ziWords(c); return w.length ? c + '，' + w.map(function (x) { return x[0]; }).join('，') : c; }
+  function ziSayText(c) { return c; }
+  // Recorded voices (audio-cmn: words read by Yue Tan, syllables by Chen Wang): the character, then its words.
+  // Anything not recorded is read by the iPad's own Chinese voice.
+  var ziAud = null, ziQ = [];
+  function ziHex(w) { return w.split('').map(function (ch) { return ch.charCodeAt(0).toString(16); }).join('-'); }
+  function ziClips(c, wordOnly) {
+    var out = [], au = Z.au && Z.au[c];
+    if (!wordOnly) out.push(au === 1 ? 'data/audio/' + ziHex(c) + '.mp3' : au ? 'data/audio/s/' + au + '.mp3' : { tts: c });
+    ziWords(c).forEach(function (x) { if (!wordOnly || x[0] === wordOnly) out.push(x[2] ? 'data/audio/' + ziHex(x[0]) + '.mp3' : { tts: x[0] }); });
+    return out;
+  }
+  function ziPlayQ() {
+    var n = ziQ.shift(); if (!n) return;
+    if (n.tts) { ziTTS(n.tts, ziPlayQ); return; }
+    if (!ziAud) ziAud = new Audio();
+    ziAud.onended = function () { setTimeout(ziPlayQ, 280); }; ziAud.onerror = function () { setTimeout(ziPlayQ, 50); };
+    ziAud.src = n; var pr = ziAud.play(); if (pr && pr.catch) pr.catch(function () {});
+  }
+  function ziTTS(t, done) {
+    try {
+      var s = window.speechSynthesis; if (!s) { if (done) done(); return; }
+      var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; var v = ziVoice(); if (v) u.voice = v;
+      u.onend = function () { if (done) setTimeout(done, 200); }; s.speak(u);
+    } catch (e) { if (done) done(); }
+  }
+  // The most natural Chinese voice on the device: an Enhanced/Premium download if there is one.
+  function ziVoice() {
+    var vs = (window.speechSynthesis && window.speechSynthesis.getVoices()) || [], zh = vs.filter(function (x) { return /^zh[-_](CN|Hans)/i.test(x.lang); });
+    var score = function (x) { return (/premium/i.test(x.name) ? 4 : /enhanced|增强|优化/i.test(x.name) ? 3 : 0) + (/lilian|yu-?shu|lili|瑜/i.test(x.name) ? 1 : 0) - (x.localService === false ? 1 : 0); };
+    zh.sort(function (a, b) { return score(b) - score(a); }); return zh[0] || null;
+  }
+  function ziSpeakChar(c, wordOnly) { try { window.speechSynthesis.cancel(); } catch (e) {} if (ziAud) ziAud.pause(); ziQ = ziClips(c, wordOnly); ziPlayQ(); }
   function ziDue(bag, day) { return Object.keys(bag).filter(function (c) { return bag[c].d <= day; }).sort(function (a, b) { return bag[a].d - bag[b].d || bag[a].b - bag[b].b; }); }
   function ziGrade(bag, c, ok) {
     var e = bag[c] || (bag[c] = { b: 0, d: 0 }); var day = ziDay();
@@ -1798,7 +1829,7 @@
       return '<span><b>' + esc(t) + '</b><i>' + esc(x[1]) + '</i></span>';
     }).join('') + '</div>';
   }
-  function ziSayBtn(text) { return '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(text) + '">🔊 Listen</button>'; }
+  function ziSayBtn(c, word) { return '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(c) + (word ? '|' + esc(word) : '') + '">🔊 Listen</button>'; }
 
   // Build today's session: reviews due, then new 识读字, then new 识写字 to copy, then 识写字 due from memory.
   function ziBuild() {
@@ -1832,7 +1863,7 @@
     } else {
       var w = ziWords(c);
       h += '<p class="zi-py" style="font-size:22px">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c, true);
-      if (!R.shown) h += '<p class="rd-say">Listen, then write the missing character from memory in your book. Then check.</p><div class="btns">' + ziSayBtn(w.length ? w[0][0] : c) + '<button class="btn" data-act="zi-show">Check</button></div>';
+      if (!R.shown) h += '<p class="rd-say">Listen, then write the missing character from memory in your book. Then check.</p><div class="btns">' + ziSayBtn(c, w.length ? w[0][0] : '') + '<button class="btn" data-act="zi-show">Check</button></div>';
       else h += ziWriteHTML(c) + '<p class="small muted">Check the strokes as well as the shape. If any stroke was different, tap Not yet.</p><div class="btns"><button class="btn" data-act="zi-grade" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-grade" data-v="0">Not yet</button></div>';
     }
     return h + '</div>';
@@ -1864,17 +1895,21 @@
 
   // Characters tab: progress through each semester of the list.
   function ziBook() {
-    var z = ziState(), O = ziOrder(z.list), L = Z.lists[z.list];
-    var mode = ui.zi.mark || 'listen';
-    var h = '<div class="seg" role="group" aria-label="Tap to">' + [['listen', '🔊 Tap to hear'], ['r', '✓ I can read it'], ['w', '✍️ I can write it']].map(function (o) { return '<button data-act="zi-mark" data-v="' + o[0] + '" aria-pressed="' + (mode === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
-      '<p class="small muted" style="margin:6px 0 8px">' + (mode === 'listen' ? esc(L ? L.name : '') + '. Filled: you can read it (识读) · yellow line: you can write it (识写). Tap a character to hear it.' : mode === 'r' ? 'Tap each character you can already read, to tick it off or untick it. Ticked ones won\'t be taught as new; they come back now and then to keep them fresh.' : 'Tap each character you can already write from memory. Ticking one you can write also ticks it as read.') + '</p>';
+    var z = ziState(), O = ziOrder(z.list), L = Z.lists[z.list], sel = ui.zi.sel, wset = {};
+    O.w.forEach(function (x) { wset[x.c] = 1; });
+    var h = '<p class="small muted" style="margin:0 0 8px">' + esc(L ? L.name : '') + '. Tap a character to hear it and tick it off. Blue: you can read it · yellow line: you can write it too.</p>';
+    if (sel) {
+      h += '<div class="card zi-selp"><div class="zi-selrow"><span class="zi-c">' + esc(sel) + '</span><div><div class="zi-py" style="margin:0">' + esc(Z.py[sel] || '') + '</div>' + ziWordsHTML(sel) + '</div></div><div class="btns">' +
+        '<button class="btn ghost small" data-act="zi-say" data-v="' + esc(sel) + '">🔊 Again</button>' +
+        '<button class="btn small' + (z.r[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="r:' + esc(sel) + '">' + (z.r[sel] ? '✓ Can read it' : 'I can read it') + '</button>' +
+        (wset[sel] ? '<button class="btn small' + (z.w[sel] ? '' : ' ghost') + '" data-act="zi-tick" data-v="w:' + esc(sel) + '">' + (z.w[sel] ? '✍️ Can write it' : 'I can write it') + '</button>' : '') + '</div></div>';
+    }
     O.sems.forEach(function (s) {
       var rs = O.r.filter(function (x) { return x.s === s; }), ws = {}; O.w.forEach(function (x) { if (x.s === s) ws[x.c] = 1; });
       var nr = rs.filter(function (x) { return z.r[x.c]; }).length, nw = Object.keys(ws).filter(function (c) { return z.w[c]; }).length;
-      if (mode === 'listen' && !nr && rs[0] && O.r.indexOf(rs[0]) > z.rp + 40) return;
-      var tickAll = mode === 'listen' ? '' : '<div class="btns" style="margin:4px 0 6px"><button class="btn ghost small" data-act="zi-tickall" data-v="' + mode + ':' + esc(s) + ':1">Tick all of ' + esc(s) + '</button><button class="btn ghost small" data-act="zi-tickall" data-v="' + mode + ':' + esc(s) + ':0">Untick all</button></div>';
-      h += '<div class="card"><div class="kicker">' + esc(s) + ' · read ' + nr + '/' + rs.length + ' · write ' + nw + '/' + Object.keys(ws).length + '</div>' + tickAll + '<div class="zi-book">' +
-        rs.filter(function (x) { return mode !== 'w' || ws[x.c]; }).map(function (x) { return '<button class="zi-b' + ((mode === 'w' ? z.w[x.c] : z.r[x.c]) ? ' on' : '') + (ws[x.c] ? ' w' : '') + (z.w[x.c] && mode !== 'w' ? ' won' : '') + '" ' + (mode === 'listen' ? 'data-act="zi-say" data-v="' + esc(ziSayText(x.c)) + '"' : 'data-act="zi-tick" data-v="' + mode + ':' + esc(x.c) + '"') + '>' + esc(x.c) + '</button>'; }).join('') + '</div></div>';
+      h += '<div class="card"><div class="kicker">' + esc(s) + ' · read ' + nr + '/' + rs.length + ' · write ' + nw + '/' + Object.keys(ws).length + '</div>' +
+        '<div class="btns" style="margin:4px 0 6px"><button class="btn ghost small" data-act="zi-tickall" data-v="r:' + esc(s) + ':1">Can read all of ' + esc(s) + '</button><button class="btn ghost small" data-act="zi-tickall" data-v="w:' + esc(s) + ':1">Can write all</button><button class="btn ghost small" data-act="zi-tickall" data-v="r:' + esc(s) + ':0">Untick all</button></div><div class="zi-book">' +
+        rs.map(function (x) { return '<button class="zi-b' + (z.r[x.c] ? ' on' : '') + (ws[x.c] ? ' w' : '') + (z.w[x.c] ? ' won' : '') + (sel === x.c ? ' sel' : '') + '" data-act="zi-pick" data-v="' + esc(x.c) + '">' + esc(x.c) + '</button>'; }).join('') + '</div></div>';
     });
     var tr = ziKnownCount(z.r, O.r), tw = ziKnownCount(z.w, O.w);
     return '<div class="card"><p style="margin:0">You can read <b>' + tr + '</b> of ' + O.r.length + ' and write <b>' + tw + '</b> of ' + O.w.length + ' characters on this list.</p></div>' + h;
@@ -1894,7 +1929,7 @@
     } else {
       var w = ziWords(c);
       h += '<p class="zi-py" style="font-size:22px">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c, true);
-      h += !P.shown ? '<div class="btns">' + ziSayBtn(w.length ? w[0][0] : c) + '<button class="btn" data-act="zi-pshow">Check</button><button class="btn ghost" data-act="zi-pans" data-v="0">I can\'t write it</button></div>'
+      h += !P.shown ? '<div class="btns">' + ziSayBtn(c, w.length ? w[0][0] : '') + '<button class="btn" data-act="zi-pshow">Check</button><button class="btn ghost" data-act="zi-pans" data-v="0">I can\'t write it</button></div>'
         : ziWriteHTML(c) + '<div class="btns"><button class="btn" data-act="zi-pans" data-v="1">I wrote it right ✓</button><button class="btn ghost" data-act="zi-pans" data-v="0">Not yet</button></div>';
     }
     return h + '</div><div class="btns"><button class="btn ghost small" data-act="zi-pstop">Stop here and keep what I have done</button></div>';
@@ -1995,7 +2030,7 @@
     step();
   }
   function hzSpeak(t) {
-    try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.9; var v = (s.getVoices() || []).filter(function (x) { return /^zh[-_](CN|Hans)/i.test(x.lang); })[0]; if (v) u.voice = v; s.speak(u); } catch (e) {}
+    try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; var v = ziVoice(); if (v) u.voice = v; s.speak(u); } catch (e) {}
   }
   function hzSayEn(t) {
     try { var s = window.speechSynthesis; if (!s || !t) return; s.cancel(); var u = new SpeechSynthesisUtterance(t); u.lang = 'en-GB'; u.rate = 0.95; s.speak(u); } catch (e) {}
@@ -2026,13 +2061,14 @@
     var R = ui.zi && ui.zi.run, P = ui.zi && ui.zi.place, z = ziState();
     switch (act) {
       case 'zi-view': hzStop(); ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
-      case 'zi-say': ziSay(v); return;
+      case 'zi-say': var sv = v.split('|'); ziSpeakChar(sv[0], sv[1]); return;
+      case 'zi-pick': ui.zi.sel = v; ziSpeakChar(v); refreshSheet(); return;
       case 'zi-sayen': hzSayEn(v); return;
       case 'zi-play': var pv = v.split(':'); hzLoad(pv[0], function () { hzPlay(document.getElementById('hzbox'), pv[0], { label: document.getElementById('hzlab'), slow: pv[1] === 'slow', size: 200 }); }); return;
       case 'zi-noplace': ui.ziNoPlace = true; refreshSheet(); return;
-      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); hzPrefetch(ui.zi.run.q.map(function (x) { return x.c; })); save(); refreshSheet(true); return;
+      case 'zi-start': if (!cur()) { toast('Start a school day first'); return; } ui.zi.run = ziBuild(); hzPrefetch(ui.zi.run.q.map(function (x) { return x.c; })); ui.zi.run.q.forEach(function (x) { ziClips(x.c).forEach(function (u) { if (typeof u === 'string') { try { fetch(u); } catch (e) {} } }); }); save(); refreshSheet(true); return;
       case 'zi-close': hzStop(); ui.zi.run = null; refreshSheet(true); return;
-      case 'zi-show': R.shown = true; var it = R.q[R.i]; if (it.k === 'rr') ziSay(ziSayText(it.c)); refreshSheet(); return;
+      case 'zi-show': R.shown = true; var it = R.q[R.i]; if (it.k === 'rr') ziSpeakChar(it.c); refreshSheet(); return;
       case 'zi-next': hzStop();
         var n = R.q[R.i]; if (n.k === 'rn') { ziGrade(z.r, n.c, true); z.rp = Math.max(z.rp, n.x + 1); } if (n.k === 'wn') { ziGrade(z.w, n.c, true); z.wp = Math.max(z.wp, n.x + 1); }
         R.i++; R.shown = false; save(); refreshSheet(true); return;
@@ -2041,7 +2077,7 @@
         if (ok) R.got++; else { R.miss++; if (R.again.indexOf(g.c) < 0) { R.again.push(g.c); R.q.push({ k: g.k, c: g.c, again: true }); } }
         R.i++; R.shown = false; save(); refreshSheet(true); return;
       case 'zi-pstart': ui.zi.place = { si: 0, phase: 'r' }; ziPlaceSem(ui.zi.place); refreshSheet(true); return;
-      case 'zi-pshow': P.shown = true; if (P.phase === 'r') ziSay(ziSayText(P.items[P.i])); refreshSheet(); return;
+      case 'zi-pshow': P.shown = true; if (P.phase === 'r') ziSpeakChar(P.items[P.i]); refreshSheet(); return;
       case 'zi-pans':
         var pc = P.items[P.i];
         if (v === '1') { P.ok++; if (P.phase === 'r') { if (!z.r[pc]) z.r[pc] = { b: 4, d: ziDay() + 8 }; } else if (!z.w[pc]) z.w[pc] = { b: 4, d: ziDay() + 8 }; }
