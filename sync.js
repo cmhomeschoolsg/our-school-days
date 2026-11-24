@@ -122,8 +122,22 @@ function scan() {
     flatPrev = {}; Object.keys(now).forEach(k => { meta[k] = { t: 1, d: device }; pending[k] = 1; flatPrev[k] = now[k]; });
   } else {
     const t = Date.now();
+    // Safety net: if a large part of the saved progress has vanished at once (this browser lost its copy,
+    // or the app started empty), never send that as deletions to the other devices. Forget the local
+    // record of those leaves instead, so the family copy in the cloud is read back in.
+    const gone = Object.keys(flatPrev).filter(k => !(k in now));
+    const goneCounted = gone.filter(k => k.indexOf('["mt"') !== 0).length;
+    const total = Object.keys(flatPrev).length;
+    if (goneCounted > 40 && goneCounted > total * 0.25) {
+      gone.forEach(k => { delete flatPrev[k]; meta[k] = { t: 0, d: '' }; delete pending[k]; });
+      Object.keys(now).forEach(k => { if (flatPrev[k] !== now[k]) { meta[k] = { t: 0, d: '' }; flatPrev[k] = now[k]; } });
+      ls.set(LS_META, meta); ls.set(LS_FLAT, flatPrev); ls.set(LS_PEND, pending);
+      note = 'Progress on this device went missing; reading it back from the family account.';
+      if (user) { if (unsub) unsub(); unsub = onSnapshot(collection(db, 'families', user.uid, 's'), snap => { applyRemote(snap); push(); }, e => { error = 'Sync stopped: ' + (e.code || e.message); SD.redraw(); }); }
+      return;
+    }
     Object.keys(now).forEach(k => { if (flatPrev[k] !== now[k]) { meta[k] = { t, d: device }; pending[k] = 1; flatPrev[k] = now[k]; } });
-    Object.keys(flatPrev).forEach(k => { if (!(k in now)) { meta[k] = { t, d: device, x: 1 }; pending[k] = 1; delete flatPrev[k]; } });
+    gone.forEach(k => { meta[k] = { t, d: device, x: 1 }; pending[k] = 1; delete flatPrev[k]; });
   }
   ls.set(LS_META, meta); ls.set(LS_FLAT, flatPrev); ls.set(LS_PEND, pending);
   push();

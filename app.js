@@ -254,7 +254,9 @@
   }
 
   function startHTML() {
-    return '<div class="banner"><p><b>Start your first school day.</b> The app counts school days, not dates, so travel and breaks never put you behind. Each week\'s work is on one page; finish it early and the next week starts.</p><button class="btn" data-act="startday">Start Day 1</button></div>';
+    var Y = window.SDsync, st = Y && Y.status();
+    var warn = st && st.available && !st.user ? '<div class="banner" style="border-color:var(--warn)"><p><b>Used the app before?</b> This device is not signed in to the family account, so it is starting empty. Tap ⚙︎ and sign in first — your days, poems and progress come back from the family account. (Opening the app in Safari instead of from its Home Screen icon also starts empty.)</p><button class="btn" data-act="sheet" data-v="settings">Sign in</button></div>' : '';
+    return warn + '<div class="banner"><p><b>Start your first school day.</b> The app counts school days, not dates, so travel and breaks never put you behind. Each week\'s work is on one page; finish it early and the next week starts.</p><button class="btn" data-act="startday">Start Day 1</button></div>';
   }
   // The Monday of the calendar week a date falls in, so a break that crosses a weekend can start a fresh week.
   function mondayOf(iso) { var p = String(iso || '').split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); if (isNaN(d)) return ''; d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
