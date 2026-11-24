@@ -1848,7 +1848,7 @@
         '<p class="small muted" style="margin:0 0 10px">Have your Chinese book and pencil ready. About 10–15 minutes.</p><button class="btn" data-act="zi-start">Start</button></div>';
     }
     if (R.i >= R.q.length) return ziEnd(R);
-    return ziCard(R);
+    return '<div class="mt-top"><button class="btn ghost small" data-act="zi-back">‹ Back</button></div>' + ziCard(R);
   }
   function ziKnownCount(bag, arr, upto) { var n = 0; for (var i = 0; i < arr.length; i++) if (bag[arr[i].c]) n++; return n; }
   function ziEnd(R) {
@@ -1864,13 +1864,15 @@
   // Characters tab: progress through each semester of the list.
   function ziBook() {
     var z = ziState(), O = ziOrder(z.list), L = Z.lists[z.list];
-    var h = '<p class="small muted" style="margin:0 0 8px">' + esc(L ? L.name : '') + '. Filled: you read it (识读) · underlined: you write it too (识写). Tap a character to hear it.</p>';
+    var mode = ui.zi.mark || 'listen';
+    var h = '<div class="seg" role="group" aria-label="Tap to">' + [['listen', '🔊 Tap to hear'], ['r', '✓ I can read it'], ['w', '✍️ I can write it']].map(function (o) { return '<button data-act="zi-mark" data-v="' + o[0] + '" aria-pressed="' + (mode === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>' +
+      '<p class="small muted" style="margin:6px 0 8px">' + (mode === 'listen' ? esc(L ? L.name : '') + '. Filled: you can read it (识读) · yellow line: you can write it (识写). Tap a character to hear it.' : mode === 'r' ? 'Tap each character you can already read, to tick it off or untick it. Ticked ones won\'t be taught as new; they come back now and then to keep them fresh.' : 'Tap each character you can already write from memory. Ticking one you can write also ticks it as read.') + '</p>';
     O.sems.forEach(function (s) {
       var rs = O.r.filter(function (x) { return x.s === s; }), ws = {}; O.w.forEach(function (x) { if (x.s === s) ws[x.c] = 1; });
       var nr = rs.filter(function (x) { return z.r[x.c]; }).length, nw = Object.keys(ws).filter(function (c) { return z.w[c]; }).length;
-      if (!nr && rs[0] && O.r.indexOf(rs[0]) > z.rp + 40) return;
+      if (mode === 'listen' && !nr && rs[0] && O.r.indexOf(rs[0]) > z.rp + 40) return;
       h += '<div class="card"><div class="kicker">' + esc(s) + ' · read ' + nr + '/' + rs.length + ' · write ' + nw + '/' + Object.keys(ws).length + '</div><div class="zi-book">' +
-        rs.map(function (x) { return '<button class="zi-b' + (z.r[x.c] ? ' on' : '') + (ws[x.c] ? ' w' : '') + (z.w[x.c] ? ' won' : '') + '" data-act="zi-say" data-v="' + esc(ziSayText(x.c)) + '">' + esc(x.c) + '</button>'; }).join('') + '</div></div>';
+        rs.filter(function (x) { return mode !== 'w' || ws[x.c]; }).map(function (x) { return '<button class="zi-b' + ((mode === 'w' ? z.w[x.c] : z.r[x.c]) ? ' on' : '') + (ws[x.c] ? ' w' : '') + (z.w[x.c] && mode !== 'w' ? ' won' : '') + '" ' + (mode === 'listen' ? 'data-act="zi-say" data-v="' + esc(ziSayText(x.c)) + '"' : 'data-act="zi-tick" data-v="' + mode + ':' + esc(x.c) + '"') + '>' + esc(x.c) + '</button>'; }).join('') + '</div></div>';
     });
     var tr = ziKnownCount(z.r, O.r), tw = ziKnownCount(z.w, O.w);
     return '<div class="card"><p style="margin:0">You can read <b>' + tr + '</b> of ' + O.r.length + ' and write <b>' + tw + '</b> of ' + O.w.length + ' characters on this list.</p></div>' + h;
@@ -1882,7 +1884,7 @@
     if (!P) return '<div class="card"><p style="margin:0 0 8px">Ten characters from each half-year of the list. Say each one aloud, then check. If you know nearly all of them, the whole half-year counts as known and the check moves on. Then a few to write from memory.</p><p class="small muted" style="margin:0 0 10px">Have your Chinese book and pencil ready. You can stop at any time and keep what you have done.</p><button class="btn" data-act="zi-pstart">Start the check</button></div>';
     if (P.end) return '<div class="card rd-done"><h3>Check finished</h3><p>' + esc(P.msg) + '</p><button class="btn" data-act="zi-view" data-v="today">Go to today\'s characters</button></div>';
     var c = P.items[P.i], wr = P.phase === 'w'; ziNeed(c);
-    var h = '<div class="kicker">' + esc(O.sems[P.si]) + ' · ' + (wr ? 'write ' : 'read ') + (P.i + 1) + ' of ' + P.items.length + '</div><div class="card zi-card">';
+    var h = '<div class="mt-top"><button class="btn ghost small" data-act="zi-pstop">‹ Back</button></div><div class="kicker">' + esc(O.sems[P.si]) + ' · ' + (wr ? 'write ' : 'read ') + (P.i + 1) + ' of ' + P.items.length + '</div><div class="card zi-card">';
     if (!wr) {
       h += ziCharHTML(c, true);
       h += !P.shown ? '<div class="btns"><button class="btn" data-act="zi-pshow">Check</button><button class="btn ghost" data-act="zi-pans" data-v="0">I don\'t know it</button></div>'
@@ -1930,7 +1932,8 @@
     var rs = ui.zi.reset;
     return '<div class="card"><div class="kicker">For Mum</div><ul class="list">' + row('New characters to read each day', 'nr', z.nr) + row('New characters to write each day', 'nw', z.nw) + '</ul>' +
       '<p class="small muted">List: ' + esc((Z.lists[z.list] || {}).name || '') + '. Reviews come back after 1, 2, 4, 8, 16, 32 and 64 school days; a character missed starts again at one day.</p>' +
-      '<div class="btns"><button class="btn ' + (rs ? '' : 'ghost ') + 'small"' + (rs ? ' style="background:#b3261e;border-color:#b3261e"' : '') + ' data-act="zi-reset">' + (rs ? 'Tap again to clear all 识字 progress' : 'Clear all 识字 progress') + '</button></div></div>';
+      '<div class="kicker" style="margin-top:10px">Start again</div><div class="btns">' + [['r', 'Reset reading (识读)'], ['w', 'Reset writing (识写)'], ['all', 'Reset all 识字']].map(function (o) { return rs === o[0] ? '<button class="btn small" style="background:#b3261e;border-color:#b3261e" data-act="zi-reset" data-v="' + o[0] + '">Tap again to ' + o[1].toLowerCase() + '</button>' : '<button class="btn ghost small" data-act="zi-reset" data-v="' + o[0] + '">' + o[1] + '</button>'; }).join('') + '</div>' +
+      '<p class="small muted">To tick off single characters she already knows, use the Characters tab.</p></div>';
   }
   // ---------- 识字: stroke animation with stroke names read aloud, and how each character is built ----------
   // Per-character data (data/hz/<code>.json): stroke outlines and centre lines from Make Me a Hanzi, stroke names
@@ -2045,7 +2048,18 @@
         save(); refreshSheet(true); return;
       case 'zi-pstop': if (P.phase === 'w') P.wStop = true; ziPlaceFinish(P); refreshSheet(true); return;
       case 'zi-set': var p = v.split(':'); z[p[0]] = Math.max(0, Math.min(15, (z[p[0]] || 0) + (+p[1]))); save(); refreshSheet(); return;
-      case 'zi-reset': if (!ui.zi.reset) { ui.zi.reset = true; refreshSheet(); return; } ui.zi.reset = false; ui.zi.run = null; S.zi[ZW] = {}; ziState(); save(); toast('识字 progress cleared'); refreshSheet(); return;
+      case 'zi-reset':
+        if (ui.zi.reset !== v) { ui.zi.reset = v; refreshSheet(); return; }
+        ui.zi.reset = false; ui.zi.run = null;
+        if (v === 'all') S.zi[ZW] = {}; else if (v === 'r') { z.r = {}; z.w = {}; z.rp = 0; z.wp = 0; z.placed = false; } else { z.w = {}; z.wp = 0; }
+        ziState(); save(); toast(v === 'w' ? 'Writing progress cleared' : v === 'r' ? 'Reading and writing progress cleared' : '识字 progress cleared'); refreshSheet(); return;
+      case 'zi-back': hzStop(); ui.zi.run = null; refreshSheet(true); return;
+      case 'zi-mark': ui.zi.mark = v; refreshSheet(); return;
+      case 'zi-tick':
+        var tk = v.split(':'), tc = tk[1], day = ziDay(), soon = function () { return { b: 5, d: day + 5 + Math.floor(Math.random() * 30) }; };
+        if (tk[0] === 'r') { if (z.r[tc]) { delete z.r[tc]; delete z.w[tc]; } else z.r[tc] = soon(); }
+        else { if (z.w[tc]) delete z.w[tc]; else { z.w[tc] = soon(); if (!z.r[tc]) z.r[tc] = soon(); } }
+        save(); refreshSheet(); return;
     }
   }
 
