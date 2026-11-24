@@ -1798,10 +1798,12 @@
     ziAud.onended = function () { setTimeout(ziPlayQ, 280); }; ziAud.onerror = function () { setTimeout(ziPlayQ, 50); };
     ziAud.src = n; var pr = ziAud.play(); if (pr && pr.catch) pr.catch(function () {});
   }
-  function ziTTS(t, done) {
+  function ziTTS(t, done, slowly) {
     try {
       var s = window.speechSynthesis; if (!s) { if (done) done(); return; }
-      var u = new SpeechSynthesisUtterance(t); u.lang = 'zh-CN'; u.rate = 0.95; // no voice set: iPadOS then uses the one chosen in Settings
+      // The iPad voice clips very short phrases; ending each with a full stop lets it finish the word properly.
+      var said = /[。！？，.!?]$/.test(t) ? t : t + '。';
+      var u = new SpeechSynthesisUtterance(said); u.lang = 'zh-CN'; u.rate = slowly ? 0.8 : 0.95; // no voice set: iPadOS then uses the one chosen in Settings
       // Safari can stop an utterance halfway if nothing holds on to it, so keep the last few.
       ziTTS.keep = (ziTTS.keep || []).concat([u]).slice(-4);
       u.onend = function () { if (done) setTimeout(done, 120); }; u.onerror = function () { if (done) done(); }; s.speak(u);
@@ -2051,7 +2053,7 @@
     while (at.length < n) at.push(Math.min(0.95, at[at.length - 1] + 0.2));
     return at;
   }
-  function hzStop() { if (hzRaf) cancelAnimationFrame(hzRaf); hzRaf = null; clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} if (hzAud) { hzAud.onended = null; hzAud.pause(); } }
+  function hzStop() { if (hzSilent) hzSilent.pause(); if (hzRaf) cancelAnimationFrame(hzRaf); hzRaf = null; clearTimeout(hzTimer); hzTimer = null; try { window.speechSynthesis.cancel(); } catch (e) {} if (hzAud) { hzAud.onended = null; hzAud.pause(); } }
   function hzPlay(box, c, opts) {
     hzStop(); var d = HZ[c]; if (!d || !box) return;
     box.innerHTML = hzSVG(c, 'grey', opts.size || 220);
@@ -2059,7 +2061,7 @@
     var i = 0, slow = opts.slow ? 1.6 : 1;
     function step() {
       if (!document.body.contains(svg)) return;
-      if (i >= d.s.length) { if (lab) lab.innerHTML = '<b>' + d.s.length + ' strokes</b> · ' + d.n.map(esc).join('、'); if (opts.done) opts.done(); return; }
+      if (i >= d.s.length) { if (hzSilent) hzSilent.pause(); if (lab) lab.innerHTML = '<b>' + d.s.length + ' strokes</b> · ' + d.n.map(esc).join('、'); if (opts.done) opts.done(); return; }
       var id = 'hzc' + Math.random().toString(36).slice(2);
       var cp = document.createElementNS(NS, 'clipPath'); cp.setAttribute('id', id);
       var pp = document.createElementNS(NS, 'path'); pp.setAttribute('d', d.s[i]); cp.appendChild(pp); g.appendChild(cp);
@@ -2098,10 +2100,19 @@
   }
   var HZSYL = { '横': 'heng2', '竖': 'shu4', '撇': 'pie3', '点': 'dian3', '捺': 'na4', '提': 'ti2', '折': 'zhe2', '钩': 'gou1', '弯': 'wan1', '斜': 'xie2', '卧': 'wo4' };
   var hzAud = null;
+  // Keep the iPad's sound output awake during the drawing: a silent sound playing in a loop stops the start of
+  // each spoken part from being clipped while the speaker wakes up.
+  var hzSilent = null;
+  function hzWarm() {
+    try {
+      if (!hzSilent) { hzSilent = new Audio('data:audio/wav;base64,UklGRsQPAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YaAPAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA'); hzSilent.loop = true; }
+      if (hzSilent.paused) { var p = hzSilent.play(); if (p && p.catch) p.catch(function () {}); }
+    } catch (e) {}
+  }
   function hzSayPart(ch, done) {
     var fin = false, end = function () { if (!fin) { fin = true; done(); } };
     setTimeout(end, 2200);
-    if (ziVoicePref() === 'ios' || !HZSYL[ch]) { ziTTS(ch, end); return; }
+    if (ziVoicePref() === 'ios' || !HZSYL[ch]) { hzWarm(); ziTTS(ch, end, true); return; }
     if (!hzAud) hzAud = new Audio();
     hzAud.onended = end; hzAud.onerror = end; hzAud.src = 'data/audio/s/' + HZSYL[ch] + '.mp3';
     var p = hzAud.play(); if (p && p.catch) p.catch(end);
