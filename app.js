@@ -531,15 +531,121 @@
   }
 
   function bibleLesson(track) { var T = C.bible.tracks.filter(function (t) { return t.id === track; })[0]; var i = S.ptr['bible_' + track] ? S.ptr['bible_' + track].i : 0; return T.lessons[i] || null; }
-  function smythHTML(t) {
-    var k = 0;
-    return t.split(/\n\n+/).map(function (para) {
+  // ---------- Smyth's references made tappable: "Exod. VI. 1-12", "(ch. vii. 15-25)", "(vv. 6, 7, 8)", "(St. Matt. xviii. 6)" ----------
+  // A bare chapter ("ch. xi. 10", "(xii. 37)") means the lesson's own book; "v."/"vv." means a verse of the lesson's reading when that settles it, otherwise the chapter last named.
+  var SM_BOOK = '\\b(?:St\\.?\\s*)?(?:[123]\\s*)?(?:Genesis|Gen|Exodus|Exod|Ex|Leviticus|Lev|Numbers|Num|Deuteronomy|Deut|Joshua|Josh|Judges|Judg|Ruth|Sam|Samuel|Kings|Chronicles|Chron|Ezra|Nehemiah|Neh|Esther|Job|Psalms|Psalm|Ps|Proverbs|Prov|Ecclesiastes|Eccles|Isaiah|Isa|Jeremiah|Jer|Lamentations|Lam|Ezekiel|Ezek|Daniel|Dan|Hosea|Hos|Joel|Amos|Obadiah|Jonah|Micah|Mic|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Zech|Malachi|Mal|Matthew|Matt|Mark|Luke|John|Acts|Romans|Rom|Corinthians|Cor|Galatians|Gal|Ephesians|Eph|Philippians|Phil|Colossians|Col|Thessalonians|Thess|Timothy|Tim|Titus|Hebrews|Heb|James|Peter|Pet|Jude|Revelation|Rev)\\.?';
+  var SM_VS = '(\\d+(?:\\s*(?:[-–]|to)\\s*(?:\\d+|end|[ivxlc]+\\.\\s*\\d+))?(?:\\s*,\\s*\\d+(?!\\s*[A-Z][a-z])(?:\\s*[-–]\\s*\\d+)?)*)';
+  var SM_RE = new RegExp('(' + SM_BOOK + ')\\s+\\(?([ivxlc]+)\\b[.,]?\\s*' + SM_VS + '?' +          // 1 book, 2 chapter, 3 verses
+    '|\\b(?:ch|chap|chapter)\\.?\\s*([ivxlc]+)\\b[.,]?\\s*' + SM_VS + '?' +                     // 4 chapter, 5 verses
+    '|\\bvv?\\.\\s*' + SM_VS +                                                                   // 6 verses
+    '|\\b([ivxlc]+)\\.\\s*' + SM_VS, 'gi');                                                        // 7 chapter, 8 verses (only inside brackets or after another reference)
+  function smRoman(s) { var V = { i: 1, v: 5, x: 10, l: 50, c: 100 }, n = 0, a = s.toLowerCase(); for (var i = 0; i < a.length; i++) { var x = V[a[i]], y = V[a[i + 1]] || 0; n += x < y ? -x : x; } return n; }
+  function smBook(s) {
+    var n = s.replace(/^St\.?\s*/i, '').replace(/\.$/, '').replace(/\s+/g, ' ').trim();
+    var map = { ex: 'Exodus', exod: 'Exodus', judg: 'Judges', ps: 'Psalm', phil: 'Philippians', mic: 'Micah', isa: 'Isaiah', jer: 'Jeremiah', lam: 'Lamentations', dan: 'Daniel', hos: 'Hosea', mal: 'Malachi', zech: 'Zechariah', rev: 'Revelation', col: 'Colossians', eccles: 'Ecclesiastes' };
+    var k = n.toLowerCase().replace(/\s/g, ''); if (map[k]) n = map[k];
+    return findBook(n);
+  }
+  // "6, 7, 8" -> [[6,8]]; "8, 28, 29" -> [[8,8],[28,29]]; "1-12" -> [[1,12]]; "18 to end" -> [[18,999]]
+  function smVerses(s, c) {
+    var out = [];
+    s.split(/\s*,\s*/).forEach(function (p) {
+      var m = p.match(/^(\d+)(?:\s*(?:[-–]|to)\s*(\d+|end|([ivxlc]+)\.\s*(\d+)))?$/i); if (!m) return;
+      var vv = m[3] && /^vv?$/i.test(m[3]); var a = +m[1], b = m[3] ? +m[4] : m[2] ? (/end/i.test(m[2]) ? 999 : +m[2]) : a, c2 = m[3] && !vv ? smRoman(m[3]) : c;
+      var last = out[out.length - 1];
+      if (last && last.c2 === c && c2 === c && a === last.v2 + 1) last.v2 = b; else out.push({ c1: c, v1: a, c2: c2, v2: b });
+    });
+    return out;
+  }
+  function smLink(text, ctx) {
+    var out = '', at = 0, m, depth = 0, lastEnd = -1000, fix = ctx.fix || {};
+    SM_RE.lastIndex = 0;
+    while ((m = SM_RE.exec(text))) {
+      var pre = text.slice(at, m.index), segs = null, b = ctx.b;
+      for (var i = 0; i < pre.length; i++) { if (pre[i] === '(') depth++; else if (pre[i] === ')') depth = Math.max(0, depth - 1); }
+      if (m[1]) {
+        b = smBook(m[1]); if (b < 0) { out += esc(pre + m[0]); at = m.index + m[0].length; continue; }
+        var c = smRoman(m[2]); segs = m[3] ? smVerses(m[3], c) : [{ c1: c, v1: null, c2: c, v2: null }];
+        if (b === ctx.b) ctx.c = c;
+        ctx.lb = b; ctx.lc = segs[segs.length - 1].c2;
+      } else if (m[4]) {
+        c = smRoman(m[4]); segs = m[5] ? smVerses(m[5], c) : [{ c1: c, v1: null, c2: c, v2: null }]; ctx.c = c; ctx.lb = b; ctx.lc = c;
+      } else if (m[6]) {
+        var first = +m[6].match(/\d+/)[0], cc = ctx.c, hits = ctx.reads.filter(function (r) { return r.b === ctx.b && first >= (r.v1 || 1) && (r.c1 === r.c2 ? first <= (r.v2 || 999) : true); });
+        if (hits.length && !hits.some(function (r) { return r.c1 <= cc && cc <= r.c2; })) cc = hits[0].c1;
+        else if (hits.length === 1 && hits[0].c1 === hits[0].c2) cc = hits[0].c1;
+        segs = smVerses(m[6], cc);
+      } else if (m[7]) {
+        // A bare "xii. 37" counts only inside brackets, or straight after another reference ("viii. 8, 28; ix. 27").
+        var after = m.index - lastEnd <= 3 && /^[\s;,.]*$/.test(text.slice(lastEnd, m.index));
+        if (!depth && !after) { out += esc(pre + m[0]); at = m.index + m[0].length; continue; }
+        // Right after another reference, or soon after one in the same paragraph, it shares that reference's book.
+        // A chapter of the lesson's own reading stays in the lesson's book.
+        c = smRoman(m[7]);
+        var inRead = ctx.reads.some(function (r) { return r.b === ctx.b && r.c1 <= c && c <= r.c2; });
+        if (!inRead && (after || (ctx.lb != null && m.index - lastEnd < 200))) b = ctx.lb; segs = smVerses(m[8], c); if (b === ctx.b) ctx.c = c; ctx.lc = c;
+      }
+      var m0 = m[0].replace(/\s+$/, ''); if (fix[m0] !== undefined) { var fr = fix[m0] ? parseRef(fix[m0]) : null; segs = fr ? [fr] : null; if (fr) b = fr.b; }
+      if (!segs || !segs.length) { out += esc(pre + m[0]); at = m.index + m[0].length; continue; }
+      var data = segs.map(function (s) { return [s.b != null ? s.b : b, s.c1, s.v1 || 0, s.c2, s.v2 || 0].join('.'); }).join(';');
+      out += esc(pre) + '<span class="vref" data-act="vref" data-v="' + data + '">' + esc(m0) + '</span>' + esc(m[0].slice(m0.length));
+      at = m.index + m[0].length; lastEnd = at;
+    }
+    return out + esc(text.slice(at));
+  }
+  // "Exodus 4:21; Exodus 7:3" -> the same data the links carry
+  function refData(str) { return String(str).split(/\s*;\s*/).map(parseRef).filter(Boolean).map(function (r) { return [r.b, r.c1, r.v1 || 0, r.c2, r.v2 || 0].join('.'); }).join(';'); }
+  // "Look it up": short notes from Scripture under the prompts that send the class elsewhere ("Enumerate some of the other plagues").
+  function shortRef(str) { var last = ''; return String(str).split(/\s*;\s*/).map(function (p) { var m = p.match(/^(.*?) (\d.*)$/); if (!m) return p; var o = m[1] === last ? m[2] : p; last = m[1]; return o; }).join('; '); }
+  function lookHTML(o) {
+    var h = '<details class="look"' + (ui.lookOpen === o.title ? ' open' : '') + '><summary data-act="lookopen" data-v="' + esc(o.title) + '">🔎 Look it up: ' + esc(o.title) + '</summary>';
+    if (o.items) h += '<ul class="look-list">' + o.items.map(function (it) { return '<li><span>' + esc(it.t) + '</span> <span class="vref chip" data-act="vref" data-v="' + refData(it.r) + '">' + esc(shortRef(it.r)) + '</span></li>'; }).join('') + '</ul>';
+    if (o.poem) h += '<div class="poem look-poem">' + esc(o.poem) + '</div>';
+    if (o.note) h += '<p class="small muted" style="margin:6px 0 0">' + esc(o.note) + '</p>';
+    return h + '</details>';
+  }
+  function smythHTML(L) {
+    var t = L.smyth, k = 0, looks = L.look || [], reads = (L.read || []).map(parseRef).filter(Boolean);
+    var ctx = { b: reads.length ? reads[0].b : -1, c: reads.length ? reads[0].c1 : 1, reads: reads, fix: L.refFix || {} };
+    var after = function (para) { return looks.filter(function (o) { return !o.q && para.indexOf(o.at) >= 0; }).map(lookHTML).join(''); };
+    return t.split(/\n\n+/).map(function (para, pi) {
       if (/^§/.test(para)) return '<h4 class="sm-h">' + esc(para) + '</h4>';
-      if (/^(NOTE|Questions for Lesson)/.test(para)) return '<h4 class="sm-h">' + esc(para) + '</h4>';
+      if (/^(NOTE|Notes?$|Questions for Lesson)/.test(para)) return '<h4 class="sm-h">' + esc(para) + '</h4>';
       if (/^(I|II|III|IV|V)$/.test(para)) return '<h4 class="sm-h">' + esc(para) + '</h4>';
-      return '<p class="sp" data-act="bmks" data-v="' + (k++) + '">' + esc(para) + '</p>';
+      var body = pi === 0 ? esc(para) : smLink(para, ctx);
+      // Questions: one per line, each with its note beneath it.
+      var qs = looks.filter(function (o) { return o.q && para.indexOf(o.q) >= 0; });
+      if (qs.length) {
+        var lines = para.split('\n');
+        return lines.map(function (line) {
+          var mine = qs.filter(function (o) { return line.indexOf(o.q) >= 0; });
+          return '<p class="sp" data-act="bmks" data-v="' + (k++) + '" style="margin:0 0 4px">' + smLink(line, ctx) + '</p>' + mine.map(lookHTML).join('');
+        }).join('');
+      }
+      return '<p class="sp" data-act="bmks" data-v="' + (k++) + '">' + body + '</p>' + after(para);
     }).join('');
   }
+  // The verses behind a reference, in a small window over the page.
+  function showVerses(data, lang) {
+    var segs = String(data).split(';').map(function (x) { var a = x.split('.').map(Number); return { b: a[0], c1: a[1], v1: a[2] || null, c2: a[3], v2: a[4] || null }; });
+    lang = lang || ui.vpopLang || 'en'; ui.vpopLang = lang;
+    var box = document.getElementById('vpop');
+    if (!box) { box = document.createElement('div'); box.id = 'vpop'; box.className = 'vpop'; box.setAttribute('data-act', 'vpopbg'); document.body.appendChild(box); }
+    box.setAttribute('data-v', data);
+    var title = segs.map(function (r) { return refLabel(r, lang); }).join('; ');
+    box.innerHTML = '<div class="vpop-card" role="dialog" aria-label="' + esc(title) + '"><div class="nav"><b>' + esc(title) + '</b><span class="btns" style="margin:0"><span class="seg"><button data-act="vpoplang" data-v="en" aria-pressed="' + (lang === 'en') + '">KJV</button><button data-act="vpoplang" data-v="zh" aria-pressed="' + (lang === 'zh') + '">和合本</button></span><button class="btn ghost small" data-act="vpopclose" aria-label="Close">✕</button></span></div><div class="vpop-body"><p class="muted">Loading…</p></div></div>';
+    box.style.display = 'flex';
+    loadBible(lang).then(function (bible) {
+      var html = segs.map(function (r) {
+        var vs = passage(bible, r);
+        var head = segs.length > 1 ? '<div class="kicker" style="margin-top:8px">' + esc(refLabel(r, lang)) + '</div>' : '';
+        if (!vs.length) return head + '<p class="muted">' + (lang === 'zh' ? '和合本里没有这一节。' : 'There is no such verse in the KJV; it may be a printer’s slip in Smyth’s book.') + '</p>';
+        return head + '<div class="bible-text' + (lang === 'zh' ? ' zh' : '') + '">' + vs.map(function (x) { return '<span><span class="verse-num">' + (r.c2 !== r.c1 && x.v === 1 ? x.c + ':' : '') + x.v + '</span>' + esc(x.t) + '</span> '; }).join('') + '</div>';
+      }).join('');
+      var b = box.querySelector('.vpop-body'); if (b) b.innerHTML = html;
+    }).catch(function () { var b = box.querySelector('.vpop-body'); if (b) b.innerHTML = '<p class="muted">The Bible text could not load. Open the app once with internet so it can be saved.</p>'; });
+  }
+  function hideVerses() { var b = document.getElementById('vpop'); if (b) b.style.display = 'none'; }
   // ---------- place marker for Bible and Smyth: tap where you stopped ----------
   function bmkKey() { return 'bmk_' + (ui.bibleTrack || C.bible.tracks[0].id); }
   function bmkGet() {
@@ -592,11 +698,11 @@
       function passage(lang) {
         return L.read.map(function (ref) { var r = parseRef(ref); return '<div class="kicker" style="margin-top:8px">' + esc(lang === 'zh' && r ? refLabel(r, 'zh') : ref) + '</div><div data-ref="' + esc(ref) + '" data-lang="' + lang + '"><p class="muted">Loading…</p></div>'; }).join('');
       }
-      var smyth = L.smyth ? '<div class="sm-text">' + smythHTML(L.smyth) + '</div>' : '<p class="small">Smyth’s notes for this lesson aren’t in the app yet. <a href="' + esc(T.url) + '" target="_blank" rel="noopener">Open them on AmblesideOnline ↗</a></p>';
+      var smyth = L.smyth ? '<div class="sm-text">' + smythHTML(L) + '</div>' : '<p class="small">Smyth’s notes for this lesson aren’t in the app yet. <a href="' + esc(T.url) + '" target="_blank" rel="noopener">Open them on AmblesideOnline ↗</a></p>';
       if (mode === 'three') body += '<div class="grid3"><div class="col"><div class="col-h">KJV</div>' + passage('en') + '</div><div class="col"><div class="col-h">和合本</div>' + passage('zh') + '</div><div class="col"><div class="col-h">Smyth’s notes</div>' + smyth + '</div></div>';
       else if (mode === 'both') body += '<div class="grid2"><div>' + passage('en') + '</div><div>' + passage('zh') + '</div></div>';
       else body += passage(mode);
-      if (mode !== 'three' && L.smyth) body += '<details style="margin-top:12px"><summary><b>Smyth’s notes for this lesson</b></summary><div class="sm-text" style="max-height:none">' + smythHTML(L.smyth) + '</div></details>';
+      if (mode !== 'three' && L.smyth) body += '<details style="margin-top:12px"><summary><b>Smyth’s notes for this lesson</b></summary><div class="sm-text" style="max-height:none">' + smythHTML(L) + '</div></details>';
       body += '<div class="nav" style="margin-top:12px"><button class="btn ghost small" data-act="biblestep" data-v="' + T.id + '" data-d="-1">‹ Previous lesson</button><button class="btn small" data-act="biblestep" data-v="' + T.id + '" data-d="1">Lesson finished ›</button></div></div>';
     }
     body += '<div class="btns">' + tickButton(tickId, 'Bible done today', 'We read our Bible') + '</div><p class="small muted">' + esc(C.bible.source) + ' ' + esc(C.bible.smythNote || '') + ' ' + esc(C.bible.picNote || '') + ' ' + esc(C.bible.mapNote || '') + ' Chinese: 和合本 (Chinese Union Version).</p>';
@@ -2763,7 +2869,7 @@
   }
 
   app.addEventListener('click', handle);
-  document.addEventListener('click', function (e) { if (e.target.closest('.scrim')) handle(e); });
+  document.addEventListener('click', function (e) { if (e.target.closest('.scrim') || e.target.closest('.vpop')) handle(e); });
   document.addEventListener('change', function (e) {
     var el = e.target;
     if (el.matches('[data-act="scmplan"]')) { var pk2 = el.getAttribute('data-k'); ui.scmPlan[pk2] = el.value; refreshSheet(); }
@@ -2835,6 +2941,11 @@
       case 'bibletrack': ui.bibleTrack = v; refreshSheet(); break;
       case 'biblelang': ui.bibleLang = v; refreshSheet(); break;
       case 'bmkv': bmkSet('v', v); applyBmk(document.querySelector('.sheet-body')); break;
+      case 'vref': showVerses(v); break;
+      case 'vpoplang': showVerses(document.getElementById('vpop').getAttribute('data-v'), v); break;
+      case 'vpopclose': hideVerses(); break;
+      case 'vpopbg': if (e.target === el) hideVerses(); break;
+      case 'lookopen': ui.lookOpen = ui.lookOpen === v ? null : v; break;
       case 'bmks': bmkSet('s', +v); applyBmk(document.querySelector('.sheet-body')); break;
       case 'bmkgo': applyBmk(document.querySelector('.sheet-body'), true); break;
       case 'bmkclear': delete S.ptr[bmkKey()]; save(); applyBmk(document.querySelector('.sheet-body')); break;
