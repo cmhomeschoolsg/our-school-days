@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jom Cakap Melayu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Jom Cakap Melayu, built into Our School Days. Progress is kept in the app's family data (synced), not only on this iPad. */
+:root{
+  --bg:#f6f4ec; --card:#fffdf6; --ink:#1f2a22; --muted:#5d6a5f;
+  --pandan:#2f7a4f; --pandan-deep:#1d5636; --pandan-soft:#dcebdf;
+  --gula:#8a4b22; --gula-soft:#f1e2d2; --gold:#c9962b;
+  --line:#d9d6c8; --good:#2f7a4f; --again:#b5552c;
+  --display:"Caprasimo", "Cooper Black", Georgia, serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+html,body{background:var(--bg);color:var(--ink);margin:0}
+body{font-family:var(--body);font-size:18px;line-height:1.55}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 40px}
+header.band{background:var(--pandan-deep);color:#fdfbf2;position:relative}
+header.band .inner{max-width:860px;margin:0 auto;padding:14px 16px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;
+  background:linear-gradient(135deg,var(--bg) 50%,transparent 50%) 0 0/24px 14px repeat-x,
+             linear-gradient(225deg,var(--bg) 50%,transparent 50%) 0 0/24px 14px repeat-x;}
+.logo{font-family:var(--display);font-size:clamp(26px,5vw,36px);line-height:1;margin:0;letter-spacing:.5px}
+.logo small{display:block;font-family:var(--body);font-size:14px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-top:6px}
+.spacer{flex:1}
+.pill{border:1.5px solid rgba(253,251,242,.5);background:transparent;color:#fdfbf2;border-radius:999px;padding:8px 16px;font-size:16px}
+.pill.on{background:#fdfbf2;color:#1d5636;border-color:#fdfbf2;font-weight:700}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(26px,4vw,34px);margin:28px 0 6px;text-wrap:balance}
+h3{font-size:20px;margin:0 0 4px}
+.lede{color:var(--muted);margin:0 0 18px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:18px;min-height:150px}
+.tile:hover{border-color:var(--pandan)}
+.tile .ms{font-family:var(--display);font-size:26px;color:var(--pandan-deep)}
+.tile .en{font-size:15px;color:var(--muted)}
+.tile .meter{margin-top:auto;font-size:14px;color:var(--gula);font-weight:700;font-variant-numeric:tabular-nums}
+.today{background:var(--gula-soft);border-radius:18px;padding:18px 20px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.today .day{font-family:var(--display);font-size:30px;color:var(--gula)}
+.today ul{margin:0;padding-left:20px}
+.today .txt{flex:1;min-width:220px}
+.timer{display:flex;flex-direction:column;align-items:center;gap:6px}
+.timer .t{font-family:var(--display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--gula)}
+.btn{border:none;border-radius:14px;padding:12px 20px;background:var(--pandan);color:#fff;font-weight:700;font-size:17px;min-height:48px;text-decoration:none;display:inline-flex;align-items:center}
+.btn.ghost{background:transparent;color:var(--pandan-deep);border:1.5px solid var(--pandan)}
+.btn.warm{background:var(--gula)}
+.btn.again{background:var(--again)}
+.btn.small{padding:8px 14px;min-height:40px;font-size:15px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.back{background:none;border:none;color:var(--pandan-deep);font-weight:700;padding:16px 0 0;font-size:17px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:22px}
+.list{display:grid;gap:10px}
+.item{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;width:100%}
+.item .grow{flex:1;min-width:0}
+.item .sub{font-size:15px;color:var(--muted)}
+.badge{font-size:13px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--pandan-soft);color:var(--pandan-deep);white-space:nowrap}
+.badge.todo{background:var(--gula-soft);color:var(--gula)}
+.big{font-family:var(--display);font-size:clamp(28px,5vw,40px);line-height:1.25;color:var(--pandan-deep);margin:10px 0;text-wrap:balance}
+.gloss{color:var(--muted);font-size:18px;min-height:1.6em}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.dot.got{background:var(--good)}
+.dot.cur{outline:2.5px solid var(--gold);outline-offset:2px}
+.seg{display:inline-flex;border:1.5px solid var(--pandan);border-radius:12px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:none;background:transparent;padding:10px 16px;font-weight:700;color:var(--pandan-deep)}
+.seg button.on{background:var(--pandan);color:#fff}
+.pantun{font-family:var(--display);font-size:clamp(22px,3.6vw,30px);line-height:1.5;color:var(--pandan-deep)}
+.pantun .ln{display:block;padding:4px 8px;border-radius:10px;border:none;background:none;text-align:left;width:100%;font:inherit;color:inherit}
+.pantun .ln:hover{background:var(--pandan-soft)}
+.pantun .ln.indent{padding-left:28px}
+.blank{display:inline-block;border-bottom:3px dotted var(--gold);min-width:2.2em;color:transparent}
+.src{font-size:14px;color:var(--muted);margin-top:14px}
+.src a{color:var(--gula)}
+.story p{max-width:62ch;margin:0 0 14px;padding:6px 10px;border-radius:10px}
+.story p.reading{background:var(--gula-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:15px}
+.chip b{color:var(--pandan-deep)}
+textarea{width:100%;min-height:160px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;padding:12px}
+.note{background:var(--pandan-soft);border-radius:14px;padding:12px 16px;font-size:16px;color:var(--ink)}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:14px;font-size:20px;font-weight:700}
+.opt.right{border-color:var(--good);background:var(--pandan-soft)}
+.opt.wrong{border-color:var(--again)}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td b{color:var(--pandan-deep)}
+.phr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.phr .grow{flex:1;min-width:0}
+.speak{border:none;background:var(--pandan-soft);color:var(--pandan-deep);border-radius:50%;width:44px;height:44px;flex:none;display:grid;place-items:center}
+.speak svg{width:20px;height:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat .n{font-family:var(--display);font-size:26px;color:var(--gula);font-variant-numeric:tabular-nums}
+.stat .l{font-size:14px;color:var(--muted)}
+.voicewarn{background:var(--gula-soft);border-radius:14px;padding:12px 16px;font-size:16px;margin-top:14px}
+.brand{margin-top:40px;text-align:center;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.8}
+.rate{display:flex;align-items:center;gap:8px;font-size:14px;color:#fdfbf2}
+.rate input{accent-color:var(--gold);width:90px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style></head><body>
+
+<header class="band">
+  <div class="inner">
+    <h1 class="logo">Jom Cakap Melayu<small>Malay the Charlotte Mason way</small></h1>
+    <div class="spacer"></div>
+    <div class="row" id="kids" role="group" aria-label="Who is learning"></div>
+    <label class="rate" for="rate">Voice speed <input id="rate" type="range" min="0.5" max="1.1" step="0.1" value="0.8"></label>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<script>
+/* ---------------- CONTENT ---------------- */
+const SERIES = [
+ {id:"buku", ms:"Membaca Buku", en:"Reading a book", lines:[
+  ["Saya mengambil buku.","I take a book.",[["buku","book"],["ambil buku","take the book"]]],
+  ["Saya duduk di kerusi.","I sit on the chair.",[["kerusi","chair"],["di kerusi","on the chair"],["duduk di kerusi","sit on the chair"]]],
+  ["Saya membuka buku.","I open the book.",[["buku","book"],["buka buku","open the book"]]],
+  ["Saya membaca muka surat satu.","I read page one.",[["muka surat","page"],["muka surat satu","page one"],["baca muka surat satu","read page one"]]],
+  ["Saya menyelak muka surat.","I turn the page.",[["muka surat","page"],["selak muka surat","turn the page"]]],
+  ["Saya menutup buku.","I close the book.",[["buku","book"],["tutup buku","close the book"]]],
+  ["Saya meletakkan buku di atas rak.","I put the book on the shelf.",[["rak","shelf"],["di atas rak","on the shelf"],["buku di atas rak","the book on the shelf"],["letakkan buku di atas rak","put the book on the shelf"]]]]},
+ {id:"gerai", ms:"Membeli Makanan", en:"Buying food at a stall", lines:[
+  ["Saya beratur di gerai.","I queue at the stall.",[["gerai","stall"],["di gerai","at the stall"],["beratur di gerai","queue at the stall"]]],
+  ["Mak cik, saya minta nasi lemak satu.","Auntie, may I have one nasi lemak?",[["nasi lemak","nasi lemak"],["nasi lemak satu","one nasi lemak"],["minta nasi lemak satu","ask for one nasi lemak"],["saya minta nasi lemak satu","may I have one nasi lemak"]]],
+  ["Boleh tambah telur, mak cik?","Could you add an egg, auntie?",[["telur","egg"],["tambah telur","add an egg"],["boleh tambah telur","could you add an egg"]]],
+  ["Minta kurang pedas, ya.","Less spicy, please.",[["pedas","spicy"],["kurang pedas","less spicy"],["minta kurang pedas","less spicy, please"]]],
+  ["Tolong bungkus, ya.","Please pack it to take away.",[["bungkus","pack to take away"],["tolong bungkus","please pack it"]]],
+  ["Berapa semuanya, mak cik?","How much altogether, auntie?",[["semua","all"],["semuanya","all of it"],["berapa semuanya","how much altogether"]]],
+  ["Ini duitnya, mak cik.","Here's the money, auntie.",[["duit","money"],["duitnya","the money"],["ini duitnya","here's the money"]]],
+  ["Terima kasih, mak cik!","Thank you, auntie!",[["terima kasih","thank you"]]]]},
+ {id:"lif", ms:"Bertegur Sapa di Lif", en:"Greeting someone in the lift", lines:[
+  ["Selamat pagi, mak cik.","Good morning, auntie.",[["pagi","morning"],["selamat pagi","good morning"]]],
+  ["Mak cik apa khabar?","How are you, auntie?",[["khabar","news"],["apa khabar","how are you"]]],
+  ["Khabar baik, terima kasih.","I'm well, thank you.",[["baik","good, well"],["khabar baik","I'm well"]]],
+  ["Mak cik ke tingkat berapa?","Which floor are you going to, auntie?",[["tingkat","floor, storey"],["tingkat berapa","which floor"],["ke tingkat berapa","to which floor"]]],
+  ["Saya tolong tekan, ya.","I'll press it for you.",[["tekan","press"],["tolong tekan","help press it"],["saya tolong tekan","I'll press it for you"]]],
+  ["Mak cik hendak ke mana?","Where are you off to, auntie?",[["mana","where"],["ke mana","to where"],["hendak ke mana","going where"]]],
+  ["Saya hendak pergi ke pasar.","I'm going to the market.",[["pasar","market"],["ke pasar","to the market"],["pergi ke pasar","go to the market"],["hendak pergi ke pasar","going to go to the market"]]],
+  ["Silakan, mak cik.","After you, auntie.",[["silakan","please, go ahead"]]],
+  ["Jumpa lagi, mak cik!","See you again, auntie!",[["jumpa","meet"],["jumpa lagi","see you again"]]]]},
+ {id:"cuaca", ms:"Cuaca", en:"Talking about the weather", lines:[
+  ["Hari ini panas.","It's hot today.",[["panas","hot"]]],
+  ["Langit sudah mendung.","The sky has clouded over.",[["mendung","overcast"],["sudah mendung","already overcast"]]],
+  ["Nampaknya hujan akan turun.","It looks like it's going to rain.",[["hujan","rain"],["hujan turun","it rains"],["hujan akan turun","it will rain"]]],
+  ["Jangan lupa bawa payung.","Don't forget to bring an umbrella.",[["payung","umbrella"],["bawa payung","bring an umbrella"],["lupa bawa payung","forget to bring an umbrella"]]],
+  ["Hujan lebat sekarang.","It's raining heavily now.",[["hujan","rain"],["hujan lebat","heavy rain"]]],
+  ["Saya dengar guruh.","I hear thunder.",[["guruh","thunder"],["dengar guruh","hear thunder"]]],
+  ["Hujan sudah berhenti.","The rain has stopped.",[["berhenti","stop"],["sudah berhenti","has stopped"]]],
+  ["Cuaca cerah semula.","The weather is bright again.",[["cerah","bright, clear"],["cerah semula","bright again"]]]]},
+ {id:"pagi", ms:"Bangun Pagi", en:"Waking up", lines:[
+  ["Saya bangun awal pagi.","I wake up early in the morning.",[["pagi","morning"],["awal pagi","early in the morning"],["bangun awal pagi","wake up early in the morning"]]],
+  ["Saya membuka tingkap.","I open the window.",[["tingkap","window"],["buka tingkap","open the window"]]],
+  ["Saya memandang ke luar.","I look outside.",[["luar","outside"],["ke luar","out, outwards"],["pandang ke luar","look outside"]]],
+  ["Saya membasuh muka.","I wash my face.",[["muka","face"],["basuh muka","wash your face"]]],
+  ["Saya menggosok gigi.","I brush my teeth.",[["gigi","teeth"],["gosok gigi","brush your teeth"]]],
+  ["Saya menyikat rambut.","I comb my hair.",[["rambut","hair"],["sikat rambut","comb your hair"]]],
+  ["Saya pergi ke dapur.","I go to the kitchen.",[["dapur","kitchen"],["ke dapur","to the kitchen"],["pergi ke dapur","go to the kitchen"]]]]},
+ {id:"minum", ms:"Minum Air", en:"Getting a drink of water", lines:[
+  ["Saya mengambil sebiji cawan.","I take a cup.",[["cawan","cup"],["sebiji cawan","a cup"],["ambil sebiji cawan","take a cup"]]],
+  ["Saya membuka peti sejuk.","I open the fridge.",[["peti sejuk","fridge"],["buka peti sejuk","open the fridge"]]],
+  ["Saya mengeluarkan botol air.","I take out the water bottle.",[["botol","bottle"],["botol air","water bottle"],["keluarkan botol air","take out the water bottle"]]],
+  ["Saya menuang air ke dalam cawan.","I pour water into the cup.",[["cawan","cup"],["ke dalam cawan","into the cup"],["air ke dalam cawan","water into the cup"],["tuang air ke dalam cawan","pour the water into the cup"]]],
+  ["Saya menutup botol itu.","I close the bottle.",[["botol","bottle"],["botol itu","that bottle"],["tutup botol itu","close the bottle"]]],
+  ["Saya minum air itu.","I drink the water.",[["air","water"],["air itu","that water"],["minum air itu","drink the water"]]],
+  ["Saya membasuh cawan.","I wash the cup.",[["cawan","cup"],["basuh cawan","wash the cup"]]]]},
+ {id:"siram", ms:"Menyiram Pokok", en:"Watering the plants", lines:[
+  ["Saya mengisi bekas dengan air.","I fill a container with water.",[["bekas","container"],["isi bekas","fill the container"],["isi bekas dengan air","fill the container with water"]]],
+  ["Saya membawa bekas itu ke tingkap.","I carry the container to the window.",[["bekas itu","that container"],["bawa bekas itu","carry the container"],["bawa bekas itu ke tingkap","carry the container to the window"]]],
+  ["Saya melihat pokok-pokok saya.","I look at my plants.",[["pokok","plant"],["pokok-pokok","plants"],["pokok-pokok saya","my plants"],["lihat pokok-pokok saya","look at my plants"]]],
+  ["Daun-daunnya layu sedikit.","Their leaves are a little droopy.",[["daun","leaf"],["daun-daunnya","their leaves"],["daun-daunnya layu","their leaves are droopy"]]],
+  ["Saya menyiram pokok perlahan-lahan.","I water the plants slowly.",[["pokok","plant"],["siram pokok","water the plants"],["siram pokok perlahan-lahan","water the plants slowly"]]],
+  ["Air meresap ke dalam tanah.","The water soaks into the soil.",[["tanah","soil"],["ke dalam tanah","into the soil"],["meresap ke dalam tanah","soaks into the soil"]]],
+  ["Esok, daun-daunnya segar semula.","Tomorrow the leaves will be fresh again.",[["segar","fresh"],["segar semula","fresh again"],["daun-daunnya segar semula","their leaves are fresh again"]]]]},
+ {id:"pasar", ms:"Ke Pasar", en:"Going to the market", lines:[
+  ["Saya membawa beg.","I bring a bag.",[["beg","bag"],["bawa beg","bring a bag"]]],
+  ["Saya keluar dari rumah.","I go out of the house.",[["rumah","house"],["dari rumah","from the house"],["keluar dari rumah","go out of the house"]]],
+  ["Saya berjalan ke pasar.","I walk to the market.",[["pasar","market"],["ke pasar","to the market"],["berjalan ke pasar","walk to the market"]]],
+  ["Saya memilih sayur yang segar.","I choose fresh vegetables.",[["sayur","vegetable"],["sayur yang segar","fresh vegetables"],["pilih sayur yang segar","choose fresh vegetables"]]],
+  ["Saya bertanya, “Berapa harganya?”","I ask, “How much is it?”",[["harga","price"],["harganya","its price"],["Berapa harganya?","How much is it?"]]],
+  ["Saya membayar penjual itu.","I pay the seller.",[["penjual","seller"],["penjual itu","that seller"],["bayar penjual itu","pay the seller"]]],
+  ["Saya mengucapkan terima kasih.","I say thank you.",[["terima kasih","thank you"],["ucapkan terima kasih","say thank you"]]],
+  ["Saya pulang ke rumah.","I go back home.",[["rumah","house, home"],["ke rumah","to the house"],["pulang ke rumah","go back home"]]]]},
+ {id:"mrt", ms:"Naik MRT", en:"Taking the MRT", lines:[
+  ["Saya berjalan ke stesen MRT.","I walk to the MRT station.",[["stesen","station"],["stesen MRT","MRT station"],["ke stesen MRT","to the MRT station"],["berjalan ke stesen MRT","walk to the MRT station"]]],
+  ["Saya meletakkan kad pada mesin.","I place my card on the machine.",[["kad","card"],["letakkan kad","put the card down"],["letakkan kad pada mesin","put the card on the machine"]]],
+  ["Saya turun ke platform.","I go down to the platform.",[["platform","platform"],["ke platform","to the platform"],["turun ke platform","go down to the platform"]]],
+  ["Saya menunggu kereta api.","I wait for the train.",[["kereta api","train"],["tunggu kereta api","wait for the train"]]],
+  ["Kereta api tiba.","The train arrives.",[["kereta api","train"],["tiba","arrive"]]],
+  ["Saya naik kereta api.","I get on the train.",[["kereta api","train"],["naik kereta api","get on the train"]]],
+  ["Saya mencari tempat duduk.","I look for a seat.",[["tempat duduk","seat"],["cari tempat duduk","look for a seat"]]],
+  ["Saya turun di stesen yang betul.","I get off at the right station.",[["stesen","station"],["stesen yang betul","the right station"],["di stesen yang betul","at the right station"],["turun di stesen yang betul","get off at the right station"]]]]},
+ {id:"nasi", ms:"Memasak Nasi", en:"Cooking rice", lines:[
+  ["Saya mengambil beras.","I get the rice.",[["beras","uncooked rice"],["ambil beras","get the rice"]]],
+  ["Saya menyukat dua cawan beras.","I measure two cups of rice.",[["cawan","cup"],["dua cawan","two cups"],["dua cawan beras","two cups of rice"],["sukat dua cawan beras","measure two cups of rice"]]],
+  ["Saya membasuh beras tiga kali.","I wash the rice three times.",[["beras","uncooked rice"],["basuh beras","wash the rice"],["basuh beras tiga kali","wash the rice three times"]]],
+  ["Saya memasukkan beras ke dalam periuk nasi.","I put the rice into the rice cooker.",[["periuk nasi","rice cooker"],["ke dalam periuk nasi","into the rice cooker"],["beras ke dalam periuk nasi","the rice into the rice cooker"],["masukkan beras ke dalam periuk nasi","put the rice into the rice cooker"]]],
+  ["Saya menambah air.","I add water.",[["air","water"],["tambah air","add water"]]],
+  ["Saya menekan butang.","I press the button.",[["butang","button"],["tekan butang","press the button"]]],
+  ["Saya menunggu dua puluh minit.","I wait twenty minutes.",[["minit","minute"],["dua puluh minit","twenty minutes"],["tunggu dua puluh minit","wait twenty minutes"]]],
+  ["Nasi sudah masak!","The rice is cooked!",[["nasi","cooked rice"],["masak","cooked"],["sudah masak","already cooked"]]]]},
+ {id:"piano", ms:"Bermain Piano", en:"Playing the piano", lines:[
+  ["Saya duduk di depan piano.","I sit in front of the piano.",[["piano","piano"],["di depan piano","in front of the piano"],["duduk di depan piano","sit in front of the piano"]]],
+  ["Saya membuka penutup piano.","I open the piano lid.",[["penutup","lid, cover"],["penutup piano","piano lid"],["buka penutup piano","open the piano lid"]]],
+  ["Saya meletakkan buku muzik.","I put the music book up.",[["muzik","music"],["buku muzik","music book"],["letakkan buku muzik","put the music book up"]]],
+  ["Saya meletakkan jari di atas kekunci.","I put my fingers on the keys.",[["kekunci","keys"],["di atas kekunci","on the keys"],["jari di atas kekunci","fingers on the keys"],["letakkan jari di atas kekunci","put your fingers on the keys"]]],
+  ["Saya memainkan sebuah lagu.","I play a song.",[["lagu","song"],["sebuah lagu","a song"],["mainkan sebuah lagu","play a song"]]],
+  ["Saya mengulang bahagian yang susah.","I repeat the difficult part.",[["bahagian","part"],["bahagian yang susah","the difficult part"],["ulang bahagian yang susah","repeat the difficult part"]]],
+  ["Saya menutup piano.","I close the piano.",[["piano","piano"],["tutup piano","close the piano"]]]]},
+ {id:"meja", ms:"Menyediakan Meja Makan", en:"Setting the dinner table", lines:[
+  ["Saya mengelap meja.","I wipe the table.",[["meja","table"],["lap meja","wipe the table"]]],
+  ["Saya mengambil pinggan.","I take the plates.",[["pinggan","plate"],["ambil pinggan","take the plates"]]],
+  ["Saya meletakkan pinggan di atas meja.","I put the plates on the table.",[["meja","table"],["di atas meja","on the table"],["pinggan di atas meja","the plates on the table"],["letakkan pinggan di atas meja","put the plates on the table"]]],
+  ["Saya menyusun sudu di sebelah pinggan.","I lay a spoon beside each plate.",[["pinggan","plate"],["di sebelah pinggan","beside the plate"],["sudu di sebelah pinggan","a spoon beside the plate"],["susun sudu di sebelah pinggan","lay the spoons beside the plates"]]],
+  ["Saya menuang air ke dalam gelas.","I pour water into the glasses.",[["gelas","glass"],["ke dalam gelas","into the glass"],["air ke dalam gelas","water into the glass"],["tuang air ke dalam gelas","pour water into the glass"]]],
+  ["Saya memanggil keluarga saya.","I call my family.",[["keluarga","family"],["keluarga saya","my family"],["panggil keluarga saya","call my family"]]],
+  ["Kami makan bersama-sama.","We eat together.",[["makan","eat"],["makan bersama-sama","eat together"]]]]},
+ {id:"sapu", ms:"Menyapu Lantai", en:"Sweeping the floor", lines:[
+  ["Saya mengambil penyapu.","I take the broom.",[["penyapu","broom"],["ambil penyapu","take the broom"]]],
+  ["Saya menyapu lantai.","I sweep the floor.",[["lantai","floor"],["sapu lantai","sweep the floor"]]],
+  ["Saya menyapu di bawah meja.","I sweep under the table.",[["meja","table"],["di bawah meja","under the table"],["sapu di bawah meja","sweep under the table"]]],
+  ["Saya mengumpulkan sampah.","I gather up the rubbish.",[["sampah","rubbish"],["kumpulkan sampah","gather up the rubbish"]]],
+  ["Saya memasukkan sampah ke dalam tong sampah.","I put the rubbish into the bin.",[["tong sampah","rubbish bin"],["ke dalam tong sampah","into the bin"],["sampah ke dalam tong sampah","the rubbish into the bin"],["masukkan sampah ke dalam tong sampah","put the rubbish into the bin"]]],
+  ["Saya menyimpan penyapu.","I put the broom away.",[["penyapu","broom"],["simpan penyapu","put the broom away"]]],
+  ["Lantai sudah bersih!","The floor is clean!",[["bersih","clean"],["sudah bersih","clean now"]]]]},
+ {id:"tidur", ms:"Bersiap Tidur", en:"Getting ready for bed", lines:[
+  ["Saya mandi.","I take a shower.",[["mandi","bathe, shower"]]],
+  ["Saya memakai baju tidur.","I put on my pyjamas.",[["baju","clothes"],["baju tidur","pyjamas"],["pakai baju tidur","put on your pyjamas"]]],
+  ["Saya mengucapkan selamat malam.","I say good night.",[["selamat malam","good night"],["ucapkan selamat malam","say good night"]]],
+  ["Saya berdoa.","I pray.",[["doa","prayer"],["berdoa","pray"]]],
+  ["Saya memadamkan lampu.","I switch off the light.",[["lampu","light"],["padamkan lampu","switch off the light"]]],
+  ["Saya berbaring di atas katil.","I lie down on the bed.",[["katil","bed"],["di atas katil","on the bed"],["baring di atas katil","lie down on the bed"]]],
+  ["Saya menutup mata.","I close my eyes.",[["mata","eyes"],["tutup mata","close your eyes"]]],
+  ["Saya tidur dengan nyenyak.","I sleep soundly.",[["tidur","sleep"],["tidur dengan nyenyak","sleep soundly"]]]]}
+];
+
+const PANTUN = [
+ {id:"cempedak", title:"Cempedak di luar pagar", theme:"A learner's pantun",
+  lines:["Cempedak di luar pagar,","Ambil galah tolong jolokkan;","Saya budak baharu belajar,","Kalau salah tolong tunjukkan."],
+  meaning:["The cempedak hangs beyond the fence,","Take a pole and knock it down for me;","I am a child just beginning to learn,","If I am wrong, please show me."],
+  note:"The first two lines paint a picture; the last two carry the meaning. A good first pantun for anyone learning Malay. It is also sung as a verse of Rasa Sayang.",
+  src:["National Library Board, BiblioAsia (Jul 2009)","https://biblioasia.nlb.gov.sg/vol-5/issue2/jul-2009/pantun-sumber-masyarakat-melayu/"]},
+ {id:"sumur", title:"Kalau ada sumur di ladang", theme:"A pantun for saying goodbye",
+  lines:["Kalau ada sumur di ladang,","Boleh kita menumpang mandi;","Kalau ada umur yang panjang,","Boleh kita berjumpa lagi."],
+  meaning:["If there is a well in the field,","We may stop there to bathe;","If we are given long life,","We may meet again."],
+  note:"Often said at the end of a gathering or a speech.",
+  src:["Elon.io, Pantun","https://elon.io/grammar/indonesian/texts/pantun"]},
+ {id:"pisang", title:"Pisang emas dibawa belayar", theme:"A pantun about kindness (budi)",
+  lines:["Pisang emas dibawa belayar,","Masak sebiji di atas peti;","Hutang emas boleh dibayar,","Hutang budi dibawa mati."],
+  meaning:["Golden bananas are taken on a voyage,","One ripens on top of the chest;","A debt of gold can be repaid,","A debt of kindness we carry to the grave."],
+  note:"Budi means kindness, good character and the debt of gratitude we owe others. It is one of the great themes of the pantun.",
+  src:["Utusan Malaysia (Oct 2018)","https://www.utusan.com.my/nasional/2018/10/budi-yang-baik-dibalas-jua/"]},
+ {id:"pandan", title:"Pulau Pandan jauh ke tengah", theme:"A classic pantun about good deeds",
+  lines:["Pulau Pandan jauh ke tengah,","Di balik Pulau Angsa Dua;","Hancur badan dikandung tanah,","Budi yang baik dikenang jua."],
+  meaning:["Pandan Island lies far out to sea,","Behind the island of Angsa Dua;","Though the body crumbles in the earth,","Good deeds are still remembered."],
+  note:"One of the best-known pantun of all. You may also hear a version with “Gunung Daik bercabang tiga” in the second line.",
+  src:["National Library Board, BiblioAsia (Jul 2009)","https://biblioasia.nlb.gov.sg/vol-5/issue2/jul-2009/pantun-sumber-masyarakat-melayu/"]}
+];
+
+const STORIES = [
+ {id:"kancil", title:"Sang Kancil dan Sang Buaya", en:"The Mouse-deer and the Crocodiles", kind:"Malay folk tale, retold simply",
+  paras:[
+   "Pada suatu hari, Sang Kancil berjalan di tepi sungai. Dia sangat lapar. Di seberang sungai, ada banyak buah-buahan yang sudah masak.",
+   "Tetapi sungai itu dalam, dan di dalamnya ada banyak buaya. Sang Kancil tidak boleh berenang ke seberang. Dia pun duduk dan berfikir.",
+   "Kemudian Sang Kancil memanggil, “Sang Buaya! Sang Buaya! Raja mahu tahu berapa ekor buaya di dalam sungai ini. Raja mahu memberi kamu semua hadiah!”",
+   "Buaya-buaya itu sangat gembira. Mereka datang dan berbaris dari tepi sungai hingga ke seberang.",
+   "Sang Kancil melompat ke atas belakang buaya yang pertama. “Satu!” katanya. Dia melompat lagi. “Dua! Tiga! Empat! Lima!”",
+   "Akhirnya Sang Kancil sampai ke seberang. Dia melompat ke darat dan ketawa. “Terima kasih, Sang Buaya! Tidak ada hadiah hari ini!”",
+   "Buaya-buaya itu sangat marah. Tetapi Sang Kancil sudah lari ke dalam hutan untuk makan buah-buahan."],
+  words:[["tepi sungai","riverbank"],["seberang","the other side"],["berfikir","to think"],["berbaris","to line up"],["belakang","back"],["melompat","to jump"],["darat","dry land"],["hadiah","gift"]]},
+ {id:"singapura", title:"Sang Nila Utama dan Singapura", en:"How Singapura got its name", kind:"From the Sejarah Melayu (Malay Annals), retold simply",
+  paras:[
+   "Dahulu kala, ada seorang putera raja bernama Sang Nila Utama. Pada suatu hari, dia belayar dari Bintan untuk berburu.",
+   "Sang Nila Utama naik ke atas sebuah batu yang tinggi. Dari situ, dia nampak sebuah pulau. Pasirnya putih seperti kain.",
+   "“Pulau apakah itu?” tanya Sang Nila Utama. “Itulah Temasek,” jawab orang-orangnya.",
+   "Mereka pun belayar ke pulau itu. Di tengah laut, datang ribut yang kuat. Air masuk ke dalam kapal. Mereka membuang banyak barang ke dalam laut, tetapi kapal itu masih dalam bahaya.",
+   "Akhirnya, Sang Nila Utama membuang mahkotanya ke dalam laut. Ribut pun berhenti, dan mereka sampai ke Temasek dengan selamat.",
+   "Di pulau itu, Sang Nila Utama nampak seekor binatang yang aneh. Badannya merah, kepalanya hitam, dan dadanya putih. Binatang itu berlari dengan pantas lalu hilang.",
+   "“Binatang apakah itu?” tanyanya. Seorang pembesarnya menjawab, “Itulah singa.” Maka Sang Nila Utama menamakan pulau itu Singapura, kota singa."],
+  words:[["putera raja","prince"],["belayar","to sail"],["berburu","to hunt"],["pasir","sand"],["ribut","storm"],["mahkota","crown"],["binatang","animal"],["menamakan","to name"]]},
+ {id:"todak", title:"Singapura Dilanggar Todak", en:"Singapura attacked by swordfish", kind:"From the Sejarah Melayu (Malay Annals), retold simply",
+  paras:[
+   "Lama kemudian, Singapura diperintah oleh Paduka Seri Maharaja. Pada suatu hari, ikan todak datang menyerang pantai Singapura.",
+   "Todak ialah ikan yang muncungnya panjang dan tajam seperti pedang. Ikan-ikan itu melompat dari laut dan menikam orang-orang di tepi pantai. Ramai orang mati.",
+   "Raja menyuruh rakyatnya berdiri berbaris di pantai. Kaki mereka menjadi kubu. Tetapi todak terus melompat dan menikam mereka.",
+   "Lalu seorang budak berkata, “Mengapa kita berkubukan betis? Lebih baik kita membuat kubu daripada batang pisang!”",
+   "Raja menurut kata budak itu. Rakyat pun membuat kubu daripada batang pisang. Apabila todak melompat, muncungnya tercacak pada batang pisang. Orang ramai pun dapat membunuh todak-todak itu.",
+   "Tetapi pembesar-pembesar raja berkata, “Budak ini sangat bijak. Apabila dia besar nanti, dia mungkin mengambil negeri ini.” Raja menjadi takut, lalu menyuruh orang membunuh budak itu.",
+   "Kata orang, darah budak itu mengalir di atas sebuah bukit, dan sebab itulah bukit itu dipanggil Bukit Merah."],
+  words:[["menyerang","to attack"],["muncung","snout"],["tajam","sharp"],["pedang","sword"],["kubu","fortress, barrier"],["betis","calf (of the leg)"],["batang pisang","banana trunk"],["bijak","clever, wise"]]}
+];
+
+const SONGS = [
+ {id:"rasasayang", title:"Rasa Sayang", about:"The best-loved folk song of the Malay world. Its verses are pantun, including Cempedak di luar pagar, which you can learn in the Pantun section."},
+ {id:"chanmali", title:"Chan Mali Chan", about:"A lively, playful folk song in which the singer asks where their little goat has gone. Well loved in Singapore and Malaysia."},
+ {id:"kakaktua", title:"Burung Kakak Tua", about:"A classic children's song about an old cockatoo perched at the window. Easy to sing and full of everyday words."},
+ {id:"tepuk", title:"Tepuk Amai-Amai", about:"A traditional hand-clapping song for little ones. Good for learning together with younger children."},
+ {id:"geylang", title:"Geylang Si Paku Geylang", about:"A gentle, rhythmic folk song sung at the end of a gathering or as a lullaby."},
+ {id:"kangkung", title:"Lenggang Kangkung", about:"A folk song that uses the swaying of kangkung (water spinach) to sing about grace and getting along."},
+ {id:"ikankekek", title:"Ikan Kekek", about:"A light-hearted coastal song about the ponyfish, often sung as a lullaby."},
+ {id:"bangau", title:"Bangau Oh Bangau", about:"A chain-tale song: the stork blames the fish, the fish blames the water, and on it goes. Children love the chain of answers."},
+ {id:"waubulan", title:"Wau Bulan", about:"A bright song from Kelantan named after the wau bulan, the traditional moon kite."},
+ {id:"katong", title:"Di Tanjung Katong", about:"A Singapore song about the seaside at Tanjong Katong, from the days when the sea came right up to the shore there."}
+];
+
+const MISSIONS = [
+ {id:"hawker", ms:"Di Gerai Makanan", en:"At a hawker stall", phrases:[
+   ["Mak cik, saya minta nasi lemak satu.","Auntie, may I have one nasi lemak?"],
+   ["Makan di sini, ya.","I'll eat here."],
+   ["Tolong bungkus, ya.","Please pack it to take away."],
+   ["Minta teh kurang manis, ya.","Tea, less sweet, please."],
+   ["Berapa semuanya, mak cik?","How much altogether, auntie?"],
+   ["Terima kasih, mak cik.","Thank you, auntie."]]},
+ {id:"market", ms:"Di Pasar", en:"At the wet market", phrases:[
+   ["Pak cik, berapa harga sekilo?","Uncle, how much per kilo?"],
+   ["Saya minta setengah kilo.","May I have half a kilo?"],
+   ["Yang ini segar, pak cik?","Is this one fresh, uncle?"],
+   ["Boleh kurang sedikit, pak cik?","Could you make it a little cheaper, uncle?"],
+   ["Terima kasih, pak cik.","Thank you, uncle."]]},
+ {id:"way", ms:"Bertanya Jalan", en:"Asking the way", phrases:[
+   ["Maaf, encik. Di manakah stesen MRT?","Excuse me, sir. Where is the MRT station?"],
+   ["Jauh atau dekat, encik?","Is it far or near, sir?"],
+   ["Jalan terus.","Go straight. (what you may hear)"],
+   ["Belok kiri. Belok kanan.","Turn left. Turn right. (what you may hear)"],
+   ["Terima kasih banyak, encik.","Thank you very much, sir."]]},
+ {id:"chat", ms:"Bersembang", en:"Making friends", phrases:[
+   ["Mak cik apa khabar?","How are you, auntie?"],
+   ["Khabar baik, terima kasih.","I'm well, thank you."],
+   ["Nama saya ...","My name is ..."],
+   ["Saya sedang belajar bahasa Melayu.","I'm learning Malay."],
+   ["Maaf, boleh cakap perlahan sedikit?","Sorry, could you speak a little more slowly?"],
+   ["Sama-sama.","You're welcome."]]}
+];
+
+/* Grammar practice items: every verb comes from a series sentence */
+const VERBS = [
+ ["piano","buka","","membuka","open"],["piano","main","kan","memainkan","play"],["piano","ulang","","mengulang","repeat"],["piano","tutup","","menutup","close"],
+ ["meja","ambil","","mengambil","take"],["meja","susun","","menyusun","arrange"],["meja","tuang","","menuang","pour"],["meja","panggil","","memanggil","call"],
+ ["sapu","sapu","","menyapu","sweep"],["sapu","kumpul","kan","mengumpulkan","gather"],["sapu","masuk","kan","memasukkan","put in"],["sapu","simpan","","menyimpan","put away"],
+ ["tidur","pakai","","memakai","wear"],["tidur","ucap","kan","mengucapkan","say"],["tidur","padam","kan","memadamkan","switch off"],["tidur","tutup","","menutup","close"],
+ ["buku","ambil","","mengambil","take"],["buku","buka","","membuka","open"],["buku","baca","","membaca","read"],["buku","selak","","menyelak","turn (pages)"],["buku","tutup","","menutup","close"],["buku","letak","kan","meletakkan","place"],
+ ["pagi","buka","","membuka","open"],["pagi","pandang","","memandang","look"],["pagi","basuh","","membasuh","wash"],["pagi","gosok","","menggosok","brush, rub"],["pagi","sikat","","menyikat","comb"],
+ ["minum","ambil","","mengambil","take"],["minum","keluar","kan","mengeluarkan","take out"],["minum","tuang","","menuang","pour"],["minum","tutup","","menutup","close"],
+ ["siram","isi","","mengisi","fill"],["siram","bawa","","membawa","carry"],["siram","lihat","","melihat","look at"],["siram","siram","","menyiram","water"],
+ ["pasar","pilih","","memilih","choose"],["pasar","bayar","","membayar","pay"],["pasar","ucap","kan","mengucapkan","say (thanks)"],
+ ["mrt","letak","kan","meletakkan","place"],["mrt","tunggu","","menunggu","wait"],["mrt","cari","","mencari","look for"],
+ ["nasi","sukat","","menyukat","measure"],["nasi","masuk","kan","memasukkan","put in"],["nasi","tambah","","menambah","add"],["nasi","tekan","","menekan","press"]
+];
+
+/* ---------------- STATE ---------------- */
+// Inside Our School Days, progress lives in the app's own family data (window.parent.SDms), so it syncs between
+// the iPads like everything else. Opened on its own, it falls back to this iPad's storage.
+const KIDS = ["Emma","Emily"];
+const KEY = "jcm-v1";
+let S = {active:null, kids:{}};
+function bridge(){ try{ return window.parent && window.parent !== window && window.parent.SDms ? window.parent.SDms : null; }catch(e){ return null; } }
+function load(){
+  try{ const B = bridge(); const r = B ? B.get() : localStorage.getItem(KEY); if(r) S = JSON.parse(r); }catch(e){}
+  if(!S.kids) S.kids = {};
+  KIDS.forEach(k=>{ if(!S.kids[k]) S.kids[k]=blank(); const x=S.kids[k]; ["series","pantun","stories","songs","missions"].forEach(f=>{ if(!x[f]) x[f]={}; }); if(!x.grammar) x.grammar={right:0,total:0}; if(!x.days) x.days=[]; });
+  const q = (location.search.match(/kid=(\w+)/)||[])[1]; if(q && KIDS.indexOf(q)>=0) S.active = q;
+}
+function blank(){ return {series:{}, pantun:{}, stories:{}, songs:{}, missions:{}, grammar:{right:0,total:0}, days:[]}; }
+function save(){ try{ const B = bridge(); if(B) B.set(JSON.stringify(S)); else localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function me(){ return S.kids[S.active]; }
+function today(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function mark(){ const k=me(); if(!k) return; const t=today(); if(k.days.indexOf(t)<0){ k.days.push(t); } save(); }
+
+/* ---------------- SPEECH ---------------- */
+let voice = null, voiceNote = "";
+function pickVoice(){
+  if(!("speechSynthesis" in window)){ voiceNote="none"; return; }
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v=>/^ms/i.test(v.lang)) || null;
+  if(!voice){ const id = vs.find(v=>/^id/i.test(v.lang)); if(id){ voice=id; voiceNote="id"; } else if(vs.length){ voiceNote="none"; } }
+  else voiceNote="";
+}
+if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = ()=>{ pickVoice(); if(view.name==="home") render(); }; }
+function rate(){ return parseFloat(document.getElementById("rate").value)||0.8; }
+function say(text, onend){
+  if(!("speechSynthesis" in window)){ onend&&onend(); return; }
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/\.\.\./g,""));
+    u.lang = voice ? voice.lang : "ms-MY"; if(voice) u.voice = voice; u.rate = rate();
+    if(onend) u.onend = onend;
+    speechSynthesis.speak(u);
+  }catch(e){ onend&&onend(); }
+}
+function stop(){ try{ speechSynthesis.cancel(); }catch(e){} }
+const SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+function spk(text){ return `<button class="speak" aria-label="Hear it" data-say="${esc(text)}">${SPK}</button>`; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* ---------------- VIEWS ---------------- */
+let view = {name:"home"};
+const app = document.getElementById("app");
+function go(v){ stop(); view = v; render(); window.scrollTo(0,0); }
+
+function renderKids(){
+  const box = document.getElementById("kids");
+  box.innerHTML = KIDS.map(k=>`<button class="pill ${S.active===k?"on":""}" data-kid="${k}">${k}</button>`).join("");
+}
+
+const DAYS = ["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
+const PLAN = {
+  1:["Siri (series)","Pantun"], 2:["Siri (series)","Cerita (story & narration)"], 3:["Siri (series)","Lagu (song)"],
+  4:["Siri (series)","Pantun"], 5:["Siri (series)","Tatabahasa (grammar) or a Misi outing"],
+  6:["Misi: use Malay out and about"], 0:["Rest day"]
+};
+
+function counts(k){
+  const sm = SERIES.filter(s=>k.series[s.id] && k.series[s.id].mastered).length;
+  const pl = PANTUN.filter(p=>k.pantun[p.id]).length;
+  const st = STORIES.filter(s=>k.stories[s.id] && k.stories[s.id].told).length;
+  const sg = SONGS.filter(s=>k.songs[s.id]).length;
+  const mi = MISSIONS.filter(m=>k.missions[m.id]).length;
+  return {sm,pl,st,sg,mi};
+}
+
+function home(){
+  if(!S.active){
+    return `<h2>Selamat datang!</h2><p class="lede">Who is learning today?</p>
+    <div class="grid">${KIDS.map(k=>`<button class="tile" data-kid="${k}"><span class="ms">${k}</span><span class="en">Tap to start</span></button>`).join("")}</div>`;
+  }
+  const k = me(), c = counts(k), d = new Date().getDay();
+  let warn = "";
+  if(voiceNote==="none") warn = `<div class="voicewarn"><b>No Malay voice found on this device.</b> The speaker buttons need one. On an iPad, add it in Settings › Accessibility › Spoken Content › Voices › Malay. Until then, have Mum or your Malay-speaking friend read the lines aloud.</div>`;
+  if(voiceNote==="id") warn = `<div class="voicewarn">This device has no Malay voice, so it's using an Indonesian one. It's close, but some words sound different. Add a Malay voice in the device's speech settings if you can.</div>`;
+  return `
+  <h2>Selamat pagi, ${S.active}!</h2>
+  <p class="lede">Listen first, say it aloud, then act it out. Keep each lesson short and give it your full attention.</p>
+  <div class="today">
+    <div class="txt"><div class="day">${DAYS[d]}</div><ul>${PLAN[d].map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    <div class="timer"><div class="t" id="tm">${String(Math.floor(timeLeft/60)).padStart(2,"0")}:${String(timeLeft%60).padStart(2,"0")}</div><button class="btn warm small" id="tmb">${timerId?"Stop":"Start 10-minute lesson"}</button></div>
+  </div>
+  ${warn}
+  <h2>Pelajaran</h2>
+  <div class="grid">
+    <button class="tile" data-go="seriesList"><span class="ms">Siri</span><span class="en">Series: say it while you do it</span><span class="meter">${c.sm} of ${SERIES.length} mastered</span></button>
+    <button class="tile" data-go="pantunList"><span class="ms">Pantun</span><span class="en">Verses to learn by heart</span><span class="meter">${c.pl} of ${PANTUN.length} learned</span></button>
+    <button class="tile" data-go="storyList"><span class="ms">Cerita</span><span class="en">Listen, then narrate</span><span class="meter">${c.st} of ${STORIES.length} narrated</span></button>
+    <button class="tile" data-go="songList"><span class="ms">Lagu</span><span class="en">Traditional songs learned by ear</span><span class="meter">${c.sg} of ${SONGS.length} sung</span></button>
+    <button class="tile" data-go="missionList"><span class="ms">Misi</span><span class="en">Use Malay out and about</span><span class="meter">${c.mi} of ${MISSIONS.length} done</span></button>
+    <button class="tile" data-go="grammar"><span class="ms">Tatabahasa</span><span class="en">Grammar, once you're speaking</span><span class="meter">${k.grammar.right} correct so far</span></button>
+  </div>
+  <h2>${S.active}'s progress</h2>
+  <div class="stats">
+    <div class="stat"><div class="n">${k.days.length}</div><div class="l">days of Malay</div></div>
+    <div class="stat"><div class="n">${c.sm}</div><div class="l">series mastered</div></div>
+    <div class="stat"><div class="n">${c.pl}</div><div class="l">pantun by heart</div></div>
+    <div class="stat"><div class="n">${c.st}</div><div class="l">stories narrated</div></div>
+    <div class="stat"><div class="n">${c.mi}</div><div class="l">missions done</div></div>
+  </div>`;
+}
+
+/* ---- Series ---- */
+function seriesList(){
+  const k = me();
+  return `<button class="back" data-go="home">‹ Home</button>
+  <h2>Siri</h2><p class="lede">Each series is a short chain of actions. Every line starts with one new word and grows one piece at a time until it becomes a full sentence. Listen, say it aloud and do the action. When you know the whole series, try it from memory.</p>
+  <div class="list">${SERIES.map(s=>{ const st=k.series[s.id]; const got=st?st.got.filter(Boolean).length:0;
+    return `<button class="item" data-go="series" data-id="${s.id}"><div class="grow"><h3>${s.ms}</h3><div class="sub">${s.en} · ${s.lines.length} lines</div></div>
+    <span class="badge ${st&&st.mastered?"":"todo"}">${st&&st.mastered?"Mastered":got?`${got}/${s.lines.length}`:"New"}</span></button>`; }).join("")}</div>`;
+}
+function seriesView(){
+  const s = SERIES.find(x=>x.id===view.id), k = me();
+  if(!k.series[s.id]) k.series[s.id] = {got:s.lines.map(()=>false), mastered:false};
+  const st = k.series[s.id], i = view.i||0, mode = view.mode||"learn", line = s.lines[i];
+  if(!st.got) st.got = s.lines.map(()=>false);
+  const dots = s.lines.map((_,j)=>`<span class="dot ${st.got[j]?"got":""} ${j===i?"cur":""}"></span>`).join("");
+  let body;
+  if(mode==="learn"){
+    const steps = line[2]||[], si = view.step||0, full = si>=steps.length;
+    const cur = full ? [line[0], line[1]] : steps[si];
+    const trail = steps.slice(0, si).map(x=>`<button class="chip" data-say="${esc(x[0])}"><b>${x[0]}</b></button>`).join(`<span style="color:var(--muted)">→</span>`);
+    const stage = full ? "Sentence" : (si===0 ? "New word" : "Build it up · step "+(si+1));
+    const isLast = full && i===s.lines.length-1;
+    body = `<div class="row" style="gap:8px;min-height:40px">${trail}</div>
+      <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gula);font-weight:700;margin-top:8px">${stage}</div>
+      <div class="big" ${full?"":'style="font-size:clamp(34px,6vw,52px)"'}>${cur[0]}</div>
+      <div class="gloss">${view.showEn?cur[1]:""}</div>
+      <div class="row">
+        <button class="btn" data-act="sayLine">Dengar (listen)</button>
+        <button class="btn ghost" data-act="toggleEn">${view.showEn?"Hide":"Show"} English</button>
+        <button class="btn ghost" data-act="prev" ${i===0&&si===0?"disabled":""}>‹ Back</button>
+        <button class="btn warm" data-act="next">${isLast?"From the top":"Next ›"}</button>
+      </div>
+      <p class="note" style="margin-top:16px">${full?"Say the whole sentence aloud as you do the action. Then say it once more without listening.":"Listen, then say it aloud. Point to the thing or do the action as you say it."}</p>`;
+  } else {
+    body = `<div class="gloss" style="font-size:22px;color:var(--ink)">${line[1]}</div>
+      <div class="big">${view.reveal?line[0]:"<span class='blank'>___________</span>"}</div>
+      <div class="row">${view.reveal?`
+        <button class="btn" data-act="got">I said it right</button>
+        <button class="btn again" data-act="again">Not yet</button>
+        <button class="btn ghost" data-act="sayLine">Dengar</button>`:
+        `<button class="btn warm" data-act="reveal">Say it, then check</button>`}</div>`;
+  }
+  return `<button class="back" data-go="seriesList">‹ All series</button>
+  <h2>${s.ms}</h2><p class="lede">${s.en}</p>
+  <div class="row" style="margin-bottom:14px"><div class="seg"><button class="${mode==="learn"?"on":""}" data-act="mode" data-m="learn">Listen & do</button><button class="${mode==="recall"?"on":""}" data-act="mode" data-m="recall">From memory</button></div></div>
+  <div class="card"><div class="dots">${dots}</div>${body}
+  ${st.mastered?`<p class="note" style="margin-top:16px"><b>Mastered!</b> Keep using these sentences around the house.</p>`:""}</div>`;
+}
+
+/* ---- Pantun ---- */
+function pantunList(){
+  const k = me();
+  return `<button class="back" data-go="home">‹ Home</button>
+  <h2>Pantun</h2><p class="lede">A pantun has four lines. The first two paint a picture and the last two carry the meaning. Hear it, say it line by line, and learn it by heart over a week or two.</p>
+  <div class="list">${PANTUN.map(p=>`<button class="item" data-go="pantun" data-id="${p.id}"><div class="grow"><h3>${p.title}</h3><div class="sub">${p.theme}</div></div><span class="badge ${k.pantun[p.id]?"":"todo"}">${k.pantun[p.id]?"By heart":"Learning"}</span></button>`).join("")}</div>`;
+}
+function hideWords(line, level){
+  const w = line.split(" ");
+  return w.map((word,j)=>{
+    let hide=false;
+    if(level===1) hide = j===w.length-1;
+    if(level===2) hide = j%2===1 || j===w.length-1;
+    if(level===3) hide = j>0;
+    if(level===4) hide = true;
+    if(!hide) return esc(word);
+    const punct = (word.match(/[,;.]+$/)||[""])[0];
+    return level===3 ? `<span class="blank" style="color:var(--muted);min-width:0">${esc(word[0])}…</span>${punct}` : `<span class="blank">${esc(word)}</span>${punct}`;
+  }).join(" ");
+}
+function pantunView(){
+  const p = PANTUN.find(x=>x.id===view.id), k = me(), lv = view.lv||0;
+  const labels = ["Full text","Hide last words","Hide half","First letters","Say it all"];
+  return `<button class="back" data-go="pantunList">‹ All pantun</button>
+  <h2>${p.title}</h2><p class="lede">${p.theme}. Tap a line to hear it.</p>
+  <div class="card">
+    <div class="pantun">${p.lines.map((l,j)=>`<button class="ln ${j%2?"indent":""}" data-say="${esc(l)}">${lv?hideWords(l,lv):esc(l)}</button>`).join("")}</div>
+    <div class="row" style="margin-top:14px"><button class="btn" data-act="sayAll">Dengar semua</button><button class="btn ghost" data-act="toggleEn">${view.showEn?"Hide":"Show"} meaning</button></div>
+    ${view.showEn?`<div style="margin-top:14px;color:var(--muted)">${p.meaning.map(m=>`<div>${m}</div>`).join("")}<p style="margin-top:10px">${p.note}</p></div>`:""}
+  </div>
+  <h3 style="margin-top:22px">Learn it by heart</h3>
+  <div class="row" style="margin:8px 0 14px"><div class="seg">${labels.map((l,j)=>`<button class="${lv===j?"on":""}" data-act="lv" data-lv="${j}">${l}</button>`).join("")}</div></div>
+  <div class="row"><button class="btn ${k.pantun[p.id]?"ghost":"warm"}" data-act="learned">${k.pantun[p.id]?"Learned by heart ✓":"I can say it by heart"}</button></div>
+  <p class="src">Text from <a href="${p.src[1]}" target="_blank" rel="noopener">${p.src[0]}</a>. English meaning is a plain rendering for learners.</p>`;
+}
+
+/* ---- Stories ---- */
+function storyList(){
+  const k = me();
+  return `<button class="back" data-go="home">‹ Home</button>
+  <h2>Cerita</h2><p class="lede">Listen to the whole story once, with the words hidden. Then tell it back in Malay, in your own words.</p>
+  <div class="list">${STORIES.map(s=>`<button class="item" data-go="story" data-id="${s.id}"><div class="grow"><h3>${s.title}</h3><div class="sub">${s.en}</div></div><span class="badge ${k.stories[s.id]&&k.stories[s.id].told?"":"todo"}">${k.stories[s.id]&&k.stories[s.id].told?"Narrated":"New"}</span></button>`).join("")}</div>`;
+}
+function storyView(){
+  const s = STORIES.find(x=>x.id===view.id), k = me();
+  if(!k.stories[s.id]) k.stories[s.id] = {told:false, written:""};
+  const st = k.stories[s.id];
+  return `<button class="back" data-go="storyList">‹ All stories</button>
+  <h2>${s.title}</h2><p class="lede">${s.en}. ${s.kind}.</p>
+  <div class="card">
+    <h3>1. Words to know before you listen</h3>
+    <div class="chips" style="margin:10px 0 18px">${s.words.map(w=>`<button class="chip" data-say="${esc(w[0])}"><b>${w[0]}</b> · ${w[1]}</button>`).join("")}</div>
+    <h3>2. Listen to the whole story</h3>
+    <div class="row" style="margin:10px 0"><button class="btn" data-act="readStory">${view.playing?"Stop":"Dengar cerita"}</button>
+      <button class="btn ghost" data-act="toggleText">${view.showText?"Hide":"Show"} the words</button></div>
+    ${view.showText?`<div class="story">${s.paras.map((p,j)=>`<p id="p${j}">${p}</p>`).join("")}</div>`:`<p class="note">The words are hidden on purpose. Listen with full attention first.</p>`}
+    <h3 style="margin-top:18px">3. Narrate</h3>
+    <p style="margin:6px 0 10px">Tell the story back in Malay to Mum, out loud. Older learners can also write it.</p>
+    <div class="row" style="margin-bottom:12px"><button class="btn ${st.told?"ghost":"warm"}" data-act="told">${st.told?"Told aloud ✓":"I told it aloud"}</button></div>
+    <label for="nar-${s.id}" style="font-weight:700">Written narration (optional)</label>
+    <textarea id="nar-${s.id}" data-nar="${s.id}" placeholder="Tulis cerita ini dalam bahasa Melayu...">${esc(st.written||"")}</textarea>
+    <p class="src">Saved as you type.</p>
+  </div>`;
+}
+
+/* ---- Songs ---- */
+function songList(){
+  const k = me();
+  return `<button class="back" data-go="home">‹ Home</button>
+  <h2>Lagu</h2><p class="lede">Traditional Malay songs, learned by ear the way children always have. Sing along with someone who knows them, or with a recording. Learn one song each term.</p>
+  <div class="list">${SONGS.map(s=>`<div class="item"><div class="grow"><h3>${s.title}</h3><div class="sub">${s.about}</div>
+    <div class="row" style="margin-top:8px"><a class="btn ghost small" href="https://www.youtube.com/results?search_query=${encodeURIComponent(s.title+" lagu rakyat")}" target="_blank" rel="noopener">Find a recording</a>
+    <button class="btn small ${k.songs[s.id]?"ghost":"warm"}" data-act="song" data-id="${s.id}">${k.songs[s.id]?"Can sing it ✓":"I can sing it"}</button></div></div></div>`).join("")}</div>`;
+}
+
+/* ---- Missions ---- */
+function missionList(){
+  const k = me();
+  return `<button class="back" data-go="home">‹ Home</button>
+  <h2>Misi</h2><p class="lede">Practise the phrases at home, then use them for real at the hawker centre, the market or anywhere you meet Malay speakers.</p>
+  <div class="card" style="margin-bottom:14px"><h3>Bahasa sopan: speaking politely</h3>
+    <p style="margin:6px 0 10px">Call people by a respectful title, and use the title where English would say "you": <b>Mak cik apa khabar?</b></p>
+    <div class="table-wrap"><table>
+      <tr><th>Title</th><th>Use for</th></tr>
+      <tr><td><b>mak cik</b> / <b>pak cik</b></td><td>an older woman / an older man (auntie, uncle)</td></tr>
+      <tr><td><b>kakak</b> (kak) / <b>abang</b> (bang)</td><td>a young woman / a young man a little older than you</td></tr>
+      <tr><td><b>encik</b> / <b>cik</b> / <b>puan</b></td><td>Mr or sir / Miss / Madam, for strangers and in shops or offices</td></tr>
+    </table></div>
+    <p style="margin:12px 0 6px">Soften what you ask for instead of giving orders:</p>
+    <div class="table-wrap"><table>
+      <tr><td><b>tolong ...</b></td><td>please (when asking a favour): <i>Tolong bungkus, ya.</i></td></tr>
+      <tr><td><b>minta ...</b></td><td>may I have: <i>Saya minta setengah kilo.</i></td></tr>
+      <tr><td><b>boleh ...?</b></td><td>could you ...?: <i>Boleh tambah telur?</i></td></tr>
+      <tr><td><b>... ya</b></td><td>a soft ending that makes a request gentler</td></tr>
+      <tr><td><b>maaf</b></td><td>excuse me, sorry</td></tr>
+      <tr><td><b>terima kasih</b> / <b>sama-sama</b></td><td>thank you / you're welcome</td></tr>
+    </table></div>
+    <p class="src">Based on <a href="https://news.uthm.edu.my/en/2026/06/the-malaysian-mirror-how-we-speak-is-the-reflection-of-budi-bahasa/" target="_blank" rel="noopener">UTHM, "How we speak is the reflection of budi bahasa"</a> and <a href="https://ling-app.com/blog/malay-manners-and-etiquette/" target="_blank" rel="noopener">Ling, Malay manners and etiquette</a>.</p>
+  </div>
+  <div class="list">${MISSIONS.map(m=>`<div class="card"><div class="row"><div style="flex:1;min-width:0"><h3>${m.ms}</h3><div class="sub" style="color:var(--muted)">${m.en}</div></div>
+    <span class="badge ${k.missions[m.id]?"":"todo"}">${k.missions[m.id]?"Done "+k.missions[m.id]:"Not yet"}</span></div>
+    <div style="margin-top:8px">${m.phrases.map(p=>`<div class="phr">${spk(p[0])}<div class="grow"><b>${p[0]}</b><div style="color:var(--muted);font-size:15px">${p[1]}</div></div></div>`).join("")}</div>
+    <div class="row" style="margin-top:12px"><button class="btn small ${k.missions[m.id]?"ghost":"warm"}" data-act="mission" data-id="${m.id}">${k.missions[m.id]?"Did it again":"I did it for real"}</button></div></div>`).join("")}</div>`;
+}
+
+/* ---- Grammar ---- */
+function variants(root, suf){
+  const out = [];
+  ["me","mem","men","meng","meny"].forEach(px=>{ [px+root+suf, px+root.slice(1)+suf].forEach(x=>{ if(out.indexOf(x)<0) out.push(x); }); });
+  return out;
+}
+function newQ(){
+  const k = me();
+  const started = SERIES.filter(s=>k.series[s.id] && k.series[s.id].got && k.series[s.id].got.some(Boolean)).map(s=>s.id);
+  const pool = VERBS.filter(v=>started.indexOf(v[0])>=0);
+  if(!pool.length) return null;
+  const v = pool[Math.floor(Math.random()*pool.length)];
+  const s = SERIES.find(x=>x.id===v[0]);
+  const line = s.lines.find(l=>l[0].indexOf(v[3])>=0);
+  const wrong = variants(v[1],v[2]).filter(x=>x!==v[3]).sort(()=>Math.random()-.5).slice(0,2);
+  return {v, line, opts:[v[3]].concat(wrong).sort(()=>Math.random()-.5), picked:null};
+}
+function grammar(){
+  const k = me();
+  if(view.q===undefined) view.q = newQ();
+  const q = view.q;
+  let practice;
+  if(!q) practice = `<p class="note">Practice uses only verbs from series you have started, so you work with words you already say. Start a series first, then come back.</p>`;
+  else {
+    const blanked = q.line[0].replace(q.v[3], "_____");
+    practice = `<p style="color:var(--muted);margin:0">Root word: <b style="color:var(--ink)">${q.v[1]}${q.v[2]?" + -"+q.v[2]:""}</b> (${q.v[4]})</p>
+      <div class="big" style="font-size:clamp(24px,4vw,32px)">${q.picked?q.line[0]:blanked}</div>
+      <div class="opts">${q.opts.map(o=>{ let c=""; if(q.picked){ if(o===q.v[3]) c="right"; else if(o===q.picked) c="wrong"; }
+        return `<button class="opt ${c}" data-act="pick" data-o="${o}" ${q.picked?"disabled":""}>${o}</button>`; }).join("")}</div>
+      ${q.picked?`<p class="note" style="margin-top:12px">${q.picked===q.v[3]?"Betul! ":"Not quite. "}${q.v[1]} → <b>${q.v[3]}</b>. ${rule(q.v[1])}</p>
+      <div class="row"><button class="btn" data-act="nextQ">Next sentence</button>${spk(q.line[0])}</div>`:""}`;
+  }
+  return `<button class="back" data-go="home">‹ Home</button>
+  <h2>Tatabahasa</h2><p class="lede">Grammar comes after you can speak. These pages explain sentences you already know from the series. Best begun once a few series feel easy.</p>
+  <div class="card">
+    <h3>The me- prefix</h3>
+    <p style="margin:6px 0 12px">Most action words in your series start with <b>me-</b>. Its ending changes to suit the first sound of the root word, and some first letters drop away.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Root starts with</th><th>Prefix</th><th>From your series</th></tr>
+      <tr><td>b, f, v</td><td><b>mem-</b></td><td>buka → <b>membuka</b>, bawa → <b>membawa</b></td></tr>
+      <tr><td>p (p drops)</td><td><b>mem-</b></td><td>pilih → <b>memilih</b>, pandang → <b>memandang</b></td></tr>
+      <tr><td>d, c, j, z</td><td><b>men-</b></td><td>cari → <b>mencari</b></td></tr>
+      <tr><td>t (t drops)</td><td><b>men-</b></td><td>tutup → <b>menutup</b>, tunggu → <b>menunggu</b></td></tr>
+      <tr><td>vowel, g, h, kh</td><td><b>meng-</b></td><td>ambil → <b>mengambil</b>, gosok → <b>menggosok</b>, isi → <b>mengisi</b></td></tr>
+      <tr><td>k (k drops)</td><td><b>meng-</b></td><td>keluar → <b>mengeluarkan</b></td></tr>
+      <tr><td>s (s drops)</td><td><b>meny-</b></td><td>siram → <b>menyiram</b>, sikat → <b>menyikat</b></td></tr>
+      <tr><td>l, m, n, r, w, y, ng, ny</td><td><b>me-</b></td><td>lihat → <b>melihat</b>, letak → <b>meletakkan</b></td></tr>
+    </table></div>
+    <h3 style="margin-top:18px">The -kan ending</h3>
+    <p style="margin:6px 0">-kan often means making something happen to an object. <b>keluar</b> (go out) becomes <b>mengeluarkan</b> (take something out). <b>masuk</b> (go in) becomes <b>memasukkan</b> (put something in).</p>
+    <h3 style="margin-top:18px">The ber- prefix</h3>
+    <p style="margin:6px 0">ber- usually describes doing an activity, often with no object. You know <b>berjalan</b> (walk) and <b>bertanya</b> (ask) from the market series.</p>
+  </div>
+  <h3 style="margin-top:24px">Practice: fill in the verb</h3>
+  <div class="card" style="margin-top:10px">${practice}</div>
+  <p class="src">${k.grammar.right} correct out of ${k.grammar.total} tries.</p>`;
+}
+function rule(root){
+  const c = root[0];
+  if("bfv".indexOf(c)>=0) return "Roots starting with b take mem-.";
+  if(c==="p") return "Roots starting with p take mem-, and the p drops.";
+  if("dcjz".indexOf(c)>=0) return "Roots starting with d, c or j take men-.";
+  if(c==="t") return "Roots starting with t take men-, and the t drops.";
+  if(c==="k") return "Roots starting with k take meng-, and the k drops.";
+  if(c==="s") return "Roots starting with s take meny-, and the s drops.";
+  if("aeiouhg".indexOf(c)>=0) return "Roots starting with a vowel, g or h take meng-.";
+  return "Roots starting with l, m, n, r, w or y take plain me-.";
+}
+
+/* ---------------- RENDER & EVENTS ---------------- */
+function render(){
+  renderKids();
+  if(view.name!=="home" && !S.active){ view={name:"home"}; }
+  const map = {home, seriesList, series:seriesView, pantunList, pantun:pantunView, storyList, story:storyView, songList, missionList, grammar};
+  app.innerHTML = (map[view.name]||home)() + `<div class="brand">Notes From Another Mother</div>`;
+}
+
+let timerId=null, timeLeft=600;
+function tick(){ const el=document.getElementById("tm"); if(el) el.textContent = String(Math.floor(timeLeft/60)).padStart(2,"0")+":"+String(timeLeft%60).padStart(2,"0"); }
+
+let storyRun = 0;
+function readStory(s){
+  const run = ++storyRun; view.playing = true; render();
+  let j = 0;
+  const nextPara = ()=>{
+    if(run!==storyRun) return;
+    document.querySelectorAll(".story p").forEach(p=>p.classList.remove("reading"));
+    if(j>=s.paras.length){ view.playing=false; render(); return; }
+    const el = document.getElementById("p"+j); if(el) el.classList.add("reading");
+    say(s.paras[j++], nextPara);
+  };
+  nextPara();
+}
+
+document.addEventListener("click", e=>{
+  const t = e.target.closest("button, a"); if(!t) return;
+  if(t.dataset.kid){ S.active = t.dataset.kid; save(); go({name:"home"}); return; }
+  if(t.dataset.say){ say(t.dataset.say); return; }
+  if(t.dataset.go){ go({name:t.dataset.go, id:t.dataset.id}); return; }
+  if(t.id==="tmb"){
+    if(timerId){ clearInterval(timerId); timerId=null; timeLeft=600; tick(); t.textContent="Start 10-minute lesson"; return; }
+    mark(); t.textContent="Stop";
+    timerId = setInterval(()=>{ timeLeft--; tick(); if(timeLeft<=0){ clearInterval(timerId); timerId=null; timeLeft=600; const b=document.getElementById("tmb"); if(b) b.textContent="Start 10-minute lesson"; const m=document.getElementById("tm"); if(m) m.textContent="Tamat!"; } },1000);
+    return;
+  }
+  const a = t.dataset.act; if(!a) return;
+  const k = me();
+  if(view.name==="series"){
+    const s = SERIES.find(x=>x.id===view.id), st = k.series[s.id], i = view.i||0;
+    const curText = ()=>{ const L=s.lines[view.i||0], st2=L[2]||[], si=view.step||0; return (view.mode||"learn")==="learn" && si<st2.length ? st2[si][0] : L[0]; };
+    if(a==="sayLine") say(curText());
+    if(a==="toggleEn") view.showEn = !view.showEn;
+    if(a==="next"){
+      const steps = s.lines[i][2]||[], si = view.step||0;
+      if(si < steps.length) view.step = si+1; else { view.i = (i+1)%s.lines.length; view.step = 0; }
+      say(curText());
+    }
+    if(a==="prev"){
+      const si = view.step||0;
+      if(si>0) view.step = si-1; else if(i>0){ view.i = i-1; view.step = (s.lines[i-1][2]||[]).length; }
+      say(curText());
+    }
+    if(a==="mode"){ view.mode = t.dataset.m; view.i=0; view.step=0; view.reveal=false; view.showEn=false; }
+    if(a==="reveal"){ view.reveal = true; say(s.lines[i][0]); }
+    if(a==="got"||a==="again"){
+      st.got[i] = a==="got"; mark();
+      if(st.got.every(Boolean)) st.mastered = true;
+      view.i = (i+1)%s.lines.length; view.reveal=false; save();
+    }
+    if(a!=="sayLine" && a!=="reveal") { mark(); render(); } else if(a==="reveal") render();
+    return;
+  }
+  if(view.name==="pantun"){
+    const p = PANTUN.find(x=>x.id===view.id);
+    if(a==="sayAll") say(p.lines.join(" "));
+    if(a==="toggleEn"){ view.showEn=!view.showEn; render(); }
+    if(a==="lv"){ view.lv = +t.dataset.lv; mark(); render(); }
+    if(a==="learned"){ k.pantun[p.id] = !k.pantun[p.id]; mark(); save(); render(); }
+    return;
+  }
+  if(view.name==="story"){
+    const s = STORIES.find(x=>x.id===view.id);
+    if(a==="readStory"){ if(view.playing){ storyRun++; stop(); view.playing=false; render(); } else { mark(); readStory(s); } }
+    if(a==="toggleText"){ view.showText=!view.showText; render(); }
+    if(a==="told"){ k.stories[s.id].told = !k.stories[s.id].told; mark(); save(); render(); }
+    return;
+  }
+  if(a==="song"){ k.songs[t.dataset.id] = !k.songs[t.dataset.id]; mark(); save(); render(); return; }
+  if(a==="mission"){ k.missions[t.dataset.id] = new Date().toLocaleDateString("en-SG",{day:"numeric",month:"short"}); mark(); save(); render(); return; }
+  if(view.name==="grammar"){
+    if(a==="pick" && view.q && !view.q.picked){ view.q.picked = t.dataset.o; k.grammar.total++; if(t.dataset.o===view.q.v[3]) k.grammar.right++; mark(); save(); render(); }
+    if(a==="nextQ"){ view.q = newQ(); render(); }
+  }
+});
+let narTimer = null;
+document.addEventListener("input", e=>{
+  const id = e.target.dataset && e.target.dataset.nar;
+  if(id){ const k=me(); if(!k.stories[id]) k.stories[id]={told:false,written:""}; k.stories[id].written = e.target.value; clearTimeout(narTimer); narTimer = setTimeout(save, 600); }
+});
+try{ const r = localStorage.getItem("jcm-rate"); if(r) document.getElementById("rate").value = r; }catch(e){}
+document.getElementById("rate").addEventListener("change", e=>{ try{ localStorage.setItem("jcm-rate", e.target.value); }catch(_){} });
+
+load(); render();
+</script>
+</body></html>

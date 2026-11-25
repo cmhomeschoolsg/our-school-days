@@ -489,6 +489,7 @@
       case 'math': return mtSheet(tickId, parts[1]);
       case 'zi': return ziSheet(tickId, parts[1]);
       case 'narr': return narrSheet(name.slice(5), arg && arg.label);
+      case 'ms': return { title: 'Bahasa Melayu', who: 'together', wide: true, body: '<iframe class="ms-frame" src="malay.html' + (parts[1] ? '?kid=' + (parts[1] === 'emily' ? 'Emily' : 'Emma') : '') + '" title="Jom Cakap Melayu"></iframe>' };
     }
     return { title: '', body: '' };
   }
@@ -604,6 +605,11 @@
 
 
 
+  // Jom Cakap Melayu runs in its own page inside the app; it keeps its progress here, so it syncs with the rest.
+  window.SDms = {
+    get: function () { return S.ms ? JSON.stringify(S.ms) : null; },
+    set: function (json) { try { S.ms = JSON.parse(json); save(); } catch (e) {} }
+  };
   // ---------- narration: record it, and keep a written copy (typed, or spoken through the keyboard's 🎤) ----------
   function narrLabel(id) {
     var found = '';

@@ -9544,7 +9544,8 @@ window.CONTENT = {
 "id": "lk_malay",
 "label": "Malay language",
 "icon": "🇲🇾",
-"mins": 10
+"mins": 10,
+"open": "ms"
 },
 {
 "id": "lk_object",
