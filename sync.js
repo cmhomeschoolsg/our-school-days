@@ -4,7 +4,7 @@
    when two devices change the same leaf, the later change wins. Different leaves never overwrite each other. */
 import { initializeApp } from './vendor/firebase-app.js';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as fbSignOut } from './vendor/firebase-auth.js';
-import { getFirestore, collection, doc, setDoc, onSnapshot } from './vendor/firebase-firestore.js';
+import { getFirestore, collection, doc, setDoc, onSnapshot, getDoc, deleteDoc } from './vendor/firebase-firestore.js';
 
 const CONFIG = {
   apiKey: 'AIzaSyB7XLBAxR-FWeVZ94fArGyUwwASYSH_tGc',
@@ -220,6 +220,35 @@ function start(u) {
   unsub = onSnapshot(collection(db, 'families', u.uid, 's'), snap => { applyRemote(snap); push(); }, e => { error = 'Sync stopped: ' + (e.code || e.message); SD.redraw(); });
   scan();
   SD.redraw();
+  try { if (SD.signedIn) SD.signedIn(); } catch (e) {}
+}
+
+
+// ---------- recordings and photos: kept apart from the progress, in pieces small enough for the database ----------
+// Each file is stored as families/<uid>/a/<key>~<n>, a piece of base64 text each; nothing is downloaded until it is played.
+const PIECE = 900000;
+function b64(blob) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = () => rej(r.error); r.readAsDataURL(blob); }); }
+function fileKey(k) { return String(k).replace(/[\/#?\[\]]/g, '_'); }
+async function blobPut(key, blob) {
+  if (!user) throw 'not-signed-in';
+  const s = await b64(blob), n = Math.max(1, Math.ceil(s.length / PIECE)), base = fileKey(key);
+  for (let i = 0; i < n; i++) await setDoc(doc(db, 'families', user.uid, 'a', base + '~' + i), { s: s.slice(i * PIECE, (i + 1) * PIECE), n, m: blob.type || '' });
+  return { n, size: blob.size };
+}
+async function blobGet(key) {
+  if (!user) throw 'not-signed-in';
+  const base = fileKey(key), first = await getDoc(doc(db, 'families', user.uid, 'a', base + '~0'));
+  if (!first.exists()) return null;
+  const d0 = first.data(), parts = [d0.s];
+  for (let i = 1; i < d0.n; i++) { const x = await getDoc(doc(db, 'families', user.uid, 'a', base + '~' + i)); if (!x.exists()) return null; parts.push(x.data().s); }
+  const bin = atob(parts.join('')), u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  return new Blob([u8], { type: d0.m || 'application/octet-stream' });
+}
+async function blobDel(key, n) {
+  if (!user) return;
+  const base = fileKey(key);
+  for (let i = 0; i < (n || 1); i++) { try { await deleteDoc(doc(db, 'families', user.uid, 'a', base + '~' + i)); } catch (e) {} }
 }
 
 const MSG = {
@@ -254,6 +283,8 @@ window.SDsync = {
     if (!pw || pw.length < 8) return Promise.reject('Choose a password of at least 8 characters.');
     return createUserWithEmailAndPassword(auth, email, pw).then(() => {}, e => { throw friendly(e); });
   },
-  signOut() { return fbSignOut(auth); }
+  signOut() { return fbSignOut(auth); },
+  signedIn() { return !!user; },
+  blobPut, blobGet, blobDel
 };
 SD.redraw();

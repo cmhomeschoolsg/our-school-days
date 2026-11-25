@@ -489,6 +489,9 @@
       case 'math': return mtSheet(tickId, parts[1]);
       case 'zi': return ziSheet(tickId, parts[1]);
       case 'narr': return narrSheet(name.slice(5), arg && arg.label);
+      case 'copy': return copySheet(parts[1], tickId);
+      case 'dict': return dictSheet(tickId);
+      case 'cwpick': return cwPickSheet(name.slice(7));
       case 'ms': return { title: 'Bahasa Melayu', who: 'together', wide: true, body: '<iframe class="ms-frame" src="malay.html' + (parts[1] ? '?kid=' + (parts[1] === 'emily' ? 'Emily' : 'Emma') : '') + '" title="Jom Cakap Melayu"></iframe>' };
     }
     return { title: '', body: '' };
@@ -497,7 +500,7 @@
   function poemCard(who, key, label) {
     var P = C.poets[who]; var p = ptr(key); var i = ((p.i % P.poems.length) + P.poems.length) % P.poems.length; var poem = P.poems[i];
     return '<div class="card" style="--who:var(--' + who + ')"><div class="kicker">' + esc(label || P.poet) + ' · poem ' + (i + 1) + ' of ' + P.poems.length + '</div><h3>' + esc(poem.title) + '</h3>' +
-      '<div class="poem">' + esc(poem.text) + '</div><div class="nav" style="margin-top:12px"><button class="btn ghost small" data-act="ptr" data-k="' + key + '" data-d="-1">‹ Previous</button><span class="small muted">' + (p.readOn ? 'Read today ✓ · next poem tomorrow' : 'A new poem each school day') + '</span><button class="btn ghost small" data-act="ptr" data-k="' + key + '" data-d="1">Next ›</button></div></div>';
+      '<div class="poem">' + esc(poem.text) + '</div><div class="btns" style="margin-top:8px">' + cwBtn('poem:' + who + ':' + i) + '</div><div class="nav" style="margin-top:12px"><button class="btn ghost small" data-act="ptr" data-k="' + key + '" data-d="-1">‹ Previous</button><span class="small muted">' + (p.readOn ? 'Read today ✓ · next poem tomorrow' : 'A new poem each school day') + '</span><button class="btn ghost small" data-act="ptr" data-k="' + key + '" data-d="1">Next ›</button></div></div>';
   }
   // Every poem of the term, with the ones already read ticked, and a way to pick the place again.
   function poemListHTML(who, key) {
@@ -711,6 +714,274 @@
 
 
 
+  // ---------- copywork and prepared dictation, from the books in the app ----------
+  // Passages are chosen from real books (Mason: the child copies fine sentences from books, and keeps the verses she loves).
+  function cwBlocksText(b) { return b.p != null ? b.p : b.verse != null ? b.verse : null; }
+  // The paragraphs of a reading, for choosing a passage. Units are sentences in prose and lines in verse.
+  function cwSource(src) {
+    var p = String(src).split(':'), out = { title: '', paras: [], verse: false };
+    try {
+      if (p[0] === 'book') { var B = BK[p[1]], it = B.items[+p[2]]; out.title = B.book + ' · ' + it.title; it.blocks.forEach(function (b) { var t = cwBlocksText(b); if (t) out.paras.push({ t: t, verse: b.verse != null }); }); }
+      else if (p[0] === 'tale') { var B2 = BK[p[1]], P = partsOf(p[1], +p[2])[+p[3]]; out.title = B2.book + ' · ' + B2.items[+p[2]].title; P.blocks.forEach(function (b) { var t = cwBlocksText(b); if (t) out.paras.push({ t: t, verse: b.verse != null }); }); }
+      else if (p[0] === 'read') { var R = C.readings[p[1]], ti = R.contents[+p[2]], ch = R.chapters[ti]; out.title = R.book + ' · ' + ti; ch.text.split(/\n\s*\n/).forEach(function (t) { if (t.trim()) out.paras.push({ t: t.trim() }); }); }
+      else if (p[0] === 'poem') { var Q = C.poets[p[1]], poem = Q.poems[+p[2]]; out.title = Q.poet + ' · ' + poem.title; out.verse = true; poem.text.split(/\n\s*\n/).forEach(function (t) { out.paras.push({ t: t, verse: true }); }); }
+    } catch (e) {}
+    return out;
+  }
+  function cwUnits(para) {
+    if (para.verse) return para.t.split('\n').filter(function (l) { return l.trim(); });
+    var m = para.t.match(/[^.!?]+(?:[.!?]+["'’”)\]]*|$)\s*/g) || [para.t];
+    return m.map(function (x) { return x.trim(); }).filter(Boolean);
+  }
+  function cwBtn(src) { return '<button class="btn ghost small" data-act="cwpickopen" data-v="' + esc(src) + '">✒️ Keep a passage for copywork or dictation</button>'; }
+  function cwState(who) { S.cw = S.cw || {}; var z = S.cw[who] || (S.cw[who] = {}); z.b = z.b || {}; z.log = z.log || {}; return z; }
+  function dcState() { S.dc = S.dc || {}; var z = S.dc.emma || (S.dc.emma = {}); z.b = z.b || {}; z.st = z.st || {}; z.log = z.log || {}; z.sw = z.sw || {}; z.opt = z.opt || {}; return z; }
+  function bankList(b, all) { return Object.keys(b).map(function (id) { return { id: id, t: b[id].t, s: b[id].s, a: b[id].a, done: b[id].done, o: b[id].o }; }).filter(function (x) { return all || !x.done; }).sort(function (x, y) { return (x.o != null ? x.o : x.a) - (y.o != null ? y.o : y.a); }); }
+  function cwPickSheet(src) {
+    var S0 = cwSource(src), sel = (ui.cwSel && ui.cwSel.src === src) ? ui.cwSel.sel : {};
+    var picked = [];
+    var body = '<p class="small muted" style="margin:0">Tap the sentences you want' + (S0.verse ? ' (or the lines of verse)' : '') + '. Choose a few that are beautifully written, or that you love.</p><div class="card"><div class="kicker">' + esc(S0.title) + '</div>' +
+      S0.paras.map(function (para, pi) {
+        return '<p class="cw-pp' + (para.verse ? ' verse' : '') + '">' + cwUnits(para).map(function (u, ui2) {
+          var k = pi + '.' + ui2, on = !!sel[k]; if (on) picked.push({ k: k, u: u, verse: para.verse, pi: pi });
+          return '<span class="cw-u' + (on ? ' on' : '') + '" data-act="cwsel" data-v="' + k + '">' + esc(u) + '</span>' + (para.verse ? '<br>' : ' ');
+        }).join('') + '</p>';
+      }).join('') + '</div>';
+    var text = cwJoin(picked), words = text ? text.split(/\s+/).length : 0;
+    body += '<div class="card cw-sticky"><div class="kicker">Your passage · ' + words + ' words</div>' + (text ? '<p class="cw-prev">' + esc(text) + '</p>' : '<p class="small muted" style="margin:0">Nothing chosen yet.</p>') +
+      (text ? '<div class="btns"><button class="btn small" data-act="cwadd" data-v="copy:emma">Add to Emma’s copywork</button><button class="btn small" data-act="cwadd" data-v="copy:emily">Add to Emily’s copywork</button><button class="btn small" data-act="cwadd" data-v="dict:emma">Add to Emma’s dictation</button><button class="btn ghost small" data-act="cwclear">Clear</button></div>' : '') +
+      '<p class="small muted" style="margin:6px 0 0">A copywork passage can be a sentence or two, or a verse. For dictation, a paragraph is about right.</p></div>';
+    if (ui.cwBack) body += '<div class="btns"><button class="btn ghost small" data-act="cwback">‹ Back to the reading</button></div>';
+    return { title: 'Keep a passage', who: 'together', body: body };
+  }
+  function cwJoin(picked) {
+    picked.sort(function (a, b) { var x = a.k.split('.'), y = b.k.split('.'); return (+x[0] - +y[0]) || (+x[1] - +y[1]); });
+    var out = '', lastP = null;
+    picked.forEach(function (p) { if (out) out += p.verse ? (p.pi !== lastP ? '\n\n' : '\n') : (p.pi !== lastP ? '\n\n' : ' '); out += p.u; lastP = p.pi; });
+    return out;
+  }
+  function cwAddTo(dest) {
+    if (!ui.cwSel) return;
+    var S0 = cwSource(ui.cwSel.src), picked = [];
+    Object.keys(ui.cwSel.sel).forEach(function (k) { var a = k.split('.'), para = S0.paras[+a[0]]; if (para) picked.push({ k: k, u: cwUnits(para)[+a[1]], verse: para.verse, pi: +a[0] }); });
+    var text = cwJoin(picked); if (!text) return;
+    var d = dest.split(':'), z = d[0] === 'dict' ? dcState() : cwState(d[1]), id = 'p' + Date.now();
+    z.b[id] = { t: text, s: S0.title, a: Date.now() }; save();
+    ui.cwSel = null; toast(d[0] === 'dict' ? 'Added to Emma’s dictation' : 'Added to ' + (d[1] === 'emma' ? 'Emma' : 'Emily') + '’s copywork'); refreshSheet();
+  }
+  // Words as tappable spans; punctuation stays outside the tap.
+  function cwWords(text, act, marks) {
+    return esc(text).replace(/\n/g, '<br>').replace(/[A-Za-z’'\-]+/g, function (w) {
+      var k = w.replace(/[’']/g, '\'').toLowerCase(), cls = marks && marks[k] ? ' ' + marks[k] : '';
+      return '<span class="cw-w' + cls + '" data-act="' + act + '" data-v="' + w.replace(/"/g, '') + '">' + w + '</span>';
+    });
+  }
+  function wordFocus(w, act) {
+    if (!w) return '';
+    return '<div class="cw-focus"><div class="cw-fw">' + esc(w) + '</div><p class="small" style="margin:6px 0">Look at it until you can see it with your eyes shut. Then shut your eyes and see it.</p><div class="btns" style="justify-content:center"><button class="btn small" data-act="' + act + '">I can see it ✓</button></div></div>';
+  }
+  var CW_CHECKS = [['words', 'Is every word there, spelt just as it is in the book?'], ['marks', 'Are the capitals, commas and full stops all in their places?'], ['line', 'Do your letters sit on the line, tall letters tall and small letters small?'], ['space', 'Are the spaces between your words even?']];
+  function copySheet(who, tickId) {
+    var z = cwState(who), L = bankList(z.b), tab = ui.cwTab || 'today', name = who === 'emma' ? 'Emma' : 'Emily';
+    var body = '<div class="seg" role="group" style="margin-bottom:10px">' + [['today', 'Today'], ['bank', 'Passages (' + L.length + ')'], ['past', 'My copywork']].map(function (t) { return '<button data-act="cwtab" data-v="' + t[0] + '" aria-pressed="' + (tab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
+    if (tab === 'today') {
+      var P = L[0];
+      if (!P) body += '<div class="card"><h3>No passage yet</h3><p style="margin:0">Open one of your readings (a fable, a tale, a poem, a chapter) and tap <b>✒️ Keep a passage</b> under it. Choose a sentence or two that you love, and add it to ' + name + '’s copywork.</p></div>';
+      else {
+        var dr = ui.cwDraft && ui.cwDraft.id === P.id && ui.cwDraft.who === who ? ui.cwDraft : (ui.cwDraft = { id: P.id, who: who, chk: {}, best: null, care: null });
+        var marks = {}; if (dr.best) marks[dr.best.toLowerCase()] = 'best'; if (dr.care) marks[dr.care.toLowerCase()] = 'care';
+        body += '<div class="card"><div class="kicker">' + esc(P.s) + '</div><div class="cw-big' + (who === 'emily' ? ' big2' : '') + '">' + cwWords(P.t, 'cwword', marks) + '</div>' + wordFocus(ui.cwFocus, 'cwfocusoff') + '</div>' +
+          '<div class="card"><h3 style="margin-top:0">1. Look</h3><p style="margin:0">Read it through. Tap any word you are not sure how to write; it shows by itself. Look at it, shut your eyes and see it.</p>' +
+          '<h3>2. Write</h3><p style="margin:0">Copy it slowly and beautifully, every capital and comma just as it is. About ten minutes is plenty; if it is long, finish it tomorrow.</p>' +
+          '<h3>3. Look at your own work</h3><p style="margin:0 0 8px">Put your page beside the passage and look at it word by word.</p>' +
+          CW_CHECKS.map(function (c) { var v = dr.chk[c[0]]; return '<div class="cw-chk"><span>' + esc(c[1]) + '</span><span class="seg"><button data-act="cwchk" data-v="' + c[0] + ':y" aria-pressed="' + (v === 'y') + '">Yes</button><button data-act="cwchk" data-v="' + c[0] + ':n" aria-pressed="' + (v === 'n') + '">Not yet</button></span></div>'; }).join('') +
+          '<div class="btns" style="margin-top:10px"><button class="btn ' + (ui.cwMode === 'best' ? '' : 'ghost ') + 'small" data-act="cwmode" data-v="best">⭐ Tap the word you wrote best</button><button class="btn ' + (ui.cwMode === 'care' ? '' : 'ghost ') + 'small" data-act="cwmode" data-v="care">🔁 Tap a word to take more care with</button></div>' +
+          (dr.best || dr.care ? '<p class="small" style="margin:6px 0 0">' + (dr.best ? '⭐ Best: <b>' + esc(dr.best) + '</b>' : '') + (dr.best && dr.care ? ' · ' : '') + (dr.care ? '🔁 More care next time: <b>' + esc(dr.care) + '</b>' : '') + '</p>' : '') +
+          '<textarea id="cwnote" rows="2" style="width:100%;margin-top:8px;font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line)" placeholder="What I did well, and what I will do better (you can use the 🎤 on the keyboard)">' + esc(dr.note || '') + '</textarea>' +
+          '<div class="btns" style="margin-top:8px;align-items:center"><label class="btn ghost small" style="cursor:pointer">📷 Photo of my page<input type="file" id="cwphoto" accept="image/*" capture="environment" style="display:none"></label>' + (ui.cwPhotoUrl ? '<img src="' + ui.cwPhotoUrl + '" alt="Photo of the page" class="cw-thumb">' : '') + '</div>' +
+          '<div class="btns" style="margin-top:10px"><button class="btn small" data-act="cwsave" data-v="' + who + ':done">Save · I finished this passage</button><button class="btn ghost small" data-act="cwsave" data-v="' + who + ':more">Save · I’ll finish it tomorrow</button></div></div>';
+      }
+    } else if (tab === 'bank') {
+      body += '<p class="small muted" style="margin:0 0 8px">The first passage is today’s. Add passages with <b>✒️ Keep a passage</b> under any reading.</p>' + (L.length ? '<ul class="list">' + L.map(function (x, i) {
+        return '<li style="display:block"><div class="small muted">' + esc(x.s) + '</div><p style="margin:4px 0;white-space:pre-line">' + esc(x.t) + '</p><div class="btns">' + (i ? '<button class="btn ghost small" data-act="cwfirst" data-v="' + who + ':' + x.id + '">Do this one next</button>' : '<span class="small">Today’s</span>') + '<button class="btn ghost small" data-act="cwrm" data-v="' + who + ':' + x.id + '">' + (ui.cwRm === x.id ? 'Tap again to remove' : 'Remove') + '</button></div></li>';
+      }).join('') + '</ul>' : '<p class="empty">No passages waiting.</p>');
+    } else {
+      var keys = Object.keys(z.log).sort().reverse();
+      body += keys.length ? '<ul class="list">' + keys.map(function (k) {
+        var e = z.log[k], P2 = z.b[e.id] || {}, ok = CW_CHECKS.filter(function (c) { return e.chk && e.chk[c[0]] === 'y'; }).length;
+        return '<li style="display:block"><div class="nav"><span class="small"><b>' + esc(fmtDate(e.d)) + '</b> · ' + (e.fin ? 'finished the passage' : 'part of the passage') + ' · ' + ok + ' of 4 checks “yes”</span></div><p class="small" style="margin:4px 0;white-space:pre-line">' + esc((P2.t || '').slice(0, 140)) + ((P2.t || '').length > 140 ? '…' : '') + '</p>' +
+          (e.best || e.care ? '<p class="small" style="margin:0">' + (e.best ? '⭐ ' + esc(e.best) : '') + (e.best && e.care ? ' · ' : '') + (e.care ? '🔁 ' + esc(e.care) : '') + '</p>' : '') + (e.note ? '<p class="small" style="margin:4px 0 0;font-style:italic">' + esc(e.note) + '</p>' : '') + (e.ph ? cwPhoto(who, k, e.ph) : '') + '</li>';
+      }).join('') + '</ul>' : '<p class="empty">Nothing yet.</p>';
+    }
+    if (tickId) body += '<div class="btns">' + tickButton(tickId, 'Copywork done', 'I did my copywork') + '</div>';
+    body += '<p class="small muted">Charlotte Mason, Home Education, Part V: copying from a book, done slowly and beautifully; the child keeps the verses she loves best.</p>';
+    return { title: 'Copywork · ' + name, who: who, body: body };
+  }
+  var cwPhUrl = {};
+  function cwPhoto(who, k, ent) {
+    var key = 'cwph_' + who + '_' + k;
+    if (cwPhUrl[key] === undefined) { cwPhUrl[key] = null; blobLocal(key, ent).then(function (b) { cwPhUrl[key] = b ? URL.createObjectURL(b) : false; if (b) refreshSheet(); }); }
+    return cwPhUrl[key] ? '<img src="' + cwPhUrl[key] + '" alt="Photo of the page" class="cw-thumb" data-act="zoompic">' : cwPhUrl[key] === false ? '<p class="small muted" style="margin:4px 0 0">The photo is on another iPad.</p>' : '';
+  }
+  // Shrink a photo so it is quick to keep and to send.
+  function shrinkPhoto(file) {
+    return new Promise(function (res) {
+      var img = new Image(), u = URL.createObjectURL(file);
+      img.onload = function () { var s = Math.min(1, 1400 / Math.max(img.width, img.height)), c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u); c.toBlob(function (b) { res(b || file); }, 'image/jpeg', 0.75); };
+      img.onerror = function () { res(file); }; img.src = u;
+    });
+  }
+  function cwSave(who, fin, tickId) {
+    var z = cwState(who), dr = ui.cwDraft; if (!dr) return;
+    var nt = document.getElementById('cwnote'); if (nt) dr.note = nt.value.trim();
+    var k = String(Date.now()), e = { id: dr.id, d: today(), chk: dr.chk, fin: fin ? 1 : 0 };
+    if (dr.best) e.best = dr.best; if (dr.care) e.care = dr.care; if (dr.note) e.note = dr.note;
+    var after = function () {
+      z.log[k] = e; if (fin && z.b[dr.id]) z.b[dr.id].done = Date.now();
+      if (tickId && !doneToday(tickId)) addToday(tickId);
+      save(); ui.cwDraft = null; ui.cwMode = null; ui.cwFocus = null; if (ui.cwPhotoUrl) { URL.revokeObjectURL(ui.cwPhotoUrl); ui.cwPhotoUrl = null; }
+      toast(fin ? 'Saved. Well done!' : 'Saved. Carry on tomorrow'); refreshSheet(true);
+    };
+    if (ui.cwPhotoBlob) { var key = 'cwph_' + who + '_' + k, bl = ui.cwPhotoBlob; ui.cwPhotoBlob = null; e.ph = { t: Date.now() }; vput(key, bl).then(function () { after(); blobQueue(key, ['cw', who, 'log', k, 'ph']); }, after); }
+    else after();
+  }
+
+  // ---------- prepared dictation (Emma) ----------
+  // Home Education, Part V: the child studies the passage until she can see the words she is unsure of with her eyes shut;
+  // then it is given clause by clause; a word written wrongly is studied and written again correctly.
+  function dcClauses(text) {
+    var raw = text.replace(/\s+/g, ' ').match(/[^,;:.!?]+(?:[,;:.!?]+["'’”)\]]*|$)/g) || [text], out = [];
+    raw.forEach(function (c) {
+      c = c.trim(); if (!c) return;
+      var w = c.split(' ');
+      if (w.length > 12) { var mid = Math.floor(w.length / 2), best = -1; for (var d = 0; d < mid; d++) { [mid - d, mid + d].forEach(function (i) { if (best < 0 && i > 2 && i < w.length - 2 && /^(and|but|that|which|who|when|where|while|for|as|because)$/i.test(w[i])) best = i; }); } if (best > 0) { out.push(w.slice(0, best).join(' ')); c = w.slice(best).join(' '); } }
+      if (out.length && out[out.length - 1].split(' ').length < 3 && !/[.!?]["'’”]*$/.test(out[out.length - 1])) out[out.length - 1] += ' ' + c; else out.push(c);
+    });
+    return out;
+  }
+  function enSay(t, done) {
+    try {
+      var ss = window.speechSynthesis; ss.cancel();
+      var u = new SpeechSynthesisUtterance(t); u.lang = /^en/i.test(navigator.language || '') ? navigator.language : 'en-GB'; u.rate = 0.85;
+      enSay.u = u; if (done) u.onend = done; ss.speak(u);
+    } catch (e) { if (done) done(); }
+  }
+  function dictSheet(tickId) {
+    var z = dcState(), L = bankList(z.b), P = L[0], tab = ui.dcTab;
+    var st = P ? (z.st[P.id] || (z.st[P.id] = {})) : null;
+    if (!tab) tab = !P ? 'bank' : st.ready ? 'dict' : 'prep';
+    var body = '<div class="seg" role="group" style="margin-bottom:10px">' + [['prep', '1 · Prepare'], ['dict', '2 · Dictation'], ['check', '3 · Check'], ['bank', 'Passages (' + L.length + ')'], ['past', 'Past']].map(function (t) { return '<button data-act="dctab" data-v="' + t[0] + '" aria-pressed="' + (tab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
+    var noP = '<div class="card"><h3>No passage yet</h3><p style="margin:0">Open a reading and tap <b>✒️ Keep a passage</b> under it. Choose a paragraph and add it to Emma’s dictation.</p></div>';
+    if (tab === 'prep') {
+      if (!P) body += noP;
+      else {
+        var sw = st.w || {}, keep = {};
+        // Words missed in earlier dictations are marked to watch.
+        (P.t.match(/[A-Za-z’'\-]+/g) || []).forEach(function (w) { var k = w.replace(/[’']/g, '\'').toLowerCase(); if (z.sw[k] && z.sw[k].m && !z.sw[k].ok) keep[k] = 'watch'; });
+        Object.keys(sw).forEach(function (k) { keep[k] = sw[k] === 2 ? 'known' : 'study'; });
+        var studyN = Object.keys(sw).filter(function (k) { return sw[k] !== 2; }).length, knownN = Object.keys(sw).length - studyN;
+        body += '<div class="card"><div class="kicker">' + esc(P.s) + '</div><div class="cw-big">' + cwWords(P.t, 'dcword', keep) + '</div>' + (ui.dcStudy ? dcStudyHTML(ui.dcStudy) : '') + '</div>' +
+          '<div class="card"><p style="margin:0">Read the passage carefully. <b>Tap every word you are not sure you can spell.</b> Then study each one: look at it until you can see it with your eyes shut. Notice the capitals and the stops too.</p>' +
+          (Object.keys(keep).some(function (k) { return keep[k] === 'watch'; }) ? '<p class="small" style="margin:6px 0 0"><span class="cw-w watch">underlined</span> words were hard in an earlier dictation.</p>' : '') +
+          '<p class="small muted" style="margin:6px 0 0">' + studyN + ' to study · ' + knownN + ' learnt</p>' +
+          '<div class="btns" style="margin-top:8px"><button class="btn small" data-act="dcready">' + (st.ready ? '✓ Ready since ' + esc(fmtDate(st.ready)) : 'I’m ready for dictation') + '</button></div></div>';
+      }
+    } else if (tab === 'dict') {
+      if (!P) body += noP;
+      else {
+        var cl = dcClauses(P.t), run = ui.dcRun && ui.dcRun.id === P.id ? ui.dcRun : null, by = (run && run.by) || ui.dcBy || 'mum', rep = z.opt.rep || 'any';
+        if (!run) {
+          body += '<div class="card"><h3 style="margin-top:0">Who reads it?</h3><div class="seg"><button data-act="dcby" data-v="mum" aria-pressed="' + (by === 'mum') + '">Mum reads</button><button data-act="dcby" data-v="ipad" aria-pressed="' + (by === 'ipad') + '">The iPad reads</button></div>' +
+            '<p class="small" style="margin:8px 0 0">' + (by === 'mum' ? 'Mum holds the iPad so only she can see it, and reads each part when Emma is ready. Say the words; don’t say the commas and stops: Emma puts those in herself.' : 'The words stay hidden. The iPad says one part at a time; tap <b>Ready</b> when you have written it.') + '</p>' +
+            '<p class="small muted" style="margin:6px 0 0">' + cl.length + ' parts.' + (st.ready ? '' : ' Emma hasn’t marked the passage as prepared yet.') + '</p>' +
+            '<div class="btns" style="margin-top:8px"><button class="btn" data-act="dcstart" data-v="' + by + '">Begin</button></div></div>';
+        } else {
+          var i = run.i, last = i >= cl.length - 1;
+          body += '<div class="card dc-run"><div class="kicker">Part ' + (i + 1) + ' of ' + cl.length + '</div>' +
+            (run.by === 'mum' ? '<p class="small muted" style="margin:0 0 6px">For Mum’s eyes only</p><div class="cw-big">' + esc(cl[i]) + '</div>'
+              : '<div class="dc-hid">🔈</div>' + (rep === 'none' ? '' : '<div class="btns" style="justify-content:center"><button class="btn ghost" data-act="dcagain"' + (rep === 'once' && run.r[i] >= 1 ? ' disabled' : '') + '>🔁 Say it again</button></div>')) +
+            '<div class="btns" style="justify-content:center;margin-top:10px">' + (last ? '<button class="btn" data-act="dcfin">Finished · now check it ›</button>' : '<button class="btn" data-act="dcnext">' + (run.by === 'mum' ? 'Next part ›' : 'Ready · next part ›') + '</button>') + '</div>' +
+            '<div class="btns" style="justify-content:center"><button class="btn ghost small" data-act="dcstop">Stop</button></div></div>';
+        }
+        body += '<details class="card"><summary style="cursor:pointer;font-weight:700">For Mum: saying it again</summary><p class="small" style="margin:6px 0">Mason gave each part “repeated once”, instead of the usual three or four times with questions, so that the child listens with full attention the first time. Choose what suits Emma; the app notes how often each part was asked for again.</p><div class="seg">' +
+          [['any', 'As often as needed'], ['once', 'Once'], ['none', 'Not at all']].map(function (o) { return '<button data-act="dcrep" data-v="' + o[0] + '" aria-pressed="' + (rep === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div></details>';
+      }
+    } else if (tab === 'check') {
+      if (!P) body += noP;
+      else {
+        var miss = ui.dcMiss && ui.dcMiss.id === P.id ? ui.dcMiss : (ui.dcMiss = { id: P.id, w: {} });
+        var mk = {}; Object.keys(miss.w).forEach(function (k) { mk[k] = 'miss'; });
+        body += '<div class="card"><p style="margin:0 0 8px">Put your page beside the passage and check it word by word. <b>Tap each word you wrote wrongly.</b></p><div class="cw-big">' + cwWords(P.t, 'dcmiss', mk) + '</div></div>';
+        var mw = Object.keys(miss.w);
+        if (ui.dcLearn) body += '<div class="card"><h3 style="margin-top:0">Learn the words you missed</h3>' + mw.map(function (k) { return '<div class="dc-learn"><span class="cw-fw" style="font-size:30px">' + esc(miss.w[k]) + '</span><span class="small">Look at it, shut your eyes and see it, then write it correctly on your page.</span></div>'; }).join('') + '<div class="btns"><button class="btn" data-act="dcsave">I’ve written them correctly · save</button></div></div>';
+        else body += '<div class="btns"><button class="btn" data-act="' + (mw.length ? 'dclearn' : 'dcsave') + '">' + (mw.length ? 'Done checking · ' + mw.length + ' to learn ›' : 'Every word right · save') + '</button></div>';
+      }
+    } else if (tab === 'bank') {
+      body += '<p class="small muted" style="margin:0 0 8px">The first passage is the one being prepared. Add passages with <b>✒️ Keep a passage</b> under any reading.</p>' + (L.length ? '<ul class="list">' + L.map(function (x, i) {
+        return '<li style="display:block"><div class="small muted">' + esc(x.s) + ' · ' + x.t.split(/\s+/).length + ' words</div><p style="margin:4px 0;white-space:pre-line">' + esc(x.t) + '</p><div class="btns">' + (i ? '<button class="btn ghost small" data-act="dcfirst" data-v="' + x.id + '">Do this one next</button>' : '<span class="small">Now</span>') + '<button class="btn ghost small" data-act="dcrm" data-v="' + x.id + '">' + (ui.cwRm === x.id ? 'Tap again to remove' : 'Remove') + '</button></div></li>';
+      }).join('') + '</ul>' : '<p class="empty">No passages waiting.</p>');
+    } else {
+      var keys = Object.keys(z.log).sort().reverse(), hard = Object.keys(z.sw).filter(function (k) { return z.sw[k].m; }).sort(function (a, b) { return z.sw[b].m - z.sw[a].m; });
+      body += (hard.length ? '<div class="card"><div class="kicker">Words to keep an eye on</div><p style="margin:4px 0 0">' + hard.map(function (k) { return '<span class="dc-chip">' + esc(z.sw[k].w || k) + (z.sw[k].m > 1 ? ' ×' + z.sw[k].m : '') + '</span>'; }).join(' ') + '</p></div>' : '') +
+        (keys.length ? '<ul class="list">' + keys.map(function (k) { var e = z.log[k], P2 = z.b[e.id] || {}; return '<li style="display:block"><span class="small"><b>' + esc(fmtDate(e.d)) + '</b> · ' + (e.by === 'ipad' ? 'read by the iPad' : 'read by Mum') + ' · ' + (e.miss && e.miss.length ? e.miss.length + ' wrong: ' + esc(e.miss.join(', ')) : 'every word right') + (e.rep ? ' · asked again ' + e.rep + '×' : '') + '</span><p class="small muted" style="margin:4px 0 0">' + esc((P2.t || '').slice(0, 120)) + '…</p></li>'; }).join('') + '</ul>' : '<p class="empty">No dictations yet.</p>');
+    }
+    if (tickId) body += '<div class="btns">' + tickButton(tickId, 'Done', 'I did it') + '</div>';
+    body += '<p class="small muted">Charlotte Mason, Home Education, Part V, “Spelling and Dictation”.</p>';
+    return { title: 'Dictation · Emma', who: 'emma', body: body };
+  }
+  function dcStudyHTML(w) {
+    var hid = ui.dcHide;
+    return '<div class="cw-focus"><div class="cw-fw">' + (hid ? '<span class="muted">· · ·</span>' : esc(w)) + '</div><p class="small" style="margin:6px 0">' + (hid ? 'Shut your eyes and see the word. Spell it in your head.' : 'Look at it until you can see it with your eyes shut.') + '</p><div class="btns" style="justify-content:center">' +
+      (hid ? '<button class="btn ghost small" data-act="dcshow">Show me again</button><button class="btn small" data-act="dcknow">I know it ✓</button>' : '<button class="btn small" data-act="dchide">I can see it · hide it</button>') +
+      '<button class="btn ghost small" data-act="dcunstudy">Not a hard word</button></div></div>';
+  }
+  function dcSay() { var z = dcState(), P = bankList(z.b)[0], r = ui.dcRun; if (!P || !r || r.by !== 'ipad') return; enSay(dcClauses(P.t)[r.i]); }
+  function cwAct(act, v, el, tickId) {
+    var z, P, k, a;
+    switch (act) {
+      case 'cwpickopen': ui.cwBack = ui.sheet ? { name: ui.sheet, arg: ui.sheetArg } : null; ui.cwSel = { src: v, sel: {} }; openSheet('cwpick:' + v); var sb = document.querySelector('.sheet-body'); if (sb) sb.scrollTop = 0; break;
+      case 'cwsel': if (!ui.cwSel) ui.cwSel = { src: ui.sheet.slice(7), sel: {} }; if (ui.cwSel.sel[v]) delete ui.cwSel.sel[v]; else ui.cwSel.sel[v] = 1; refreshSheet(); break;
+      case 'cwclear': if (ui.cwSel) ui.cwSel.sel = {}; refreshSheet(); break;
+      case 'cwadd': cwAddTo(v); break;
+      case 'cwback': if (ui.cwBack) { var bk = ui.cwBack; ui.cwBack = null; openSheet(bk.name, bk.arg); } break;
+      case 'cwtab': ui.cwTab = v; refreshSheet(true); break;
+      case 'cwword': if (ui.cwMode && ui.cwDraft) { ui.cwDraft[ui.cwMode] = v; ui.cwMode = null; } else ui.cwFocus = v; refreshSheet(); break;
+      case 'cwfocusoff': ui.cwFocus = null; refreshSheet(); break;
+      case 'cwchk': a = v.split(':'); if (ui.cwDraft) { ui.cwDraft.chk[a[0]] = ui.cwDraft.chk[a[0]] === a[1] ? null : a[1]; } refreshSheet(); break;
+      case 'cwmode': ui.cwMode = ui.cwMode === v ? null : v; refreshSheet(); break;
+      case 'cwsave': a = v.split(':'); cwSave(a[0], a[1] === 'done', tickId); break;
+      case 'cwfirst': a = v.split(':'); z = cwState(a[0]); k = bankList(z.b)[0]; if (z.b[a[1]]) z.b[a[1]].o = (k ? (k.o != null ? k.o : k.a) : Date.now()) - 1; save(); refreshSheet(); break;
+      case 'cwrm': a = v.split(':'); if (ui.cwRm !== a[1]) { ui.cwRm = a[1]; refreshSheet(); break; } ui.cwRm = null; z = cwState(a[0]); delete z.b[a[1]]; save(); refreshSheet(); break;
+      case 'dctab': ui.dcTab = v; ui.dcStudy = null; refreshSheet(true); break;
+      case 'dcword': z = dcState(); P = bankList(z.b)[0]; if (!P) break; var st = z.st[P.id] || (z.st[P.id] = {}); st.w = st.w || {}; k = v.replace(/[’']/g, '\'').toLowerCase(); if (!st.w[k]) st.w[k] = 1; save(); ui.dcStudy = v; ui.dcHide = false; refreshSheet(); break;
+      case 'dchide': ui.dcHide = true; refreshSheet(); break;
+      case 'dcshow': ui.dcHide = false; refreshSheet(); break;
+      case 'dcknow': case 'dcunstudy': z = dcState(); P = bankList(z.b)[0]; if (P && ui.dcStudy) { var st2 = z.st[P.id] || (z.st[P.id] = {}); st2.w = st2.w || {}; k = ui.dcStudy.replace(/[’']/g, '\'').toLowerCase(); if (act === 'dcknow') st2.w[k] = 2; else delete st2.w[k]; save(); } ui.dcStudy = null; ui.dcHide = false; refreshSheet(); break;
+      case 'dcready': z = dcState(); P = bankList(z.b)[0]; if (P) { (z.st[P.id] || (z.st[P.id] = {})).ready = today(); save(); ui.dcTab = 'dict'; } refreshSheet(true); break;
+      case 'dcby': ui.dcBy = v; refreshSheet(); break;
+      case 'dcstart': z = dcState(); P = bankList(z.b)[0]; if (!P) break; ui.dcRun = { id: P.id, by: v, i: 0, r: {} }; refreshSheet(); dcSay(); break;
+      case 'dcnext': if (ui.dcRun) { ui.dcRun.i++; refreshSheet(); dcSay(); } break;
+      case 'dcagain': if (ui.dcRun) { ui.dcRun.r[ui.dcRun.i] = (ui.dcRun.r[ui.dcRun.i] || 0) + 1; refreshSheet(); dcSay(); } break;
+      case 'dcstop': ui.dcRun = null; try { speechSynthesis.cancel(); } catch (e) {} refreshSheet(); break;
+      case 'dcfin': ui.dcDone = ui.dcRun; ui.dcRun = null; ui.dcTab = 'check'; refreshSheet(true); break;
+      case 'dcrep': z = dcState(); z.opt.rep = v; save(); refreshSheet(); break;
+      case 'dcmiss': z = dcState(); P = bankList(z.b)[0]; if (!P) break; if (!ui.dcMiss || ui.dcMiss.id !== P.id) ui.dcMiss = { id: P.id, w: {} }; k = v.replace(/[’']/g, '\'').toLowerCase(); if (ui.dcMiss.w[k]) delete ui.dcMiss.w[k]; else ui.dcMiss.w[k] = v; ui.dcLearn = false; refreshSheet(); break;
+      case 'dclearn': ui.dcLearn = true; refreshSheet(); break;
+      case 'dcsave':
+        z = dcState(); P = bankList(z.b)[0]; if (!P) break;
+        var mw = ui.dcMiss && ui.dcMiss.id === P.id ? ui.dcMiss.w : {}, run = ui.dcDone && ui.dcDone.id === P.id ? ui.dcDone : null, rep = 0;
+        if (run) Object.keys(run.r).forEach(function (i) { rep += run.r[i]; });
+        var e = { id: P.id, d: today(), by: run ? run.by : (ui.dcBy || 'mum'), miss: Object.keys(mw).map(function (x) { return mw[x]; }) }; if (rep) e.rep = rep;
+        z.log[String(Date.now())] = e;
+        Object.keys(mw).forEach(function (x) { var s2 = z.sw[x] || (z.sw[x] = { m: 0 }); s2.m++; s2.w = mw[x]; s2.d = today(); });
+        z.b[P.id].done = Date.now();
+        if (tickId && !doneToday(tickId)) addToday(tickId);
+        save(); ui.dcMiss = null; ui.dcLearn = false; ui.dcDone = null; ui.dcTab = null; toast('Dictation saved'); refreshSheet(true); break;
+      case 'dcfirst': z = dcState(); k = bankList(z.b)[0]; if (z.b[v]) z.b[v].o = (k ? (k.o != null ? k.o : k.a) : Date.now()) - 1; save(); refreshSheet(); break;
+      case 'dcrm': if (ui.cwRm !== v) { ui.cwRm = v; refreshSheet(); break; } ui.cwRm = null; z = dcState(); delete z.b[v]; save(); refreshSheet(); break;
+    }
+  }
+
   // Jom Cakap Melayu runs in its own page inside the app; it keeps its progress here, so it syncs with the rest.
   window.SDms = {
     get: function () { return S.ms ? JSON.stringify(S.ms) : null; },
@@ -737,55 +1008,104 @@
     return { title: 'Narration · ' + esc(label || narrLabel(id) || 'reading'), who: ui.narrWho || 'together', body: body };
   }
   // Keep what has been typed if the page redraws (for example when a recording starts or stops).
-  document.addEventListener('input', function (e) { var t = e.target; if (t && t.id === 'narrtxt') ui.narrDraft = { id: t.getAttribute('data-id'), t: t.value }; });
+  document.addEventListener('input', function (e) { var t = e.target; if (t && t.id === 'cwnote' && ui.cwDraft) ui.cwDraft.note = t.value; if (t && t.id === 'narrtxt') ui.narrDraft = { id: t.getAttribute('data-id'), t: t.value }; });
   function narrBtn(id, label) { return '<div class="btns"><button class="btn ghost small" data-act="sheet" data-v="narr:' + esc(id) + '" data-label="' + esc(label || '') + '">🎙 Narrate this</button></div>'; }
-  // ---------- recordings over time: every take is kept (on this iPad), so progress can be heard ----------
-  // Audio stays in the iPad's own storage (like the videos); only the list of takes and their dates is kept with it.
-  var recIdx = {}, recUrl = {}, recOn = null, recDel = null;
-  function recList(key) {
-    if (recIdx[key] === undefined) { recIdx[key] = null; vget('recidx_' + key).then(function (a) { recIdx[key] = a || []; refreshSheet(); }).catch(function () { recIdx[key] = []; }); }
-    return recIdx[key];
+  // ---------- recordings over time: every take is kept, so progress can be heard ----------
+  // The list of takes is part of the family's progress (S.rec) and syncs. The sound itself is kept on the iPad that made it,
+  // and is also sent to the family account in pieces when signed in; another iPad fetches it the first time it is played.
+  var recUrl = {}, recOn = null, recDel = null, recMig = {};
+  var BQ = 'nfam-blob-q';
+  function bq() { try { return JSON.parse(localStorage.getItem(BQ) || '[]'); } catch (e) { return []; } }
+  function bqSet(q) { try { localStorage.setItem(BQ, JSON.stringify(q)); } catch (e) {} }
+  // path: where in S the entry lives, so the number of pieces can be noted there once sent.
+  function blobQueue(k, path) { var q = bq().filter(function (x) { return x.k !== k; }); q.push({ k: k, path: path }); bqSet(q); blobPump(); }
+  function getAt(path) { var o = S; for (var i = 0; i < path.length; i++) { if (!o) return null; o = o[path[i]]; } return o; }
+  var bqBusy = false;
+  function blobPump() {
+    if (bqBusy || !window.SDsync || !SDsync.signedIn || !SDsync.signedIn() || !navigator.onLine) return;
+    var q = bq(); if (!q.length) return;
+    var it = q[0]; bqBusy = true;
+    var next = function () { bqBusy = false; bqSet(bq().filter(function (x) { return x.k !== it.k; })); setTimeout(blobPump, 50); };
+    var ent = getAt(it.path);
+    if (!ent) { next(); return; }   // deleted meanwhile
+    vget(it.k).then(function (blob) {
+      if (!blob) { next(); return; }
+      return SDsync.blobPut(it.k, blob).then(function (r) { var e2 = getAt(it.path); if (e2) { e2.n = r.n; e2.sz = r.size; save(); } next(); });
+    }).catch(function (e) { bqBusy = false; ui.blobErr = String((e && (e.code || e.message)) || e); });
   }
-  function recSrc(id) {
-    if (recUrl[id] === undefined) { recUrl[id] = null; vget('rec_' + id).then(function (b) { if (b) { recUrl[id] = URL.createObjectURL(b); refreshSheet(); } }); }
+  window.addEventListener('online', function () { setTimeout(blobPump, 500); });
+  setTimeout(blobPump, 4000);
+  // Fetch a file another iPad sent, keep it here, then hand it back.
+  var blobGetting = {};
+  function blobLocal(k, ent) {
+    return vget(k).then(function (b) {
+      if (b || !ent || !ent.n || !window.SDsync || !SDsync.signedIn || !SDsync.signedIn()) return b;
+      if (!blobGetting[k]) blobGetting[k] = SDsync.blobGet(k).then(function (nb) { if (nb) vput(k, nb); return nb; }, function () { return null; });
+      return blobGetting[k];
+    });
+  }
+  function recList(key) {
+    S.rec = S.rec || {};
+    // Takes made before the list was shared are moved into it once, from this iPad's own storage.
+    if (!recMig[key]) { recMig[key] = 1; vget('recidx_' + key).then(function (a) {
+      if (!a || !a.length) return;
+      var R = S.rec[key] || (S.rec[key] = {});
+      a.forEach(function (r) { if (!R[r.id]) { R[r.id] = { t: r.t }; blobQueue('rec_' + r.id, ['rec', key, r.id]); } });
+      save(); vput('recidx_' + key, []); refreshSheet();
+    }).catch(function () {}); }
+    var R = S.rec[key] || {};
+    return Object.keys(R).map(function (id) { return { id: id, t: R[id].t, n: R[id].n }; }).sort(function (x, y) { return x.t - y.t; });
+  }
+  function recSrc(r, key) {
+    var id = r.id;
+    if (recUrl[id] === undefined) { recUrl[id] = null; blobLocal('rec_' + id, (S.rec[key] || {})[id]).then(function (b) { if (b) { recUrl[id] = URL.createObjectURL(b); refreshSheet(); } else recUrl[id] = false; }); }
     return recUrl[id];
   }
   function recWhen(t) { var d = new Date(t); return d.getDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getFullYear(); }
-  function recAudio(r) { var u = recSrc(r.id); return u ? '<audio controls preload="metadata" src="' + u + '" style="width:100%"></audio>' : '<p class="small muted" style="margin:0">Loading…</p>'; }
+  function recAudio(r, key) {
+    var u = recSrc(r, key);
+    if (u) return '<audio controls preload="metadata" src="' + u + '" style="width:100%"></audio>';
+    if (u === false) return '<p class="small muted" style="margin:0">' + (r.n ? 'Sign in to the family account to hear this recording here.' : 'This recording is on another iPad. It comes here once that iPad is online and signed in.') + '</p>';
+    return '<p class="small muted" style="margin:0">Loading…</p>';
+  }
   // The record button, then the first and the latest take side by side, then all the takes.
   function recBox(key, label) {
     if (!(navigator.mediaDevices && window.MediaRecorder)) return '';
-    var on = recOn && recOn.key === key, L = recList(key) || [], open = ui.recOpen === key;
+    var on = recOn && recOn.key === key, L = recList(key), open = ui.recOpen === key;
     var h = '<div class="rec"><div class="btns"><button class="btn' + (on ? '' : ' ghost') + ' small" data-act="recgo" data-v="' + esc(key) + '">' + (on ? '■ Stop and keep it' : '🎙 ' + esc(label || 'Record yourself')) + '</button>' + (on ? '<span class="small" style="color:#b3261e">● recording…</span>' : '') + '</div>';
-    if (L.length === 1) h += '<div class="rec-one"><div class="small muted">' + recWhen(L[0].t) + '</div>' + recAudio(L[0]) + '</div>';
+    if (L.length === 1) h += '<div class="rec-one"><div class="small muted">' + recWhen(L[0].t) + '</div>' + recAudio(L[0], key) + '</div>';
     if (L.length > 1) {
       var a = L[0], b = L[L.length - 1];
-      h += '<div class="rec-two"><div><div class="small muted">First · ' + recWhen(a.t) + '</div>' + recAudio(a) + '</div><div><div class="small muted">Latest · ' + recWhen(b.t) + '</div>' + recAudio(b) + '</div></div>' +
+      h += '<div class="rec-two"><div><div class="small muted">First · ' + recWhen(a.t) + '</div>' + recAudio(a, key) + '</div><div><div class="small muted">Latest · ' + recWhen(b.t) + '</div>' + recAudio(b, key) + '</div></div>' +
         '<button class="btn ghost small" data-act="recall" data-v="' + esc(key) + '">' + (open ? 'Hide' : 'All ' + L.length + ' recordings') + '</button>';
-      if (open) h += '<ul class="list">' + L.slice().reverse().map(function (r) { return '<li style="display:block"><div class="nav"><span class="small">' + recWhen(r.t) + '</span><button class="btn ghost small" data-act="recdel" data-v="' + esc(key + '|' + r.id) + '">' + (recDel === r.id ? 'Tap again to delete' : 'Delete') + '</button></div>' + recAudio(r) + '</li>'; }).join('') + '</ul>';
+      if (open) h += '<ul class="list">' + L.slice().reverse().map(function (r) { return '<li style="display:block"><div class="nav"><span class="small">' + recWhen(r.t) + '</span><button class="btn ghost small" data-act="recdel" data-v="' + esc(key + '|' + r.id) + '">' + (recDel === r.id ? 'Tap again to delete' : 'Delete') + '</button></div>' + recAudio(r, key) + '</li>'; }).join('') + '</ul>';
     }
+    if (ui.blobErr) h += '<p class="small muted" style="margin:6px 0 0">Recordings are kept on this iPad; they could not be sent to the family account (' + esc(ui.blobErr) + ').</p>';
     return h + '</div>';
   }
+  function recTypes() { return ['audio/mp4', 'audio/webm', 'audio/aac'].filter(function (t) { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } }); }
   function recToggle(key) {
     if (recOn) { var R = recOn; recOn = null; try { R.mr.stop(); } catch (e) {} return; }
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
-      var types = ['audio/mp4', 'audio/webm', 'audio/aac'].filter(function (t) { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
-      var mr = types.length ? new MediaRecorder(stream, { mimeType: types[0] }) : new MediaRecorder(stream), chunks = [];
+      var types = recTypes(), opt = { audioBitsPerSecond: 48000 }; if (types.length) opt.mimeType = types[0];
+      var mr, chunks = [];
+      try { mr = new MediaRecorder(stream, opt); } catch (e) { mr = types.length ? new MediaRecorder(stream, { mimeType: types[0] }) : new MediaRecorder(stream); }
       mr.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
       mr.onstop = function () {
         stream.getTracks().forEach(function (t) { t.stop(); });
         var blob = new Blob(chunks, { type: mr.mimeType || types[0] || 'audio/mp4' }), t = Date.now(), id = key + '@' + t;
         vput('rec_' + id, blob).then(function () {
-          var L = (recIdx[key] || []).concat([{ id: id, t: t }]); recIdx[key] = L; recUrl[id] = URL.createObjectURL(blob);
-          return vput('recidx_' + key, L);
+          S.rec = S.rec || {}; (S.rec[key] || (S.rec[key] = {}))[id] = { t: t }; recUrl[id] = URL.createObjectURL(blob); save();
+          blobQueue('rec_' + id, ['rec', key, id]);
         }).then(function () { toast('Recording kept'); refreshSheet(); }).catch(function () { toast('The recording could not be saved'); });
       };
       recOn = { key: key, mr: mr }; mr.start(); refreshSheet();
     }).catch(function () { toast('The microphone is not available. Allow it in Settings.'); });
   }
   function recRemove(key, id) {
-    var L = (recIdx[key] || []).filter(function (r) { return r.id !== id; }); recIdx[key] = L;
-    vdel('rec_' + id); vput('recidx_' + key, L); if (recUrl[id]) URL.revokeObjectURL(recUrl[id]); delete recUrl[id];
+    var ent = S.rec && S.rec[key] && S.rec[key][id];
+    if (ent) { delete S.rec[key][id]; save(); if (window.SDsync && SDsync.blobDel) SDsync.blobDel('rec_' + id, ent.n || 1); }
+    vdel('rec_' + id); if (recUrl[id]) URL.revokeObjectURL(recUrl[id]); delete recUrl[id];
   }
 
   // One piece a day for each list, taken in turn. A new day moves on to the next piece.
@@ -1155,7 +1475,7 @@
       }).join('') + '</div></div>';
       if (ch.local && ch.local.length) body += '<div class="card"><div class="kicker">Here in Singapore</div>' + ch.local.map(function (n) { return '<h3 style="font-size:18px;margin-top:10px">' + esc(n.title) + '</h3><p style="margin:0">' + esc(n.text) + '</p>'; }).join('') + (ch.refs ? '<p class="small muted" style="margin-top:10px">Sources: ' + esc(ch.refs.join('; ')) + '.</p>' : '') + '</div>';
     }
-    body += narrBtn('read:' + key + ':' + i, R.label + ' · ' + title);
+    body += narrBtn('read:' + key + ':' + i, R.label + ' · ' + title) + (ch ? '<div class="btns">' + cwBtn('read:' + key + ':' + i) + '</div>' : '');
     body += '<div class="nav"><button class="btn ghost small" data-act="readstep" data-k="' + key + '" data-d="-1">‹ Previous chapter</button><button class="btn small" data-act="readstep" data-k="' + key + '" data-d="1">Finished · next chapter ›</button></div><p class="small muted">' + esc(R.source) + '</p>';
     return { title: esc(R.label), who: 'together', body: body };
   }
@@ -1210,7 +1530,8 @@
       if (typing) return;
       render(); if (ui.sheet && ui.sheet !== 'pin') refreshSheet();
     },
-    toast: function (m) { toast(m); }
+    toast: function (m) { toast(m); },
+    signedIn: function () { ui.blobErr = null; blobPump(); }
   };
   function syncCardHTML() {
     var Y = window.SDsync;
@@ -1300,7 +1621,7 @@
     var B = BK[key]; var i = bookIndex(key); var it = B.items[i]; var r = readMap(key)[i];
     var body = '<div class="card"><div class="kicker">' + esc(B.book) + (B.author ? ' · ' + esc(B.author) : '') + ' · ' + esc(B.unit) + ' ' + (i + 1) + ' of ' + B.items.length + (r ? ' · ✓ read' : '') + '</div><h3>' + esc(it.title) + '</h3>' +
       '<div class="bible-text" style="display:flex;flex-direction:column;gap:10px">' + it.blocks.map(blockHTML).join('') + '</div></div>';
-    return body + narrBtn('book:' + key + ':' + i, B.label + ' · ' + it.title) + bookNav(key, B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
+    return body + narrBtn('book:' + key + ':' + i, B.label + ' · ' + it.title) + '<div class="btns">' + cwBtn('book:' + key + ':' + i) + '</div>' + bookNav(key, B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
   }
   // Tales: Mum chooses the stories; long ones are cut into parts of about 10 minutes; each part is marked read.
   function pickedBookBody(key) {
@@ -1312,7 +1633,7 @@
       body += '<div class="card"><div class="kicker">' + esc(B.book) + (P.length > 1 ? ' · part ' + (c.p + 1) + ' of ' + P.length : '') + ' · about ' + part.mins + ' min</div><h3>' + esc(B.items[c.i].title) + '</h3>' +
         (c.p > 0 ? '<p class="small muted" style="margin:0 0 8px">Continued from part ' + c.p + '.</p>' : '') +
         '<div class="bible-text" style="display:flex;flex-direction:column;gap:10px">' + part.blocks.map(blockHTML).join('') + '</div>' +
-        (c.p < P.length - 1 ? '<p class="small muted" style="margin:10px 0 0">To be continued in part ' + (c.p + 2) + '.</p>' : '<p class="small muted" style="margin:10px 0 0">The end of the tale.</p>') + '</div>' + narrBtn('book:' + key + ':' + c.i + ':' + c.p, B.items[c.i].title + (P.length > 1 ? ' · part ' + (c.p + 1) : '')) +
+        (c.p < P.length - 1 ? '<p class="small muted" style="margin:10px 0 0">To be continued in part ' + (c.p + 2) + '.</p>' : '<p class="small muted" style="margin:10px 0 0">The end of the tale.</p>') + '</div>' + narrBtn('book:' + key + ':' + c.i + ':' + c.p, B.items[c.i].title + (P.length > 1 ? ' · part ' + (c.p + 1) : '')) + '<div class="btns">' + cwBtn('tale:' + key + ':' + c.i + ':' + c.p) + '</div>' +
         (s.read[c.i + ':' + c.p] ? '<div class="nav"><button class="btn ghost small" data-act="partunread" data-k="' + key + '" data-v="' + c.i + ':' + c.p + '">Untick this part</button><button class="btn small" data-act="partnext" data-k="' + key + '">Next unread part ›</button></div>'
           : '<div class="nav"><span></span><button class="btn small" data-act="partread" data-k="' + key + '" data-v="' + c.i + ':' + c.p + '">✓ Read · next part ›</button></div>');
     }
@@ -2872,6 +3193,7 @@
   document.addEventListener('click', function (e) { if (e.target.closest('.scrim') || e.target.closest('.vpop')) handle(e); });
   document.addEventListener('change', function (e) {
     var el = e.target;
+    if (el.id === 'cwphoto' && el.files && el.files[0]) { var nt0 = document.getElementById('cwnote'); if (nt0 && ui.cwDraft) ui.cwDraft.note = nt0.value; shrinkPhoto(el.files[0]).then(function (b) { ui.cwPhotoBlob = b; if (ui.cwPhotoUrl) URL.revokeObjectURL(ui.cwPhotoUrl); ui.cwPhotoUrl = URL.createObjectURL(b); refreshSheet(); }); return; }
     if (el.matches('[data-act="scmplan"]')) { var pk2 = el.getAttribute('data-k'); ui.scmPlan[pk2] = el.value; refreshSheet(); }
     if (el.matches('[data-act="scmpack"]')) { ui.scmPack = el.value; refreshSheet(); }
     if (el.matches('[data-act="scmq"]')) { ui.scmQ = el.value; refreshSheet(); }
@@ -2891,6 +3213,7 @@
     if (act.indexOf('rd-') === 0) { rdAct(act, v, el); return; }
     if (act.indexOf('mt-') === 0) { mtAct(act, v, el); return; }
     if (act.indexOf('zi-') === 0) { ziAct(act, v, el); return; }
+    if (/^(cw|dc)[a-z]+$/.test(act)) { cwAct(act, v, el, ui.sheetArg && ui.sheetArg.tick); return; }
     switch (act) {
       case 'setprofile': (function () { var go = function () { S.profile = v; ui.tab = null; save(); if (ui.sheet) closeSheet(); else render(); }; var need = pinFor(v); if (hasPin(need) && S.profile !== v) askPin(need, 'check', go); else go(); })(); break;
       case 'pinkey': pinKey(v); break;

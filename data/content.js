@@ -10199,13 +10199,15 @@ window.CONTENT = {
 "id": "ll_dp1",
 "label": "Dictation Preparation",
 "icon": "📝",
-"mins": 10
+"mins": 10,
+"open": "dict:emma"
 },
 {
 "id": "ll_dp2",
 "label": "Dictation Preparation",
 "icon": "📝",
-"mins": 10
+"mins": 10,
+"open": "dict:emma"
 },
 {
 "id": "ll_ccomp",
@@ -10332,7 +10334,8 @@ window.CONTENT = {
 "id": "le_dc",
 "label": "Dictation Check",
 "icon": "📝",
-"mins": 10
+"mins": 10,
+"open": "dict:emma"
 },
 {
 "id": "le_mapq",
@@ -10666,7 +10669,8 @@ window.CONTENT = {
 "id": "e_copy",
 "label": "Copywork",
 "icon": "✒️",
-"mins": 10
+"mins": 10,
+"open": "copy:emma"
 },
 {
 "id": "e_reading",
@@ -10806,7 +10810,8 @@ window.CONTENT = {
 "id": "m_copy",
 "label": "Copywork",
 "icon": "✒️",
-"mins": 15
+"mins": 15,
+"open": "copy:emily"
 },
 {
 "id": "m_ccopy",
