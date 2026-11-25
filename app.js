@@ -413,6 +413,7 @@
       (readonly ? '<span class="check">' + (on ? '✓' : '') + '</span>' : '<button class="check" data-act="loopdone" data-v="' + li.id + '" aria-pressed="' + on + '" aria-label="Done: ' + esc(li.label) + '">✓</button>') +
       labelPart(li, act, extra) +
       (!readonly && Lp.narration && on ? '<button class="btn small' + (S.narrWritten[w + ':' + li.id] ? '' : ' ghost') + '" data-act="written" data-v="' + li.id + '">' + (S.narrWritten[w + ':' + li.id] ? '✍️ Written' : 'Written?') + '</button>' : '') +
+      (!readonly && Lp.narration ? '<button class="btn ghost small" data-act="sheet" data-v="narr:' + li.id + '" aria-label="Narrate: ' + esc(li.label) + '">🎙</button>' : '') +
       (readonly ? '' : timerPart(li)) + '</div>';
   }
 
@@ -487,6 +488,7 @@
       case 'rd': return rdSheet(tickId, parts[1]);
       case 'math': return mtSheet(tickId, parts[1]);
       case 'zi': return ziSheet(tickId, parts[1]);
+      case 'narr': return narrSheet(name.slice(5), arg && arg.label);
     }
     return { title: '', body: '' };
   }
@@ -506,7 +508,7 @@
   }
   function poemSheet(which, tickId) {
     if (which === 'together') {
-      return { title: 'Poetry together', who: 'together', body: '<p class="small muted" style="margin:0">One poem from each girl\'s poet. If you read these together, the girls can tick Poetry on their own lists too.</p>' + poemCard('emma', 'tpoem_emma', 'For Emma · ' + C.poets.emma.poet) + poemCard('emily', 'tpoem_emily', 'For Emily · ' + C.poets.emily.poet) + '<div class="btns">' + tickButton(tickId, 'Poetry done', 'We read our poems') + '</div>' };
+      return { title: 'Poetry together', who: 'together', body: '<p class="small muted" style="margin:0">One poem from each girl\'s poet. If you read these together, the girls can tick Poetry on their own lists too.</p>' + poemCard('emma', 'tpoem_emma', 'For Emma · ' + C.poets.emma.poet) + poemListHTML('emma', 'tpoem_emma') + poemCard('emily', 'tpoem_emily', 'For Emily · ' + C.poets.emily.poet) + poemListHTML('emily', 'tpoem_emily') + '<div class="btns">' + tickButton(tickId, 'Poetry done', 'We read our poems') + '</div>' };
     }
     var P = C.poets[which];
     return { title: esc(P.poet), who: which, body: poemCard(which, 'poem_' + which) + '<div class="btns">' + tickButton(tickId, 'Read today', 'I read my poem') + '</div>' + poemListHTML(which, 'poem_' + which) + '<p class="small muted">' + esc(P.source) + '</p>' };
@@ -601,6 +603,30 @@
   }
 
 
+
+  // ---------- narration: record it, and keep a written copy (typed, or spoken through the keyboard's 🎤) ----------
+  function narrLabel(id) {
+    var found = '';
+    var scan = function (it) { if (it && it.id === id) found = it.label; };
+    ['emma', 'emily', 'together'].forEach(function (w) { var L = C.lists[w]; if (L) L.sections.forEach(function (sec) { (sec.items || []).forEach(scan); }); });
+    Object.keys(C.loops || {}).forEach(function (k) { (C.loops[k].items || []).forEach(scan); });
+    return found;
+  }
+  function narrSheet(id, label) {
+    var T = (S.narrT && S.narrT[id]) || {}, keys = Object.keys(T).sort().reverse();
+    var body = '<p class="small muted" style="margin:0">Tell back all you can of the reading, in your own words. Record it, write it down, or both.</p>' +
+      '<div class="card"><div class="kicker">🎙 Record your narration</div>' + recBox('narr:' + id, 'Record your narration') + '</div>' +
+      '<div class="card"><div class="kicker">✍️ Written copy</div><p class="small muted" style="margin:0 0 6px">Tap the box, then tap 🎤 on the iPad keyboard and narrate: the iPad types what you say. Or type it. Mum can tidy it afterwards.</p>' +
+      '<textarea id="narrtxt" data-id="' + esc(id) + '" rows="7" style="width:100%;font:inherit;font-size:17px;padding:10px;border-radius:10px;border:1px solid var(--line,#ccc)" placeholder="Your narration…">' + esc(ui.narrDraft && ui.narrDraft.id === id ? ui.narrDraft.t : '') + '</textarea>' +
+      '<div class="btns"><button class="btn small" data-act="narrsave" data-v="' + esc(id) + '">Save the written copy</button></div></div>';
+    if (keys.length) body += '<div class="card"><div class="kicker">Written narrations · ' + keys.length + '</div><ul class="list">' + keys.map(function (k) {
+      return '<li style="display:block"><div class="nav"><span class="small muted">' + esc(fmtDate(T[k].d)) + '</span><button class="btn ghost small" data-act="narrdel" data-v="' + esc(id + '|' + k) + '">' + (ui.narrDel === k ? 'Tap again to delete' : 'Delete') + '</button></div><p style="margin:4px 0 0;white-space:pre-wrap">' + esc(T[k].t) + '</p></li>';
+    }).join('') + '</ul></div>';
+    return { title: 'Narration · ' + esc(label || narrLabel(id) || 'reading'), who: ui.narrWho || 'together', body: body };
+  }
+  // Keep what has been typed if the page redraws (for example when a recording starts or stops).
+  document.addEventListener('input', function (e) { var t = e.target; if (t && t.id === 'narrtxt') ui.narrDraft = { id: t.getAttribute('data-id'), t: t.value }; });
+  function narrBtn(id, label) { return '<div class="btns"><button class="btn ghost small" data-act="sheet" data-v="narr:' + esc(id) + '" data-label="' + esc(label || '') + '">🎙 Narrate this</button></div>'; }
   // ---------- recordings over time: every take is kept (on this iPad), so progress can be heard ----------
   // Audio stays in the iPad's own storage (like the videos); only the list of takes and their dates is kept with it.
   var recIdx = {}, recUrl = {}, recOn = null, recDel = null;
@@ -1017,6 +1043,7 @@
       }).join('') + '</div></div>';
       if (ch.local && ch.local.length) body += '<div class="card"><div class="kicker">Here in Singapore</div>' + ch.local.map(function (n) { return '<h3 style="font-size:18px;margin-top:10px">' + esc(n.title) + '</h3><p style="margin:0">' + esc(n.text) + '</p>'; }).join('') + (ch.refs ? '<p class="small muted" style="margin-top:10px">Sources: ' + esc(ch.refs.join('; ')) + '.</p>' : '') + '</div>';
     }
+    body += narrBtn('read:' + key + ':' + i, R.label + ' · ' + title);
     body += '<div class="nav"><button class="btn ghost small" data-act="readstep" data-k="' + key + '" data-d="-1">‹ Previous chapter</button><button class="btn small" data-act="readstep" data-k="' + key + '" data-d="1">Finished · next chapter ›</button></div><p class="small muted">' + esc(R.source) + '</p>';
     return { title: esc(R.label), who: 'together', body: body };
   }
@@ -1153,15 +1180,15 @@
     return '<div class="row' + (isRead ? ' done' : '') + '" style="border:1px solid var(--line);border-radius:var(--r)"><button class="check" data-act="bookread" data-k="' + key + '" data-v="' + i + '" aria-pressed="' + isRead + '" aria-label="Mark as read">✓</button><button class="lbl" data-act="bookread" data-k="' + key + '" data-v="' + i + '"><b>' + (key === 'zh' ? (isRead ? '读过了 ✓' : '读完了就打勾') : (isRead ? 'Read ✓' : 'Tick when read')) + '</b><span class="meta">' + nRead + ' of ' + B.items.length + ' read in this book</span></button></div>' +
       '<div class="nav"><button class="btn ghost small" data-act="bookstep" data-k="' + key + '" data-d="-1"' + (i === 0 ? ' disabled' : '') + '>' + (key === 'zh' ? '‹ 上一篇' : '‹ Previous') + '</button>' +
       '<button class="btn small" data-act="bookstep" data-k="' + key + '" data-d="1"' + (i >= B.items.length - 1 ? ' disabled' : '') + '>' + (key === 'zh' ? '下一篇 ›' : 'Next ' + esc(u) + ' ›') + '</button></div>' +
-      '<details class="card"><summary style="cursor:pointer;font-weight:800">All ' + B.items.length + ' in this book · ' + nRead + ' read · jump to one</summary><ol class="list" style="margin-top:10px">' +
-      B.items.map(function (it, k) { var r = !!rm[k]; return '<li class="' + (k === i ? 'cur' : '') + '"><span>' + (r ? '<b style="color:var(--who)">✓</b> ' : '') + (k + 1) + '. ' + esc(it.title) + '</span><span class="btns" style="flex:none"><button class="btn ghost small" data-act="bookread" data-k="' + key + '" data-v="' + k + '" aria-pressed="' + r + '">' + (r ? 'Unmark' : 'Mark read') + '</button><button class="btn ghost small" data-act="bookgo" data-k="' + key + '" data-v="' + k + '">' + (k === i ? 'Reading' : 'Go') + '</button></span></li>'; }).join('') +
+      '<details class="card"' + (ui.bookListOpen === key ? ' open' : '') + '><summary style="cursor:pointer;font-weight:800" data-act="booklist" data-k="' + key + '">All ' + B.items.length + ' in this book · ' + nRead + ' read · jump to one</summary><p class="small muted" style="margin:6px 0 0">“Read up to here” ticks that ' + esc(u) + ' and every one before it.</p><ol class="list" style="margin-top:10px">' +
+      B.items.map(function (it, k) { var r = !!rm[k]; return '<li class="' + (k === i ? 'cur' : '') + '"><span>' + (r ? '<b style="color:var(--who)">✓</b> ' : '') + (k + 1) + '. ' + esc(it.title) + '</span><span class="btns" style="flex:none"><button class="btn ghost small" data-act="bookupto" data-k="' + key + '" data-v="' + k + '">Read up to here</button><button class="btn ghost small" data-act="bookread" data-in="list" data-k="' + key + '" data-v="' + k + '" aria-pressed="' + r + '">' + (r ? 'Unmark' : 'Mark read') + '</button><button class="btn ghost small" data-act="bookgo" data-k="' + key + '" data-v="' + k + '">' + (k === i ? 'Reading' : 'Go') + '</button></span></li>'; }).join('') +
       '</ol></details>';
   }
   function englishBookBody(key) {
     var B = BK[key]; var i = bookIndex(key); var it = B.items[i]; var r = readMap(key)[i];
     var body = '<div class="card"><div class="kicker">' + esc(B.book) + (B.author ? ' · ' + esc(B.author) : '') + ' · ' + esc(B.unit) + ' ' + (i + 1) + ' of ' + B.items.length + (r ? ' · ✓ read' : '') + '</div><h3>' + esc(it.title) + '</h3>' +
       '<div class="bible-text" style="display:flex;flex-direction:column;gap:10px">' + it.blocks.map(blockHTML).join('') + '</div></div>';
-    return body + bookNav(key, B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
+    return body + narrBtn('book:' + key + ':' + i, B.label + ' · ' + it.title) + bookNav(key, B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
   }
   // Tales: Mum chooses the stories; long ones are cut into parts of about 10 minutes; each part is marked read.
   function pickedBookBody(key) {
@@ -1173,7 +1200,7 @@
       body += '<div class="card"><div class="kicker">' + esc(B.book) + (P.length > 1 ? ' · part ' + (c.p + 1) + ' of ' + P.length : '') + ' · about ' + part.mins + ' min</div><h3>' + esc(B.items[c.i].title) + '</h3>' +
         (c.p > 0 ? '<p class="small muted" style="margin:0 0 8px">Continued from part ' + c.p + '.</p>' : '') +
         '<div class="bible-text" style="display:flex;flex-direction:column;gap:10px">' + part.blocks.map(blockHTML).join('') + '</div>' +
-        (c.p < P.length - 1 ? '<p class="small muted" style="margin:10px 0 0">To be continued in part ' + (c.p + 2) + '.</p>' : '<p class="small muted" style="margin:10px 0 0">The end of the tale.</p>') + '</div>' +
+        (c.p < P.length - 1 ? '<p class="small muted" style="margin:10px 0 0">To be continued in part ' + (c.p + 2) + '.</p>' : '<p class="small muted" style="margin:10px 0 0">The end of the tale.</p>') + '</div>' + narrBtn('book:' + key + ':' + c.i + ':' + c.p, B.items[c.i].title + (P.length > 1 ? ' · part ' + (c.p + 1) : '')) +
         (s.read[c.i + ':' + c.p] ? '<div class="nav"><button class="btn ghost small" data-act="partunread" data-k="' + key + '" data-v="' + c.i + ':' + c.p + '">Untick this part</button><button class="btn small" data-act="partnext" data-k="' + key + '">Next unread part ›</button></div>'
           : '<div class="nav"><span></span><button class="btn small" data-act="partread" data-k="' + key + '" data-v="' + c.i + ':' + c.p + '">✓ Read · next part ›</button></div>');
     }
@@ -1206,7 +1233,7 @@
       f.notes.map(function (n) { return '<li style="display:block"><span style="font-family:var(--f-zh);font-size:20px;font-weight:700">' + esc(n[0]) + '</span> <span style="color:var(--who);font-weight:700">' + esc(n[1]) + '</span> <span>· ' + esc(n[2]) + '</span></li>'; }).join('') + '</ul></div>';
     body += '<div class="card"><div class="kicker">原文 · ' + esc(f.src) + '</div><div class="poem zh ruby" style="font-size:21px">' + f.orig.map(zhPara).join('') + '</div>' +
       '<p class="small muted" style="margin:4px 0 0">' + esc(['原文据维基文库《' + f.page.split('/')[0] + '》', (f.norm && f.norm.length ? '旧字改为通行写法：' + f.norm.join('，') : ''), f.fix || ''].filter(Boolean).join('。')) + '。</p></div>';
-    return body + bookNav('zh', B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
+    return body + narrBtn('book:zh:' + i, '中国寓言 · ' + f.title) + bookNav('zh', B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
   }
   function bookSheet(key) {
     if (key === 'fables') key = 'aesop';
@@ -2135,11 +2162,40 @@
     return '<div class="zi-why"><div class="zi-whypic">' + hzSVG(c, e.type === 'pictographic' ? 'plain' : 'parts', 120) + '</div><div>' + h + (say ? '<button class="btn ghost small" data-act="zi-sayen" data-v="' + esc(say) + '">🔊 Read this to me</button>' : '') + '</div></div>';
   }
 
+
+  // ---------- 识字 flash cards: the character on the front; pinyin, words and the voice on the back ----------
+  // Decks: cards due today (they follow the same spacing as the daily review), this week's new ones, the hard ones,
+  // or a shuffle of everything she can read. "Again" brings a card back tomorrow; "Got it" moves it further out.
+  function ziDeck(kind) {
+    var z = ziState(), day = ziDay(), keys = Object.keys(z.r);
+    if (kind === 'due') return ziDue(z.r, day);
+    if (kind === 'new') return keys.filter(function (c) { return (z.r[c].b || 0) <= 2; });
+    if (kind === 'hard') return keys.filter(function (c) { return z.r[c].miss; }).sort(function (a, b) { return (z.r[b].miss || 0) - (z.r[a].miss || 0); });
+    return ziSample(keys, keys.length);
+  }
+  function ziCards() {
+    var z = ziState(), F = ui.zi.fc;
+    if (!F) {
+      var day = ziDay(), n = { due: ziDue(z.r, day).length, new: ziDeck('new').length, hard: ziDeck('hard').length, all: Object.keys(z.r).length };
+      return '<div class="card"><p style="margin:0 0 8px">Flash cards: see the character, say it, then flip the card to check.</p><ul class="list">' +
+        [['due', 'Due today', 'the ones the spacing says to look at now'], ['new', 'Newest', 'learnt in the last few days'], ['hard', 'Hard ones', 'missed before'], ['all', 'Everything I can read', 'shuffled']].map(function (d) {
+          return '<li><span><b>' + d[1] + '</b> <span class="small muted">· ' + n[d[0]] + ' · ' + d[2] + '</span></span><button class="btn small' + (n[d[0]] ? '' : ' ghost') + '" data-act="zi-fc" data-v="' + d[0] + '"' + (n[d[0]] ? '' : ' disabled') + '>Start</button></li>';
+        }).join('') + '</ul><p class="small muted" style="margin:8px 0 0">Decks of up to 20 cards. A card you get wrong comes back at the end of the deck.</p></div>';
+    }
+    if (F.i >= F.q.length) return '<div class="card rd-done"><h3>Deck done!</h3><p>' + F.got + ' got it first time' + (F.again ? ', ' + F.again + ' needed another look' : '') + '.</p><div class="btns"><button class="btn" data-act="zi-fc" data-v="">Back to the decks</button></div></div>';
+    var c = F.q[F.i]; ziNeed(c);
+    var h = '<div class="mt-top"><button class="btn ghost small" data-act="zi-fc" data-v="">‹ Back</button></div><div class="kicker">Card ' + (F.i + 1) + ' of ' + F.q.length + '</div>' +
+      '<div class="card zi-card zi-flip' + (F.shown ? ' back' : '') + '" data-act="' + (F.shown ? '' : 'zi-fcflip') + '">' + ziCharHTML(c, true);
+    if (!F.shown) h += '<p class="small muted">Say it aloud, and a word with it. Then tap the card to flip it.</p></div>';
+    else h += '<p class="zi-py">' + esc(Z.py[c] || '') + '</p>' + ziWordsHTML(c) + '<div class="btns" style="justify-content:center">' + ziSayBtn(c) + '</div></div>' +
+      '<div class="btns" style="justify-content:center"><button class="btn" data-act="zi-fcgrade" data-v="1">Got it ✓</button><button class="btn ghost" data-act="zi-fcgrade" data-v="0">Again</button></div>';
+    return h;
+  }
   function ziSheet(tickId, who) {
     ZW = who === 'emily' ? 'emily' : 'emma'; ZI_TICK = tickId || (ZW === 'emma' ? 'e_zi' : 'm_zi');
     if (!ui.zi || ui.zi.who !== ZW) ui.zi = { who: ZW, view: 'today' };
-    var v = ui.zi.view, body = '<div class="seg" role="group" aria-label="识字">' + [['today', 'Today'], ['book', 'Characters'], ['place', 'Check'], ['set', 'Mum']].map(function (o) { return '<button data-act="zi-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
-    body += v === 'book' ? ziBook() : v === 'place' ? ziPlace() : v === 'set' ? ziSettings() : ziToday();
+    var v = ui.zi.view, body = '<div class="seg" role="group" aria-label="识字">' + [['today', 'Today'], ['cards', 'Flash cards'], ['book', 'Characters'], ['place', 'Check'], ['set', 'Mum']].map(function (o) { return '<button data-act="zi-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    body += v === 'cards' ? ziCards() : v === 'book' ? ziBook() : v === 'place' ? ziPlace() : v === 'set' ? ziSettings() : ziToday();
     return { title: '识字 · Chinese characters', who: ZW, body: body };
   }
   function ziAct(act, v) {
@@ -2148,6 +2204,13 @@
       case 'zi-view': hzStop(); ui.zi.view = v; ui.zi.reset = false; if (v !== 'place' || (P && P.end)) ui.zi.place = null; refreshSheet(true); return;
       case 'zi-say': var sv = v.split('|'); ziSpeakChar(sv[0], sv[1]); return;
       case 'zi-voice': try { localStorage.setItem('zi-voice', v); } catch (e) {} refreshSheet(); ziSpeakChar('大'); return;
+      case 'zi-fc': ui.zi.fc = v ? { q: ziDeck(v).slice(0, 20), i: 0, got: 0, again: 0, deck: v, seen: {} } : null; refreshSheet(true); return;
+      case 'zi-fcflip': ui.zi.fc.shown = true; ziSpeakChar(ui.zi.fc.q[ui.zi.fc.i]); refreshSheet(); return;
+      case 'zi-fcgrade':
+        var FC = ui.zi.fc, fcc = FC.q[FC.i], fok = v === '1', fe = z.r[fcc];
+        if (fe) { if (fok) { if (!FC.seen[fcc]) ziGrade(z.r, fcc, true); } else { ziGrade(z.r, fcc, false); fe.miss = (fe.miss || 0) + 1; } }
+        if (fok && !FC.seen[fcc]) FC.got++; if (!fok) { FC.again++; if (!FC.seen[fcc]) FC.q.push(fcc); FC.seen[fcc] = 1; }
+        FC.i++; FC.shown = false; save(); refreshSheet(true); return;
       case 'zi-cmp': ziCmpToggle(v); return;
       case 'zi-cmpplay': ziCmpPlay(v); return;
       case 'zi-pick': ui.zi.sel = v || null; if (v) ziSpeakChar(v); refreshSheet(); return;
@@ -2162,6 +2225,7 @@
         R.i++; R.shown = false; save(); refreshSheet(true); return;
       case 'zi-grade': hzStop();
         var g = R.q[R.i], ok = v === '1'; ziGrade(g.k === 'wr' ? z.w : z.r, g.c, ok);
+        if (!ok && z.r[g.c] && g.k !== 'wr') z.r[g.c].miss = (z.r[g.c].miss || 0) + 1;
         if (ok) R.got++; else { R.miss++; if (R.again.indexOf(g.c) < 0) { R.again.push(g.c); R.q.push({ k: g.k, c: g.c, again: true }); } }
         R.i++; R.shown = false; save(); refreshSheet(true); return;
       case 'zi-pstart': ui.zi.place = { si: 0, phase: 'r' }; ziPlaceSem(ui.zi.place); refreshSheet(true); return;
@@ -2732,7 +2796,7 @@
         render(); if (el.getAttribute('data-stay')) refreshSheet();
         break;
       case 'timer': startTimer(el.getAttribute('data-id'), +el.getAttribute('data-mins')); break;
-      case 'sheet': if (v === 'settings' && hasPin('mum')) { askPin('mum', 'check', function () { openSheet('settings'); }); break; } openSheet(v, { tick: el.getAttribute('data-tick') }); break;
+      case 'sheet': if (v === 'settings' && hasPin('mum')) { askPin('mum', 'check', function () { openSheet('settings'); }); break; } openSheet(v, { tick: el.getAttribute('data-tick'), label: el.getAttribute('data-label') }); break;
       case 'pick': if (!cur()) { toast('Start a school day first'); return; } openSheet('pick', { pick: v, list: el.getAttribute('data-list') }); break;
       case 'choose': choose(el.getAttribute('data-p'), el.getAttribute('data-list'), v); refreshSheet(); render(); break;
       case 'written': var d = cur(); var k = d.w + ':' + v; if (S.narrWritten[k]) delete S.narrWritten[k]; else S.narrWritten[k] = true; save(); refreshSheet(); render(); break;
@@ -2751,6 +2815,12 @@
       case 'picmore': ui.picMore = v === '' ? null : +v; refreshSheet(); break;
       case 'audpick': apicker.setAttribute('data-for', v); apicker.click(); break;
       case 'recgo': recToggle(v); break;
+      case 'narrsave': (function () {
+        var ta = document.getElementById('narrtxt'), t = ta ? ta.value.trim() : ''; if (!t) { toast('Nothing written yet'); return; }
+        var all = S.narrT || (S.narrT = {}), T = all[v] || (all[v] = {}); T[String(Date.now())] = { d: today(), t: t };
+        ui.narrDraft = null; save(); toast('Written narration saved'); refreshSheet();
+      })(); break;
+      case 'narrdel': var nd = v.split('|'); if (ui.narrDel !== nd[1]) { ui.narrDel = nd[1]; refreshSheet(); break; } ui.narrDel = null; if (S.narrT && S.narrT[nd[0]]) delete S.narrT[nd[0]][nd[1]]; save(); refreshSheet(); break;
       case 'recall': ui.recOpen = ui.recOpen === v ? null : v; refreshSheet(); break;
       case 'recdel': var rp = v.split('|'); if (recDel !== rp[1]) { recDel = rp[1]; refreshSheet(); break; } recDel = null; recRemove(rp[0], rp[1]); refreshSheet(); break;
       case 'auddel': vdel(v); if (aurls[v]) { URL.revokeObjectURL(aurls[v]); delete aurls[v]; } refreshSheet(); break;
@@ -2844,7 +2914,12 @@
       case 'bookstep': (function () { var bk = el.getAttribute('data-k'); var B = BK[bk]; if (!B) return; setPtr('book_' + bk, bookIndex(bk) + (+el.getAttribute('data-d')), B.items.length); refreshSheet(1); render(); })(); break;
       case 'bookgo': (function () { var bk = el.getAttribute('data-k'); var B = BK[bk]; if (!B) return; setPtr('book_' + bk, +v, B.items.length); refreshSheet(1); render(); })(); break;
       case 'bookdone': (function () { var bk = el.getAttribute('data-k'); var B = BK[bk]; if (!B) return; var i0 = bookIndex(bk); readMap(bk)[i0] = 1; setPtr('book_' + bk, i0 + 1, B.items.length); refreshSheet(1); render(); })(); break;
-      case 'bookread': (function () { var m = readMap(el.getAttribute('data-k')); if (m[v]) delete m[v]; else m[v] = 1; save(); refreshSheet(); render(); })(); break;
+      case 'booklist': var bl = el.getAttribute('data-k'); ui.bookListOpen = ui.bookListOpen === bl ? null : bl; break;
+      case 'bookupto': (function () {
+        // Ticks this one and every one before it; leaves later ones as they are. The list stays open.
+        var bk = el.getAttribute('data-k'), m = readMap(bk); for (var q = 0; q <= +v; q++) m[q] = 1; ui.bookListOpen = bk; save(); refreshSheet(); render(); toast('Marked read up to ' + (+v + 1));
+      })(); break;
+      case 'bookread': if (el.getAttribute('data-in') === 'list') ui.bookListOpen = el.getAttribute('data-k'); (function () { var m = readMap(el.getAttribute('data-k')); if (m[v]) delete m[v]; else m[v] = 1; save(); refreshSheet(); render(); })(); break;
       case 'partread': (function () { var ss = selState(el.getAttribute('data-k')); ss.read[v] = 1; ss.cur = null; save(); refreshSheet(1); render(); })(); break;
       case 'partunread': (function () { var ss = selState(el.getAttribute('data-k')); delete ss.read[v]; ss.cur = v; save(); refreshSheet(); render(); })(); break;
       case 'partnext': (function () { var ss = selState(el.getAttribute('data-k')); ss.cur = null; save(); refreshSheet(1); render(); })(); break;
