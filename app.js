@@ -3002,7 +3002,7 @@
     var body;
     if (!nmCur(who)) body = (v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="now">Back to choosing where to start</button></div>' + nmScopeView(who) : nmPlaceView(who) + '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="scope">See the scope and sequence</button></div>');
     else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
-    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. From P4 the lessons come from Ray\'s Practical Arithmetic and Hall & Stevens\' Lessons in Experimental and Practical Geometry. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
+    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic and Hall & Stevens\' Lessons in Experimental and Practical Geometry; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
     return { title: 'Number · ' + nmName(who), who: who, body: body };
   }
   // Placement: Mum asks a few sums from each step in turn; the first step she cannot yet do is where lessons start.
@@ -3014,7 +3014,7 @@
       '<p class="small muted" style="margin:0 0 8px">' + esc(nmTag(s)) + '. Ask her these (aloud, or on paper for written sums). If she answers them all readily, go on to the next step. The first step she can\'t yet do is where her lessons begin.</p>' +
       (sums.length ? '<ol class="nm-sums">' + sums.map(function (x) { return '<li>' + esc(x[0]) + ' <b class="nm-ans">' + esc(String(x[1])) + '</b></li>'; }).join('') + '</ol>' : '<p class="small">' + esc(s.how[0]) + '</p>') +
       '<div class="btns"><button class="btn" data-act="nm-place" data-v="knows">She knows this</button><button class="btn ghost" data-act="nm-place" data-v="start">Start here</button>' + (i ? '<button class="btn ghost small" data-act="nm-place" data-v="back">Back</button>' : '') + '</div>' +
-      '<p class="small muted" style="margin:10px 0 4px">Further along already? Skip ahead to check from the start of:</p><div class="btns">' + [2, 3, 4].map(function (y) { return '<button class="btn ghost small" data-act="nm-place-yr" data-v="' + y + '">' + nmYr(y) + '</button>'; }).join('') + '</div></div>';
+      '<p class="small muted" style="margin:10px 0 4px">Further along already? Skip ahead to check from the start of:</p><div class="btns">' + [2, 3, 4, 5, 6].map(function (y) { return '<button class="btn ghost small" data-act="nm-place-yr" data-v="' + y + '">' + nmYr(y) + '</button>'; }).join('') + '</div></div>';
   }
   function nmLessonView(tickId, who) {
     var m = nmState(who); var s = nmCur(who); var i = nmIdx(s.id);
