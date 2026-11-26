@@ -2590,6 +2590,21 @@
       h += '<p style="margin:4px 0"><b class="zi-part" style="color:' + HZCOL[0] + '">' + esc(e.semantic || '') + '</b> shows the meaning' + (e.hint ? ' — ' + esc(e.hint) : (cdef[e.semantic] ? ' — ' + esc(cdef[e.semantic]) : '')) + '.<br><b class="zi-part" style="color:' + HZCOL[1] + '">' + esc(e.phonetic || '') + '</b>' + (cpy[e.phonetic] ? ' (' + esc(cpy[e.phonetic]) + ')' : '') + ' gives the sound.</p>';
       say = (e.semantic ? 'This part shows the meaning: ' + (e.hint || cdef[e.semantic] || '') + '. ' : '') + 'The other part gives the sound.';
     } else if (e.hint) { h += '<p style="margin:4px 0">' + esc(e.hint) + '.</p>'; say = e.hint; }
+    // A key to the colours: each part in its colour, with what it means.
+    // Where the explanation names a part ("a hand 扌 holding a weapon 戈"), its word is used; otherwise the part's dictionary meaning.
+    if (e.type !== 'pictographic' && d.parts && d.tc && d.parts.length > 1 && !d.parts.some(function (pt) { return !pt[0] || /[？?]/.test(pt[0]); })) {
+      var pc = e.type === 'pictophonetic', seen = {}, hint = e.hint || '';
+      h += '<p class="zi-key">' + d.parts.map(function (pt, i) {
+        var nth = seen[pt[0]] = (seen[pt[0]] || 0) + 1, at = -1;
+        for (var q = 0; q < nth; q++) { at = hint.indexOf(pt[0], at + 1); if (at < 0) break; }
+        var hw = at > 0 ? (hint.slice(0, at).replace(/[\s\u00a0]+$/, '').match(/([A-Za-z][A-Za-z'\-]*)$/) || [])[1] : '';
+        if (hw && /^(the|a|an|and|of|to|for|with|by|in|on|from|between|beside|holding|under|over|or|is|as|at|compare|see|like|toward|towards|into)$/i.test(hw)) hw = '';
+        pt = [pt[0], hw ? hw.toLowerCase() : (pt[1] === 'kwukyel' ? '' : pt[1])];
+        var role = pc ? (d.tc[i] === 0 ? 'meaning' : d.tc[i] === 1 ? 'sound' : '') : '';
+        if (role === 'sound') pt[1] = cpy[pt[0]] || '';   // a sound part: its sound, not its meaning
+        return '<span><i style="background:' + HZCOL[d.tc[i] % HZCOL.length] + '"></i><b>' + esc(pt[0]) + '</b>' + (pt[1] ? ' ' + esc(pt[1]) : '') + (role ? ' <span class="muted">(' + role + ')</span>' : '') + '</span>';
+      }).join('') + '</p>';
+    }
     if (d.rad && d.rad !== c) h += '<p class="small" style="margin:6px 0 0">部首 <b class="zi-part">' + esc(d.rad) + '</b>' + (d.rn ? ' · ' + esc(d.rn) : '') + (d.rdef ? ' · ' + esc(d.rdef) : '') + '</p>';
     if (d.def) h += '<p class="small muted" style="margin:4px 0 0">Means: ' + esc(d.def.split(';').slice(0, 2).join(';')) + '</p>';
     return '<div class="zi-why"><div class="zi-whypic">' + hzSVG(c, e.type === 'pictographic' ? 'plain' : 'parts', 120) + '</div><div>' + h + (say ? '<button class="btn ghost small" data-act="zi-sayen" data-v="' + esc(say) + '">🔊 Read this to me</button>' : '') + '</div></div>';
