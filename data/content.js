@@ -10830,7 +10830,8 @@ window.CONTENT = {
 "id": "m_mathp",
 "label": "Math practice",
 "icon": "🔢",
-"mins": 15
+"mins": 5,
+"open": "numq:emily"
 },
 {
 "id": "m_piano",
@@ -10870,7 +10871,8 @@ window.CONTENT = {
 "id": "m_math",
 "label": "Math",
 "icon": "🔢",
-"mins": 20
+"mins": 20,
+"open": "num:emily"
 },
 {
 "id": "m_creading",
