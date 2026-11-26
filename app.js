@@ -771,10 +771,12 @@
   }
   // Words as tappable spans; punctuation stays outside the tap.
   function cwWords(text, act, marks) {
-    return esc(text).replace(/\n/g, '<br>').replace(/[A-Za-z’'\-]+/g, function (w) {
-      var k = w.replace(/[’']/g, '\'').toLowerCase(), cls = marks && marks[k] ? ' ' + marks[k] : '';
-      return '<span class="cw-w' + cls + '" data-act="' + act + '" data-v="' + w.replace(/"/g, '') + '">' + w + '</span>';
-    });
+    // Words become tappable; everything else (spaces, punctuation, line breaks) is kept as it is.
+    return String(text).split(/([A-Za-z’'\-]+)/).map(function (piece, i) {
+      if (i % 2 === 0) return esc(piece).replace(/\n/g, '<br>');
+      var k = piece.replace(/[’']/g, '\'').toLowerCase(), cls = marks && marks[k] ? ' ' + marks[k] : '';
+      return '<span class="cw-w' + cls + '" data-act="' + act + '" data-v="' + esc(piece) + '">' + esc(piece) + '</span>';
+    }).join('');
   }
   function wordFocus(w, act) {
     if (!w) return '';
