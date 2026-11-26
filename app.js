@@ -2873,15 +2873,23 @@
 
   // Scope and sequence: every MOE topic P1–P6 by age, whether a CM lesson, an MOE add-in, trainer practice or nothing yet covers it,
   // and how far she has got with the lessons that do.
+  // Progress from the maths trainer: done when every trainer topic for it is mastered, started once any has been practised.
+  function nmMtProg(who, t) {
+    if (!t.mt || !t.mt.length) return '';
+    var rec = ((S.mt || {})[who] || {}).topics || {};
+    if (t.mt.every(function (id) { return rec[id] && rec[id].m; })) return 'done';
+    return t.mt.some(function (id) { return !!rec[id]; }) ? 'now' : '';
+  }
   function nmScopeInfo(who, t) {
     var m = nmState(who); var ci = nmIdx(m.at);
     if (t.steps.length) {
       var idx = t.steps.map(nmIdx); var srcs = t.steps.map(function (id) { return NX.steps[nmIdx(id)].src; });
       var cm = srcs.indexOf('stephens') >= 0, add = srcs.indexOf('moe') >= 0 || t.steps.some(function (id) { var s = NX.steps[nmIdx(id)]; return !!(s.adapt && s.moe); });
       var done = ci >= 0 && idx.every(function (i) { return i < ci; }), started = ci >= 0 && idx.some(function (i) { return i <= ci; });
-      return { kind: cm ? 'cm' : 'add', label: cm ? (add ? 'CM lesson + MOE add-in' : 'CM lesson') : 'MOE add-in lesson', prog: done ? 'done' : started ? 'now' : '' };
+      var mp = nmMtProg(who, t);
+      return { kind: cm ? 'cm' : 'add', label: cm ? (add ? 'CM lesson + MOE add-in' : 'CM lesson') : 'MOE add-in lesson', prog: done || mp === 'done' ? 'done' : started || mp === 'now' ? 'now' : '' };
     }
-    if (t.mt && t.mt.length) return { kind: 'prac', label: 'Trainer practice only', prog: '' };
+    if (t.mt && t.mt.length) return { kind: 'prac', label: 'Trainer practice only', prog: nmMtProg(who, t) };
     return { kind: 'gap', label: 'Not built yet', prog: '' };
   }
   function nmScopeView(who) {
@@ -2889,7 +2897,7 @@
     SC.forEach(function (t) { var i = nmScopeInfo(who, t); n[i.kind]++; if (t.part) part++; if (i.prog === 'done') done++; });
     var h = '<div class="card"><div class="kicker">MOE P1–P6 · ' + SC.length + ' topics</div>' +
       '<div class="nm-legend"><span><i class="nm-dot cm"></i>CM lesson ' + n.cm + '</span><span><i class="nm-dot add"></i>MOE add-in lesson ' + n.add + '</span><span><i class="nm-dot prac"></i>Trainer practice only ' + n.prac + '</span><span><i class="nm-dot gap"></i>Not built yet ' + n.gap + '</span></div>' +
-      '<p class="small muted" style="margin:6px 0 0">◐ = lessons cover only part of the topic (' + part + '). ✓ = ' + nmName(who) + ' has finished the lessons for it (' + done + '); ▶ = she is on them now. P1 content at 6, P6 content by 11, PSLE at 12.</p></div>';
+      '<p class="small muted" style="margin:6px 0 0">◐ = lessons cover only part of the topic (' + part + '). ✓ = ' + nmName(who) + ' has finished it (' + done + '); ▶ = she is working on it. Ticks come from her number lessons and her maths trainer. P1 content at 6, P6 content by 11, PSLE at 12.</p></div>';
     var age = -1;
     SC.forEach(function (t) {
       if (t.age !== age) {
@@ -3102,7 +3110,7 @@
 
   // ---------- views ----------
   function mtTabs(v) {
-    return '<div class="seg" role="group" aria-label="Maths">' + [['today', 'Today'], ['facts', 'Facts'], ['topics', 'Topics'], ['heur', 'Heuristics'], ['record', 'Record']].map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    return '<div class="seg" role="group" aria-label="Maths">' + [['today', 'Today'], ['facts', 'Facts'], ['topics', 'Topics'], ['heur', 'Heuristics'], ['scope', 'Scope'], ['record', 'Record']].map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
   }
   function mtRunView() {
     var R = ui.mt.run;
@@ -3294,7 +3302,7 @@
       if (board) { mtInkHTML(); body = '<div class="mt-split"><div class="rd-stage mt-left">' + main + '</div><div class="mt-right">' + mtBoardHTML() + '</div></div>'; wide = true; setTimeout(mtInkInit, 0); }
       else body = '<div class="rd-stage">' + main + '</div>';
     }
-    else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : mtTodayView());
+    else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : v === 'scope' ? nmScopeView(MT_WHO) : mtTodayView());
     return { title: 'Maths', who: MT_WHO, body: body, wide: wide };
   }
   window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; if (R.phase === 'guide') { var st = mtAsks(Q)[R.gi]; return st.show; } return Q.ratio ? Q.ratio.join(':') : Q.choices || Q.time ? Q.a : Q.show; };
