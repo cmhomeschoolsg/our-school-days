@@ -2825,10 +2825,10 @@
   // ---------- Mum's lesson card ----------
   function nmSheet(tickId, who) {
     who = who || 'emily'; ui.nm = ui.nm || {}; var m = nmState(who); var v = ui.nm.view || 'now';
-    var tabs = '<div class="seg" role="group" aria-label="Number">' + [['now', 'Lesson'], ['steps', 'All steps'], ['record', 'Record']].map(function (o) { return '<button data-act="nm-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    var tabs = '<div class="seg" role="group" aria-label="Number">' + [['now', 'Lesson'], ['steps', 'All steps'], ['scope', 'Scope'], ['record', 'Record']].map(function (o) { return '<button data-act="nm-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
     var body;
-    if (!nmCur(who)) body = nmPlaceView(who);
-    else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
+    if (!nmCur(who)) body = (v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="now">Back to choosing where to start</button></div>' + nmScopeView(who) : nmPlaceView(who) + '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="scope">See the scope and sequence</button></div>');
+    else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
     body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for at P1–P3, taught the same hands-on way.</p>';
     return { title: 'Number · ' + nmName(who), who: who, body: body };
   }
@@ -2868,6 +2868,42 @@
       h += '<li><button class="nm-step' + (i === ci ? ' on' : '') + '" data-act="nm-go" data-v="' + i + '"><span class="nm-mk">' + mark + '</span> ' + esc(s.name) + (s.src === 'moe' ? ' <span class="small muted">MOE add-in</span>' : '') + (m.known[s.id] ? ' <span class="small muted">' + esc(m.known[s.id]) + '</span>' : '') + '</button></li>';
     });
     h += '</ul></div><div class="btns"><button class="btn ghost small" data-act="nm-replace">Choose where to start again</button></div>';
+    return h;
+  }
+
+  // Scope and sequence: every MOE topic P1–P6 by age, whether a CM lesson, an MOE add-in, trainer practice or nothing yet covers it,
+  // and how far she has got with the lessons that do.
+  function nmScopeInfo(who, t) {
+    var m = nmState(who); var ci = nmIdx(m.at);
+    if (t.steps.length) {
+      var idx = t.steps.map(nmIdx); var srcs = t.steps.map(function (id) { return NX.steps[nmIdx(id)].src; });
+      var cm = srcs.indexOf('stephens') >= 0, add = srcs.indexOf('moe') >= 0 || t.steps.some(function (id) { var s = NX.steps[nmIdx(id)]; return !!(s.adapt && s.moe); });
+      var done = ci >= 0 && idx.every(function (i) { return i < ci; }), started = ci >= 0 && idx.some(function (i) { return i <= ci; });
+      return { kind: cm ? 'cm' : 'add', label: cm ? (add ? 'CM lesson + MOE add-in' : 'CM lesson') : 'MOE add-in lesson', prog: done ? 'done' : started ? 'now' : '' };
+    }
+    if (t.mt && t.mt.length) return { kind: 'prac', label: 'Trainer practice only', prog: '' };
+    return { kind: 'gap', label: 'Not built yet', prog: '' };
+  }
+  function nmScopeView(who) {
+    var SC = NX.scope || []; var n = { cm: 0, add: 0, prac: 0, gap: 0 }, part = 0, done = 0;
+    SC.forEach(function (t) { var i = nmScopeInfo(who, t); n[i.kind]++; if (t.part) part++; if (i.prog === 'done') done++; });
+    var h = '<div class="card"><div class="kicker">MOE P1–P6 · ' + SC.length + ' topics</div>' +
+      '<div class="nm-legend"><span><i class="nm-dot cm"></i>CM lesson ' + n.cm + '</span><span><i class="nm-dot add"></i>MOE add-in lesson ' + n.add + '</span><span><i class="nm-dot prac"></i>Trainer practice only ' + n.prac + '</span><span><i class="nm-dot gap"></i>Not built yet ' + n.gap + '</span></div>' +
+      '<p class="small muted" style="margin:6px 0 0">◐ = lessons cover only part of the topic (' + part + '). ✓ = ' + nmName(who) + ' has finished the lessons for it (' + done + '); ▶ = she is on them now. P1 content at 6, P6 content by 11, PSLE at 12.</p></div>';
+    var age = -1;
+    SC.forEach(function (t) {
+      if (t.age !== age) {
+        if (age >= 0) h += '</ul></div>';
+        age = t.age; h += '<div class="card"><div class="kicker">Age ' + age + ' · P' + t.lv + ' content</div><ul class="list nm-scope">';
+      }
+      var i = nmScopeInfo(who, t);
+      h += '<li><i class="nm-dot ' + i.kind + '" title="' + esc(i.label) + '"></i><div class="nm-sc-main"><div><b>' + esc(t.name) + '</b>' + (t.part ? ' <span class="nm-part" title="Partly covered">◐</span>' : '') +
+        (i.prog === 'done' ? ' <span class="nm-prog">✓</span>' : i.prog === 'now' ? ' <span class="nm-prog">▶</span>' : '') + '</div>' +
+        '<div class="small muted">' + esc(t.strand) + ' · ' + esc(i.label) + (i.kind === 'prac' || i.kind === 'gap' ? (t.plan ? ' · planned: ' + esc(t.plan) : '') : '') + '</div>' +
+        (t.part ? '<div class="small nm-partnote">' + esc(t.part) + '</div>' : '') + '</div></li>';
+    });
+    if (age >= 0) h += '</ul></div>';
+    h += '<div class="card"><div class="kicker">Age 12 · P6</div><p class="small" style="margin:0">No new syllabus content: heuristics and PSLE-style problems, Mason\'s Form III geometry and beginning algebra, and revision, with full revision from July.</p></div>';
     return h;
   }
   function nmRecordView(who) {

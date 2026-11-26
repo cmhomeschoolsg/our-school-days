@@ -274,9 +274,82 @@
   // ---------- Year 3: the rest of the tables (MOE P3, taught Stephens' way) ----------
   tableStep(6, 3, 'P3'); tableStep(7, 3, 'P3'); tableStep(8, 3, 'P3'); tableStep(9, 3, 'P3');
 
+
+  // ---------- Scope and sequence: every topic in MOE's 2021 Primary Mathematics Syllabus (P1–P6), by age ----------
+  // steps: number.js lessons that teach it (CM = Stephens; add-in = MOE add-in taught the same way).
+  // mt: Maths trainer topics (math.js) that give practice. plan: the CM source meant for it, where no lesson is built yet.
+  // part: what the built lessons don't yet cover. Ages follow the plan: P1 content at 6, P6 content by 11, PSLE at 12.
+  var SCOPE = [
+    { lv: 1, age: 6, strand: 'Numbers', name: 'Numbers up to 100', steps: ['n2','n3','n4','n5','n6','n7','n8','n9','ten','teens','d20','d30','d40','d50','d60','d70','d80','d90','d100'],
+      part: 'Ordinal numbers (1st to 10th) and writing numbers in words are not in the steps yet.' },
+    { lv: 1, age: 6, strand: 'Numbers', name: 'Addition and subtraction within 100', steps: ['n5','teens','d20','d30','d40','d50','d60','d70','d80','d90','add','subc','sub'] },
+    { lv: 1, age: 6, strand: 'Numbers', name: 'Multiplication and division (concepts; × within 40, ÷ within 20)', steps: ['mul','share'],
+      part: 'Stephens brings these in at the start of year 2, a little after MOE\'s P1.' },
+    { lv: 1, age: 6, strand: 'Money', name: 'Counting money (cents to $1, dollars to $100)', steps: ['money','d20'] },
+    { lv: 1, age: 6, strand: 'Measurement', name: 'Length in cm', steps: ['cm'] },
+    { lv: 1, age: 6, strand: 'Measurement', name: 'Time to 5 minutes, am/pm, h and min', steps: ['clock'] },
+    { lv: 1, age: 6, strand: 'Geometry', name: '2D shapes', steps: ['shapes2d'] },
+    { lv: 1, age: 6, strand: 'Statistics', name: 'Picture graphs', steps: ['graph'] },
+
+    { lv: 2, age: 7, strand: 'Numbers', name: 'Numbers up to 1000; odd and even', steps: ['h1000'],
+      part: 'Writing numbers in words, and comparing and ordering 3-digit numbers, are not in the step yet.' },
+    { lv: 2, age: 7, strand: 'Numbers', name: 'Addition and subtraction up to 3 digits', steps: ['add','sub','h1000'],
+      part: 'The steps practise 2-digit columns; 3-digit columns are not built yet.' },
+    { lv: 2, age: 7, strand: 'Numbers', name: 'Tables of 2, 3, 4, 5 and 10; ÷ and its link to ×', steps: ['t2','t10','t5','share','t3','t4','sdiv'] },
+    { lv: 2, age: 7, strand: 'Fractions', name: 'Fraction of a whole; adding like fractions', steps: ['frac'] },
+    { lv: 2, age: 7, strand: 'Money', name: 'Money in decimal notation ($3.45); to cents and back', steps: [], plan: 'Ray\'s Primary money problems, plus SGD practice' },
+    { lv: 2, age: 7, strand: 'Measurement', name: 'Length, mass and volume (m, g, kg, ℓ)', steps: ['measures'] },
+    { lv: 2, age: 7, strand: 'Measurement', name: 'Time to the minute; hours and minutes', steps: ['time2'] },
+    { lv: 2, age: 7, strand: 'Geometry', name: 'Patterns with 2D shapes; 3D shapes', steps: ['shapes3d'] },
+    { lv: 2, age: 7, strand: 'Statistics', name: 'Picture graphs with scales', steps: [], plan: 'MOE add-in (graphs from her own counts)' },
+
+    { lv: 3, age: 8, strand: 'Numbers', name: 'Numbers up to 10 000', steps: [], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 3, age: 8, strand: 'Numbers', name: 'Addition and subtraction up to 4 digits; mental 2-digit sums', steps: [], mt: ['p3add','p3mental'], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 3, age: 8, strand: 'Numbers', name: 'Tables of 6, 7, 8 and 9', steps: ['t6','t7','t8','t9'] },
+    { lv: 3, age: 8, strand: 'Numbers', name: 'Division with remainder; × and ÷ up to 3 digits by 1 digit', steps: [], mt: ['p3muldiv'], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 3, age: 8, strand: 'Fractions', name: 'Equivalent fractions; simplest form; related fractions', steps: [], mt: ['p3equiv','p3fadd'], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 3, age: 8, strand: 'Money', name: 'Adding and subtracting money in decimals', steps: [], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 3, age: 8, strand: 'Measurement', name: 'Compound units (km, m, cm, kg, g, ℓ, ml)', steps: [], mt: ['p3units'], plan: 'MOE add-in, measured by hand' },
+    { lv: 3, age: 8, strand: 'Measurement', name: 'Time: seconds, durations, 24-hour clock', steps: [], mt: ['p3time'], plan: 'MOE add-in' },
+    { lv: 3, age: 8, strand: 'Geometry', name: 'Area and perimeter of rectangles and squares', steps: [], mt: ['p3area'], plan: 'Hall & Stevens, experimental geometry (contents to check)' },
+    { lv: 3, age: 8, strand: 'Geometry', name: 'Angles; perpendicular and parallel lines', steps: [], plan: 'Hall & Stevens, experimental geometry (contents to check)' },
+    { lv: 3, age: 8, strand: 'Statistics', name: 'Bar graphs', steps: [], plan: 'MOE add-in' },
+
+    { lv: 4, age: 9, strand: 'Numbers', name: 'Numbers up to 100 000; rounding; ≈', steps: [], mt: ['p4round'], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 4, age: 9, strand: 'Numbers', name: 'Factors and multiples', steps: [], mt: ['p4factors'], plan: 'Ray\'s Practical Arithmetic (factors)' },
+    { lv: 4, age: 9, strand: 'Numbers', name: 'Multiplication and division algorithms (up to 4 digits)', steps: [], mt: ['p4mul'], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 4, age: 9, strand: 'Fractions', name: 'Mixed numbers and improper fractions; fraction of a set; unlike fractions', steps: [], mt: ['p4mixed','p4fset','p4funlike'], plan: 'Ray\'s Intellectual Arithmetic' },
+    { lv: 4, age: 9, strand: 'Decimals', name: 'Decimals to 3 places; the four operations with decimals', steps: [], mt: ['p4decplace','p4decops'], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 4, age: 9, strand: 'Geometry', name: 'Area and perimeter: missing sides, composite figures', steps: [], mt: ['p4rect'], plan: 'Hall & Stevens, experimental geometry (contents to check)' },
+    { lv: 4, age: 9, strand: 'Geometry', name: 'Measuring and drawing angles in degrees', steps: [], mt: ['p4angle'], plan: 'Hall & Stevens, experimental geometry (contents to check)' },
+    { lv: 4, age: 9, strand: 'Geometry', name: 'Rectangle and square properties; line symmetry', steps: [], plan: 'Hall & Stevens (contents to check), or MOE add-in' },
+    { lv: 4, age: 9, strand: 'Geometry', name: 'Nets of solids; 2D drawings of solids', steps: [], plan: 'MOE add-in, with paper models' },
+    { lv: 4, age: 9, strand: 'Statistics', name: 'Tables, line graphs and pie charts', steps: [], plan: 'MOE add-in' },
+
+    { lv: 5, age: 10, strand: 'Numbers', name: 'Numbers up to 10 million', steps: [], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 5, age: 10, strand: 'Numbers', name: 'Order of operations and brackets; × and ÷ by 10, 100, 1000', steps: [], mt: ['p5order','p5tens'], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 5, age: 10, strand: 'Fractions', name: 'Division as a fraction; mixed numbers; multiplying fractions', steps: [], mt: ['p5fquot','p5fmixed','p5fmul'], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 5, age: 10, strand: 'Decimals', name: 'Decimals × and ÷ by 10, 100, 1000; unit conversions', steps: [], mt: ['p5decten'], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 5, age: 10, strand: 'Percentage', name: 'Percentage; discount, GST and annual interest', steps: [], mt: ['p5pct'], plan: 'Ray\'s Practical Arithmetic (percentage, interest, discount, taxes)' },
+    { lv: 5, age: 10, strand: 'Rate', name: 'Rate', steps: [], mt: ['p5rate'], plan: 'Ray\'s Practical Arithmetic (ratio and proportion)' },
+    { lv: 5, age: 10, strand: 'Geometry', name: 'Area of triangles and composite figures', steps: [], mt: ['p5tri'], plan: 'Hall & Stevens (contents to check)' },
+    { lv: 5, age: 10, strand: 'Geometry', name: 'Volume of cubes, cuboids and tanks; cubes on isometric grid', steps: [], mt: ['p5vol'], plan: 'MOE add-in, building with unit cubes',
+      part: 'The trainer practises volume; building with cubes and isometric drawing are not built yet.' },
+    { lv: 5, age: 10, strand: 'Geometry', name: 'Angle rules; triangles; parallelogram, rhombus, trapezium', steps: [], mt: ['p5angles'], plan: 'Hall & Stevens, A School Geometry' },
+
+    { lv: 6, age: 11, strand: 'Fractions', name: 'Dividing fractions', steps: [], mt: ['p6fdiv'], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 6, age: 11, strand: 'Percentage', name: 'Finding the whole; percentage increase and decrease', steps: [], mt: ['p6pct'], plan: 'Ray\'s Practical Arithmetic' },
+    { lv: 6, age: 11, strand: 'Ratio', name: 'Ratio', steps: [], mt: ['p6ratio'], plan: 'Ray\'s Practical Arithmetic (ratio and proportion)' },
+    { lv: 6, age: 11, strand: 'Algebra', name: 'Algebra: expressions and simple equations', steps: [], mt: ['p6alg'], plan: 'Hall & Knight, Elementary Algebra (first chapters)' },
+    { lv: 6, age: 11, strand: 'Geometry', name: 'Circles, semicircles and quarter circles', steps: [], mt: ['p6circle'], plan: 'Hall & Stevens (contents to check)' },
+    { lv: 6, age: 11, strand: 'Geometry', name: 'Volume: finding a missing measurement', steps: [], mt: ['p6vol'], plan: 'Ray\'s Practical Arithmetic (measurement)' },
+    { lv: 6, age: 11, strand: 'Geometry', name: 'Unknown angles in composite figures (special quadrilaterals)', steps: [], plan: 'Hall & Stevens, A School Geometry' },
+    { lv: 6, age: 11, strand: 'Statistics', name: 'Average', steps: [], mt: ['p6avg'], plan: 'MOE add-in' }
+  ];
+
   // Clean any sum whose answer the code could not fix (null) out of the set.
   function sumsFor(s) { return s.sums ? s.sums().filter(function (x) { return x && x[1] !== null && x[1] !== undefined; }) : []; }
 
-  window.SDNumber = { steps: STEPS, sumsFor: sumsFor,
+  window.SDNumber = { steps: STEPS, sumsFor: sumsFor, scope: SCOPE,
     source: 'Irene Stephens, The Teaching of Mathematics to Young Children (1911), written under Charlotte Mason’s supervision' };
 })();
