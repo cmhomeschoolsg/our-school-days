@@ -494,6 +494,7 @@
       case 'zi': return ziSheet(tickId, parts[1]);
       case 'narr': return narrSheet(name.slice(5), arg && arg.label);
       case 'copy': return copySheet(parts[1], tickId);
+      case 'links': return linksSheet(parts[1]);
       case 'dict': return dictSheet(tickId);
       case 'cwpick': return cwPickSheet(name.slice(7));
       case 'ms': return { title: 'Bahasa Melayu', who: 'together', wide: true, body: '<iframe class="ms-frame" src="malay.html' + (parts[1] ? '?kid=' + (parts[1] === 'emily' ? 'Emily' : 'Emma') : '') + '" title="Jom Cakap Melayu"></iframe>' };
@@ -1014,7 +1015,7 @@
     return { title: 'Narration · ' + esc(label || narrLabel(id) || 'reading'), who: ui.narrWho || 'together', body: body };
   }
   // Keep what has been typed if the page redraws (for example when a recording starts or stops).
-  document.addEventListener('input', function (e) { var t = e.target; if (t && t.id === 'cwnote' && ui.cwDraft) ui.cwDraft.note = t.value; if (t && t.id === 'narrtxt') ui.narrDraft = { id: t.getAttribute('data-id'), t: t.value }; });
+  document.addEventListener('input', function (e) { var t = e.target; if (t && (t.getAttribute('data-link') || t.getAttribute('data-linkt'))) { ui.linkDraft = ui.linkDraft || {}; var lid = t.getAttribute('data-link') || t.getAttribute('data-linkt'), dd = ui.linkDraft[lid] || (ui.linkDraft[lid] = {}); dd[t.getAttribute('data-link') ? 'u' : 't'] = t.value; } if (t && t.id === 'cwnote' && ui.cwDraft) ui.cwDraft.note = t.value; if (t && t.id === 'narrtxt') ui.narrDraft = { id: t.getAttribute('data-id'), t: t.value }; });
   function narrBtn(id, label) { return '<div class="btns"><button class="btn ghost small" data-act="sheet" data-v="narr:' + esc(id) + '" data-label="' + esc(label || '') + '">🎙 Narrate this</button></div>'; }
   // ---------- recordings over time: every take is kept, so progress can be heard ----------
   // The list of takes is part of the family's progress (S.rec) and syncs. The sound itself is kept on the iPad that made it,
@@ -1205,7 +1206,7 @@
   }
   function tiktokSheet() {
     var T = C.dance.tiktok;
-    return { title: 'TikTok dance', who: 'together', body: '<p class="small muted" style="margin:0">' + esc(T.note) + '</p>' + T.list.map(function (d) { return '<div class="card"><h3>' + esc(d.title) + '</h3><p class="small muted" style="margin:0">' + esc(d.by) + '</p><p style="margin:6px 0 0">' + esc(d.note) + '</p></div>'; }).join('') };
+    return { title: 'TikTok dance', who: 'together', body: '<p class="small muted" style="margin:0">' + esc(T.note) + '</p>' + T.list.map(function (d) { return '<div class="card"><h3>' + esc(d.title) + '</h3><p class="small muted" style="margin:0">' + esc(d.by) + '</p><p style="margin:6px 0 0">' + esc(d.note) + '</p>' + linkSlot('tiktok_' + d.title) + '</div>'; }).join('') };
   }
   function solfaSheet() {
     var F = C.solfa; var i = Math.min(S.ptr.solfa ? S.ptr.solfa.i : 0, F.lessons.length);
@@ -1242,7 +1243,7 @@
       body += '<div class="card"><div class="kicker">Piece ' + (i + 1) + ' of ' + n + ' · ' + esc(p.when) + '</div><h3>' + esc(p.title) + '</h3><p style="margin:0 0 8px">' + esc(p.about) + '</p>' +
         '<p style="margin:0 0 4px"><b>Listen for:</b></p><ul style="margin:0 0 10px;padding-left:20px;display:flex;flex-direction:column;gap:6px">' + p.listen.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
         (p.alt ? '<p class="small" style="background:var(--sunk);padding:8px 10px;border-radius:8px">' + esc(p.alt) + '</p>' : '') +
-        audioSlot('music_' + i) +
+        audioSlot('music_' + i) + linkSlot('music_' + i, 'Add a performance you like (YouTube or another site). Links show on every iPad and need internet to play.') +
         (p.rec && p.rec.length ? '<p class="small" style="margin:10px 0 4px"><b>Free recordings online</b> (open and press play):</p><ul class="list">' + p.rec.map(function (r) { return '<li><span>' + esc(r.label) + ' <span class="small muted">' + esc(r.lic) + '</span></span><a class="btn ghost small" href="' + esc(r.url) + '" target="_blank" rel="noopener">▶ Listen</a></li>'; }).join('') + '</ul>' : '<p class="small muted" style="margin:10px 0 0">No free recording of this one yet; use a CD or your music app.</p>') +
         '<div class="nav" style="margin-top:12px"><button class="btn ghost small" data-act="ptr" data-k="music" data-d="-1">‹ Back</button><button class="btn" data-act="ptr" data-k="music" data-d="1">Next piece ›</button></div></div>';
     }
@@ -1423,7 +1424,8 @@
   function vget(id) { return vopen().then(function (db) { return new Promise(function (res) { var q = db.transaction('v').objectStore('v').get(id); q.onsuccess = function () { res(q.result || null); }; q.onerror = function () { res(null); }; }); }); }
   function vput(id, blob) { return vopen().then(function (db) { return new Promise(function (res, rej) { var t = db.transaction('v', 'readwrite'); t.objectStore('v').put(blob, id); t.oncomplete = res; t.onerror = function () { rej(t.error); }; t.onabort = function () { rej(t.error); }; }); }); }
   function vdel(id) { return vopen().then(function (db) { return new Promise(function (res) { var t = db.transaction('v', 'readwrite'); t.objectStore('v').delete(id); t.oncomplete = res; t.onerror = res; }); }); }
-  function videoSlot(id, bundled) {
+  function videoSlot(id, bundled) { return videoSlot0(id, bundled) + linkSlot(id); }
+  function videoSlot0(id, bundled) {
     if (bundled && !vurls[id]) {
       // A video that comes with the app: play it from the app, and keep a copy on the iPad for offline use.
       if (vhave[id] === undefined) { vhave[id] = 'loading'; vget(id).then(function (b) { if (b) { vurls[id] = URL.createObjectURL(b); vhave[id] = true; refreshSheet(); } else { vhave[id] = false; fetch(bundled).then(function (r) { return r.ok ? r.blob() : null; }).then(function (bl) { if (bl) return vput(id, bl); }).catch(function () {}); } }).catch(function () { vhave[id] = false; }); }
@@ -1443,6 +1445,49 @@
     vput(id, f).then(function () { if (vurls[id]) URL.revokeObjectURL(vurls[id]); vurls[id] = URL.createObjectURL(f); vhave[id] = true; toast('Video saved'); refreshSheet(); })
       .catch(function () { var m = document.querySelector('[data-vidmsg="' + id + '"]'); if (m) { m.style.color = 'var(--warn)'; m.textContent = 'The iPad did not have room to keep this video. Try a shorter video, or free up some space.'; } });
   });
+
+
+  // ---------- video links: paste a YouTube, TikTok or other link once; it syncs to every iPad ----------
+  function ytId(u) { var m = String(u).match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/); return m ? m[1] : null; }
+  function linkHost(u) { var m = String(u).match(/^https?:\/\/(?:www\.|m\.)?([^\/?#]+)/i); return m ? m[1] : u; }
+  function linkSlot(id, label) {
+    var L = (S.links && S.links[id]) || {}, keys = Object.keys(L).sort();
+    var h = '<div class="vlink">';
+    keys.forEach(function (k) {
+      var it = L[k], yid = ytId(it.u), play = ui.linkPlay === id + '|' + k;
+      h += '<div class="vlink-row"><span class="small"><b>' + esc(it.t || (yid ? 'YouTube video' : linkHost(it.u))) + '</b> <span class="muted">' + esc(linkHost(it.u)) + '</span></span><span class="btns" style="margin:0">' +
+        (yid ? '<button class="btn small" data-act="linkplay" data-v="' + esc(id + '|' + k) + '">' + (play ? 'Close' : '▶ Play here') + '</button>' : '') +
+        '<a class="btn ' + (yid ? 'ghost ' : '') + 'small" style="text-decoration:none" href="' + esc(it.u) + '" target="_blank" rel="noopener">' + (yid ? 'Open in YouTube ↗' : '▶ Open video ↗') + '</a>' +
+        '<button class="btn ghost small" data-act="linkdel" data-v="' + esc(id + '|' + k) + '">' + (ui.linkDel === id + '|' + k ? 'Tap again to remove' : 'Remove') + '</button></span></div>' +
+        (play ? '<div class="vlink-frame"><iframe src="https://www.youtube-nocookie.com/embed/' + yid + '?playsinline=1&rel=0" title="' + esc(it.t || 'Video') + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' : '');
+    });
+    var d = (ui.linkDraft || {})[id] || {};
+    h += '<div class="vlink-add"><input type="url" inputmode="url" autocapitalize="off" autocorrect="off" id="lnk_' + esc(id) + '" data-link="' + esc(id) + '" value="' + esc(d.u || '') + '" placeholder="Paste a video link (YouTube, TikTok…)">' +
+      '<input type="text" id="lnkt_' + esc(id) + '" data-linkt="' + esc(id) + '" value="' + esc(d.t || '') + '" placeholder="Name (optional)">' +
+      '<button class="btn small" data-act="linkadd" data-v="' + esc(id) + '">' + (keys.length ? '＋ Add another link' : '＋ Save link') + '</button></div>' +
+      '<p class="small muted" style="margin:4px 0 0">' + (label || 'Links are saved to the family account, so they show on every iPad. They need internet to play.') + '</p></div>';
+    return h;
+  }
+  function linkAct(act, v) {
+    var a, id, k;
+    if (act === 'linkadd') {
+      id = v; var inp = document.getElementById('lnk_' + id), tin = document.getElementById('lnkt_' + id), u = inp ? inp.value.trim() : '';
+      if (u && !/^https?:\/\//i.test(u)) u = 'https://' + u;
+      if (!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(u)) { toast('That doesn’t look like a link'); return; }
+      S.links = S.links || {}; (S.links[id] || (S.links[id] = {}))[String(Date.now())] = { u: u, t: tin ? tin.value.trim() : '' };
+      if (ui.linkDraft) delete ui.linkDraft[id]; save(); toast('Link saved'); refreshSheet();
+    } else if (act === 'linkplay') { ui.linkPlay = ui.linkPlay === v ? null : v; refreshSheet(); }
+    else if (act === 'linkdel') {
+      if (ui.linkDel !== v) { ui.linkDel = v; refreshSheet(); return; }
+      ui.linkDel = null; a = v.split('|'); id = a[0]; k = a[1];
+      if (S.links && S.links[id]) { delete S.links[id][k]; save(); } refreshSheet();
+    }
+  }
+  function linksSheet(id) {
+    var label = id;
+    (function walk(o) { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.id === id && o.label) label = o.label; for (var k in o) if (typeof o[k] === 'object') walk(o[k]); } })(C.lists);
+    return { title: label, who: 'together', body: '<div class="card"><h3 style="margin-top:0">Videos for ' + esc(label) + '</h3>' + linkSlot('item_' + id) + '</div>' };
+  }
 
   // ---------- stretching ----------
   function stretchSheet(tickId) {
@@ -3437,6 +3482,7 @@
     if (act.indexOf('mt-') === 0) { mtAct(act, v, el); return; }
     if (act.indexOf('nm-') === 0 || act.indexOf('nq-') === 0) { nmAct(act, v, el); return; }
     if (act.indexOf('zi-') === 0) { ziAct(act, v, el); return; }
+    if (/^link(add|play|del)$/.test(act)) { linkAct(act, v); return; }
     if (/^(cw|dc)[a-z]+$/.test(act)) { cwAct(act, v, el, ui.sheetArg && ui.sheetArg.tick); return; }
     switch (act) {
       case 'setprofile': (function () { var go = function () { S.profile = v; ui.tab = null; save(); if (ui.sheet) closeSheet(); else render(); }; var need = pinFor(v); if (hasPin(need) && S.profile !== v) askPin(need, 'check', go); else go(); })(); break;

@@ -9954,7 +9954,8 @@ window.CONTENT = {
 "id": "lr_ex",
 "label": "Exercise",
 "icon": "🤸",
-"mins": 15
+"mins": 15,
+"open": "links:lr_ex"
 },
 {
 "id": "lr_dance",
