@@ -230,11 +230,13 @@
     if (!S.profile) { app.innerHTML = welcomeHTML(); return; }
     var lists = listsForProfile();
     if (!ui.tab || (ui.tab !== 'week' && lists.indexOf(ui.tab) < 0)) ui.tab = lists[0];
-    var day = cur();
+    autoStart();
+    var day = cur(), offToday = calOn() && !calInfo(today()).school;
     var html = '<header class="top">' + topHTML(day, lists) + '</header><main>';
-    if (!day) html += startHTML();
+    if (!day) html += offToday ? holidayBanner(null) : startHTML();
     else {
-      if (day.date !== today() && S.keepDay !== today()) html += newDayBanner(day);
+      if (day.date !== today() && S.keepDay !== today()) html += offToday ? holidayBanner(day) : newDayBanner(day);
+      else html += autoNoteBanner(day);
       html += ui.tab === 'week' ? weekHTML() : listHTML(ui.tab, day.w, false);
     }
     html += '</main><footer class="brand">' + esc(C.meta.brand) + '</footer>';
@@ -260,7 +262,8 @@
     var whoVar = ui.tab === 'week' ? 'var(--ink)' : 'var(--' + whoOf(ui.tab) + ')';
     document.documentElement.style.setProperty('--who', whoVar);
     var title = day ? 'Week ' + day.w : 'Ready to begin';
-    var sub = day ? 'Day ' + day.n + ' · school day ' + dayInWeek(day) + ' of this week · ' + fmtDate(day.date) : 'Nothing recorded yet';
+    var tw = termWeekOf(day);
+    var sub = day ? (tw ? (tw.term.name || 'Term') + ', week ' + tw.week + ' · ' : '') + 'Day ' + day.n + ' · school day ' + dayInWeek(day) + ' of this week · ' + fmtDate(day.date) : 'Nothing recorded yet';
     var pct = 0;
     if (day && ui.tab !== 'week') {
       var st = weekStats(ui.tab, day.w); pct = st.total ? Math.round(st.done / st.total * 100) : 0;
@@ -278,11 +281,130 @@
   function startHTML() {
     var Y = window.SDsync, st = Y && Y.status();
     var warn = st && st.available && !st.user ? '<div class="banner" style="border-color:var(--warn)"><p><b>Used the app before?</b> This device is not signed in to the family account, so it is starting empty. Tap ⚙︎ and sign in first — your days, poems and progress come back from the family account. (Opening the app in Safari instead of from its Home Screen icon also starts empty.)</p><button class="btn" data-act="sheet" data-v="settings">Sign in</button></div>' : '';
+    if (calOn()) { var nx0 = calInfo(today()).school ? today() : nextSchoolDate(today()); return warn + '<div class="banner"><p><b>' + (nx0 === today() ? 'Today is the first school day.' : 'The first school day is ' + esc(termLabel(nx0)) + '.') + '</b> It starts by itself.</p><button class="btn" data-act="startday">Start Day 1 now</button></div>'; }
     return warn + '<div class="banner"><p><b>Start your first school day.</b> The app counts school days, not dates, so travel and breaks never put you behind. Each week\'s work is on one page; finish it early and the next week starts.</p><button class="btn" data-act="startday">Start Day 1</button></div>';
   }
   // The Monday of the calendar week a date falls in, so a break that crosses a weekend can start a fresh week.
   function mondayOf(iso) { var p = String(iso || '').split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); if (isNaN(d)) return ''; d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
   function newCalWeek(day) { return !!day && mondayOf(day.date) !== mondayOf(today()); }
+  // ---------- school calendar: terms, holidays and days off; school days start by themselves ----------
+  // S.cal = { on, wd: [1..5], terms: { id: { name, s, e } }, off: { id: { s, e, why } } }, dates as YYYY-MM-DD.
+  function isoD(iso) { var p = String(iso).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function isoOf(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function isoAdd(iso, n) { var d = isoD(iso); d.setDate(d.getDate() + n); return isoOf(d); }
+  function calObj() { S.cal = S.cal || {}; var c = S.cal; c.terms = c.terms || {}; c.off = c.off || {}; if (!c.wd) c.wd = [1, 2, 3, 4, 5]; return c; }
+  function calTerms() { var c = S.cal || {}, T = c.terms || {}; return Object.keys(T).map(function (id) { return { id: id, name: T[id].name || '', s: T[id].s, e: T[id].e }; }).filter(function (t) { return t.s && t.e; }).sort(function (a, b) { return a.s < b.s ? -1 : 1; }); }
+  function calOffs() { var O = (S.cal || {}).off || {}; return Object.keys(O).map(function (id) { return { id: id, s: O[id].s, e: O[id].e || O[id].s, why: O[id].why || '' }; }).filter(function (o) { return o.s; }).sort(function (a, b) { return a.s < b.s ? -1 : 1; }); }
+  function calOn() { return !!(S.cal && S.cal.on && calTerms().length); }
+  function calWd() { var w = (S.cal && S.cal.wd) || [1, 2, 3, 4, 5]; return Array.isArray(w) ? w : Object.keys(w).map(Number); }
+  var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  function calInfo(iso) {
+    var term = calTerms().filter(function (t) { return t.s <= iso && iso <= t.e; })[0] || null;
+    var off = calOffs().filter(function (o) { return o.s <= iso && iso <= o.e; })[0] || null;
+    var wday = calWd().indexOf(isoD(iso).getDay()) >= 0;
+    var why = !term ? 'holiday' : off ? 'off' : !wday ? 'weekend' : '';
+    return { term: term, off: off, wday: wday, school: !why, why: why };
+  }
+  function nextSchoolDate(from) { for (var i = 1; i < 400; i++) { var d = isoAdd(from, i); if (calInfo(d).school) return d; } return null; }
+  // Which week of its term a school day falls in: the number of different curriculum weeks used in the term so far.
+  function termWeekOf(day) {
+    if (!calOn() || !day) return null;
+    var t = calInfo(day.date).term; if (!t) return null;
+    var ws = {}; S.days.forEach(function (d) { if (d.date >= t.s && d.date <= day.date && d.n <= day.n) ws[d.w] = 1; });
+    return { term: t, week: Object.keys(ws).length };
+  }
+  // On a school day, today's school day starts by itself. A new calendar week (Monday, or the first day back
+  // after a break) begins the next week of work.
+  function autoStart() {
+    if (!calOn() || !ui.calReady) return false;
+    var t = today(), last = cur();
+    if (last && last.date >= t) return false;
+    if (S.keepDay === t) return false;
+    if (!calInfo(t).school) return false;
+    var w = 1;
+    if (last) w = S.stayWeek ? last.w : (S.forceNewWeek || mondayOf(last.date) !== mondayOf(t)) ? last.w + 1 : last.w;
+    S.stayWeek = false; S.forceNewWeek = false; S.keepDay = null;
+    S.days.push({ n: last ? last.n + 1 : 1, w: w, date: t, ticks: {}, picks: {}, auto: 1 });
+    ui.autoNote = t;
+    save();
+    return true;
+  }
+  function dropLastDay() { var gone = S.days.pop(); if (gone) Object.keys(S.weeks[gone.w] || {}).forEach(function (id) { if (S.weeks[gone.w][id] === gone.n) delete S.weeks[gone.w][id]; }); return gone; }
+  function dayHasWork(d) { return Object.keys(d.ticks || {}).length || Object.keys(d.picks || {}).some(function (k) { return (d.picks[k] || []).length; }); }
+  function whyText(ci) {
+    if (ci.why === 'holiday') return 'It’s the school holidays.';
+    if (ci.why === 'off') return 'Today is a day off' + (ci.off.why ? ': ' + ci.off.why : '') + '.';
+    return 'There’s no school on ' + ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'][isoD(today()).getDay()] + '.';
+  }
+  function termLabel(iso) { var n = nextSchoolDate(isoAdd(iso, -1)); if (!n) return ''; var ci = calInfo(n); return fmtDate(n) + (ci.term && ci.term.name ? ' (' + ci.term.name + ')' : ''); }
+  // Shown on a day the calendar says is not a school day.
+  function holidayBanner(day) {
+    var ci = calInfo(today()), nx = nextSchoolDate(today());
+    return '<div class="banner"><p><b>' + esc(whyText(ci)) + '</b>' + (nx ? ' The next school day is ' + esc(termLabel(nx)) + '; it starts by itself.' : '') + '</p><div class="btns">' +
+      '<button class="btn ghost" data-act="startday">Do a school day today anyway</button>' +
+      (day ? '<button class="btn ghost" data-act="keepday">Look at Day ' + day.n + '</button>' : '') + '</div></div>';
+  }
+  // After a day starts by itself: say so, and offer the choices a grown-up might want.
+  function autoNoteBanner(day) {
+    if (!day || !day.auto || day.date !== today() || S.calNoteSeen === today()) return '';
+    var prev = S.days[S.days.length - 2], tw = termWeekOf(day), fresh = prev && prev.w !== day.w;
+    return '<div class="banner"><p><b>Day ' + day.n + ' started by itself</b> · Week ' + day.w + (tw ? ' (' + esc(tw.term.name || 'this term') + ', week ' + tw.week + ')' : '') + '.</p><div class="btns">' +
+      '<button class="btn small" data-act="calnoteok">OK</button>' +
+      (fresh && !dayHasWork(day) ? '<button class="btn ghost small" data-act="calstay">Stay on Week ' + prev.w + ' instead</button>' : '') +
+      (!dayHasWork(day) ? '<button class="btn ghost small" data-act="caltodayoff">Take today off</button>' : '') + '</div></div>';
+  }
+  function calCardHTML() {
+    var c = S.cal || {}, T = calTerms(), O = calOffs(), wd = calWd(), on = !!c.on;
+    var h = '<div class="card"><h3>School calendar</h3><p class="small muted" style="margin:0 0 8px">Put in your terms. On a school day the app starts the day by itself, and the first school day of each calendar week starts the next week of work. Holidays and days off are skipped.</p>' +
+      '<div class="btns"><button class="btn ' + (on ? '' : 'ghost ') + 'small" data-act="calon">' + (on ? '✓ Days start by themselves' : 'Start days by themselves') + '</button></div>' +
+      '<p class="small" style="margin:10px 0 4px"><b>School days of the week</b></p><div class="seg">' + [1, 2, 3, 4, 5, 6, 0].map(function (d) { return '<button data-act="calwd" data-v="' + d + '" aria-pressed="' + (wd.indexOf(d) >= 0) + '">' + DOW[d] + '</button>'; }).join('') + '</div>' +
+      '<p class="small" style="margin:12px 0 4px"><b>Terms</b></p>';
+    var Tall = Object.keys(c.terms || {}).map(function (id) { return { id: id, name: c.terms[id].name || '', s: c.terms[id].s || '', e: c.terms[id].e || '' }; }).sort(function (a, b) { return (a.s || '9') < (b.s || '9') ? -1 : 1; });
+    h += Tall.length ? Tall.map(function (t, i) {
+      var bad = t.s && t.e && t.e < t.s, next = Tall[i + 1], clash = next && next.s && t.e && next.s <= t.e;
+      var wks = t.s && t.e && !bad ? Math.round((isoD(t.e) - isoD(t.s)) / 864e5 / 7 + 0.4) : 0;
+      return '<div class="cal-row"><input type="text" data-calf="terms|' + t.id + '|name" value="' + esc(t.name) + '" placeholder="Term name" style="flex:1 1 120px">' +
+        '<label class="small">from <input type="date" data-calf="terms|' + t.id + '|s" value="' + esc(t.s) + '"></label><label class="small">to <input type="date" data-calf="terms|' + t.id + '|e" value="' + esc(t.e) + '"></label>' +
+        '<span class="small muted">' + (wks ? 'about ' + wks + ' weeks' : '') + '</span>' +
+        '<span class="btns" style="margin:0"><button class="btn ghost small" data-act="calext" data-v="' + t.id + '">Extend a week</button><button class="btn ghost small" data-act="calrmterm" data-v="' + t.id + '">' + (ui.calRm === t.id ? 'Tap again to delete' : 'Delete') + '</button></span>' +
+        (bad ? '<p class="small" style="color:var(--warn);margin:0;flex-basis:100%">The end is before the start.</p>' : '') + (clash ? '<p class="small" style="color:var(--warn);margin:0;flex-basis:100%">This term runs into ' + esc(next.name || 'the next term') + '.</p>' : '') + '</div>' +
+        (next && t.e && next.s && next.s > isoAdd(t.e, 1) ? '<p class="small muted cal-break">Holiday · ' + esc(fmtDate(isoAdd(t.e, 1))) + ' to ' + esc(fmtDate(isoAdd(next.s, -1))) + '</p>' : '');
+    }).join('') : '<p class="small muted" style="margin:0">No terms yet.</p>';
+    h += '<div class="btns"><button class="btn small" data-act="caladdterm">＋ Add a term</button></div>';
+    h += '<p class="small" style="margin:14px 0 4px"><b>Extra days off</b> <span class="muted">(public holidays, trips, a sick day)</span></p>' +
+      (O.length ? O.map(function (o) {
+        return '<div class="cal-row"><input type="text" data-calf="off|' + o.id + '|why" value="' + esc(o.why) + '" placeholder="What for?" style="flex:1 1 120px"><label class="small">from <input type="date" data-calf="off|' + o.id + '|s" value="' + esc(o.s) + '"></label><label class="small">to <input type="date" data-calf="off|' + o.id + '|e" value="' + esc(o.e) + '"></label>' +
+          '<button class="btn ghost small" data-act="calrmoff" data-v="' + o.id + '">' + (ui.calRm === o.id ? 'Tap again to delete' : 'Delete') + '</button></div>';
+      }).join('') : '<p class="small muted" style="margin:0">None.</p>') +
+      '<div class="btns"><button class="btn small" data-act="caladdoff">＋ Add days off</button></div>';
+    if (on && T.length) { var nx = calInfo(today()).school ? today() : nextSchoolDate(today()); h += '<p class="small" style="margin:10px 0 0">' + (nx === today() ? 'Today is a school day.' : nx ? 'Next school day: ' + esc(termLabel(nx)) + '.' : 'No school days ahead; add the next term.') + '</p>'; }
+    return h + '</div>';
+  }
+  function calAct(act, v) {
+    var c = calObj(), id;
+    switch (act) {
+      case 'calon': c.on = !c.on; save(); if (c.on) { ui.calReady = true; autoStart(); } render(); refreshSheet(); break;
+      case 'calwd': var wd = calWd().slice(), d = +v, i = wd.indexOf(d); if (i >= 0) wd.splice(i, 1); else wd.push(d); c.wd = wd.sort(); save(); refreshSheet(); break;
+      case 'caladdterm':
+        var T = calTerms(), last = T[T.length - 1], s = last ? isoAdd(last.e, 1) : today();
+        while (isoD(s).getDay() !== 1) s = isoAdd(s, 1);
+        c.terms['t' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)] = { name: 'Term ' + (Object.keys(c.terms).length + 1), s: s, e: isoAdd(s, 7 * 10 - 3) }; save(); refreshSheet(); break;
+      case 'calext': if (c.terms[v] && c.terms[v].e) { c.terms[v].e = isoAdd(c.terms[v].e, 7); save(); toast('Extended to ' + fmtDate(c.terms[v].e)); refreshSheet(); render(); } break;
+      case 'caladdoff': c.off['o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)] = { s: today(), e: today(), why: '' }; save(); refreshSheet(); break;
+      case 'calrmterm': case 'calrmoff':
+        if (ui.calRm !== v) { ui.calRm = v; refreshSheet(); return; }
+        ui.calRm = null; delete c[act === 'calrmterm' ? 'terms' : 'off'][v]; save(); refreshSheet(); render(); break;
+      case 'calnoteok': S.calNoteSeen = today(); save(); render(); break;
+      case 'calstay':
+        var day = cur(), prev = S.days[S.days.length - 2];
+        if (day && prev && !dayHasWork(day)) { day.w = prev.w; S.calNoteSeen = today(); save(); toast('Staying on Week ' + prev.w); render(); }
+        break;
+      case 'caltodayoff':
+        var dd = cur();
+        if (dd && dd.date === today() && !dayHasWork(dd)) dropLastDay();
+        id = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); c.off[id] = { s: today(), e: today(), why: 'Day off' }; save(); toast('Today is a day off'); render(); break;
+    }
+  }
   function newDayBanner(day) {
     var used = S.days.filter(function (d) { return d.w === day.w; }).length;
     var complete = weekComplete(day.w);
@@ -1042,6 +1164,10 @@
   }
   window.addEventListener('online', function () { setTimeout(blobPump, 500); });
   setTimeout(blobPump, 4000);
+  // Wait a moment after opening before starting a day by itself, so the family copy has time to arrive first.
+  function calKick() { var a = document.activeElement; if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA')) return; if (calOn() && (!cur() || cur().date !== today())) render(); }
+  setTimeout(function () { ui.calReady = true; calKick(); }, 3000);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') setTimeout(calKick, 2000); });
   // Fetch a file another iPad sent, keep it here, then hand it back.
   var blobGetting = {};
   function blobLocal(k, ent) {
@@ -1858,6 +1984,7 @@
     var d = cur();
     var synced = window.SDsync && window.SDsync.status().user;
     var body = syncCardHTML() + '<div class="card"><h3>Which list lives on this device</h3><div class="who-pick">' + profileButtons() + '</div><p class="small muted" style="margin:8px 0 0">' + (synced ? 'Ticks are shared with your other signed-in devices.' : 'Until this device is signed in, its ticks stay on this device only.') + '</p></div>' + pinCardHTML();
+    body += calCardHTML();
     body += '<div class="card"><h3>School days</h3><p class="small muted" style="margin:0 0 8px">' + (synced ? 'All signed-in devices share one count of school days. ' : 'Each tablet keeps its own count of school days. ') + (d ? 'Now on Day ' + d.n + ', Week ' + d.w + '.' : '') + '</p><div class="btns">' +
       '<button class="btn ghost small" data-act="newweek">' + (S.forceNewWeek ? '✓ Next day starts a new week' : 'Start a new week from the next day') + '</button>' +
       (d ? '<button class="btn ghost small" data-act="undoday">Remove Day ' + d.n + '</button>' : '') + '</div><p id="undo-note" class="small" style="margin:6px 0 0"></p></div>';
@@ -3471,6 +3598,7 @@
   document.addEventListener('click', function (e) { if (e.target.closest('.scrim') || e.target.closest('.vpop')) handle(e); });
   document.addEventListener('change', function (e) {
     var el = e.target;
+    if (el.getAttribute && el.getAttribute('data-calf')) { var cf = el.getAttribute('data-calf').split('|'), cc = calObj(), obj = cc[cf[0]][cf[1]]; if (obj) { obj[cf[2]] = el.value.trim(); if (cf[0] === 'off' && cf[2] === 's' && (!obj.e || obj.e < obj.s)) obj.e = obj.s; save(); setTimeout(function () { refreshSheet(); render(); }, 0); } return; }
     if (el.id === 'cwphoto' && el.files && el.files[0]) { var nt0 = document.getElementById('cwnote'); if (nt0 && ui.cwDraft) ui.cwDraft.note = nt0.value; shrinkPhoto(el.files[0]).then(function (b) { ui.cwPhotoBlob = b; if (ui.cwPhotoUrl) URL.revokeObjectURL(ui.cwPhotoUrl); ui.cwPhotoUrl = URL.createObjectURL(b); refreshSheet(); }); return; }
     if (el.matches('[data-act="scmplan"]')) { var pk2 = el.getAttribute('data-k'); ui.scmPlan[pk2] = el.value; refreshSheet(); }
     if (el.matches('[data-act="scmpack"]')) { ui.scmPack = el.value; refreshSheet(); }
@@ -3492,6 +3620,7 @@
     if (act.indexOf('mt-') === 0) { mtAct(act, v, el); return; }
     if (act.indexOf('nm-') === 0 || act.indexOf('nq-') === 0) { nmAct(act, v, el); return; }
     if (act.indexOf('zi-') === 0) { ziAct(act, v, el); return; }
+    if (/^cal[a-z]+$/.test(act)) { calAct(act, v); return; }
     if (/^link(add|play|del)$/.test(act)) { linkAct(act, v); return; }
     if (/^(cw|dc)[a-z]+$/.test(act)) { cwAct(act, v, el, ui.sheetArg && ui.sheetArg.tick); return; }
     switch (act) {
