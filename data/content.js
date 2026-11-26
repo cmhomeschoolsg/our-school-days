@@ -10712,7 +10712,8 @@ window.CONTENT = {
 "id": "e_math",
 "label": "Math textbook",
 "icon": "🔢",
-"mins": 15
+"mins": 15,
+"open": "num:emma"
 },
 {
 "id": "e_mathtr",
