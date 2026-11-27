@@ -3024,7 +3024,7 @@
     var body;
     if (!nmCur(who)) body = (v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="now">Back to choosing where to start</button></div>' + nmScopeView(who) : nmPlaceView(who) + '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="scope">See the scope and sequence</button></div>');
     else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'kit' ? nmKitView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
-    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic (and Ray\'s New Practical for the fraction exercises), with mental arithmetic from Ray\'s New Intellectual Arithmetic, Hall & Stevens\' Lessons in Experimental and Practical Geometry and Hall & Knight\'s Elementary Algebra; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
+    body += '<details class="nm-about"><summary class="small muted">About the sources</summary>' + '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic (and Ray\'s New Practical for the fraction exercises), with mental arithmetic from Ray\'s New Intellectual Arithmetic, Hall & Stevens\' Lessons in Experimental and Practical Geometry and Hall & Knight\'s Elementary Algebra; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>' + '</details>';
     return { title: 'Number · ' + nmName(who), who: who, body: body };
   }
   // Supplies: what each year's lessons use, ticked off as Mum gets them. Shared by both girls.
@@ -3043,6 +3043,9 @@
   }
   // Placement: Mum asks a few sums from each step in turn; the first step she cannot yet do is where lessons start.
   function nmPlaceView(who) {
+    if (!ui.nm.placeYr) return '<div class="card"><div class="kicker">Getting started</div><h3>Where is ' + esc(nmName(who)) + ' in maths now?</h3>' +
+      '<p class="small muted" style="margin:0 0 10px">Pick the level she is working at. You will then ask her a few sums from the start of that level; the first thing she cannot yet do is where her lessons begin.</p><div class="nm-lvls">' +
+      [1, 2, 3, 4, 5, 6].map(function (y) { return '<button class="btn ghost" data-act="nm-place-yr" data-v="' + y + '">' + esc(nmYr(y)) + '</button>'; }).join('') + '</div></div>';
     var i = ui.nm.placeI || 0; var s = NX.steps[i];
     if (!s) { return '<div class="card"><p>She knows every step here.</p></div>'; }
     var sums = ui.nm.placeSums && ui.nm.placeSums.id === s.id ? ui.nm.placeSums.list : (ui.nm.placeSums = { id: s.id, list: (NX.sumsFor(s).length ? NX.sumsFor(s) : (s.book ? s.book.items.filter(function (x) { return x[1] !== ''; }) : [])).slice(0, 4) }).list;
@@ -3050,13 +3053,38 @@
       '<p class="small muted" style="margin:0 0 8px">' + esc(nmTag(s)) + '. Ask her these (aloud, or on paper for written sums). If she answers them all readily, go on to the next step. The first step she can\'t yet do is where her lessons begin.</p>' +
       (sums.length ? '<ol class="nm-sums">' + sums.map(function (x) { return '<li>' + esc(x[0]) + ' <b class="nm-ans">' + esc(String(x[1])) + '</b></li>'; }).join('') + '</ol>' : '<p class="small">' + esc(s.how[0]) + '</p>') +
       '<div class="btns"><button class="btn" data-act="nm-place" data-v="knows">She knows this</button><button class="btn ghost" data-act="nm-place" data-v="start">Start here</button>' + (i ? '<button class="btn ghost small" data-act="nm-place" data-v="back">Back</button>' : '') + '</div>' +
-      '<p class="small muted" style="margin:10px 0 4px">Further along already? Skip ahead to check from the start of:</p><div class="btns">' + [2, 3, 4, 5, 6].map(function (y) { return '<button class="btn ghost small" data-act="nm-place-yr" data-v="' + y + '">' + nmYr(y) + '</button>'; }).join('') + '</div></div>';
+      '<p class="small muted" style="margin:10px 0 0"><button class="linkbtn" data-act="nm-place-lvl">Choose a different level</button></p></div>';
+  }
+  // Open-and-go lesson: one difficulty, four timed parts, answers hidden until asked for.
+  function nmPlanView(tickId, who, s) {
+    var m = nmState(who), i = nmIdx(s.id), li = Math.min(((m.li || {})[s.id]) || 0, s.plan.length - 1), L = s.plan[li];
+    function item(x) { if ((x[0] === 'book' || x[0] === 'oral') && typeof x[1] === 'number') { var src = x[0] === 'book' ? s.book : s.oral; return src.items[x[1]]; } return x; }
+    var show = ui.nm.ans === s.id + ':' + li;
+    function list(xs, open) { return '<ol class="nm-sums">' + xs.map(function (x) { var it = item(x); return '<li>' + esc(it[0]) + (it[1] !== '' ? ' <b class="nm-ans' + (show || open ? '' : ' nm-hide') + '">' + esc(String(it[1])) + '</b>' : '') + '</li>'; }).join('') + '</ol>'; }
+    var srcs = []; L.slate.forEach(function (x) { var r = x[0] === 'book' ? s.book.ref : x[0] === 'oral' ? s.oral.ref : ''; if (r && srcs.indexOf(r) < 0) srcs.push(r); });
+    var last = li === s.plan.length - 1, nxt = NX.steps[i + 1];
+    var h = '<div class="card nm-plan"><div class="kicker">' + esc(nmYr(s.year)) + ' · ' + esc(s.name) + '</div>' +
+      '<h3>Lesson ' + (li + 1) + ' of ' + s.plan.length + ': ' + esc(L.title) + '</h3>' +
+      '<p class="small muted" style="margin:0">About 20 minutes · Have ready: ' + esc(L.ready) + '</p></div>' +
+      '<div class="card nm-sec"><div class="nm-ph"><span>1</span>Warm-up <em>3 min · aloud</em></div>' + list(L.warm, true) + '</div>' +
+      '<div class="card nm-sec"><div class="nm-ph"><span>2</span>The new idea <em>7 min</em></div><ul class="nm-idea">' +
+      L.idea.map(function (x) { return '<li><b>' + (x[0] === 'do' ? 'Do' : x[0] === 'say' ? 'Say' : 'Ask') + '</b> ' + esc(x[1]) + (x[2] ? '<div class="small muted">She should find: ' + esc(x[2]) + '</div>' : '') + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="card nm-sec"><div class="nm-ph"><span>3</span>On her slate <em>8 min</em></div>' + list(L.slate) +
+      '<p class="small muted" style="margin:4px 0 8px">From ' + esc(srcs.join('; ')) + '. A sum is right or wrong: if wrong, she does not rework it; give her the next one.</p>' +
+      '<div class="btns"><button class="btn ghost small" data-act="nm-ans" data-v="' + s.id + ':' + li + '">' + (show ? 'Hide answers' : 'Show answers') + '</button></div></div>' +
+      '<div class="card nm-sec"><div class="nm-ph"><span>4</span>Tell back <em>2 min</em></div><p style="margin:0">' + esc(L.tell) + '</p></div>' +
+      '<div class="card"><div class="btns">' + tickButton(tickId, 'Lesson done', 'Lesson done today') +
+      (!last ? '<button class="btn ghost" data-act="nm-li" data-v="1">Next lesson</button>' : nxt ? '<button class="btn ghost" data-act="nm-next">She has it: on to ' + esc(nxt.name) + '</button>' : '') +
+      (li > 0 ? '<button class="btn ghost small" data-act="nm-li" data-v="-1">Back a lesson</button>' : '') + '</div>' +
+      '<p class="small muted" style="margin:8px 0 0">Not sure yet? Do the same lesson again tomorrow with the next exercises under "More practice".</p></div>';
+    return h;
   }
   function nmLessonView(tickId, who) {
     var m = nmState(who); var s = nmCur(who); var i = nmIdx(s.id);
+    if (s.plan && !ui.nm.more) return nmPlanView(tickId, who, s) + '<div class="btns"><button class="btn ghost small" data-act="nm-more">More practice and step notes</button></div>';
     if (!ui.nm.sums || ui.nm.sums.id !== s.id) ui.nm.sums = { id: s.id, list: NX.sumsFor(s) };
     var sums = ui.nm.sums.list;
-    var h = '<div class="card"><div class="kicker">' + esc(nmTag(s)) + ' · step ' + (i + 1) + ' of ' + NX.steps.length + '</div><h3>' + esc(s.name) + '</h3>' +
+    var h = (s.plan ? '<div class="btns"><button class="btn ghost small" data-act="nm-more">Back to today\'s lesson</button></div>' : '') + '<div class="card"><div class="kicker">' + esc(nmTag(s)) + ' · step ' + (i + 1) + ' of ' + NX.steps.length + '</div><h3>' + esc(s.name) + '</h3>' +
       '<p class="small" style="margin:0 0 6px"><b>Things to hand:</b> ' + esc(s.objects) + '</p>' +
       (NX.steps[i + 1] ? '<p class="small muted" style="margin:0 0 6px"><b>Coming up:</b> ' + NX.steps.slice(i + 1, i + 3).map(function (x) { return esc(x.name) + ' (' + esc(x.objects) + ')'; }).join('; ') + '</p>' : '') +
       '<ul class="nm-how">' + s.how.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
@@ -3194,9 +3222,13 @@
       case 'nm-view': ui.nm.view = v; refreshSheet(true); break;
       case 'nm-have': var hv = nmHave(); if (hv[v]) delete hv[v]; else hv[v] = 1; save(); refreshSheet(); break;
       case 'nm-new': ui.nm.sums = null; refreshSheet(); break;
+      case 'nm-ans': ui.nm.ans = ui.nm.ans === v ? '' : v; refreshSheet(); break;
+      case 'nm-more': ui.nm.more = !ui.nm.more; refreshSheet(true); break;
+      case 'nm-li': var ls = nmCur(who); if (ls && ls.plan) { m.li = m.li || {}; m.li[ls.id] = Math.max(0, Math.min(ls.plan.length - 1, (m.li[ls.id] || 0) + (+v))); ui.nm.ans = ''; nmLog(who, { k: 'lesson', step: ls.id, li: m.li[ls.id] }); save(); refreshSheet(true); } break;
       case 'nm-book': var bs = nmCur(who); if (bs && bs.book) { m.bp = m.bp || {}; var nb = (m.bp[bs.id] || 0) + 5; m.bp[bs.id] = nb >= bs.book.items.length ? 0 : nb; save(); refreshSheet(); } break;
       case 'nm-oral': var os = nmCur(who); if (os && os.oral) { m.bp = m.bp || {}; var ok = os.id + ':oral', no = (m.bp[ok] || 0) + 5; m.bp[ok] = no >= os.oral.items.length ? 0 : no; save(); refreshSheet(); } break;
-      case 'nm-place-yr': var yi = 0; while (yi < NX.steps.length && NX.steps[yi].year < +v) { m.known[NX.steps[yi].id] = 'knew it ' + today(); yi++; } ui.nm.placeI = yi; ui.nm.placeSums = null; save(); refreshSheet(true); break;
+      case 'nm-place-lvl': ui.nm.placeYr = 0; refreshSheet(true); break;
+      case 'nm-place-yr': ui.nm.placeYr = +v; var yi = 0; while (yi < NX.steps.length && NX.steps[yi].year < +v) { m.known[NX.steps[yi].id] = 'knew it ' + today(); yi++; } ui.nm.placeI = yi; ui.nm.placeSums = null; save(); refreshSheet(true); break;
       case 'nm-place':
         var pi = ui.nm.placeI || 0;
         if (v === 'back') { ui.nm.placeI = Math.max(0, pi - 1); ui.nm.placeSums = null; refreshSheet(true); break; }
@@ -3205,7 +3237,7 @@
       case 'nm-next': var ni = nmIdx(m.at); nmLog(who, { k: 'step', step: m.at }); m.known[m.at] = 'done ' + today(); m.at = NX.steps[Math.min(NX.steps.length - 1, ni + 1)].id; ui.nm.sums = null; save(); toast('Next step: ' + nmCur(who).name); refreshSheet(true); render(); break;
       case 'nm-prev': m.at = NX.steps[Math.max(0, nmIdx(m.at) - 1)].id; ui.nm.sums = null; save(); refreshSheet(true); render(); break;
       case 'nm-go': m.at = NX.steps[+v].id; ui.nm.sums = null; ui.nm.view = 'now'; save(); refreshSheet(true); render(); break;
-      case 'nm-replace': delete m.at; ui.nm.placeI = 0; ui.nm.placeSums = null; save(); refreshSheet(true); render(); break;
+      case 'nm-replace': delete m.at; ui.nm.placeYr = 0; ui.nm.placeI = 0; ui.nm.placeSums = null; save(); refreshSheet(true); render(); break;
       case 'nq-start': nqStart(who); refreshSheet(true); break;
       case 'nq-key': nqKey(v); break;
     }

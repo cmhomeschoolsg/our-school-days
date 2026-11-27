@@ -950,6 +950,50 @@
     alg.adapt = 'The exercises are Hall & Knight\'s own; the equations need no negative numbers on the way. Pence and shillings are kept as they wrote them.';
   })();
 
+
+  // Open-and-go lesson plans: each lesson is one difficulty, about 20 minutes, in four parts.
+  // warm: said aloud; idea: what Mum does and says, so she finds the rule before she is told it; slate: exercises
+  // picked from the step's book (['book', i]) or mental-arithmetic set (['oral', i]); tell: what she narrates.
+  (function () {
+    function plan(id, lessons) { STEPS.filter(function (x) { return x.id === id; })[0].plan = lessons; }
+    plan('p6fdiv', [
+      { title: 'A fraction shared by a whole number', ready: 'Paper strips; a pencil',
+        warm: [["What are 2/3 of 9?", 6], ["What are 3/4 of 20?", 15], ["If an apple costs 2 cents, what part of the apple costs 1 cent?", "1/2"]],
+        idea: [['do', 'Fold a strip into quarters and shade 3 of them: three quarters. Ask her to share the three quarters between 3 people.'],
+          ['ask', 'How much does each person get?', 'One quarter: 3/4 ÷ 3 = 1/4. She divided the top number and kept the quarters.'],
+          ['do', 'Now share 1/2 between 3. The top number 1 will not divide by 3, so fold the half into 3 smaller pieces.'],
+          ['ask', 'What is each small piece called?', 'A sixth: 1/2 ÷ 3 = 1/6. This time she multiplied the bottom number.'],
+          ['say', 'So to divide a fraction by a whole number, divide the top if you can; if not, multiply the bottom.']],
+        slate: [['book', 0], ['book', 4], ['book', 10], ['book', 1], ['book', 7]],
+        tell: 'Ask her to tell you, with a strip in her hand, why 1/2 ÷ 3 is 1/6 and not 1/2 cut down some other way.' },
+      { title: 'How many fractions in a whole number?', ready: 'Paper strips',
+        warm: [["At $3 a yard, how many yards of cloth can you buy for $21?", "7 yards"], ["If a man can travel 3 miles in an hour, how many hours will it take him to travel 27 miles?", "9 hours"], ["Four quarts make 1 gallon: how many gallons in 36 quarts?", "9 gallons"]],
+        idea: [['ask', 'How many halves are there in 3 whole strips?', '6. Fold and count them.'],
+          ['ask', 'How many quarters in 2 strips?', '8.'],
+          ['do', 'Now 4 ÷ 2/3: how many two-thirds are in 4 strips? Fold all 4 strips into thirds.'],
+          ['ask', 'How many thirds in 4 strips? And how many pairs of thirds?', '12 thirds, which make 6 pairs: 4 ÷ 2/3 = 6.'],
+          ['say', 'She multiplied by the bottom number (4 × 3 = 12 thirds), then divided by the top (12 ÷ 2 = 6). Let her say the rule in her own words before you do.']],
+        slate: [['book', 2], ['book', 5], ['book', 8]],
+        tell: 'She tells you how she would find how many 3/4-metre lengths of ribbon can be cut from 6 m, without working it on paper.' },
+      { title: 'A fraction divided by a fraction', ready: 'Paper strips; her slate',
+        warm: [["Reduce 2/6 to its lowest terms.", "1/3"], ["Reduce 3/6 to its lowest terms.", "1/2"], ["Reduce 4/6 to its lowest terms.", "2/3"]],
+        idea: [['ask', 'How many quarters in three quarters? 3/4 ÷ 1/4 = ?', '3.'],
+          ['ask', 'And 1/2 ÷ 1/4? (Write 1/2 as 2/4 first.)', '2.'],
+          ['do', 'Now 2/3 ÷ 3/4. Help her give both the same bottom number: 8/12 ÷ 9/12.'],
+          ['ask', 'How many 9-twelfths in 8-twelfths?', '8/9, a little less than one.'],
+          ['do', 'Write 2/3 × 4/3 next to it and let her work it out. It is also 8/9.'],
+          ['ask', 'What did we do to 3/4 to get 4/3?', 'Turned it upside down. That is the shortcut: to divide by a fraction, turn it upside down and multiply. She has found the rule, so now it can be used.']],
+        slate: [['book', 22], ['book', 20], ['book', 3], ['book', 6], ['book', 9]],
+        tell: 'She tells you why turning the divisor upside down works, using 2/3 ÷ 3/4 and the twelfths.' },
+      { title: 'Mixed numbers in division', ready: 'Her slate',
+        warm: [['oral', 0], ['oral', 1], ['oral', 3]],
+        idea: [['ask', 'Ray\'s 6 ÷ 2 2/5: how many fifths is 2 2/5?', '12 fifths, so 2 2/5 = 12/5.'],
+          ['say', 'With a mixed number, change it into fifths (or whatever its parts are) first. Then it is the division she already knows: 6 ÷ 12/5 = 6 × 5/12 = 2 1/2.'],
+          ['ask', 'Before working it, is the answer more or less than 6? Why?', 'Less, because she is dividing by something bigger than 1.']],
+        slate: [['book', 12], ['book', 15], ['book', 16], ['book', 17], ['book', 13], ['book', 11], ['book', 18], ['book', 14]],
+        tell: 'Ask her to tell you how she knows, before working it, whether an answer will be bigger or smaller than the number she started with.' }]);
+  })();
+
   // Put the added steps where they belong in the sequence.
   (function () {
     function at(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }
