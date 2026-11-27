@@ -419,8 +419,9 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").r
 
 /* ---------------- VIEWS ---------------- */
 let view = {name:"home"};
+function resume(){ if(S.last && S.last.name){ view = {name:S.last.name, id:S.last.id||undefined}; } }
 const app = document.getElementById("app");
-function go(v){ stop(); view = v; render(); window.scrollTo(0,0); }
+function go(v){ stop(); view = v; S.last = {name:v.name, id:v.id||null}; save(); render(); window.scrollTo(0,0); }
 
 function renderKids(){}
 
@@ -476,24 +477,40 @@ function home(){
 function seriesList(){
   const k = me();
   return `<button class="back" data-go="home">‹ Home</button>
-  <h2>Siri</h2><p class="lede">Each series is a short chain of actions. Every line starts with one new word and grows one piece at a time until it becomes a full sentence. Listen, say it aloud and do the action. When you know the whole series, try it from memory.</p>
+  <h2>Siri</h2><p class="lede">Each series is a short chain of actions. One line is one lesson: it starts with one new word and grows one piece at a time until it becomes a full sentence. Stop there; the next line is the next lesson. Try the lines you have learned from memory now and then.</p>
   <div class="list">${SERIES.map(s=>{ const st=k.series[s.id]; const got=st?st.got.filter(Boolean).length:0;
     return `<button class="item" data-go="series" data-id="${s.id}"><div class="grow"><h3>${s.ms}</h3><div class="sub">${s.en} · ${s.lines.length} lines</div></div>
-    <span class="badge ${st&&st.mastered?"":"todo"}">${st&&st.mastered?"Mastered":got?`${got}/${s.lines.length}`:"New"}</span></button>`; }).join("")}</div>`;
+    <span class="badge ${st&&st.mastered?"":"todo"}">${st&&st.mastered?"Mastered":st&&st.at?(st.at>=s.lines.length?"All lines learned":`Next: lesson ${st.at+1} of ${s.lines.length}`):"New"}</span></button>`; }).join("")}</div>`;
 }
 function seriesView(){
   const s = SERIES.find(x=>x.id===view.id), k = me();
   if(!k.series[s.id]) k.series[s.id] = {got:s.lines.map(()=>false), mastered:false};
-  const st = k.series[s.id], i = view.i||0, mode = view.mode||"learn", line = s.lines[i];
+  const st = k.series[s.id], mode = view.mode||"learn";
   if(!st.got) st.got = s.lines.map(()=>false);
-  const dots = s.lines.map((_,j)=>`<span class="dot ${st.got[j]?"got":""} ${j===i?"cur":""}"></span>`).join("");
+  if(st.at===undefined){ const g=st.got.lastIndexOf(true); st.at = g>=0 ? g+1 : 0; }
+  // Come back to the place you left off.
+  if(view.i===undefined){ const p = st.pos||{i:Math.min(st.at||0, s.lines.length-1), step:0}; view.i = Math.min(p.i, s.lines.length-1); view.step = p.step||0; }
+  const learned = Math.max(1, Math.min(st.at||0, s.lines.length));
+  if(mode==="recall" && view.i>=learned) view.i = 0;
+  const i = view.i||0, line = s.lines[i];
+  const dots = s.lines.map((_,j)=>`<span class="dot ${st.got[j]?"got":""} ${j===i?"cur":""}" ${j<(st.at||0)?'style="outline:2px solid var(--gula);outline-offset:1px"':""}></span>`).join("");
   let body;
-  if(mode==="learn"){
+  if(mode==="learn" && view.done){
+    const last = i>=s.lines.length-1;
+    body = `<div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gula);font-weight:700;margin-top:8px">Lesson ${i+1} done ✓</div>
+      <div class="big" style="font-size:clamp(28px,5vw,42px)">${line[0]}</div>
+      <p class="lede" style="margin-top:8px">${last?"That was the last line of this series. Next time, say the whole series from memory.":"That's enough for today. Next lesson: line "+(i+2)+" of "+s.lines.length+"."}</p>
+      <div class="row">
+        <button class="btn ghost" data-act="again1">Do this line once more</button>
+        ${last?`<button class="btn warm" data-act="mode" data-m="recall">From memory</button>`:`<button class="btn ghost" data-act="nextline">Start the next line now</button>`}
+        <button class="btn warm" data-go="seriesList">Finish for today</button>
+      </div>`;
+  } else if(mode==="learn"){
     const steps = line[2]||[], si = view.step||0, full = si>=steps.length;
     const cur = full ? [line[0], line[1]] : steps[si];
     const trail = steps.slice(0, si).map(x=>`<button class="chip" data-say="${esc(x[0])}"><b>${x[0]}</b></button>`).join(`<span style="color:var(--muted)">→</span>`);
     const stage = full ? "Sentence" : (si===0 ? "New word" : "Build it up · step "+(si+1));
-    const isLast = full && i===s.lines.length-1;
+    const isLast = false;
     body = `<div class="row" style="gap:8px;min-height:40px">${trail}</div>
       <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gula);font-weight:700;margin-top:8px">${stage}</div>
       <div class="big" ${full?"":'style="font-size:clamp(34px,6vw,52px)"'}>${cur[0]}</div>
@@ -502,7 +519,7 @@ function seriesView(){
         <button class="btn" data-act="sayLine">Dengar (listen)</button>
         <button class="btn ghost" data-act="toggleEn">${view.showEn?"Hide":"Show"} English</button>
         <button class="btn ghost" data-act="prev" ${i===0&&si===0?"disabled":""}>‹ Back</button>
-        <button class="btn warm" data-act="next">${isLast?"From the top":"Next ›"}</button>
+        <button class="btn warm" data-act="next">${full?"Finish this lesson ✓":"Next ›"}</button>
       </div>
       <p class="note" style="margin-top:16px">${full?"Say the whole sentence aloud as you do the action. Then say it once more without listening.":"Listen, then say it aloud. Point to the thing or do the action as you say it."}</p>`;
   } else {
@@ -515,7 +532,7 @@ function seriesView(){
         `<button class="btn warm" data-act="reveal">Say it, then check</button>`}</div>`;
   }
   return `<button class="back" data-go="seriesList">‹ All series</button>
-  <h2>${s.ms}</h2><p class="lede">${s.en}</p>
+  <h2>${s.ms}</h2><p class="lede">${s.en} · ${mode==="learn"?"lesson "+(i+1)+" of "+s.lines.length:"from memory: the "+learned+" line"+(learned>1?"s":"")+" you have learned"}</p>
   <div class="row" style="margin-bottom:14px"><div class="seg"><button class="${mode==="learn"?"on":""}" data-act="mode" data-m="learn">Listen & do</button><button class="${mode==="recall"?"on":""}" data-act="mode" data-m="recall">From memory</button></div></div>
   <div class="card"><div class="dots">${dots}</div>${body}
   ${st.mastered?`<p class="note" style="margin-top:16px"><b>Mastered!</b> Keep using these sentences around the house.</p>`:""}</div>`;
@@ -737,22 +754,29 @@ document.addEventListener("click", e=>{
     const curText = ()=>{ const L=s.lines[view.i||0], st2=L[2]||[], si=view.step||0; return (view.mode||"learn")==="learn" && si<st2.length ? st2[si][0] : L[0]; };
     if(a==="sayLine") say(curText());
     if(a==="toggleEn") view.showEn = !view.showEn;
+    const keep = ()=>{ st.pos = {i:view.i||0, step:view.step||0}; save(); };
     if(a==="next"){
       const steps = s.lines[i][2]||[], si = view.step||0;
-      if(si < steps.length) view.step = si+1; else { view.i = (i+1)%s.lines.length; view.step = 0; }
-      say(curText());
+      if(si < steps.length){ view.step = si+1; keep(); say(curText()); }
+      else { // the full sentence is said: that is one lesson
+        view.done = true; st.at = Math.max(st.at||0, i+1);
+        st.pos = {i: Math.min(i+1, s.lines.length-1), step:0}; save();
+      }
     }
     if(a==="prev"){
       const si = view.step||0;
       if(si>0) view.step = si-1; else if(i>0){ view.i = i-1; view.step = (s.lines[i-1][2]||[]).length; }
-      say(curText());
+      keep(); say(curText());
     }
-    if(a==="mode"){ view.mode = t.dataset.m; view.i=0; view.step=0; view.reveal=false; view.showEn=false; }
+    if(a==="again1"){ view.done = false; view.step = 0; keep(); say(curText()); }
+    if(a==="nextline"){ view.done = false; view.i = Math.min(i+1, s.lines.length-1); view.step = 0; keep(); say(curText()); }
+    if(a==="mode"){ view.mode = t.dataset.m; view.done=false; view.reveal=false; view.showEn=false;
+      if(view.mode==="recall"){ view.i=0; } else { const p=st.pos||{i:0,step:0}; view.i=p.i; view.step=p.step; } }
     if(a==="reveal"){ view.reveal = true; say(s.lines[i][0]); }
     if(a==="got"||a==="again"){
       st.got[i] = a==="got"; mark();
       if(st.got.every(Boolean)) st.mastered = true;
-      view.i = (i+1)%s.lines.length; view.reveal=false; save();
+      view.i = (i+1)%Math.max(1, Math.min(st.at||0, s.lines.length)); view.reveal=false; save();
     }
     if(a!=="sayLine" && a!=="reveal") { mark(); render(); } else if(a==="reveal") render();
     return;
@@ -787,6 +811,6 @@ document.addEventListener("input", e=>{
 try{ const r = localStorage.getItem("jcm-rate"); if(r) document.getElementById("rate").value = r; }catch(e){}
 document.getElementById("rate").addEventListener("change", e=>{ try{ localStorage.setItem("jcm-rate", e.target.value); }catch(_){} });
 
-load(); render();
+load(); resume(); render();
 </script>
 </body></html>
