@@ -3303,7 +3303,7 @@
       if (chg === 'down') R.items = R.items.slice(0, R.i + 1).concat(R.items.slice(R.i + 1).map(function () { return mtMake('h', it.id); }));
       return;
     }
-    if (it.kind === 't' && chg === 'mastered' && R.kind !== 'place') {
+    if (it.kind === 't' && chg === 'mastered' && R.kind !== 'place' && !it.ch) {
       if (R.kind === 'topic') { R.items = R.items.slice(0, R.i + 1); return; }
       var inSet = {}; R.items.forEach(function (x) { inSet[x.id] = 1; });
       var nxt = mtLearning().filter(function (t) { return !inSet[t.id]; })[0] || mtLearning().filter(function (t) { return t.id !== it.id; })[0];
@@ -3365,7 +3365,7 @@
 
   // ---------- views ----------
   function mtTabs(v) {
-    return '<div class="seg" role="group" aria-label="Maths">' + [['today', 'Today'], ['facts', 'Facts'], ['topics', 'Topics'], ['heur', 'Heuristics'], ['scope', 'Scope'], ['record', 'Record']].map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    return '<div class="seg" role="group" aria-label="Maths">' + [['today', 'Today'], ['book', 'Book'], ['record', 'Record'], ['report', 'Report']].map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
   }
   function mtRunView() {
     var R = ui.mt.run;
@@ -3377,10 +3377,10 @@
         '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-stopfacts">Stop</button></div>';
     }
     if (R.i >= R.items.length) return mtSetEnd();
-    var it = R.items[R.i], Q = it.Q; var g = it.kind === 'h' ? mtHeur(it.id) : mtTopic(it.id);
-    var tname = it.kind === 'h' ? 'Heuristic: ' + g.name : 'P' + g.lv + ' ' + g.name;
+    var it = R.items[R.i], Q = it.Q; var g = it.kind === 'h' ? mtHeur(it.id) : it.kind === 'x' ? bkChap(it.ch) : mtTopic(it.id);
+    var tname = (it.recap ? 'Recap · ' : it.review ? 'Review · ' : it.mq != null ? 'Try again · ' : '') + (it.kind === 'h' ? 'Heuristic: ' + g.name : (it.ch && bkChap(it.ch) ? bkChap(it.ch).name : 'P' + g.lv + ' ' + g.name));
     var head = '<div class="mt-top"><button class="btn ghost small" data-act="mt-back">‹ Back</button></div><div class="kicker">' + esc(R.label) + ' · ' + (R.kind === 'heur' ? 'Level ' + it.lv + ' · problem ' + (R.i + 1) : (R.i + 1) + ' of ' + R.items.length) + (R.label === g.name ? '' : ' · ' + esc(tname) + (it.lv ? ' (level ' + it.lv + ')' : '')) + '</div>';
-    var body = '<div class="mt-q">' + esc(Q.q) + '</div>';
+    var body = '<div class="mt-q">' + esc(Q.q) + '</div>' + (it.oral ? '<p class="small muted" style="margin:0">Work this one in your head.</p>' : '');
     var more = R.kind === 'heur' && R.fb && !R.fb.chg && R.i + 1 >= R.items.length && R.items.length < MT_HMAX;
     var nextBtn = '<button class="btn" data-act="mt-next">' + (R.i + 1 < R.items.length || more ? 'Next question ›' : 'Finish ›') + '</button>' + (R.kind === 'heur' && (R.i + 1 < R.items.length || more) ? '<button class="btn ghost" data-act="mt-stopset">Stop here</button>' : '');
     var asks = mtAsks(Q);
@@ -3415,6 +3415,7 @@
     if (R.guided && asks.length) { var lv = null; asks.forEach(function (s) { if (s.m || s.tab || s.flow) lv = s; }); body += '<div class="card mt-walk"><div class="kicker">What you have worked out</div><ol class="mt-done">' + asks.map(function (s) { return '<li>' + esc(s.t) + '</li>'; }).join('') + '</ol>' + (lv ? MX.stepHTML(lv) : '') + '</div>'; }
     if (R.msg) body += '<p class="mt-msg">' + esc(R.msg) + '</p>';
     if (asks.length && R.kind !== 'place' && !R.guided) body += '<div class="btns"><button class="btn ghost small" data-act="mt-guide">🤔 Help me think it through</button></div>' + (it.kind === 'h' ? '<p class="small muted" style="margin:0">Try drawing a model on paper first.</p>' : '');
+    if (Q.self) return head + body + (R.revealed ? '<div class="mt-fb"><b>The answer:</b> ' + esc(Q.show) + '</div><p style="margin:6px 0">Did you get it right, first time?</p><div class="btns rd-go"><button class="btn" data-act="bk-self" data-v="1">✓ Yes</button><button class="btn ghost" data-act="bk-self" data-v="0">✗ Not this time</button></div>' : '<p class="small muted">Work it on your slate, then check your answer.</p><div class="btns rd-go"><button class="btn" data-act="bk-reveal">Check my answer</button></div>') + '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
     return head + body + mtInkHTML() + mtInput(Q, 'mt-choose') + '<div class="btns" style="justify-content:flex-end"><button class="btn ghost small" data-act="mt-quit">Stop here</button></div>';
   }
   // The guiding questions for a problem — but never its final step: she takes that one herself.
@@ -3448,6 +3449,9 @@
       R.logged = true; var m = mtState(); var d = cur();
       m.log[String(Date.now())] = { d: today(), n: d ? d.n : 0, k: R.kind, label: R.label, score: right, total: R.res.length, topics: R.items.slice(0, R.res.length).map(function (it, i) { return (R.res[i] ? '✓' : '✗') + it.id; }) };
       if (R.kind === 'place' && R.lv) m.place['p' + R.lv] = today();
+      if (R.kind === 'lesson' && R.lessonRef) { var lc = bkChap(R.lessonRef.ch); bkMarkRead(lc, lc.lessons.filter(function (l) { return l.key === R.lessonRef.key; })[0]); }
+      if (R.kind === 'recap') bkDay().recap = 1;
+      if (R.kind === 'today') bkDay().prac = 1;
       R.full = R.res.length >= R.n0;
       if (R.kind === 'today' && R.full && d && !doneToday(MT_TICK)) addToday(MT_TICK); else save();
       render();
@@ -3456,7 +3460,7 @@
     return '<div class="rd-done"><div class="rd-big">' + right + ' / ' + R.res.length + '</div>' +
       (R.ups && R.ups.length ? '<p>' + R.ups.map(function (x) { return esc(x); }).join('<br>') + '</p>' : '') +
       (R.kind === 'place' ? '<p>' + newly + ' of the P' + R.lv + ' topics are marked as known. The rest join your practice, in syllabus order.</p>' : '<p>' + (right === R.res.length ? 'All right — well done!' : 'Well worked.') + '</p>') +
-      (R.kind === 'today' ? '<p class="small muted">' + (R.full ? 'Maths practice is ticked for today.' : 'Finish a whole set to tick Maths practice for today.') + '</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-view" data-v="' + (R.kind === 'place' ? 'topics' : 'today') + '">Done</button></div>';
+      (R.kind === 'today' ? '<p class="small muted">' + (R.full ? 'Maths is ticked for today.' : 'Finish a whole set to tick Maths for today.') + '</p>' : '') + (R.kind === 'lesson' ? '<p class="mt-steptxt tell"><b>Tell it back.</b> ' + esc(R.tell || 'Tell Mum, in your own words, what this lesson taught you, with an example of your own.') + '</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-view" data-v="' + (R.kind === 'place' ? 'book' : R.kind === 'chapter' ? 'book' : 'today') + '">Done</button></div>';
   }
   function mtTodayView() {
     var m = mtState(); var learn = mtLearning(); var nPlaced = Object.keys(m.place).length;
@@ -3509,7 +3513,7 @@
       var what = e.k === 'facts' ? 'Facts · ' + esc(mtFactMode(e.mode).name) + ': ' + e.score + ' in a minute' : esc(e.label || e.k) + ': ' + e.score + '/' + e.total;
       return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + what + '</li>'; }).join('') + '</ul></div>';
   }
-  function mtPeek(who) { var keep = MT_WHO; MT_WHO = who; try { var l = mtLearning(); return l.length ? 'Learning: ' + l[0].name : 'All topics mastered'; } finally { MT_WHO = keep; } }
+  function mtPeek(who) { var keep = MT_WHO; MT_WHO = who; try { if (!bkSt().start) return 'Choose where the book starts'; var c = bkCurrent(); return c ? nmYr(c.lv).replace(/^Age \d+ · /, '') + ' · ' + c.name : 'Book done: reviews'; } finally { MT_WHO = keep; } }
   // ---------- working space: a whiteboard under each question, drawn with a finger or pencil ----------
   // Strokes are kept as points relative to the board's width, so they survive the page redrawing and a rotated iPad.
   function mtInkHTML() {
@@ -3547,6 +3551,310 @@
     c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end); c.addEventListener('pointerleave', end);
     c._redraw = redraw; size();
   }
+  // ===================== The maths book =====================
+  // One book per child, P1 to P6, in MOE's order. Each chapter is one syllabus topic; its lessons come from the CM steps
+  // (lessons.js holds the child's reading). Practice is checked as she answers; a miss comes back until she gets it right
+  // twice; a mastered chapter comes back for review after 1, 3, 7, 14, 30 and 60 days. Every answer is kept for the record.
+  var BK = null, BK_IVL = [1, 3, 7, 14, 30, 60];
+  function bkLX() { return window.SDLessons || {}; }
+  function bkBuild() {
+    if (BK) return BK;
+    var byId = {}, seen = {}; NX.steps.forEach(function (s) { byId[s.id] = s; });
+    BK = (NX.scope || []).map(function (t, i) {
+      var order = {}; NX.steps.forEach(function (s, k) { order[s.id] = k; });
+      var ids = (t.steps || []).filter(function (id) { return byId[id] && !seen[id]; }).sort(function (a, b) { return order[a] - order[b]; });
+      if (!ids.length) ids = (t.steps || []).filter(function (id) { return byId[id]; });
+      ids.forEach(function (id) { seen[id] = 1; });
+      var lessons = [];
+      ids.forEach(function (id) {
+        var L = bkLX()[id];
+        if (L && L.length) L.forEach(function (l, k) { var o = { key: id + ':' + k, step: id }; for (var x in l) o[x] = l[x]; lessons.push(o); });
+        else lessons.push({ key: id + ':0', step: id, title: byId[id].name, mum: true });
+      });
+      return { id: 'c' + i, i: i, lv: t.lv, strand: t.strand, name: t.name, steps: ids.map(function (id) { return byId[id]; }), mt: (t.mt || []).filter(function (x) { return !!mtTopic(x); }), lessons: lessons };
+    });
+    return BK;
+  }
+  function bkChap(id) { return bkBuild().filter(function (c) { return c.id === id; })[0] || null; }
+  function bkChOfTopic(tid) { return bkBuild().filter(function (c) { return c.mt.indexOf(tid) >= 0; })[0] || null; }
+  function bkSt() { var m = mtState(); var b = m.bk || (m.bk = {}); if (!b.ch) b.ch = {}; if (!b.mq) b.mq = []; if (!b.q) b.q = []; if (!b.days) b.days = {}; return b; }
+  function bkRec(id) { var b = bkSt(); var r = b.ch[id] || (b.ch[id] = { li: 0, h: [] }); if (!r.h) r.h = []; return r; }
+  function bkAddDays(n) { var d = new Date(); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function bkAcc(h) { if (!h || !h.length) return null; return Math.round(100 * h.reduce(function (s, x) { return s + x; }, 0) / h.length); }
+  // known: placed above it or marked by Mum; mastered/slipping: learnt here; trouble: under 70% over 5 or more answers.
+  function bkStatus(c) {
+    var b = bkSt(), r = b.ch[c.id];
+    if (r && r.known) return 'known';
+    if (r && r.m) return r.slip ? 'slipping' : 'mastered';
+    if (b.start && c.lv < b.start && !(r && r.known === false)) return 'known';
+    if (!(r && r.known === false) && !(r && (r.li || r.h.length)) && c.mt.length && c.mt.every(mtMastered)) return 'known';
+    if (r && r.h.length >= 5 && bkAcc(r.h.slice(-10)) < 70) return 'trouble';
+    if (r && (r.li || r.h.length)) return 'learning';
+    return 'new';
+  }
+  var BK_LBL = { known: 'Known', mastered: 'Mastered', slipping: 'Slipping: reviewing', trouble: 'Needs more practice', learning: 'Learning', 'new': 'Not started' };
+  function bkDone(c) { var s = bkStatus(c); return s === 'known' || s === 'mastered' || s === 'slipping'; }
+  function bkCurrent() { return bkBuild().filter(function (c) { return !bkDone(c); })[0] || null; }
+  function bkNextLesson(c) { var r = bkRec(c.id); return c.lessons[r.li] || null; }
+
+  // ---------- questions ----------
+  // A book answer like "2/7 of a dollar", "x = 5", "$18" or "12 1/2%" is checked by its number; anything else
+  // (two numbers, words, drawings) is done on paper and marked by her against the answer.
+  function bkQ(pair) {
+    var q = pair[0], a = pair[1], s = String(a);
+    if (typeof a === 'number') return { q: q, a: MX.F(a), show: s };
+    var rt = s.match(/^\s*(\d+)\s*:\s*(\d+)\s*$/); if (rt) return { q: q, ratio: [+rt[1], +rt[2]], show: rt[1] + ' : ' + rt[2] };
+    var m = s.match(/^\s*(?:[a-z]\s*=\s*)?\$?\s*(\d+(?:\.\d+)?(?:\s+\d+\/\d+)?(?:\/\d+)?)\s*%?\s*([a-zA-Z¢.'²³° ]*)$/);
+    if (m && !/,|\band\b|\bor\b/.test(s) && (!m[2] || !/\d/.test(m[2]))) { var p = MX.parse(m[1]); if (p) return { q: q, a: p.f, show: s, simplest: /\//.test(m[1]) }; }
+    return { q: q, self: true, show: s };
+  }
+  function bkPool(c) {
+    var p = [], r = bkRec(c.id);
+    // Until every lesson is read, practise only what the lessons read so far have taught.
+    if (r.li < c.lessons.length) {
+      c.lessons.slice(0, r.li).forEach(function (L) {
+        (L.try || []).forEach(function (x, j) { p.push({ k: 'y', id: L.key, j: j, w: 1 }); });
+        if (L.mum) { var st = bkStep(L.step); if (st.sums) p.push({ k: 'g', id: L.step, w: 3 }); if (st.book) st.book.items.forEach(function (x, j) { if (x[1] !== '') p.push({ k: 'b', id: L.step, j: j, w: 1 }); }); }
+        (L.book || []).forEach(function (j) { p.push({ k: 'b', id: L.step, j: j, w: 1 }); });
+      });
+      if (p.length) return p;
+    }
+    c.mt.forEach(function (tid) { p.push({ k: 't', id: tid, w: 4 }); });
+    c.steps.forEach(function (s) {
+      if (s.sums) p.push({ k: 'g', id: s.id, w: c.mt.length ? 1 : 4 });
+      if (s.book) s.book.items.forEach(function (x, j) { if (x[1] !== '') p.push({ k: 'b', id: s.id, j: j, w: 1 }); });
+      if (s.oral) s.oral.items.forEach(function (x, j) { p.push({ k: 'o', id: s.id, j: j, w: 1 }); });
+    });
+    return p;
+  }
+  function bkStep(id) { return NX.steps.filter(function (s) { return s.id === id; })[0]; }
+  function bkMakeFrom(c, src) {
+    if (src.k === 't') { var it = mtMake('t', src.id); it.ch = c.id; return it; }
+    if (src.k === 'y') { var LL = c.lessons.filter(function (l) { return l.key === src.id; })[0]; return { kind: 'x', id: 'y:' + src.id + ':' + src.j, ch: c.id, Q: bkQ(LL.try[src.j]) }; }
+    var s = bkStep(src.id), pair;
+    if (src.k === 'g') { var l = NX.sumsFor(s); if (!l.length) return null; pair = l[Math.floor(Math.random() * l.length)]; }
+    else pair = (src.k === 'b' ? s.book : s.oral).items[src.j];
+    return { kind: 'x', id: src.k + ':' + src.id + ':' + (src.j == null ? '' : src.j), ch: c.id, oral: src.k === 'o', Q: bkQ(pair) };
+  }
+  // n questions from a chapter: weighted, book exercises she has not yet got right first, no repeats in one set.
+  function bkItems(c, n) {
+    var pool = bkPool(c), r = bkRec(c.id), ok = r.ok || {}, out = [], used = {};
+    if (!pool.length) return out;
+    for (var tries = 0; out.length < n && tries < n * 8; tries++) {
+      var cand = pool.filter(function (x) { return x.k === 't' || x.k === 'g' || !used[x.k + x.id + x.j]; });
+      if (!cand.length) { used = {}; cand = pool; }
+      var fresh = cand.filter(function (x) { return x.k === 't' || x.k === 'g' || !ok[x.k + ':' + x.id + ':' + x.j]; });
+      if (fresh.length) cand = fresh; if (!cand.length) break;
+      var tot = cand.reduce(function (s, x) { return s + x.w; }, 0), pk = Math.random() * tot, sel = cand[0];
+      for (var i = 0; i < cand.length; i++) { pk -= cand[i].w; if (pk <= 0) { sel = cand[i]; break; } }
+      var it = bkMakeFrom(c, sel); if (!it) continue;
+      used[sel.k + sel.id + sel.j] = 1; out.push(it);
+    }
+    return out;
+  }
+  function bkDue() { var t = today(); return bkBuild().filter(function (c) { var r = bkSt().ch[c.id]; return r && r.m && r.due && r.due <= t; }); }
+  // Recap: three questions on the last lesson she read.
+  function bkRecapItems() { var b = bkSt(); var c = b.last && bkChap(b.last.ch); return c ? bkItems(c, 3).map(function (it) { it.recap = true; return it; }) : []; }
+  // Practice: misses first (up to 3), reviews that are due (up to 2), a heuristic from P4 on, the rest on her chapter.
+  function bkPracticeItems() {
+    var b = bkSt(), items = [], c = bkCurrent();
+    b.mq.slice(0, 3).forEach(function (x, k) { var it = x.Q ? { kind: 'x', id: x.id, ch: x.ch, Q: x.Q, mq: k } : x.kind === 't' && mtTopic(x.id) ? mtMake('t', x.id) : null; if (it) { it.ch = x.ch; it.mq = k; items.push(it); } });
+    bkDue().slice(0, 2).forEach(function (rc) { var it = bkItems(rc, 1)[0]; if (it) { it.review = true; items.push(it); } });
+    var heur = c && c.lv >= 4 ? 1 : 0;
+    if (c) items = items.concat(bkItems(c, Math.max(3, 10 - items.length - heur)));
+    if (heur) { var m = mtState(); var hs = MX.heuristics.slice().sort(function (a, b2) { var ra = m.heur[a.id] || {}, rb = m.heur[b2.id] || {}; if (!!ra.m !== !!rb.m) return ra.m ? 1 : -1; return String(ra.seen || '') < String(rb.seen || '') ? -1 : 1; }); items.push(mtMake('h', hs[0].id)); }
+    return items;
+  }
+  // After every answer: the record, the chapter's score, the misses list and reviews.
+  function bkAfter(R, it, first) {
+    var b = bkSt(), c = it.ch ? bkChap(it.ch) : it.kind === 't' ? bkChOfTopic(it.id) : null;
+    b.q.push({ t: Date.now(), d: today(), ch: c ? c.id : '', k: it.kind === 'h' ? 'h' : R.kind === 'lesson' ? 'try' : R.kind, q: it.Q.q, a: it.Q.show + (it.Q.unit ? ' ' + it.Q.unit : ''), typed: R.lastTyped || '', ok: first ? 1 : 0, help: R.helped ? 1 : 0, rv: it.review ? 1 : 0 });
+    if (b.q.length > 5000) b.q = b.q.slice(-5000);
+    if (!c) return;
+    var r = bkRec(c.id); r.seen = today();
+    r.h.push(first ? 1 : 0); if (r.h.length > 12) r.h = r.h.slice(-12);
+    if (first && it.kind === 'x') { r.ok = r.ok || {}; r.ok[it.id] = 1; }
+    if (it.review) {
+      if (first) { var k = BK_IVL.indexOf(r.ivl || 1); r.ivl = BK_IVL[Math.min(BK_IVL.length - 1, k + 1)]; r.slip = false; }
+      else { r.ivl = 1; r.slip = true; }
+      r.due = bkAddDays(r.ivl);
+    }
+    if (!r.m && r.li >= c.lessons.length && r.h.length >= 3 && r.h.slice(-3).every(function (x) { return x; })) { r.m = true; r.ivl = 1; r.due = bkAddDays(1); r.mdate = today(); R.ups = R.ups || []; R.ups.push(c.name + ': mastered'); }
+    if (r.m && !it.review && r.h.length >= 2 && !r.h[r.h.length - 1] && !r.h[r.h.length - 2]) { r.slip = true; r.due = today(); }
+    if (it.mq != null && b.mq[it.mq]) { var e = b.mq[it.mq]; if (first) { e.need--; if (e.need <= 0) b.mq.splice(it.mq, 1); } else e.need = 2; R.items.forEach(function (x) { if (x.mq != null && x.mq > it.mq && first && e.need <= 0) x.mq--; }); }
+    else if (!first && it.kind !== 'h') {
+      var dup = b.mq.some(function (x) { return x.q === it.Q.q; });
+      if (!dup) b.mq.push(it.kind === 'x' ? { ch: c.id, id: it.id, Q: it.Q, q: it.Q.q, need: 2, d: today() } : { ch: c.id, kind: 't', id: it.id, q: it.Q.q, need: 2, d: today() });
+      if (b.mq.length > 30) b.mq = b.mq.slice(-30);
+    }
+  }
+  function bkDay() { var b = bkSt(), d = today(); return b.days[d] || (b.days[d] = {}); }
+  function bkMarkRead(c, L) {
+    var b = bkSt(), r = bkRec(c.id), k = c.lessons.indexOf(L);
+    if (k >= r.li) r.li = k + 1;
+    b.last = { ch: c.id, key: L.key }; var dd = bkDay(); dd.lesson = dd.lesson || []; if (dd.lesson.indexOf(L.key) < 0) dd.lesson.push(L.key);
+    b.q.push({ t: Date.now(), d: today(), ch: c.id, k: 'lesson', q: L.title });
+  }
+
+  // ---------- views ----------
+  function bkStartPicker() {
+    return '<div class="card"><div class="kicker">Getting started</div><h3>Where does ' + esc(mtWhoName()) + '\'s maths book start?</h3><p class="small muted" style="margin:0 0 10px">Everything before this level is counted as known. You can mark any chapter known or not known later, and the placement checks in each level still work.</p><div class="nm-lvls">' +
+      [1, 2, 3, 4, 5, 6].map(function (y) { return '<button class="btn ghost" data-act="bk-start" data-v="' + y + '">' + esc(nmYr(y)) + '</button>'; }).join('') + '</div></div>';
+  }
+  function bkTodayView() {
+    var b = bkSt(); if (!b.start) return bkStartPicker();
+    var c = bkCurrent(), dd = bkDay(), all = bkBuild(), nDone = all.filter(bkDone).length;
+    var h = '<div class="card"><div class="kicker">' + nDone + ' of ' + all.length + ' chapters done · P1 to P6</div><div class="rd-dots" aria-hidden="true">' + all.map(function (x) { var s = bkStatus(x); return '<i class="' + (s === 'known' || s === 'mastered' ? 'f' : s === 'new' ? '' : 'h') + '"></i>'; }).join('') + '</div>' +
+      (c ? '<p style="margin:6px 0 0">Now: <b>' + esc(nmYr(c.lv)) + ' · ' + esc(c.name) + '</b></p>' : '<p style="margin:6px 0 0">The whole book is done. Reviews and heuristics carry on.</p>') + '</div>';
+    if (!c) return h + bkTodayExtras();
+    var L = bkNextLesson(c), recapN = b.last ? 3 : 0;
+    function part(n, title, sub, btn, act, v, done) {
+      return '<div class="card bk-part' + (done ? ' done' : '') + '"><div class="nm-ph"><span>' + (done ? '✓' : n) + '</span>' + title + ' <em>' + sub + '</em></div>' + (btn ? '<div class="btns"><button class="btn' + (done ? ' ghost' : '') + '" data-act="' + act + '"' + (v ? ' data-v="' + esc(v) + '"' : '') + '>' + btn + '</button></div>' : '') + '</div>';
+    }
+    if (recapN) h += part(1, 'Recap', '3 questions on your last lesson', dd.recap ? 'Again' : 'Start', 'bk-recap', '', dd.recap);
+    if (L) h += part(recapN ? 2 : 1, 'Lesson: ' + esc(L.title), 'read it, try it, tell it back', (dd.lesson || []).indexOf(L.key) >= 0 ? 'Read again' : 'Open the lesson', 'bk-lesson', c.id + '|' + L.key, false);
+    else h += part(recapN ? 2 : 1, 'No new lesson', 'every lesson in this chapter is read: practise until it is mastered', '', '', '', true);
+    var nm = b.mq.length, nd = bkDue().length;
+    h += part(recapN ? 3 : 2, 'Practice', '10 questions' + (nm ? ' · ' + Math.min(3, nm) + ' to try again' : '') + (nd ? ' · ' + Math.min(2, nd) + ' review' : ''), dd.prac ? 'Do another set' : 'Start', 'bk-prac', '', dd.prac);
+    return h + bkTodayExtras();
+  }
+  function bkTodayExtras() {
+    return '<div class="card"><div class="kicker">Any time</div><div class="btns"><button class="btn ghost" data-act="mt-facts" data-v="mix">1-minute facts warm-up</button><button class="btn ghost" data-act="mt-view" data-v="facts">All facts rounds</button><button class="btn ghost" data-act="mt-view" data-v="heur">PSLE heuristics</button></div></div>' +
+      '<p class="small muted" style="margin:0">A chapter is mastered when every lesson is read and she gets three right in a row, first try, without help. Anything she misses comes back until she gets it right twice; a mastered chapter comes back for review after 1, 3, 7, 14, 30 and 60 days.</p>';
+  }
+  function bkBlock(x) {
+    if (typeof x === 'string') return '<p>' + esc(x) + '</p>';
+    if (x.do) return '<div class="bk-do"><b>Do this</b><p>' + esc(x.do) + '</p></div>';
+    if (x.ex) return '<div class="bk-ex"><b>' + esc(x.title || 'Worked example') + '</b>' + x.ex.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>';
+    if (x.rule) return '<div class="bk-rule">' + esc(x.rule) + '</div>';
+    if (x.story) return '<div class="bk-story">' + x.story.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
+    if (x.ask) return '<div class="bk-ask"><b>Think</b> ' + esc(x.ask) + (x.then ? '<details><summary>When you have an answer, open this</summary><p>' + esc(x.then) + '</p></details>' : '') + '</div>';
+    return '';
+  }
+  function bkSlateCard(s, open) {
+    if (!s.book) return '';
+    var show = ui.mt.slateAns === s.id;
+    return '<details class="card bk-slate"' + (open ? ' open' : '') + '><summary><b>On your slate</b> <span class="small muted">· ' + esc(s.book.ref) + '</span></summary><ol class="nm-sums">' +
+      s.book.items.map(function (x) { return '<li>' + esc(x[0]) + (x[1] !== '' ? ' <b class="nm-ans' + (show ? '' : ' nm-hide') + '">' + esc(String(x[1])) + '</b>' : '') + '</li>'; }).join('') + '</ol>' +
+      '<div class="btns"><button class="btn ghost small" data-act="bk-slateans" data-v="' + s.id + '">' + (show ? 'Hide answers' : 'Show answers (for Mum)') + '</button></div></details>';
+  }
+  function bkLessonView() {
+    var p = ui.mt.lesson, c = bkChap(p.ch), L = c.lessons.filter(function (l) { return l.key === p.key; })[0], s = bkStep(L.step), k = c.lessons.indexOf(L);
+    var h = '<div class="mt-top"><button class="btn ghost small" data-act="bk-close">‹ Back</button></div>' +
+      '<div class="bk-page"><div class="kicker">' + esc(nmYr(c.lv)) + ' · ' + esc(c.name) + ' · lesson ' + (k + 1) + ' of ' + c.lessons.length + '</div><h2 class="bk-title">' + esc(L.title) + '</h2>';
+    if (L.mum) {
+      h += '<p class="small muted">This lesson is written for Mum to teach. Read it together.</p><p><b>You need:</b> ' + esc(s.objects || '') + '</p><ul class="nm-how">' + (s.how || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    } else {
+      if (L.need) h += '<p class="small"><b>You need:</b> ' + esc(L.need) + '</p>';
+      h += (L.read || []).map(bkBlock).join('');
+      if (L.src) h += '<p class="small muted">' + esc(L.src) + '</p>';
+    }
+    h += '</div>' + bkSlateCard(s, false);
+    h += '<div class="card"><p style="margin:0 0 8px"><b>Now try it.</b> ' + (L.try && L.try.length ? L.try.length + ' questions on this lesson.' : 'Three questions on this chapter.') + ' Then tell Mum what you learnt.</p><div class="btns"><button class="btn" data-act="bk-try">Try it</button>' +
+      ((bkDay().lesson || []).indexOf(L.key) < 0 ? '<button class="btn ghost small" data-act="bk-read">Mark read without trying</button>' : '') + '</div></div>';
+    return h;
+  }
+  function bkBookView() {
+    var b = bkSt(); var h = '';
+    if (!b.start) h += bkStartPicker();
+    var lv = 0;
+    bkBuild().forEach(function (c) {
+      if (c.lv !== lv) { if (lv) h += '</ul></div>'; lv = c.lv; var cs = bkBuild().filter(function (x) { return x.lv === lv; }); h += '<div class="card"><div class="bk-lvhead"><h3 style="margin:0">' + esc(nmYr(lv)) + '</h3><span class="small muted">' + cs.filter(bkDone).length + ' of ' + cs.length + ' done</span>' + (lv >= 3 ? '<button class="btn ghost small" data-act="mt-place" data-v="' + lv + '">Placement check</button>' : '') + '</div><ul class="list bk-chs">'; }
+      var st = bkStatus(c), r = b.ch[c.id], acc = r ? bkAcc(r.h.slice(-10)) : null, info = nmScopeInfo(MT_WHO, NX.scope[c.i]);
+      h += '<li><button class="bk-chbtn" data-act="bk-ch" data-v="' + c.id + '"><i class="bk-st ' + st + '"></i><span><b>' + esc(c.name) + '</b><span class="small muted">' + esc(BK_LBL[st]) + (acc != null ? ' · ' + acc + '% right lately' : '') + ' · ' + esc(info.label) + '</span></span><span class="bk-go">›</span></button></li>';
+    });
+    if (lv) h += '</ul></div>';
+    return h + '<div class="btns"><button class="btn ghost small" data-act="mt-view" data-v="scope">MOE and CM coverage</button></div>';
+  }
+  function bkChapterView() {
+    var c = bkChap(ui.mt.ch), r = bkRec(c.id), st = bkStatus(c), b = bkSt();
+    var mine = b.q.filter(function (x) { return x.ch === c.id && x.k !== 'lesson'; }).slice(-12).reverse();
+    var h = '<div class="mt-top"><button class="btn ghost small" data-act="bk-chclose">‹ Book</button></div><div class="card"><div class="kicker">' + esc(nmYr(c.lv)) + ' · ' + esc(c.strand) + '</div><h3>' + esc(c.name) + '</h3>' +
+      '<p class="small" style="margin:0"><i class="bk-st ' + st + '"></i> ' + esc(BK_LBL[st]) + (r.h.length ? ' · ' + bkAcc(r.h.slice(-10)) + '% right in the last ' + Math.min(10, r.h.length) : '') + (r.m && r.due ? ' · next review ' + esc(fmtDate(r.due)) : '') + '</p></div>';
+    h += '<div class="card"><div class="kicker">Lessons</div><ul class="list bk-chs">' + c.lessons.map(function (L, k) { return '<li><button class="bk-chbtn" data-act="bk-lesson" data-v="' + c.id + '|' + L.key + '"><i class="bk-st ' + (k < r.li ? 'mastered' : k === r.li ? 'learning' : 'new') + '"></i><span><b>' + (k + 1) + '. ' + esc(L.title) + '</b><span class="small muted">' + (k < r.li ? 'Read' : k === r.li ? 'Next' : 'Not yet') + (L.mum ? ' · Mum teaches' : '') + '</span></span><span class="bk-go">›</span></button></li>'; }).join('') + '</ul>' +
+      '<div class="btns"><button class="btn" data-act="bk-chprac" data-v="' + c.id + '">Practise this chapter</button></div></div>';
+    c.steps.forEach(function (s) { h += bkSlateCard(s, false); });
+    var mq = b.mq.filter(function (x) { return x.ch === c.id; });
+    if (mq.length) h += '<div class="card"><div class="kicker">To try again</div><ul class="list">' + mq.map(function (x) { return '<li style="display:block">' + esc(x.q) + ' <span class="small muted">· right ' + (2 - x.need) + ' of 2</span></li>'; }).join('') + '</ul></div>';
+    if (mine.length) h += '<div class="card"><div class="kicker">Latest answers</div><ul class="list bk-ans">' + mine.map(bkAnsLi).join('') + '</ul></div>';
+    h += '<div class="card"><div class="kicker">For Mum</div><div class="btns">' + (st === 'known' ? '<button class="btn ghost small" data-act="bk-known" data-v="' + c.id + ':0">Not known: teach it</button>' : '<button class="btn ghost small" data-act="bk-known" data-v="' + c.id + ':1">She already knows this</button>') + '</div></div>';
+    return h;
+  }
+  function bkAnsLi(x) {
+    return '<li style="display:block"><span class="bk-mk ' + (x.ok ? 'ok' : 'no') + '">' + (x.ok ? '✓' : '✗') + '</span> ' + esc(x.q) +
+      '<div class="small muted">' + (x.typed && x.typed !== 'self' ? 'She answered ' + esc(x.typed) + ' · ' : x.typed === 'self' ? 'Marked on paper · ' : '') + 'answer ' + esc(x.a) + (x.help ? ' · with help' : '') + (x.rv ? ' · review' : '') + '</div></li>';
+  }
+  // Record: one line a day; open a day to see the lessons and every answer.
+  function bkRecordView() {
+    var b = bkSt(), m = mtState(), days = {};
+    b.q.forEach(function (x) { (days[x.d] = days[x.d] || { q: [], l: [] })[x.k === 'lesson' ? 'l' : 'q'].push(x); });
+    Object.keys(m.log).forEach(function (t) { var e = m.log[t]; if (e.k === 'facts') (days[e.d] = days[e.d] || { q: [], l: [] }).f = (days[e.d].f || []).concat([e]); });
+    var ds = Object.keys(days).sort().reverse();
+    if (!ds.length) return '<div class="card"><p class="muted" style="margin:0">Each day she works will be listed here: lessons read, every question with her answer, and facts rounds.</p></div>' + mtRecordView();
+    var open = ui.mt.day;
+    return '<div class="card"><ul class="list bk-days">' + ds.slice(0, 120).map(function (d) {
+      var D = days[d], ok = D.q.filter(function (x) { return x.ok; }).length;
+      var line = '<button class="bk-chbtn" data-act="bk-day" data-v="' + d + '"><span><b>' + esc(fmtDate(d)) + '</b><span class="small muted">' + (D.l.length ? D.l.length + ' lesson' + (D.l.length > 1 ? 's' : '') + ' · ' : '') + (D.q.length ? ok + '/' + D.q.length + ' right first time' : 'no questions') + (D.f ? ' · facts ' + D.f.map(function (e) { return e.score; }).join(', ') : '') + '</span></span><span class="bk-go">' + (open === d ? '⌄' : '›') + '</span></button>';
+      if (open !== d) return '<li>' + line + '</li>';
+      return '<li style="display:block">' + line + (D.l.length ? '<p class="small" style="margin:6px 0">Read: ' + D.l.map(function (x) { return esc(x.q); }).join('; ') + '</p>' : '') + '<ul class="list bk-ans">' + D.q.map(bkAnsLi).join('') + '</ul></li>';
+    }).join('') + '</ul></div>' + mtRecordView();
+  }
+  // Report: a summary for a period, and the trouble spots to look at.
+  function bkReportView() {
+    var b = bkSt(), per = ui.mt.per || 7, from = bkAddDays(-(per - 1)), t = today();
+    var Q = b.q.filter(function (x) { return x.d >= from && x.d <= t; }), qs = Q.filter(function (x) { return x.k !== 'lesson'; }), ls = Q.filter(function (x) { return x.k === 'lesson'; });
+    var days = {}; Q.forEach(function (x) { days[x.d] = 1; });
+    var right = qs.filter(function (x) { return x.ok; }).length, help = qs.filter(function (x) { return x.help; }).length;
+    var byStr = {}; qs.forEach(function (x) { var c = bkChap(x.ch); var k = c ? c.strand : x.k === 'h' ? 'Heuristics' : 'Other'; var o = byStr[k] || (byStr[k] = [0, 0]); o[0] += x.ok; o[1]++; });
+    var byCh = {}; qs.forEach(function (x) { if (!x.ch) return; var o = byCh[x.ch] || (byCh[x.ch] = [0, 0]); o[0] += x.ok; o[1]++; });
+    var mastered = bkBuild().filter(function (c) { var r = b.ch[c.id]; return r && r.mdate && r.mdate >= from; });
+    var trouble = Object.keys(byCh).filter(function (id) { return byCh[id][1] >= 5 && byCh[id][0] / byCh[id][1] < 0.7; }).map(bkChap);
+    var slipping = bkBuild().filter(function (c) { return bkStatus(c) === 'slipping'; });
+    var m = mtState(), facts = Object.keys(m.log).map(function (k) { return m.log[k]; }).filter(function (e) { return e.k === 'facts' && e.d >= from; });
+    var h = '<div class="seg" role="group" aria-label="Period">' + [[7, 'This week'], [28, '4 weeks'], [91, 'Term (13 weeks)']].map(function (o) { return '<button data-act="bk-per" data-v="' + o[0] + '" aria-pressed="' + (per === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    h += '<div class="card"><div class="kicker">' + esc(mtWhoName()) + ' · ' + esc(fmtDate(from)) + ' to ' + esc(fmtDate(t)) + '</div><div class="bk-stats">' +
+      [[Object.keys(days).length, 'days worked'], [ls.length, 'lessons read'], [qs.length, 'questions'], [qs.length ? Math.round(100 * right / qs.length) + '%' : '–', 'right first time'], [mastered.length, 'chapters mastered']].map(function (x) { return '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('') + '</div>' +
+      (help ? '<p class="small muted" style="margin:6px 0 0">She used "Help me think it through" on ' + help + ' question' + (help > 1 ? 's' : '') + '.</p>' : '') + '</div>';
+    var flags = [];
+    trouble.forEach(function (c) { flags.push('<b>' + esc(c.name) + '</b>: ' + Math.round(100 * byCh[c.id][0] / byCh[c.id][1]) + '% right over ' + byCh[c.id][1] + ' questions. Go back over the lesson with her.'); });
+    slipping.forEach(function (c) { flags.push('<b>' + esc(c.name) + '</b> was mastered but slipped on review. It is back in her practice.'); });
+    if (b.mq.length >= 5) flags.push(b.mq.length + ' questions are waiting to be got right twice. Look under each chapter for which.');
+    if (!Object.keys(days).length) flags.push('No maths was done in this period.');
+    h += '<div class="card"><div class="kicker">To look at</div>' + (flags.length ? '<ul class="bk-flags">' + flags.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul>' : '<p class="small" style="margin:0">Nothing worrying: no chapter under 70%, nothing slipping.</p>') + '</div>';
+    var ks = Object.keys(byStr);
+    if (ks.length) h += '<div class="card"><div class="kicker">Right first time, by strand</div>' + ks.map(function (k) { var p = Math.round(100 * byStr[k][0] / byStr[k][1]); return '<div class="bk-bar"><span>' + esc(k) + '</span><i><b style="width:' + p + '%" class="' + (p < 70 ? 'lo' : '') + '"></b></i><em>' + p + '% · ' + byStr[k][1] + '</em></div>'; }).join('') + '</div>';
+    if (mastered.length) h += '<div class="card"><div class="kicker">Mastered</div><p class="small" style="margin:0">' + mastered.map(function (c) { return esc(c.name); }).join('; ') + '</p></div>';
+    if (facts.length) h += '<div class="card"><div class="kicker">Facts rounds</div><p class="small" style="margin:0">' + facts.length + ' rounds; best ' + Math.max.apply(null, facts.map(function (e) { return e.score; })) + ' in a minute.</p></div>';
+    var all = bkBuild(), done = all.filter(bkDone).length, cnow = bkCurrent();
+    h += '<div class="card"><div class="kicker">Through the book</div><div class="bk-bar"><span>P1–P6</span><i><b style="width:' + Math.round(100 * done / all.length) + '%"></b></i><em>' + done + ' of ' + all.length + '</em></div>' + (cnow ? '<p class="small" style="margin:6px 0 0">Working on ' + esc(nmYr(cnow.lv)) + ' · ' + esc(cnow.name) + '.</p>' : '') + '</div>';
+    return h;
+  }
+  function bkAct(act, v) {
+    var b = bkSt();
+    switch (act) {
+      case 'bk-start': b.start = +v; save(); refreshSheet(true); break;
+      case 'bk-recap': mtStartSet('recap', bkRecapItems(), 'Recap'); refreshSheet(true); break;
+      case 'bk-prac': var it = bkPracticeItems(); if (!it.length) { toast('Nothing to practise yet'); break; } mtStartSet('today', it, 'Practice'); refreshSheet(true); break;
+      case 'bk-chprac': var c0 = bkChap(v); mtStartSet('chapter', bkItems(c0, 5), c0.name); refreshSheet(true); break;
+      case 'bk-lesson': var pv = String(v).split('|'); ui.mt.lesson = { ch: pv[0], key: pv[1] }; refreshSheet(true); break;
+      case 'bk-close': ui.mt.lesson = null; refreshSheet(true); break;
+      case 'bk-read': var c1 = bkChap(ui.mt.lesson.ch); bkMarkRead(c1, c1.lessons.filter(function (l) { return l.key === ui.mt.lesson.key; })[0]); ui.mt.lesson = null; save(); refreshSheet(true); break;
+      case 'bk-try':
+        var c2 = bkChap(ui.mt.lesson.ch), L = c2.lessons.filter(function (l) { return l.key === ui.mt.lesson.key; })[0];
+        var stp = bkStep(L.step), own = L.try && L.try.length ? L.try : stp.sums ? NX.sumsFor(stp).concat(NX.sumsFor(stp)).slice(0, 3) : stp.book ? stp.book.items.filter(function (x) { return x[1] !== ''; }).slice(0, 3) : [];
+        var items = own.length ? own.map(function (p) { return { kind: 'x', id: 'try:' + L.key + ':' + p[0], ch: c2.id, Q: bkQ(p) }; }) : bkItems(c2, 3);
+        mtStartSet('lesson', items, L.title); ui.mt.run.lessonRef = { ch: c2.id, key: L.key }; ui.mt.run.tell = L.tell; ui.mt.lesson = null; refreshSheet(true); break;
+      case 'bk-ch': ui.mt.ch = v; refreshSheet(true); break;
+      case 'bk-chclose': ui.mt.ch = null; refreshSheet(true); break;
+      case 'bk-known': var kv = String(v).split(':'); var rk = bkRec(kv[0]); rk.known = kv[1] === '1'; if (!rk.known && b.start && bkChap(kv[0]).lv < b.start) rk.li = rk.li || 0; save(); refreshSheet(); break;
+      case 'bk-slateans': ui.mt.slateAns = ui.mt.slateAns === v ? '' : v; refreshSheet(); break;
+      case 'bk-day': ui.mt.day = ui.mt.day === v ? '' : v; refreshSheet(); break;
+      case 'bk-per': ui.mt.per = +v; refreshSheet(); break;
+      case 'bk-reveal': if (ui.mt.run) { ui.mt.run.revealed = true; refreshSheet(); } break;
+      case 'bk-self': if (ui.mt.run && !ui.mt.run.fb) { ui.mt.run.lastTyped = 'self'; mtFinish(v === '1'); } break;
+    }
+  }
+
   function mtSheet(tickId, who) {
     MT_WHO = who || 'emma'; MT_TICK = tickId || 'e_mathtr'; ui.mt = ui.mt || {};
     var v = ui.mt.view || 'today'; var body;
@@ -3557,7 +3865,8 @@
       if (board) { mtInkHTML(); body = '<div class="mt-split"><div class="rd-stage mt-left">' + main + '</div><div class="mt-right">' + mtBoardHTML() + '</div></div>'; wide = true; setTimeout(mtInkInit, 0); }
       else body = '<div class="rd-stage">' + main + '</div>';
     }
-    else body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : v === 'scope' ? nmScopeView(MT_WHO) : mtTodayView());
+    else if (ui.mt.lesson) body = mtTabs('today') + bkLessonView();
+    else body = mtTabs(v === 'facts' || v === 'heur' ? 'today' : v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? bkRecordView() : v === 'report' ? bkReportView() : v === 'book' ? (ui.mt.ch ? bkChapterView() : bkBookView()) : v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="mt-view" data-v="book">‹ Book</button></div>' + nmScopeView(MT_WHO) : bkTodayView());
     return { title: 'Maths', who: MT_WHO, body: body, wide: wide };
   }
   window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; if (R.phase === 'guide') { var st = mtAsks(Q)[R.gi]; return st.show; } return Q.ratio ? Q.ratio.join(':') : Q.choices || Q.time ? Q.a : Q.show; };
@@ -3567,11 +3876,11 @@
     if (R.kind === 'place' && it.kind === 't') {
       if (it.second && ok && !R.att) { var rec = mtRec('t', it.id); rec.h = [1, 1, 1, 1, 1]; rec.m = true; rec.seen = today(); }
       else mtScore('t', it.id, R.res[R.i]);
-    } else { R.fb.chg = mtScore(it.kind, it.id, R.res[R.i], it.lv); }
+    } else { R.fb.chg = it.kind === 'x' ? '' : mtScore(it.kind, it.id, R.res[R.i], it.lv); bkAfter(R, it, R.res[R.i]); }
     save(); refreshSheet();
   }
   function mtSubmit(typed) {
-    var R = ui.mt.run; var it = R.items[R.i]; var Q = it.Q;
+    var R = ui.mt.run; var it = R.items[R.i]; var Q = it.Q; R.lastTyped = typed;
     if (R.phase === 'guide') {
       var asks = mtAsks(Q); var st = asks[R.gi]; var rg = MX.check(st, typed);
       if (rg.unread) { R.ghint = true; refreshSheet(); return; }
@@ -3604,7 +3913,7 @@
     ui.mt = ui.mt || {}; var R = ui.mt.run;
     function no() { el.classList.remove('rd-no'); void el.offsetWidth; el.classList.add('rd-no'); }
     switch (act) {
-      case 'mt-view': clearInterval(mtTimer); ui.mt.run = null; ui.mt.view = v; refreshSheet(true); break;
+      case 'mt-view': clearInterval(mtTimer); ui.mt.run = null; ui.mt.lesson = null; if (v !== 'book') ui.mt.ch = null; ui.mt.view = v; refreshSheet(true); break;
       case 'mt-facts': mtStartFacts(v); refreshSheet(true); break;
       case 'mt-fkey': mtFactKey(v); break;
       case 'mt-stopfacts': clearInterval(mtTimer); mtEndFacts(); break;
@@ -3644,7 +3953,7 @@
         save(); toast(v === 'heur' ? 'Heuristics reset' : v === 'topics' ? 'Topics reset' : 'All maths progress reset'); refreshSheet(); break;
       case 'mt-stopset': R.items = R.items.slice(0, R.i + 1); R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; refreshSheet(true); break;
       case 'mt-next': if (ui.mt.ink) ui.mt.ink.strokes = []; mtAdapt(R);
-        R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; refreshSheet(true); break;
+        R.i++; R.typed = ''; R.fb = null; R.msg = null; R.phase = 'main'; R.helped = false; R.guided = false; R.att = 0; R.cmp = false; R.revealed = false; R.lastTyped = ''; refreshSheet(true); break;
       case 'mt-quit': R.items = R.items.slice(0, R.i); refreshSheet(true); break;
     }
   }
@@ -3691,6 +4000,7 @@
     if (el.tagName === 'SELECT' || el.tagName === 'FORM' || el.tagName === 'INPUT') return;
     if (act.indexOf('rd-') === 0) { rdAct(act, v, el); return; }
     if (act.indexOf('mt-') === 0) { mtAct(act, v, el); return; }
+    if (act.indexOf('bk-') === 0) { bkAct(act, v); return; }
     if (act.indexOf('nm-') === 0 || act.indexOf('nq-') === 0) { nmAct(act, v, el); return; }
     if (act.indexOf('zi-') === 0) { ziAct(act, v, el); return; }
     if (/^cal[a-z]+$/.test(act)) { calAct(act, v); return; }
