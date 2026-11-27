@@ -24,6 +24,17 @@ window.SDLessons = {
 "do": "Fold a strip into 4 equal parts. Now fold each of those parts in half. How many parts are there now? What is each called?"
 },
 {
+"fig": "bars",
+"d": 4,
+"shade": 1,
+"sub": 2,
+"cap": [
+"One-fourth of the strip",
+"Cut each fourth in half: 1/2 of 1/4 = 1/8"
+],
+"note": "The picture plays on its own and repeats."
+},
+{
 "ask": "You folded fourths in half. What did you get, and how many of them make the whole strip?",
 "then": "Eighths: 8 of them fill the strip. So one-half of one-fourth is one-eighth. Ray calls this a fraction of a fraction (Art. 99)."
 },
@@ -72,6 +83,16 @@ window.SDLessons = {
 {
 "ask": "How many sevenths are in each group?",
 "then": "2 sevenths. 6 sevenths shared into 3 groups gives 2 sevenths in each group."
+},
+{
+"fig": "bars",
+"d": 7,
+"shade": 6,
+"group": 2,
+"cap": [
+"6/7 of the strip",
+"Three groups of 2/7: 6/7 ÷ 3 = 2/7"
+]
 },
 {
 "ex": [
@@ -131,6 +152,19 @@ window.SDLessons = {
 {
 "ask": "How many small pieces are in the whole strip now? What is each piece called? How many are shaded?",
 "then": "9 pieces in the whole strip, so each is a ninth. The 2 shaded thirds are now 6 shaded ninths. The shaded amount has not changed: 2/3 = 6/9."
+},
+{
+"fig": "bars",
+"d": 3,
+"shade": 2,
+"sub": 3,
+"group": 2,
+"cap": [
+"2/3: two parts, which will not share into 3",
+"Cut each third into 3: 2/3 = 6/9",
+"Share 6/9 into 3 groups: 2/9 each"
+],
+"note": "Watch it twice: the shaded amount never changes, only the size of the parts."
 },
 "Ray says this in Art. 101: multiplying both terms of a fraction by the same number does not change its value. 2/3 = (2 × 3)/(3 × 3) = 6/9.",
 {
@@ -212,6 +246,17 @@ window.SDLessons = {
 {
 "ask": "In 4 strips, how many thirds are there?",
 "then": "12 thirds. Ray, Art. 103: to change an integer to thirds, multiply it by 3: 4 = 12/3."
+},
+{
+"fig": "bars",
+"bars": 4,
+"d": 3,
+"shade": 12,
+"group": 2,
+"cap": [
+"4 whole strips",
+"12 thirds, in groups of 2/3: 6 groups"
+]
 },
 {
 "ask": "How many times is 2 thirds contained in 12 thirds?",

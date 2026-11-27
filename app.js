@@ -3725,7 +3725,39 @@
     return '<div class="card"><div class="kicker">Any time</div><div class="btns"><button class="btn ghost" data-act="mt-facts" data-v="mix">1-minute facts warm-up</button><button class="btn ghost" data-act="mt-view" data-v="facts">All facts rounds</button><button class="btn ghost" data-act="mt-view" data-v="heur">PSLE heuristics</button></div></div>' +
       '<p class="small muted" style="margin:0">A chapter is mastered when every lesson is read and she gets three right in a row, first try, without help. Anything she misses comes back until she gets it right twice; a mastered chapter comes back for review after 1, 3, 7, 14, 30 and 60 days.</p>';
   }
+  // Fraction strip diagrams. bars: how many whole strips; d: parts in each; shade: parts shaded (counted across strips);
+  // sub: cut each part into this many (animated); group: colour the shaded parts in groups of this size (after any cutting).
+  // cap: one caption per stage. Stages play in turn and repeat, so she can watch it more than once.
+  var BK_COL = ['#2f6d8f', '#c8553d', '#4f8a4a', '#d39b2a', '#7a5ea8', '#3a9a9a'];
+  function bkFig(f) {
+    var bars = f.bars || 1, d = f.d, sub = f.sub || 1, W = 320, bh = 34, gap = 12, top = 6, H = top + bars * (bh + gap) + 24;
+    var stages = 1 + (sub > 1 ? 1 : 0) + (f.group ? 1 : 0), T = 3 * stages, out = '';
+    function anim(from, to) { // visible from stage 'from' to stage 'to' (inclusive), 0-based
+      if (stages === 1) return '';
+      var a = from / stages, b = (to + 1) / stages, vals = [], kt = [];
+      function add(t, v) { kt.push(t.toFixed(3)); vals.push(v); }
+      add(0, from === 0 ? 1 : 0); if (from > 0) { add(Math.max(0, a - 0.02), 0); add(a, 1); } if (b < 1) { add(b - 0.02, 1); add(b, 0); } add(1, b >= 1 ? 1 : 0);
+      return '<animate attributeName="opacity" dur="' + T + 's" repeatCount="indefinite" calcMode="linear" keyTimes="' + kt.join(';') + '" values="' + vals.join(';') + '"/>';
+    }
+    var sStage = sub > 1 ? 1 : -1, gStage = f.group ? stages - 1 : -1, n = 0, fine = d * sub;
+    for (var b = 0; b < bars; b++) {
+      var y = top + b * (bh + gap), pw = W / d;
+      for (var i = 0; i < d; i++) {
+        var sh = n < f.shade; n++;
+        out += '<rect x="' + (i * pw) + '" y="' + y + '" width="' + pw + '" height="' + bh + '" fill="' + (sh ? '#bcd3e2' : '#fff') + '" stroke="#33414d" stroke-width="1.5"/>';
+      }
+      if (sub > 1) for (var j = 1; j < fine; j++) if (j % sub) out += '<line x1="' + (j * W / fine) + '" y1="' + y + '" x2="' + (j * W / fine) + '" y2="' + (y + bh) + '" stroke="#33414d" stroke-width="1" stroke-dasharray="3 2" opacity="' + (stages > 1 ? 0 : 1) + '">' + anim(sStage, stages - 1) + '</line>';
+      if (f.group) {
+        var cw = W / fine, k = b * fine, shadedFine = f.shade * sub, g = '';
+        for (var q = 0; q < fine; q++) { var idx = k + q; if (idx < shadedFine) g += '<rect x="' + (q * cw + 1) + '" y="' + (y + 1) + '" width="' + (cw - 2) + '" height="' + (bh - 2) + '" fill="' + BK_COL[Math.floor(idx / f.group) % BK_COL.length] + '" opacity=".85"/>'; }
+        out += '<g opacity="' + (stages > 1 ? 0 : 1) + '">' + g + anim(gStage, gStage) + '</g>';
+      }
+    }
+    (f.cap || []).forEach(function (c, i) { out += '<text x="' + (W / 2) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="14" font-weight="700" fill="#33414d" opacity="' + (stages > 1 ? (i === 0 ? 1 : 0) : 1) + '">' + esc(c) + anim(i, i) + '</text>'; });
+    return '<figure class="bk-fig"><svg viewBox="-2 0 ' + (W + 4) + ' ' + H + '" role="img" aria-label="' + esc((f.cap || []).join('. ')) + '">' + out + '</svg>' + (f.note ? '<figcaption class="small muted">' + esc(f.note) + '</figcaption>' : '') + '</figure>';
+  }
   function bkBlock(x) {
+    if (x && x.fig) return bkFig(x);
     if (typeof x === 'string') return '<p>' + esc(x) + '</p>';
     if (x.do) return '<div class="bk-do"><b>Do this</b><p>' + esc(x.do) + '</p></div>';
     if (x.ex) return '<div class="bk-ex"><b>' + esc(x.title || 'Worked example') + '</b>' + x.ex.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>';
