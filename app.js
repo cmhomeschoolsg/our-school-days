@@ -2998,12 +2998,26 @@
   // ---------- Mum's lesson card ----------
   function nmSheet(tickId, who) {
     who = who || 'emily'; ui.nm = ui.nm || {}; var m = nmState(who); var v = ui.nm.view || 'now';
-    var tabs = '<div class="seg" role="group" aria-label="Number">' + [['now', 'Lesson'], ['steps', 'All steps'], ['scope', 'Scope'], ['record', 'Record']].map(function (o) { return '<button data-act="nm-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    var tabs = '<div class="seg" role="group" aria-label="Number">' + [['now', 'Lesson'], ['steps', 'All steps'], ['kit', 'Supplies'], ['scope', 'Scope'], ['record', 'Record']].map(function (o) { return '<button data-act="nm-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
     var body;
     if (!nmCur(who)) body = (v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="now">Back to choosing where to start</button></div>' + nmScopeView(who) : nmPlaceView(who) + '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="scope">See the scope and sequence</button></div>');
-    else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
+    else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'kit' ? nmKitView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
     body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic (and Ray\'s New Practical for the fraction exercises), with mental arithmetic from Ray\'s New Intellectual Arithmetic, Hall & Stevens\' Lessons in Experimental and Practical Geometry and Hall & Knight\'s Elementary Algebra; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
     return { title: 'Number · ' + nmName(who), who: who, body: body };
+  }
+  // Supplies: what each year's lessons use, ticked off as Mum gets them. Shared by both girls.
+  function nmHave() { if (!S.nmHave) S.nmHave = { protractor: 1, setsq: 1, compass: 1 }; return S.nmHave; }
+  function nmKitView(who) {
+    var have = nmHave(), s = nmCur(who), cy = s ? s.year : 1, names = {}; NX.steps.forEach(function (x) { names[x.id] = x.name; });
+    var need = []; (NX.supplies || []).forEach(function (g) { if (g.year >= cy) g.items.forEach(function (it) { if (!have[it.id]) need.push(it.name); }); });
+    var h = '<div class="card"><p class="small" style="margin:0">Things the lessons use, by the year they first come up. Tick what you have; it counts for both girls. ' +
+      (need.length ? 'Still to get for ' + esc(nmName(who)) + '\'s remaining years: <b>' + need.length + '</b>.' : 'You have everything for ' + esc(nmName(who)) + '\'s remaining years.') + '</p></div>';
+    (NX.supplies || []).forEach(function (g) {
+      h += '<div class="card"><div class="kicker">' + esc(nmYr(g.year)) + (g.year === cy ? ' · ' + esc(nmName(who)) + ' is here' : g.year < cy ? ' · done' : '') + '</div><ul class="nm-kit">' +
+        g.items.map(function (it) { var on = !!have[it.id]; var used = it.steps.filter(function (id) { return names[id]; }).map(function (id) { return names[id]; });
+          return '<li><button class="nm-kitbox" data-act="nm-have" data-v="' + it.id + '" aria-pressed="' + on + '">' + (on ? '✓' : '') + '</button><div><div>' + esc(it.name) + (it.buy && !on ? ' <span class="small muted">· to buy</span>' : '') + '</div><div class="small muted">Used in: ' + esc(used.slice(0, 4).join(', ')) + (used.length > 4 ? ' and more' : '') + '</div></div></li>'; }).join('') + '</ul></div>';
+    });
+    return h;
   }
   // Placement: Mum asks a few sums from each step in turn; the first step she cannot yet do is where lessons start.
   function nmPlaceView(who) {
@@ -3022,6 +3036,7 @@
     var sums = ui.nm.sums.list;
     var h = '<div class="card"><div class="kicker">' + esc(nmTag(s)) + ' · step ' + (i + 1) + ' of ' + NX.steps.length + '</div><h3>' + esc(s.name) + '</h3>' +
       '<p class="small" style="margin:0 0 6px"><b>Things to hand:</b> ' + esc(s.objects) + '</p>' +
+      (NX.steps[i + 1] ? '<p class="small muted" style="margin:0 0 6px"><b>Coming up:</b> ' + NX.steps.slice(i + 1, i + 3).map(function (x) { return esc(x.name) + ' (' + esc(x.objects) + ')'; }).join('; ') + '</p>' : '') +
       '<ul class="nm-how">' + s.how.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
       (s.adapt ? '<p class="small muted" style="margin:6px 0 0">' + esc(s.adapt) + '</p>' : '') + '</div>';
     function nmBookCard(bk, key, act, kick, note) {
@@ -3155,6 +3170,7 @@
     var who = (ui.sheet || '').split(':')[1] || 'emily'; ui.nm = ui.nm || {}; var m = nmState(who);
     switch (act) {
       case 'nm-view': ui.nm.view = v; refreshSheet(true); break;
+      case 'nm-have': var hv = nmHave(); if (hv[v]) delete hv[v]; else hv[v] = 1; save(); refreshSheet(); break;
       case 'nm-new': ui.nm.sums = null; refreshSheet(); break;
       case 'nm-book': var bs = nmCur(who); if (bs && bs.book) { m.bp = m.bp || {}; var nb = (m.bp[bs.id] || 0) + 5; m.bp[bs.id] = nb >= bs.book.items.length ? 0 : nb; save(); refreshSheet(); } break;
       case 'nm-oral': var os = nmCur(who); if (os && os.oral) { m.bp = m.bp || {}; var ok = os.id + ':oral', no = (m.bp[ok] || 0) + 5; m.bp[ok] = no >= os.oral.items.length ? 0 : no; save(); refreshSheet(); } break;

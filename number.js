@@ -1014,6 +1014,42 @@
   // Clean any sum whose answer the code could not fix (null) out of the set.
   function sumsFor(s) { return s.sums ? s.sums().filter(function (x) { return x && x[1] !== null && x[1] !== undefined; }) : []; }
 
-  window.SDNumber = { steps: STEPS, sumsFor: sumsFor, scope: SCOPE,
+
+  // Things to have ready, by year, gathered from each lesson's "Things to hand". buy: true = may need buying; the rest are about the house.
+  var SUPPLIES = [
+    { year: 1, items: [
+      { id: 'beans', name: 'Beans or buttons to count (a jar of 100)', steps: ['n2', 'n9', 'share', 'p4factors', 'p6ratio'] },
+      { id: 'sticks', name: 'Ice-cream sticks and rubber bands, for bundles of ten', buy: true, steps: ['ten', 'teens', 'd20', 'd100', 'h1000'] },
+      { id: 'money', name: 'Money: $1 coins and $2, $5, $10 notes (real or play)', steps: ['money', 'd30', 'add', 'sub', 'p2money', 'p3money'] },
+      { id: 'cmruler', name: 'A ruler marked in centimetres', steps: ['cm', 'p3perp', 'p4angles'] },
+      { id: 'clock', name: 'A clock with hands (or a paper clock with a split pin)', steps: ['clock', 'time2'] },
+      { id: 'sqpaper', name: 'Squared paper (exercise book)', buy: true, steps: ['shapes2d', 'graph', 'add3', 'p4mul', 'p5fmul'] },
+      { id: 'toys', name: 'Ten small toys or pegs', steps: ['ordinal'] }] },
+    { year: 2, items: [
+      { id: 'scales', name: 'Kitchen scales', steps: ['measures', 'p3units'] },
+      { id: 'jug', name: 'A 1-litre measuring jug marked in ml', steps: ['measures', 'p3units', 'p5vol'] },
+      { id: 'tape', name: 'A metre rule or tape measure', steps: ['measures', 'p3area', 'p4dec', 'p6circle'] },
+      { id: 'solids', name: 'Boxes, tins, a ball, an ice-cream cone', steps: ['shapes3d'] },
+      { id: 'strips', name: 'Paper strips to fold into fractions', steps: ['frac', 'p3equiv', 'p4fadd', 'p5fmix', 'p6fdiv'] }] },
+    { year: 3, items: [
+      { id: 'pvchart', name: 'A place-value chart (draw one on card)', steps: ['p3num', 'p4num', 'p5num'] },
+      { id: 'stopwatch', name: 'A stopwatch (a phone will do) and a clock with a second hand', steps: ['p3time'] },
+      { id: 'cmpaper', name: 'Centimetre-squared paper', buy: true, steps: ['p3area', 'p4area'] },
+      { id: 'tracing', name: 'Tracing paper', buy: true, steps: ['p3angle', 'p4angles'] },
+      { id: 'setsq', name: 'Set squares', buy: true, steps: ['p3perp', 'p4rect', 'p5tri', 'p5quad', 'p6angles'] },
+      { id: 'timetable', name: 'A bus or train timetable and a map', steps: ['p3time', 'p3units'] }] },
+    { year: 4, items: [
+      { id: 'protractor', name: 'A protractor', buy: true, steps: ['p4angles', 'p4rect', 'p5angles', 'p5triangles', 'p6angles'] },
+      { id: 'mirror', name: 'A small mirror', steps: ['p4sym'] },
+      { id: 'card', name: 'Thin card, scissors, glue or tape; a cereal box to open out', steps: ['p4nets', 'p5tri'] }] },
+    { year: 5, items: [
+      { id: 'cubes', name: 'Centimetre cubes (or sugar cubes)', buy: true, steps: ['p5vol', 'p6vol'] },
+      { id: 'isopaper', name: 'Isometric grid paper', buy: true, steps: ['p5vol'] },
+      { id: 'container', name: 'A rectangular container', steps: ['p5vol', 'p6vol'] },
+      { id: 'receipts', name: 'Receipts showing GST; price tags and sale signs', steps: ['p5pct', 'p5interest', 'p5rate', 'p6pct'] }] },
+    { year: 6, items: [
+      { id: 'compass', name: 'Compasses', buy: true, steps: ['p6circle'] },
+      { id: 'string', name: 'String, and round tins or plates', steps: ['p6circle'] }] }];
+  window.SDNumber = { steps: STEPS, sumsFor: sumsFor, scope: SCOPE, supplies: SUPPLIES,
     source: 'Irene Stephens, The Teaching of Mathematics to Young Children (1911), written under Charlotte Mason’s supervision, for the early steps' };
 })();
