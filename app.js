@@ -3002,7 +3002,7 @@
     var body;
     if (!nmCur(who)) body = (v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="now">Back to choosing where to start</button></div>' + nmScopeView(who) : nmPlaceView(who) + '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="scope">See the scope and sequence</button></div>');
     else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
-    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic, Hall & Stevens\' Lessons in Experimental and Practical Geometry and Hall & Knight\'s Elementary Algebra; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
+    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic (and Ray\'s New Practical for the fraction exercises), with mental arithmetic from Ray\'s New Intellectual Arithmetic, Hall & Stevens\' Lessons in Experimental and Practical Geometry and Hall & Knight\'s Elementary Algebra; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
     return { title: 'Number · ' + nmName(who), who: who, body: body };
   }
   // Placement: Mum asks a few sums from each step in turn; the first step she cannot yet do is where lessons start.
@@ -3024,12 +3024,14 @@
       '<p class="small" style="margin:0 0 6px"><b>Things to hand:</b> ' + esc(s.objects) + '</p>' +
       '<ul class="nm-how">' + s.how.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
       (s.adapt ? '<p class="small muted" style="margin:6px 0 0">' + esc(s.adapt) + '</p>' : '') + '</div>';
-    if (s.book) {
-      var bp = (m.bp || (m.bp = {}))[s.id] || 0; var bi = s.book.items.slice(bp, bp + 5);
-      h += '<div class="card"><div class="kicker">From the book · ' + esc(s.book.ref) + '</div><p class="small muted" style="margin:0 0 6px">Exercises ' + (bp + 1) + '–' + (bp + bi.length) + ' of ' + s.book.items.length + ', in the book\'s order.' + (bi.some(function (x) { return x[1] !== ''; }) ? ' Answers are in bold for you.' : '') + '</p>' +
+    function nmBookCard(bk, key, act, kick, note) {
+      var bp = (m.bp || (m.bp = {}))[key] || 0; var bi = bk.items.slice(bp, bp + 5);
+      return '<div class="card"><div class="kicker">' + kick + esc(bk.ref) + '</div><p class="small muted" style="margin:0 0 6px">' + note + 'Exercises ' + (bp + 1) + '–' + (bp + bi.length) + ' of ' + bk.items.length + ', in the book\'s order.' + (bi.some(function (x) { return x[1] !== ''; }) ? ' Answers are in bold for you.' : '') + '</p>' +
         '<ol class="nm-sums" start="' + (bp + 1) + '">' + bi.map(function (x) { return '<li>' + esc(x[0]) + (x[1] !== '' ? ' <b class="nm-ans">' + esc(String(x[1])) + '</b>' : '') + '</li>'; }).join('') + '</ol>' +
-        '<div class="btns"><button class="btn ghost small" data-act="nm-book">' + (bp + 5 >= s.book.items.length ? 'Back to the first exercises' : 'Next exercises') + '</button></div></div>';
+        '<div class="btns"><button class="btn ghost small" data-act="' + act + '">' + (bp + 5 >= bk.items.length ? 'Back to the first exercises' : 'Next exercises') + '</button></div></div>';
     }
+    if (s.book) h += nmBookCard(s.book, s.id, 'nm-book', 'From the book · ', '');
+    if (s.oral) h += nmBookCard(s.oral, s.id + ':oral', 'nm-oral', 'Mental arithmetic · ', 'Said aloud, no slate: she works it in her head and tells you how. ');
     if (sums.length) h += '<div class="card"><div class="kicker">' + (s.book ? 'More sums (made by the app)' : 'Sums to say aloud') + '</div><p class="small muted" style="margin:0 0 6px">One step at a time, with things in her hands first and then without. Answers are in bold for you.</p>' +
       '<ol class="nm-sums">' + sums.map(function (x) { return '<li>' + esc(x[0]) + ' <b class="nm-ans">' + esc(String(x[1])) + '</b></li>'; }).join('') + '</ol>' +
       '<div class="btns"><button class="btn ghost small" data-act="nm-new">New sums</button></div></div>';
@@ -3155,6 +3157,7 @@
       case 'nm-view': ui.nm.view = v; refreshSheet(true); break;
       case 'nm-new': ui.nm.sums = null; refreshSheet(); break;
       case 'nm-book': var bs = nmCur(who); if (bs && bs.book) { m.bp = m.bp || {}; var nb = (m.bp[bs.id] || 0) + 5; m.bp[bs.id] = nb >= bs.book.items.length ? 0 : nb; save(); refreshSheet(); } break;
+      case 'nm-oral': var os = nmCur(who); if (os && os.oral) { m.bp = m.bp || {}; var ok = os.id + ':oral', no = (m.bp[ok] || 0) + 5; m.bp[ok] = no >= os.oral.items.length ? 0 : no; save(); refreshSheet(); } break;
       case 'nm-place-yr': var yi = 0; while (yi < NX.steps.length && NX.steps[yi].year < +v) { m.known[NX.steps[yi].id] = 'knew it ' + today(); yi++; } ui.nm.placeI = yi; ui.nm.placeSums = null; save(); refreshSheet(true); break;
       case 'nm-place':
         var pi = ui.nm.placeI || 0;
