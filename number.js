@@ -86,12 +86,12 @@
   });
 
   step({ id: 'shapes2d', year: 1, name: 'Flat shapes', src: 'moe', moe: 'P1 · 2D shapes',
-    adapt: 'Charlotte Mason objected to boxes of cut-out "form" (Home Education, p. 263): the idea must come before the form, and children should meet shapes in living things. So she finds the shapes first and makes them herself, instead of being handed them.',
-    objects: 'Nothing bought: the flat, the garden, a sheet of paper to fold, a plate to trace round, squared paper',
-    how: ['Go looking first. On a walk or round the flat, find circles, squares, rectangles and triangles in real things: a drain cover, a window, a roof end, a star fruit or an orange cut across. She names the shape and tells you where she saw it.',
-      'Make shapes by folding, not cutting out a set: fold a corner of a sheet down to the edge and the square appears; trace round a plate, then fold the circle in half and in quarters.',
-      'She draws what she found, in her nature notebook or on squared paper: the window as a rectangle, the roof end as a triangle.',
-      'Look at a building or a picture together and say which shapes it is made of.'],
+    adapt: 'Charlotte Mason objected to boxes of cut-out "form" (Home Education, p. 263): the idea must come before the form. So each lesson starts from a question about real things, and the shapes come out of answering it.',
+    objects: 'A loop of string about 3 m long; paper to fold; a plate to trace round; her nature notebook; a honeycomb picture or real comb if you can get one',
+    how: ['A string loop (once): three of you hold the loop tight at three points and it becomes a triangle; four people, a square or a rectangle; everyone lets go and it sags round. Let her be one of the corners and feel it.',
+      'Which shapes fit together with no gaps? Fold and cut a few paper squares, triangles and circles and try to cover a sheet with each. Squares and triangles fit; circles always leave gaps. Then look at a honeycomb: the bees use six-sided cells. Pappus, a Greek mathematician about 1,700 years ago, wondered at this: of the shapes that fit together without gaps (triangle, square, hexagon), the bees chose the one he thought held the most honey.',
+      'Why are drain covers round? Cut a paper square and the square hole it came from. Tip the square on its slant and it slips through its own hole; a circle cannot fall through its own hole, whichever way you turn it.',
+      'A shape walk: she finds circles, squares, rectangles and triangles in real things (a window, a roof end, a star fruit cut across) and draws two or three in her nature notebook. She tells you where she saw each.'],
     sums: null, facts: null });
 
   step({ id: 'ten', year: 1, name: 'Ten: the ten bundle', src: 'stephens',
@@ -162,9 +162,12 @@
       sums: function () { var h = ri(1, 11); return [pure('It is ' + h + ' o\'clock. What time will it be in one hour?', (h + 1) + ' o\'clock'), pure('How many minutes in half an hour?', 30)]; },
       facts: null });
     if (d === 50) step({ id: 'graph', year: 1, name: 'Picture graphs', src: 'moe', moe: 'P1 · Picture graphs',
-      objects: 'Squared paper; something she has counted, such as birds seen or the weather each day',
-      how: ['Let her keep a count for a week (birds at the window, sunny and rainy days) and draw one small picture for each.',
-        'Ask: which had the most? How many more sunny days than rainy ones?'],
+      adapt: 'Charlotte Mason never taught graphs. This step uses her principles: a real question of the child\'s own, things before pictures, and telling back.',
+      objects: 'Shells, leaves or fruit she has collected; squared paper; her nature notebook',
+      how: ['Start with things, not pictures: after a walk, lay what she collected in rows on the floor, one row per kind (shells, seeds, leaves), each thing in a square of a grid so the rows line up. Which row is longest? That row of real things is already a graph.',
+        'Next day, draw the same rows with one small picture for each thing. Now the graph can go in her notebook and the shells can go back.',
+        'Then a question of her own: which birds come to the window most this week? She keeps the count in her nature notebook and draws the picture graph on Saturday.',
+        'She tells you what the graph says: the most, the fewest, how many more.'],
       sums: null, facts: null });
   });
 
@@ -262,10 +265,12 @@
     facts: function () { var m = ri(1, 59); return ['1 h ' + m + ' min = ? min', 60 + m]; } });
 
   step({ id: 'shapes3d', year: 2, name: 'Solid shapes', src: 'moe', moe: 'P2 · 3D shapes and patterns',
-    adapt: 'Taught from real things, as Charlotte Mason wished (Home Education, p. 263), not from a set of wooden or card solids.',
-    objects: 'The kitchen: tins, boxes, a dice, an orange, an ice-cream cone; floor tiles or batik to look at',
-    how: ['Find solids in the kitchen and outside: a tin is a cylinder, an orange a sphere, a dice a cube, a cereal box a cuboid, an ice-cream cone a cone. Let her handle them: which roll, which stack, which do both? Count the flat faces and the edges.',
-      'Patterns: look for them first in real things, such as Peranakan tiles, batik, a pineapple\'s skin, a fence. Then she carries one on in her own drawing, changing size, shape, colour or which way round, as MOE asks.'],
+    adapt: 'Taught from real things and a question about each, as Charlotte Mason wished (Home Education, p. 263), not from a set of wooden or card solids.',
+    objects: 'The kitchen: tins, boxes, a dice, an orange, an ice-cream cone; a tray; Peranakan tiles, batik or a pineapple to look at',
+    how: ['Why is a tin a cylinder? Let her find out: put a tin, a box, a ball and a cone on a tilted tray. Which roll? Which slide? Which can be stacked into a tower? A tin does both, so it rolls down a ramp but stands on a shelf; a box stacks but cannot roll; a ball rolls every way and stacks not at all.',
+      'Why is an ice-cream cone a cone? It holds the ball of ice cream, stands in the hand, and narrows to a point so nothing drips out the bottom. Ask her what a cylinder-shaped cone would be like to eat.',
+      'She sorts the kitchen things by what they can do, then names them: cube, cuboid, cylinder, cone, sphere. Count the flat faces and the straight edges.',
+      'Patterns: look first at Peranakan tiles, batik or a pineapple\'s skin and find the bit that repeats. Then she carries one on in her own drawing, changing size, shape, colour or which way round, as MOE asks.'],
     sums: null, facts: null });
 
   step({ id: 'h1000', year: 2, name: 'Numbers to 1000', src: 'stephens', moe: 'P2 · Numbers to 1000',
@@ -505,10 +510,12 @@
     sums: null, facts: null });
 
   step({ id: 'p4graphs', year: 4, name: 'Tables, line graphs and pie charts', src: 'moe', moe: 'P4 · Tables, line graphs, pie charts',
-    objects: 'Squared paper; something she measures over time, such as a bean plant\'s height or the noon temperature',
-    how: ['Let her measure something every day for two weeks and keep it in a table.',
-      'Draw a line graph from the table on squared paper: days along the bottom, the measurement up the side. Ask what the line shows.',
-      'Pie charts: cut a paper circle into halves and quarters and colour how she spends her day; read a pie chart by its parts.'],
+    adapt: 'Not in Charlotte Mason\'s programmes; taught through the people who invented these graphs and through her own measurements.',
+    objects: 'Squared paper; a bean plant or the noon temperature to measure for two weeks; a paper circle; a picture of Florence Nightingale\'s rose diagram',
+    how: ['Line graph: she measures something every day for two weeks (the bean plant\'s height, the noon temperature) and keeps a table. Then days along the bottom, the measurement up the side, and join the points. Playfair invented this graph in 1786 to show England\'s trade rising and falling over the years. Ask: what does a steep part of her line mean? A flat part?',
+      'Pie chart: Playfair drew the first ones in 1801, to show the parts of a whole. Fold a paper circle into halves, quarters and eighths and colour how she spends a day (sleep, lessons, play, meals). She reads a pie chart by its parts: which is half, which a quarter?',
+      'A graph that saved lives: in 1858 Florence Nightingale drew a rose-shaped chart from the hospital records of the Crimean War. It showed that far more soldiers died of diseases than of their wounds, and it helped persuade the government to clean up army hospitals. Show her a picture of it and let her tell what she sees in it.',
+      'Read tables and graphs from real Singapore figures, such as monthly rainfall: which month is wettest?'],
     sums: null, facts: null });
 
 
@@ -553,9 +560,11 @@
     facts: function () { var d = ri(1, 9); return ['$' + d + ' = ?¢', d * 100]; } });
 
   step({ id: 'p2graph', year: 2, name: 'Picture graphs with a scale', src: 'moe', moe: 'P2 · Picture graphs with scales',
-    objects: 'Squared paper; a week\'s count of something she cares about (birds, books read, rainy days)',
-    how: ['Draw a picture graph where one picture stands for 2 (or 5) of something, and write the key.',
-      'Ask: how many does half a picture stand for? Which had the most? How many more?'],
+    adapt: 'Not in Charlotte Mason\'s programmes; taught from the child\'s own counts and a real need for the scale.',
+    objects: 'Squared paper; a count too big to draw one by one (cars passing in ten minutes, steps to the playground)',
+    how: ['Give her a count that is too big to draw: how many cars pass the window in ten minutes? After drawing a few dozen little cars she will want a shortcut. Let one picture stand for 5 cars, and write the key.',
+      'Ask: how many does half a picture stand for? Which had the most? How many more?',
+      'She tells back what the graph shows to someone who has not seen it, such as Papa at dinner.'],
     sums: null, facts: null });
 
   step({ id: 'p3num', year: 3, name: 'Numbers to 10 000', src: 'ray', ref: RAYP + ', Arts. 8–16', moe: 'P3 · Numbers to 10 000',
@@ -654,10 +663,11 @@
     facts: function () { var l = ri(2, 10), b = ri(2, 10); return ['area of ' + l + ' cm by ' + b + ' cm (cm²)', l * b]; } });
 
   step({ id: 'p3angle', year: 3, name: 'Angles and right angles', src: 'hs', ref: HS + ', Ch. V', moe: 'P3 · Angles; right angles',
-    objects: 'Paper to fold; tracing paper',
+    objects: 'Paper to fold; tracing paper; string with 12 knots',
     how: ['Hall & Stevens: an angle is made where two straight lines meet; its size is how far one line is turned from the other, not how long the lines are.',
       'Fold a sheet of paper twice to make a right angle. Use it to test corners round the flat: is this angle a right angle, smaller, or larger?',
-      'Compare two angles by tracing one and laying it on the other.'],
+      'Compare two angles by tracing one and laying it on the other.',
+      'A knotted rope: tie a loop of string with 12 knots at equal spaces. Peg it out as a triangle with sides of 3, 4 and 5 spaces and the corner between the 3 and the 4 is a right angle. Egyptian surveyors measured fields with knotted ropes, though no one knows for certain that they used this trick. Check her corner with the folded paper.'],
     sums: function () { return [pure('How many right angles are there in a rectangle?', 4), pure('Is the angle between the hands at 3 o\'clock a right angle?', 'yes')]; }, facts: null });
 
   step({ id: 'p3perp', year: 3, name: 'Perpendicular and parallel lines', src: 'hs', ref: HS + ', Ch. VII–VIII', moe: 'P3 · Perpendicular and parallel lines',
@@ -672,9 +682,11 @@
     sums: null, facts: null });
 
   step({ id: 'p3bar', year: 3, name: 'Bar graphs', src: 'moe', moe: 'P3 · Bar graphs',
-    objects: 'Squared paper; a count she has made herself',
-    how: ['Turn one of her own counts into a bar graph on squared paper, choosing a scale (each square = 2, or 5).',
-      'Read bar graphs in a newspaper or book: what does each mark on the side stand for?'],
+    adapt: 'Not in Charlotte Mason\'s programmes; taught with the story of the man who invented the bar graph, and with her own records.',
+    objects: 'Squared paper; a count she has made herself; a printed bar graph from a newspaper or book',
+    how: ['The story: in 1786 William Playfair, a Scotsman, drew the first bar graph, of Scotland\'s trade with other countries. He usually drew lines across many years, but for this he had only one year\'s figures, so he drew bars instead. Ask her why one year suited bars.',
+      'Turn one of her own counts into a bar graph on squared paper, choosing a scale (each square = 2, or 5).',
+      'Read a bar graph from a newspaper or book: what does each mark up the side stand for? She tells you what it shows in her own words.'],
     sums: null, facts: null });
 
   // ---------- P5 (age 10) ----------
@@ -1032,6 +1044,7 @@
       { id: 'clock', name: 'A clock with hands (or a paper clock with a split pin)', steps: ['clock', 'time2'] },
       { id: 'sqpaper', name: 'Squared paper (exercise book)', buy: true, steps: ['shapes2d', 'graph', 'add3', 'p4mul', 'p5fmul'] },
       { id: 'toys', name: 'Ten small toys or pegs', steps: ['ordinal'] },
+      { id: 'string', name: 'A ball of string (for a 3 m loop, a 12-knot rope, and circles later)', steps: ['shapes2d', 'p3angle', 'p6circle'] },
       { id: 'tape', name: 'A metre rule or tape measure', steps: ['d100', 'measures', 'p3area', 'p4dec', 'p6circle'] }] },
     { year: 2, items: [
       { id: 'scales', name: 'Kitchen scales', steps: ['h1000', 'measures', 'p3units'] },
@@ -1055,8 +1068,7 @@
       { id: 'container', name: 'A rectangular container', steps: ['p5vol', 'p6vol'] },
       { id: 'receipts', name: 'Receipts showing GST; price tags and sale signs', steps: ['p5pct', 'p5interest', 'p5rate', 'p6pct'] }] },
     { year: 6, items: [
-      { id: 'compass', name: 'Compasses', buy: true, steps: ['p6circle'] },
-      { id: 'string', name: 'String, and round tins or plates', steps: ['p6circle'] }] }];
+      { id: 'compass', name: 'Compasses', buy: true, steps: ['p6circle'] }] }];
   window.SDNumber = { steps: STEPS, sumsFor: sumsFor, scope: SCOPE, supplies: SUPPLIES,
     source: 'Irene Stephens, The Teaching of Mathematics to Young Children (1911), written under Charlotte Mason’s supervision, for the early steps' };
 })();
