@@ -210,7 +210,7 @@
   function addToday(id) {
     var d = cur(); if (!d) return false; var a = wkd(d.w)[id] || (wkd(d.w)[id] = []);
     if (a.length >= 5) { (POEM_TICKS[id] || []).forEach(function (k) { markRead(k, d.n); }); save(); toast('All 5 done this week' + ((POEM_TICKS[id] || []).length ? ' · poem marked as read' : '')); return false; }
-    a.push(d.n); (POEM_TICKS[id] || []).forEach(function (k) { markRead(k, d.n); }); save(); return true;
+    a.push(d.n); (POEM_TICKS[id] || []).forEach(function (k) { markRead(k, d.n); }); save(); poemLink(id); return true;
   }
   function removeAt(id, k) {
     var d = cur(); var a = wkd(d.w)[id] || []; var n = a.splice(k, 1)[0];
@@ -226,6 +226,7 @@
 
   // ---------- render: shell ----------
   function render() {
+    if (S.profile && ui.calReady) unifyPoems();
     document.body.classList.toggle('emily-mode', S.profile === 'emily');
     if (!S.profile) { app.innerHTML = welcomeHTML(); return; }
     var lists = listsForProfile();
@@ -466,7 +467,7 @@
     var o = it.open;
     try {
       if (o === 'poem:emma' || o === 'poem:emily') { var who = o.split(':')[1]; var P = C.poets[who]; var p = ptr('poem_' + who); return P.poems[p.i % P.poems.length].title; }
-      if (o === 'poem:together') { var a = C.poets.emma.poems[ptr('tpoem_emma').i % C.poets.emma.poems.length].title, b = C.poets.emily.poems[ptr('tpoem_emily').i % C.poets.emily.poems.length].title; return a + ' · ' + b; }
+      if (o === 'poem:together') { var a = C.poets.emma.poems[ptr('poem_emma').i % C.poets.emma.poems.length].title, b = C.poets.emily.poems[ptr('poem_emily').i % C.poets.emily.poems.length].title; return a + ' · ' + b; }
       if (o === 'chinese') { var cp = C.chinese.poems[(S.ptr.chinese ? S.ptr.chinese.i : 0) % C.chinese.poems.length]; return cp.title + ' · ' + C.chinese.poet.split(' ')[0]; }
       if (o === 'bible') { var ot = bibleLesson('ot'), nt = bibleLesson('nt'); return (ot ? 'OT ' + ot.n : 'OT done') + ' · ' + (nt ? 'NT ' + nt.n : 'NT done'); }
       if (o.indexOf('song:') === 0) { var s = currentSong(o.split(':')[1]); return s ? s.title : ''; }
@@ -639,7 +640,7 @@
   }
   function poemSheet(which, tickId) {
     if (which === 'together') {
-      return { title: 'Poetry together', who: 'together', body: '<p class="small muted" style="margin:0">One poem from each girl\'s poet. If you read these together, the girls can tick Poetry on their own lists too.</p>' + poemCard('emma', 'tpoem_emma', 'For Emma · ' + C.poets.emma.poet) + poemListHTML('emma', 'tpoem_emma') + poemCard('emily', 'tpoem_emily', 'For Emily · ' + C.poets.emily.poet) + poemListHTML('emily', 'tpoem_emily') + '<div class="btns">' + tickButton(tickId, 'Poetry done', 'We read our poems') + '</div>' };
+      return { title: 'Poetry together', who: 'together', body: '<p class="small muted" style="margin:0">One poem from each girl\'s poet. These are the same poems as on their own lists: a poem read here counts there too, and the other way round.</p>' + poemCard('emma', 'poem_emma', 'For Emma · ' + C.poets.emma.poet) + poemListHTML('emma', 'poem_emma') + poemCard('emily', 'poem_emily', 'For Emily · ' + C.poets.emily.poet) + poemListHTML('emily', 'poem_emily') + '<div class="btns">' + tickButton(tickId, 'Poetry done', 'We read our poems') + '</div>' };
     }
     var P = C.poets[which];
     return { title: esc(P.poet), who: which, body: poemCard(which, 'poem_' + which) + '<div class="btns">' + tickButton(tickId, 'Read today', 'I read my poem') + '</div>' + poemListHTML(which, 'poem_' + which) + '<p class="small muted">' + esc(P.source) + '</p>' };
@@ -1166,7 +1167,7 @@
   setTimeout(blobPump, 4000);
   // Wait a moment after opening before starting a day by itself, so the family copy has time to arrive first.
   function calKick() { var a = document.activeElement; if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA')) return; if (calOn() && (!cur() || cur().date !== today())) render(); }
-  setTimeout(function () { ui.calReady = true; calKick(); }, 3000);
+  setTimeout(function () { ui.calReady = true; if (S.profile && !S.poemOne) { unifyPoems(); render(); } calKick(); }, 3000);
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') setTimeout(calKick, 2000); });
   // Fetch a file another iPad sent, keep it here, then hand it back.
   var blobGetting = {};
@@ -2000,8 +2001,6 @@
     var h = '';
     if (S.profile !== 'emily') {
       h += row('Emma\'s poem', 'poem_emma', C.poets.emma.poems.map(function (p) { return p.title; }));
-      h += row('Together: Emma\'s poem', 'tpoem_emma', C.poets.emma.poems.map(function (p) { return p.title; }));
-      h += row('Together: Emily\'s poem', 'tpoem_emily', C.poets.emily.poems.map(function (p) { return p.title; }));
       C.bible.tracks.forEach(function (T) { h += row('Bible, ' + T.name, 'bible_' + T.id, T.lessons.map(function (l) { return 'Lesson ' + l.n + ': ' + l.title; })); });
       h += row('Folk dance', 'dance', C.dance.folk.list);
       h += row('Solfa', 'solfa', C.solfa.lessons);
@@ -2027,7 +2026,30 @@
     if (key.indexOf('bible_') === 0) { var T = C.bible.tracks.filter(function (t) { return 'bible_' + t.id === key; })[0]; return T.lessons.length + 1; }
     return 0;
   }
-  var POEM_TICKS = { e_poetry: ['poem_emma'], m_poetry: ['poem_emily'], t_poetry: ['tpoem_emma', 'tpoem_emily'] };
+  var POEM_TICKS = { e_poetry: ['poem_emma'], m_poetry: ['poem_emily'], t_poetry: ['poem_emma', 'poem_emily'] };
+  // Poetry together and each girl's own poetry are the same poems now: one place and one record for each girl.
+  // Earlier, Together kept its own place (tpoem_*); fold that in once, keeping whichever is further on and every poem read.
+  function unifyPoems() {
+    if (S.poemOne) return;
+    ['emma', 'emily'].forEach(function (w) {
+      var b = S.ptr['tpoem_' + w]; if (!b) return;
+      var a = S.ptr['poem_' + w] || (S.ptr['poem_' + w] = { i: 0, readOn: null });
+      var bl = b.log || {}; a.log = a.log || {};
+      Object.keys(bl).forEach(function (k) { if (!a.log[k] || (bl[k] < a.log[k])) a.log[k] = bl[k]; });
+      if ((b.i || 0) > (a.i || 0)) { a.i = b.i; a.readOn = b.readOn || null; a.readDate = b.readDate || null; }
+    });
+    S.poemOne = 1; save();
+  }
+  // Ticking Poetry together ticks each girl's Poetry; when both girls have ticked theirs, Poetry together is ticked too.
+  var POEM_LINK = { t_poetry: ['e_poetry', 'm_poetry'] };
+  var poemLinking = false;
+  function poemLink(id) {
+    if (poemLinking) return; poemLinking = true;
+    try {
+      if (POEM_LINK[id]) POEM_LINK[id].forEach(function (x) { if (!doneToday(x)) addToday(x); });
+      else if (id === 'e_poetry' || id === 'm_poetry') { if (doneToday('e_poetry') && doneToday('m_poetry') && !doneToday('t_poetry')) addToday('t_poetry'); }
+    } finally { poemLinking = false; }
+  }
 
   // ---------- Emily's reading lessons (Charlotte Mason: reading at sight, then by sound, then the whole poem) ----------
   var RD = window.READING || { poems: [], proper: [], method: { steps: [], notes: [] } };
