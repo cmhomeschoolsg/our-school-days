@@ -5,149 +5,362 @@
 window.SDLessons = {
 "p6fdiv": [
 {
-"title": "A fraction shared by a whole number",
-"need": "A strip of paper, a pencil",
+"title": "What we already know about fractions",
+"need": "A strip of paper",
 "read": [
-"Three quarters of a cake are left, and three of you want it. How much does each person get? You can find out without any rule at all.",
+"Before we divide fractions, we need four things Ray has already taught. Make sure each one is firm. If one is shaky, go back to that chapter first.",
 {
-"do": "Fold your strip in half, then in half again, so it has four equal parts. Shade three of them: that is 3/4. Now share the three shaded parts between three people."
+"ex": [
+"In 3/7, the numerator 3 numbers the parts: how many are taken.",
+"The denominator 7 names the parts: the unit is divided into 7 equal parts, called sevenths."
+],
+"title": "1. The two terms (Art. 94)"
 },
 {
-"ask": "How much does each person get?",
-"then": "One quarter each. 3/4 ÷ 3 = 1/4. You divided the top number, 3, by 3, and the quarters stayed quarters."
-},
-"Now share 1/2 between 3 people. This time the top number is 1, and 1 will not divide by 3.",
-{
-"do": "Take a fresh strip, fold it in half, and fold the half into three equal small pieces."
+"ask": "Which is larger, one-fifth or one-eighth of the same strip?",
+"then": "One-fifth. The greater the number of parts into which a unit is divided, the less the size of each part (Art. 95)."
 },
 {
-"ask": "What is each small piece called? How many of them would fill the whole strip?",
-"then": "Six of them fill the strip, so each is a sixth. 1/2 ÷ 3 = 1/6. This time you multiplied the bottom number by 3."
+"do": "Fold a strip into 4 equal parts. Now fold each of those parts in half. How many parts are there now? What is each called?"
 },
 {
-"rule": "To divide a fraction by a whole number: divide the top number if you can; if not, multiply the bottom number."
+"ask": "You folded fourths in half. What did you get, and how many of them make the whole strip?",
+"then": "Eighths: 8 of them fill the strip. So one-half of one-fourth is one-eighth. Ray calls this a fraction of a fraction (Art. 99)."
 },
 {
 "ex": [
-"4/5 ÷ 2 = 2/5   (4 divides by 2)",
-"2/3 ÷ 4 = 2/12 = 1/6   (2 will not divide by 4, so multiply the bottom)"
+"A fraction is an indicated division (Art. 97).",
+"3/4 is 3 divided by 4; 8/2 is 8 divided by 2, which is 4.",
+"A whole number can be written as a fraction: 3 = 3/1."
 ],
-"title": "Two examples"
+"title": "4. A fraction is a division"
 }
 ],
-"src": "Ray's New Practical Arithmetic (1877), Art. 119",
-"tell": "With a strip in your hand, show Mum why 1/2 ÷ 3 is 1/6.",
+"src": "Ray's New Practical Arithmetic (1877), Arts. 94–99",
+"tell": "Tell Mum what the numerator and the denominator each tell you, using a strip.",
+"try": [
+[
+"In 5/8, how many parts are taken?",
+"5"
+],
+[
+"In 5/8, into how many equal parts is the unit divided?",
+"8"
+],
+[
+"Which is larger: 1/6 or 1/9? Type the larger one.",
+"1/6"
+],
+[
+"One-half of one-third is what part of the whole?",
+"1/6"
+],
+[
+"Write 12/3 as a whole number.",
+"4"
+]
+]
+},
+{
+"title": "Dividing the numerator",
+"need": "A strip of paper",
+"read": [
+"Ray's first question: If 3 yards of ribbon cost 6/7 of a dollar, what will 1 yard cost? We need 6/7 divided into 3 equal parts.",
+{
+"do": "Fold a strip into 7 equal parts as well as you can (or draw a line 7 cm long and mark each centimetre). Shade 6 of the sevenths. Now put the 6 shaded sevenths into 3 equal groups."
+},
+{
+"ask": "How many sevenths are in each group?",
+"then": "2 sevenths. 6 sevenths shared into 3 groups gives 2 sevenths in each group."
+},
+{
+"ex": [
+"6/7 = 2/7 + 2/7 + 2/7",
+"so 6/7 ÷ 3 = 2/7",
+"1 yard will cost 2/7 of a dollar."
+],
+"title": "Ray's explanation"
+},
+"Look at the terms. The numerator 6 was divided by 3 and became 2. The denominator 7 stayed the same, because the parts are still sevenths: there are only fewer of them.",
+{
+"rule": "Ray, Art. 101: A fraction is divided by dividing the numerator."
+},
+{
+"ex": [
+"8/9 ÷ 4",
+"8 ninths into 4 equal groups: 8 ÷ 4 = 2",
+"each group is 2 ninths: 8/9 ÷ 4 = 2/9"
+],
+"title": "Another, step by step"
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Arts. 101, 119",
+"book": [
+0,
+4,
+10
+],
+"tell": "Show Mum with your strip why 6/7 ÷ 3 is 2/7, and say what happened to each term.",
 "try": [
 [
 "6/7 ÷ 3",
 "2/7"
 ],
 [
-"3/4 ÷ 2",
-"3/8"
-],
-[
 "8/9 ÷ 4",
 "2/9"
 ],
 [
-"2/5 ÷ 3",
-"2/15"
-]
+"9/10 ÷ 3",
+"3/10"
 ],
+[
+"If 7 pounds of rice cost 14/25 of a dollar, what will 1 pound cost?",
+"2/25 of a dollar"
+]
+]
+},
+{
+"title": "When the numerator will not divide",
+"need": "Two strips of paper",
+"read": [
+"Now try 2/3 ÷ 3. The numerator is 2, and 2 will not divide by 3. Two thirds cannot be shared into 3 equal groups of whole thirds. What can we do?",
+{
+"do": "Fold a strip into 3 equal parts and shade 2 of them. Now fold the whole strip again so that every third is cut into 3 equal smaller pieces."
+},
+{
+"ask": "How many small pieces are in the whole strip now? What is each piece called? How many are shaded?",
+"then": "9 pieces in the whole strip, so each is a ninth. The 2 shaded thirds are now 6 shaded ninths. The shaded amount has not changed: 2/3 = 6/9."
+},
+"Ray says this in Art. 101: multiplying both terms of a fraction by the same number does not change its value. 2/3 = (2 × 3)/(3 × 3) = 6/9.",
+{
+"ask": "Now share the 6 shaded ninths into 3 equal groups. How much is in each?",
+"then": "2 ninths. 6/9 ÷ 3 = 2/9, by dividing the numerator."
+},
+{
+"ex": [
+"2/3 ÷ 3",
+"Step 1: 2/3 = 6/9   (both terms × 3; the value is not changed)",
+"Step 2: 6/9 ÷ 3 = 2/9   (divide the numerator)",
+"So 2/3 ÷ 3 = 2/9"
+],
+"title": "Every step"
+},
+{
+"ask": "Compare 2/3 with the answer 2/9. Which term changed, and how?",
+"then": "The numerator is still 2. The denominator was multiplied by 3. There are the same number of parts, 2, but each part is only one-third as large: ninths instead of thirds."
+},
+{
+"rule": "Ray, Art. 101: A fraction is divided by multiplying the denominator."
+},
+{
+"ex": [
+"At 2 dollars a yard, what part of a yard can be bought for 3/5 of a dollar?",
+"3/5 must be divided by 2.",
+"3 will not divide by 2, so multiply the denominator: 3/5 ÷ 2 = 3/10",
+"3/10 of a yard can be bought."
+],
+"title": "Ray's second question"
+},
+"When the numerator will divide, either way works: 4/5 ÷ 2 = 2/5 by dividing the numerator, or 4/10 by multiplying the denominator, and 4/10 reduced to lowest terms is 2/5."
+],
+"src": "Ray's New Practical Arithmetic (1877), Arts. 101, 119",
 "book": [
-0,
-4,
-10,
 1,
 7
-]
-},
-{
-"title": "How many fractions fit into a whole number?",
-"need": "Four paper strips",
-"read": [
-"Dividing can mean sharing, but it can also mean asking how many times one thing fits into another. 12 ÷ 3 asks: how many threes are there in 12?",
-{
-"ask": "How many halves are there in 3 whole strips?",
-"then": "6. Each strip holds 2 halves, and there are 3 strips: 3 × 2 = 6. So 3 ÷ 1/2 = 6."
-},
-{
-"do": "Ray asks: at 2/3 of a cent for an apple, how many apples can be bought for 4 cents? Fold four strips into thirds. Count the thirds, then count how many pairs of thirds there are."
-},
-{
-"ask": "How many thirds are in 4 strips? How many 2/3s?",
-"then": "There are 12 thirds, and 12 thirds make 6 pairs. So 4 ÷ 2/3 = 6 apples."
-},
-"Look at what you did with the numbers: you multiplied 4 by the bottom number 3 to get 12 thirds, then divided by the top number 2 to get 6.",
-{
-"rule": "To find how many times a fraction is contained in a whole number: multiply by the bottom number, then divide by the top."
-}
 ],
-"src": "Ray's New Practical Arithmetic (1877), Art. 119",
-"tell": "Tell Mum how you would find how many 3/4-metre ribbons can be cut from 6 metres, without writing anything down.",
+"tell": "Fold a strip for Mum and show why 2/3 ÷ 3 is 2/9. Use the words numerator and denominator.",
 "try": [
 [
-"5 ÷ 1/3",
-"15"
+"3/5 ÷ 2",
+"3/10"
 ],
 [
-"6 ÷ 3/4",
-"8"
+"1/2 ÷ 3",
+"1/6"
 ],
 [
-"4 ÷ 2/5",
-"10"
+"3/4 ÷ 5",
+"3/20"
 ],
 [
-"3 ÷ 3/8",
-"8"
+"2/3 ÷ 4 (give the answer in lowest terms)",
+"1/6"
+],
+[
+"If 1 orange cost 3 cents, what part of an orange could be bought for 1/2 a cent?",
+"1/6 of an orange"
 ]
+]
+},
+{
+"title": "How many times is a fraction contained?",
+"need": "Four strips of paper",
+"read": [
+"Division asks a second question too: how many times is one number contained in another? 12 ÷ 3 asks: how many threes are there in 12?",
+{
+"ask": "How many times is 2/7 contained in 6/7? (How many 2-sevenths are there in 6-sevenths?)",
+"then": "3 times. Both are sevenths, so we only need to ask how many 2s are in 6. 6/7 ÷ 2/7 = 3."
+},
+{
+"rule": "When two fractions have the same denominator, divide the numerators."
+},
+"Ray's third question: At 2/3 of a cent for 1 apple, how many can be bought for 4 cents? We want to know how many times 2/3 is contained in 4.",
+{
+"do": "Lay out 4 strips. Fold each into thirds."
+},
+{
+"ask": "In 4 strips, how many thirds are there?",
+"then": "12 thirds. Ray, Art. 103: to change an integer to thirds, multiply it by 3: 4 = 12/3."
+},
+{
+"ask": "How many times is 2 thirds contained in 12 thirds?",
+"then": "6 times. 12/3 ÷ 2/3 = 12 ÷ 2 = 6 apples."
+},
+{
+"ex": [
+"4 ÷ 2/3",
+"Step 1: 4 = 12/3   (change the integer to thirds)",
+"Step 2: 12/3 ÷ 2/3 = 12 ÷ 2 = 6   (same denominator: divide the numerators)"
 ],
+"title": "Every step"
+},
+{
+"ex": [
+"For 1/3 of a cent, 1/2 an apple can be bought;",
+"for 3/3, or 1 cent, 3 times 1/2 = 3/2 of an apple;",
+"then for 4 cents, 4 times 3/2 = 6 apples."
+],
+"title": "Ray's own solution, another way to see it"
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Arts. 103, 119",
 "book": [
 2,
 5,
 8
+],
+"tell": "Tell Mum, step by step, how you found how many apples at 2/3 of a cent can be bought for 4 cents.",
+"try": [
+[
+"6/7 ÷ 2/7",
+"3"
+],
+[
+"9/10 ÷ 3/10",
+"3"
+],
+[
+"At 1/2 a cent each, how many apples can be bought for 3 cents?",
+"6"
+],
+[
+"4 ÷ 2/3",
+"6"
+],
+[
+"At 3/4 of a dollar per yard, how many yards of cloth can you buy for 6 dollars?",
+"8 yards"
+]
 ]
 },
 {
-"title": "A fraction divided by a fraction",
+"title": "Dividing by one part, such as 1/5",
 "read": [
-"Here is a question that sounds hard: 2/3 ÷ 3/4. Start with easier ones and see what happens.",
+"How many times is 1/5 contained in 1? Five times, because 1 = 5/5. So dividing by 1/5 gives five times as many as dividing by 1.",
 {
-"ask": "How many quarters are there in three quarters? (3/4 ÷ 1/4)",
-"then": "3. When the bottom numbers are the same, you only need to divide the top numbers."
+"ask": "How many times is 1/5 contained in 3?",
+"then": "15 times: 3 = 15/5, and 15 fifths ÷ 1 fifth = 15."
 },
 {
-"ask": "What is 1/2 ÷ 1/4? Write 1/2 as quarters first.",
-"then": "1/2 is 2/4, and 2/4 ÷ 1/4 = 2."
+"ask": "How many times is 1/5 contained in 3/4? The denominators are different, so give them the same denominator first.",
+"then": "3/4 = 15/20 and 1/5 = 4/20. 15/20 ÷ 4/20 = 15/4 = 3 3/4."
 },
-"So give 2/3 and 3/4 the same bottom number: 2/3 = 8/12 and 3/4 = 9/12. Now the question is 8/12 ÷ 9/12: how many 9-twelfths are there in 8-twelfths? Not even one whole one: 8/9 of one.",
 {
 "ex": [
-"2/3 ÷ 3/4 = 8/12 ÷ 9/12 = 8/9",
-"Now work out 2/3 × 4/3. It is also 8/9."
+"3/4 ÷ 1/5",
+"Step 1: 3/4 = 15/20 and 1/5 = 4/20   (same denominator)",
+"Step 2: 15 ÷ 4 = 15/4 = 3 3/4",
+"Notice: 3/4 × 5 = 15/4 as well."
 ],
-"title": "Look closely"
+"title": "Every step"
 },
 {
-"ask": "What happened to 3/4 to make 4/3?",
-"then": "It was turned upside down. That is the shortcut you have just found for yourself."
-},
-{
-"rule": "To divide by a fraction, turn it upside down and multiply. Cancel common factors before you multiply."
+"rule": "To divide by 1/5, multiply by 5. To divide by 1/8, multiply by 8: the answer is as many times larger as there are parts in the unit."
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Art. 119",
-"tell": "Explain to Mum why turning the divisor upside down works, using 2/3 ÷ 3/4 and the twelfths.",
+"book": [
+6,
+9,
+20
+],
+"tell": "Tell Mum why dividing by 1/5 makes an answer 5 times as large.",
 "try": [
 [
-"3/4 ÷ 1/4",
-"3"
+"2 ÷ 1/5",
+"10"
 ],
 [
-"1/2 ÷ 1/6",
-"3"
+"3/4 ÷ 1/5",
+"3 3/4"
+],
+[
+"At 1/5 of a dollar per yard, how many yards of muslin can be bought for 9/10 of a dollar?",
+"4 1/2 yards"
+],
+[
+"1/2 ÷ 1/50",
+"25"
+]
+]
+},
+{
+"title": "Dividing by any fraction: the rule",
+"read": [
+"Ray's fifth question: Divide 3/4 by 4/5. Ray finds it in two steps, using what you already know.",
+{
+"ex": [
+"4/5 is the same as 1/5 of 4   (Art. 96)",
+"Step 1: 3/4 ÷ 4 = 3/16   (multiply the denominator)",
+"Step 2: but we were to divide by only 1/5 of 4, so the answer must be 5 times as large: 5 × 3/16 = 15/16"
+],
+"title": "Ray's solution"
+},
+{
+"ask": "Why must the answer be 5 times as large in Step 2?",
+"then": "Because the divisor we used, 4, was 5 times too large. Dividing by a smaller number gives a larger answer."
+},
+{
+"ask": "Work out 3/4 × 5/4. What do you notice?",
+"then": "3/4 × 5/4 = 15/16, the same answer. Dividing by 4 and multiplying by 5 is the same as multiplying by 5/4, which is 4/5 with its terms turned over."
+},
+{
+"rule": "Ray's Rule: Multiply the dividend by the divisor with its terms inverted."
+},
+{
+"ex": [
+"2/3 ÷ 3/4",
+"= 2/3 × 4/3   (divisor inverted)",
+"= 8/9"
+],
+"title": "Using the rule"
+},
+{
+"ask": "Check 2/3 ÷ 3/4 = 8/9 the slow way, with a common denominator.",
+"then": "2/3 = 8/12 and 3/4 = 9/12; 8/12 ÷ 9/12 = 8 ÷ 9 = 8/9. The same."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 119",
+"book": [
+22,
+3
+],
+"tell": "Tell Mum Ray's two steps for 3/4 ÷ 4/5, and how they lead to the rule.",
+"try": [
+[
+"3/4 ÷ 4/5",
+"15/16"
 ],
 [
 "2/3 ÷ 3/4",
@@ -158,69 +371,81 @@ window.SDLessons = {
 "1 1/4"
 ],
 [
-"3/5 ÷ 9/10",
-"2/3"
+"At 2/3 of a cent for 1 apple, how many apples can be bought for 3/4 of a cent?",
+"1 1/8 apples"
 ]
-],
-"book": [
-22,
-20,
-3,
-6,
-9
 ]
 },
 {
-"title": "Mixed numbers in division",
+"title": "Integers, mixed numbers and cancelling",
 "read": [
-"Ray asks: 6 ÷ 2 2/5. A mixed number has to be changed into its parts before you can divide by it.",
+"Ray adds three remarks to the rule. Each one is something you have learnt before.",
 {
-"ask": "How many fifths are there in 2 2/5?",
-"then": "2 wholes are 10 fifths, and 2 more make 12 fifths: 2 2/5 = 12/5."
+"ex": [
+"Rem. 1. Express integers in the form of fractions: 6 = 6/1.",
+"Rem. 2. Reduce mixed numbers to improper fractions: 2 2/5 = 12/5.",
+"Rem. 3. Indicate the operation and cancel whenever you can."
+],
+"title": "Ray's remarks"
 },
 {
 "ex": [
-"6 ÷ 2 2/5 = 6 ÷ 12/5 = 6 × 5/12 = 30/12 = 2 1/2"
+"4 1/2 ÷ 1 1/3",
+"Step 1: 4 1/2 = 9/2 and 1 1/3 = 4/3   (Rem. 2)",
+"Step 2: 9/2 × 3/4   (divisor inverted)",
+"Step 3: = 27/8 = 3 3/8"
 ],
-"title": "Worked through"
+"title": "Every step"
 },
 {
-"ask": "Before you work out 30 ÷ 3 3/4, will the answer be more or less than 30?",
-"then": "Less, because you are dividing by something bigger than 1. Checking like this catches mistakes."
+"ex": [
+"22 ÷ 5 1/2",
+"Step 1: 22 = 22/1 and 5 1/2 = 11/2   (Rem. 1 and 2)",
+"Step 2: 22/1 × 2/11   (divisor inverted)",
+"Step 3: cancel 11 from 22 and 11: 2/1 × 2/1 = 4"
+],
+"title": "With cancelling"
 },
 {
-"rule": "Change mixed numbers into improper fractions first; then divide as before."
+"ask": "Before working 30 ÷ 3 3/4, will the answer be more or less than 30?",
+"then": "Less, because you are dividing by more than 1. A quick guess like this catches mistakes."
 }
 ],
-"src": "Ray's New Practical Arithmetic (1877), Art. 119",
-"tell": "Tell Mum how you know, before working it, whether an answer will be bigger or smaller than the number you started with.",
+"src": "Ray's New Practical Arithmetic (1877), Art. 119, Rem. 1–3",
+"book": [
+11,
+12,
+13,
+14,
+15,
+16,
+17,
+18,
+19,
+21
+],
+"tell": "Work 6 ÷ 2 2/5 aloud for Mum, naming each of Ray's remarks as you use it.",
 "try": [
+[
+"4 1/2 ÷ 1 1/3",
+"3 3/8"
+],
+[
+"22 ÷ 5 1/2",
+"4"
+],
 [
 "6 ÷ 2 2/5",
 "2 1/2"
 ],
 [
-"2 1/4 ÷ 3/4",
-"3"
+"2 2/5 ÷ 6",
+"2/5"
 ],
 [
-"3 1/3 ÷ 1 2/3",
-"2"
-],
-[
-"4 1/2 ÷ 1 1/2",
-"3"
+"30 ÷ 3 3/4",
+"8"
 ]
-],
-"book": [
-16,
-17,
-13,
-11,
-18,
-14,
-19,
-21
 ]
 }
 ],
