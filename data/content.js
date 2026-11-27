@@ -10709,10 +10709,17 @@ window.CONTENT = {
 "note": "afternoon"
 },
 {
+"id": "e_math",
+"label": "Math textbook",
+"icon": "🔢",
+"mins": 15,
+"open": "num:emma"
+},
+{
 "id": "e_mathtr",
-"label": "Maths",
+"label": "Maths practice",
 "icon": "🧮",
-"mins": 30,
+"mins": 15,
 "open": "math:emma"
 },
 {
@@ -10864,10 +10871,10 @@ window.CONTENT = {
 },
 {
 "id": "m_math",
-"label": "Maths",
+"label": "Math",
 "icon": "🔢",
 "mins": 20,
-"open": "math:emily"
+"open": "num:emily"
 },
 {
 "id": "m_creading",

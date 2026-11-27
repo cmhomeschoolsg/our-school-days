@@ -611,7 +611,8 @@
       case 'settings': return settingsSheet();
       case 'pin': return pinSheet();
       case 'rd': return rdSheet(tickId, parts[1]);
-      case 'math': return mtSheet(tickId, parts[1]);
+      case 'math': return mtSheet(tickId, parts[1], false);
+      case 'mbook': return mtSheet(null, parts[1], true);
       case 'num': return nmSheet(tickId, parts[1]);
       case 'numq': return nqSheet(tickId, parts[1]);
       case 'zi': return ziSheet(tickId, parts[1]);
@@ -1986,6 +1987,7 @@
     var synced = window.SDsync && window.SDsync.status().user;
     var body = syncCardHTML() + '<div class="card"><h3>Which list lives on this device</h3><div class="who-pick">' + profileButtons() + '</div><p class="small muted" style="margin:8px 0 0">' + (synced ? 'Ticks are shared with your other signed-in devices.' : 'Until this device is signed in, its ticks stay on this device only.') + '</p></div>' + pinCardHTML();
     body += calCardHTML();
+    body += '<div class="card"><h3>Maths book (trial)</h3><p class="small muted" style="margin:0 0 8px">The new maths book, kept here while it is being worked on. It does not change Maths practice or tick anything on the girls\' lists, and its progress is kept separately.</p><div class="btns"><button class="btn ghost small" data-act="sheet" data-v="mbook:emma">Emma\'s book</button><button class="btn ghost small" data-act="sheet" data-v="mbook:emily">Emily\'s book</button></div></div>';
     body += '<div class="card"><h3>School days</h3><p class="small muted" style="margin:0 0 8px">' + (synced ? 'All signed-in devices share one count of school days. ' : 'Each tablet keeps its own count of school days. ') + (d ? 'Now on Day ' + d.n + ', Week ' + d.w + '.' : '') + '</p><div class="btns">' +
       '<button class="btn ghost small" data-act="newweek">' + (S.forceNewWeek ? '✓ Next day starts a new week' : 'Start a new week from the next day') + '</button>' +
       (d ? '<button class="btn ghost small" data-act="undoday">Remove Day ' + d.n + '</button>' : '') + '</div><p id="undo-note" class="small" style="margin:6px 0 0"></p></div>';
@@ -3081,10 +3083,10 @@
   }
   function nmLessonView(tickId, who) {
     var m = nmState(who); var s = nmCur(who); var i = nmIdx(s.id);
-    if (s.plan && !ui.nm.more) return nmPlanView(tickId, who, s) + '<div class="btns"><button class="btn ghost small" data-act="nm-more">More practice and step notes</button></div>';
+    if (false && s.plan && !ui.nm.more) return nmPlanView(tickId, who, s) + '<div class="btns"><button class="btn ghost small" data-act="nm-more">More practice and step notes</button></div>';
     if (!ui.nm.sums || ui.nm.sums.id !== s.id) ui.nm.sums = { id: s.id, list: NX.sumsFor(s) };
     var sums = ui.nm.sums.list;
-    var h = (s.plan ? '<div class="btns"><button class="btn ghost small" data-act="nm-more">Back to today\'s lesson</button></div>' : '') + '<div class="card"><div class="kicker">' + esc(nmTag(s)) + ' · step ' + (i + 1) + ' of ' + NX.steps.length + '</div><h3>' + esc(s.name) + '</h3>' +
+    var h = '<div class="card"><div class="kicker">' + esc(nmTag(s)) + ' · step ' + (i + 1) + ' of ' + NX.steps.length + '</div><h3>' + esc(s.name) + '</h3>' +
       '<p class="small" style="margin:0 0 6px"><b>Things to hand:</b> ' + esc(s.objects) + '</p>' +
       (NX.steps[i + 1] ? '<p class="small muted" style="margin:0 0 6px"><b>Coming up:</b> ' + NX.steps.slice(i + 1, i + 3).map(function (x) { return esc(x.name) + ' (' + esc(x.objects) + ')'; }).join('; ') + '</p>' : '') +
       '<ul class="nm-how">' + s.how.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
@@ -3365,7 +3367,7 @@
 
   // ---------- views ----------
   function mtTabs(v) {
-    return '<div class="seg" role="group" aria-label="Maths">' + [['today', 'Today'], ['book', 'Book'], ['record', 'Record'], ['report', 'Report']].map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+    return '<div class="seg" role="group" aria-label="Maths">' + (BK_MODE ? [['today', 'Today'], ['book', 'Book'], ['record', 'Record'], ['report', 'Report']] : [['today', 'Today'], ['facts', 'Facts'], ['topics', 'Topics'], ['heur', 'Heuristics'], ['scope', 'Scope'], ['record', 'Record']]).map(function (o) { return '<button data-act="mt-view" data-v="' + o[0] + '" aria-pressed="' + (v === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div>';
   }
   function mtRunView() {
     var R = ui.mt.run;
@@ -3451,16 +3453,16 @@
       if (R.kind === 'place' && R.lv) m.place['p' + R.lv] = today();
       if (R.kind === 'lesson' && R.lessonRef) { var lc = bkChap(R.lessonRef.ch); bkMarkRead(lc, lc.lessons.filter(function (l) { return l.key === R.lessonRef.key; })[0]); }
       if (R.kind === 'recap') bkDay().recap = 1;
-      if (R.kind === 'today') bkDay().prac = 1;
+      if (R.kind === 'today' && BK_MODE) bkDay().prac = 1;
       R.full = R.res.length >= R.n0;
-      if (R.kind === 'today' && R.full && d && !doneToday(MT_TICK)) addToday(MT_TICK); else save();
+      if (R.kind === 'today' && R.full && d && MT_TICK && !doneToday(MT_TICK)) addToday(MT_TICK); else save();
       render();
     }
     var newly = R.kind === 'place' ? MX.topics.filter(function (t) { return t.lv === R.lv && mtMastered(t.id); }).length : null;
     return '<div class="rd-done"><div class="rd-big">' + right + ' / ' + R.res.length + '</div>' +
       (R.ups && R.ups.length ? '<p>' + R.ups.map(function (x) { return esc(x); }).join('<br>') + '</p>' : '') +
       (R.kind === 'place' ? '<p>' + newly + ' of the P' + R.lv + ' topics are marked as known. The rest join your practice, in syllabus order.</p>' : '<p>' + (right === R.res.length ? 'All right — well done!' : 'Well worked.') + '</p>') +
-      (R.kind === 'today' ? '<p class="small muted">' + (R.full ? 'Maths is ticked for today.' : 'Finish a whole set to tick Maths for today.') + '</p>' : '') + (R.kind === 'lesson' ? '<p class="mt-steptxt tell"><b>Tell it back.</b> ' + esc(R.tell || 'Tell Mum, in your own words, what this lesson taught you, with an example of your own.') + '</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-view" data-v="' + (R.kind === 'place' ? 'book' : R.kind === 'chapter' ? 'book' : 'today') + '">Done</button></div>';
+      (R.kind === 'today' ? '<p class="small muted">' + (BK_MODE ? 'This trial book does not tick anything on her list yet.' : R.full ? 'Maths practice is ticked for today.' : 'Finish a whole set to tick Maths practice for today.') + '</p>' : '') + (R.kind === 'lesson' ? '<p class="mt-steptxt tell"><b>Tell it back.</b> ' + esc(R.tell || 'Tell Mum, in your own words, what this lesson taught you, with an example of your own.') + '</p>' : '') + '</div><div class="btns rd-go"><button class="btn" data-act="mt-view" data-v="' + (R.kind === 'place' ? (BK_MODE ? 'book' : 'topics') : R.kind === 'chapter' ? 'book' : 'today') + '">Done</button></div>';
   }
   function mtTodayView() {
     var m = mtState(); var learn = mtLearning(); var nPlaced = Object.keys(m.place).length;
@@ -3513,7 +3515,8 @@
       var what = e.k === 'facts' ? 'Facts · ' + esc(mtFactMode(e.mode).name) + ': ' + e.score + ' in a minute' : esc(e.label || e.k) + ': ' + e.score + '/' + e.total;
       return '<li style="display:block"><b>' + esc(fmtDate(e.d)) + (e.n ? ' · Day ' + e.n : '') + '</b> — ' + what + '</li>'; }).join('') + '</ul></div>';
   }
-  function mtPeek(who) { var keep = MT_WHO; MT_WHO = who; try { if (!bkSt().start) return 'Choose where the book starts'; var c = bkCurrent(); return c ? nmYr(c.lv).replace(/^Age \d+ · /, '') + ' · ' + c.name : 'Book done: reviews'; } finally { MT_WHO = keep; } }
+  function mtPeek(who) { var keep = MT_WHO; MT_WHO = who; try { var l = mtLearning(); return l.length ? 'Learning: ' + l[0].name : 'All topics mastered'; } finally { MT_WHO = keep; } }
+  function bkPeek(who) { var keep = MT_WHO; MT_WHO = who; try { if (!bkSt().start) return 'Choose where the book starts'; var c = bkCurrent(); return c ? nmYr(c.lv).replace(/^Age \d+ · /, '') + ' · ' + c.name : 'Book done: reviews'; } finally { MT_WHO = keep; } }
   // ---------- working space: a whiteboard under each question, drawn with a finger or pencil ----------
   // Strokes are kept as points relative to the board's width, so they survive the page redrawing and a rotated iPad.
   function mtInkHTML() {
@@ -3855,8 +3858,10 @@
     }
   }
 
-  function mtSheet(tickId, who) {
-    MT_WHO = who || 'emma'; MT_TICK = tickId || 'e_mathtr'; ui.mt = ui.mt || {};
+  var BK_MODE = false;
+  function mtSheet(tickId, who, book) {
+    MT_WHO = who || 'emma'; MT_TICK = book ? '' : tickId || 'e_mathtr'; ui.mt = ui.mt || {};
+    if (ui.mtMode !== !!book) { ui.mt = {}; ui.mtMode = !!book; } BK_MODE = !!book;
     var v = ui.mt.view || 'today'; var body;
     var wide = false;
     if (ui.mt.run) {
@@ -3865,9 +3870,10 @@
       if (board) { mtInkHTML(); body = '<div class="mt-split"><div class="rd-stage mt-left">' + main + '</div><div class="mt-right">' + mtBoardHTML() + '</div></div>'; wide = true; setTimeout(mtInkInit, 0); }
       else body = '<div class="rd-stage">' + main + '</div>';
     }
+    else if (!BK_MODE) body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : v === 'scope' ? nmScopeView(MT_WHO) : mtTodayView());
     else if (ui.mt.lesson) body = mtTabs('today') + bkLessonView();
     else body = mtTabs(v === 'facts' || v === 'heur' ? 'today' : v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? bkRecordView() : v === 'report' ? bkReportView() : v === 'book' ? (ui.mt.ch ? bkChapterView() : bkBookView()) : v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="mt-view" data-v="book">‹ Book</button></div>' + nmScopeView(MT_WHO) : bkTodayView());
-    return { title: 'Maths', who: MT_WHO, body: body, wide: wide };
+    return { title: BK_MODE ? 'Maths book (trial)' : 'Maths', who: MT_WHO, body: body, wide: wide };
   }
   window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; if (R.phase === 'guide') { var st = mtAsks(Q)[R.gi]; return st.show; } return Q.ratio ? Q.ratio.join(':') : Q.choices || Q.time ? Q.a : Q.show; };
   // A question is right for mastery only if she got it first time without help.
@@ -3876,7 +3882,7 @@
     if (R.kind === 'place' && it.kind === 't') {
       if (it.second && ok && !R.att) { var rec = mtRec('t', it.id); rec.h = [1, 1, 1, 1, 1]; rec.m = true; rec.seen = today(); }
       else mtScore('t', it.id, R.res[R.i]);
-    } else { R.fb.chg = it.kind === 'x' ? '' : mtScore(it.kind, it.id, R.res[R.i], it.lv); bkAfter(R, it, R.res[R.i]); }
+    } else { R.fb.chg = it.kind === 'x' ? '' : mtScore(it.kind, it.id, R.res[R.i], it.lv); if (BK_MODE) bkAfter(R, it, R.res[R.i]); }
     save(); refreshSheet();
   }
   function mtSubmit(typed) {
