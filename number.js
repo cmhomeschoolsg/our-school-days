@@ -86,11 +86,12 @@
   });
 
   step({ id: 'shapes2d', year: 1, name: 'Flat shapes', src: 'moe', moe: 'P1 · 2D shapes',
-    objects: 'Paper squares, rectangles, triangles and circles you cut out; a dot grid or squared paper',
-    how: ['Find rectangles, squares, triangles and circles round the flat: a door, a tile, a plate.',
-      'Fold a paper circle in half and in quarters to make a half circle and a quarter circle.',
-      'Let her build pictures from the paper shapes, then name the shapes that make up a picture.',
-      'Copy a simple figure on a dot grid or squared paper.'],
+    adapt: 'Charlotte Mason objected to boxes of cut-out "form" (Home Education, p. 263): the idea must come before the form, and children should meet shapes in living things. So she finds the shapes first and makes them herself, instead of being handed them.',
+    objects: 'Nothing bought: the flat, the garden, a sheet of paper to fold, a plate to trace round, squared paper',
+    how: ['Go looking first. On a walk or round the flat, find circles, squares, rectangles and triangles in real things: a drain cover, a window, a roof end, a star fruit or an orange cut across. She names the shape and tells you where she saw it.',
+      'Make shapes by folding, not cutting out a set: fold a corner of a sheet down to the edge and the square appears; trace round a plate, then fold the circle in half and in quarters.',
+      'She draws what she found, in her nature notebook or on squared paper: the window as a rectangle, the roof end as a triangle.',
+      'Look at a building or a picture together and say which shapes it is made of.'],
     sums: null, facts: null });
 
   step({ id: 'ten', year: 1, name: 'Ten: the ten bundle', src: 'stephens',
@@ -261,9 +262,10 @@
     facts: function () { var m = ri(1, 59); return ['1 h ' + m + ' min = ? min', 60 + m]; } });
 
   step({ id: 'shapes3d', year: 2, name: 'Solid shapes', src: 'moe', moe: 'P2 · 3D shapes and patterns',
-    objects: 'Boxes, tins, a ball, an ice-cream cone; paper shapes for patterns',
-    how: ['Find cubes, cuboids, cylinders, cones and spheres in the kitchen, and talk about their faces and edges.',
-      'Make and finish patterns with flat shapes, changing size, shape, colour or way round.'],
+    adapt: 'Taught from real things, as Charlotte Mason wished (Home Education, p. 263), not from a set of wooden or card solids.',
+    objects: 'The kitchen: tins, boxes, a dice, an orange, an ice-cream cone; floor tiles or batik to look at',
+    how: ['Find solids in the kitchen and outside: a tin is a cylinder, an orange a sphere, a dice a cube, a cereal box a cuboid, an ice-cream cone a cone. Let her handle them: which roll, which stack, which do both? Count the flat faces and the edges.',
+      'Patterns: look for them first in real things, such as Peranakan tiles, batik, a pineapple\'s skin, a fence. Then she carries one on in her own drawing, changing size, shape, colour or which way round, as MOE asks.'],
     sums: null, facts: null });
 
   step({ id: 'h1000', year: 2, name: 'Numbers to 1000', src: 'stephens', moe: 'P2 · Numbers to 1000',
