@@ -1644,7 +1644,7 @@
       var paras = ch.text.split(/\n\s*\n/);
       var photos = ch.photos || [];
       body += '<div class="bible-text" style="display:flex;flex-direction:column;gap:10px">' + paras.map(function (pp) {
-        var h = '<p style="margin:0">' + esc(pp) + '</p>';
+        var h = '<p style="margin:0;white-space:pre-line">' + esc(pp) + '</p>';
         photos.filter(function (ph) { return ph.after === pp.trim(); }).forEach(function (ph) {
           h += '<figure class="pic" style="margin:6px 0"><img src="' + esc(ph.img) + '" alt="' + esc(ph.caption) + '" loading="lazy" data-fallback="This photo could not load."><figcaption class="small" style="font-family:var(--f-body);margin-top:6px">' + esc(ph.caption) + ' <span class="muted">' + esc(ph.credit) + '</span></figcaption></figure>';
         });
