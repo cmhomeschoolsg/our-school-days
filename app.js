@@ -3002,7 +3002,7 @@
     var body;
     if (!nmCur(who)) body = (v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="now">Back to choosing where to start</button></div>' + nmScopeView(who) : nmPlaceView(who) + '<div class="btns"><button class="btn ghost small" data-act="nm-view" data-v="scope">See the scope and sequence</button></div>');
     else body = tabs + (v === 'steps' ? nmStepsView(who) : v === 'scope' ? nmScopeView(who) : v === 'record' ? nmRecordView(who) : nmLessonView(tickId, who));
-    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic and Hall & Stevens\' Lessons in Experimental and Practical Geometry; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
+    body += '<p class="small muted">Order and method: ' + esc(NX.source || '') + '. Later steps come from Ray\'s Practical Arithmetic, Hall & Stevens\' Lessons in Experimental and Practical Geometry and Hall & Knight\'s Elementary Algebra; each lesson names its book. Steps marked "MOE add-in" bring in topics MOE\'s 2021 Primary Mathematics Syllabus asks for that the books don\'t cover, taught the same hands-on way.</p>';
     return { title: 'Number · ' + nmName(who), who: who, body: body };
   }
   // Placement: Mum asks a few sums from each step in turn; the first step she cannot yet do is where lessons start.

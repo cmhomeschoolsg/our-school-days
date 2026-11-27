@@ -852,12 +852,24 @@
     sums: function () { var b = ri(2, 9), a = co(b), k = ri(2, 6), n = (a + b) * ri(2, 8); var g = gcdf(a * k, b * k); return [pure('Write ' + a * k + ' : ' + b * k + ' in its simplest form.', (a * k / g) + ' : ' + (b * k / g)), pure('Share ' + n + ' in the ratio ' + a + ' : ' + b + '.', (n / (a + b) * a) + ' and ' + (n / (a + b) * b)), pure(a + ' : ' + b + ' = ' + a * k + ' : ?', b * k)]; },
     facts: null });
 
-  step({ id: 'p6alg', year: 6, name: 'Algebra: letters for numbers', src: 'moe', moe: 'P6 · Algebra',
-    adapt: 'Mason\'s schools began algebra in Form III with Hall & Knight; I could not get that text, so this step is an MOE add-in.',
+  step({ id: 'p6alg', year: 6, name: 'Algebra: letters for numbers', src: 'hk', ref: "Hall & Knight, Elementary Algebra for Schools (1897 ed.), Ch. I, II, VIII–X", moe: 'P6 · Algebra',
+    adapt: 'Hall & Knight\'s own simple equations are unreadable in the scan, so the app makes those sums; the substitution, like-terms, wording and problem exercises are the book\'s. Pence and shillings are kept as they wrote them.',
     objects: 'A bag of beans standing for "n" beans',
-    how: ['Put an unknown number of beans in a bag and call it n. Two bags and 3 loose beans is 2n + 3.',
-      'Simplify: n + n + 4 + 2 is 2n + 6. Find the value when n is known by putting the number in.',
-      'Solve simple equations by undoing: 3n + 4 = 19, so 3n = 15 and n = 5. Check by putting 5 back in.'],
+    how: ['Hall & Knight: in algebra, letters stand for numbers. Products are written without the × sign (ab means a × b), and the number in front of a letter is its coefficient (3a means 3 × a). Don\'t confuse 3a with a³.',
+      'Substitution: give each letter a number and work the expression out. A term with a nought in it is nought.',
+      'Like terms can be added: 5a + 7a = 12a. Put an unknown number of beans in a bag and call it n: two bags and 3 loose beans is 2n + 3.',
+      'An equation says two things are equal and is true only for a particular value. Hall & Knight: any term may be moved to the other side of the equation by changing its sign. Then check the answer by putting it back into both sides.'],
+    book: { ref: 'Hall & Knight, Elementary Algebra for Schools, Examples I, II, VIII, IX, X', items: [
+      ['If a = 2, b = 3, c = 1, d = 0, find the value of 6a + 5b − 8c + 9d.', 19], ['… and of 5a + 3c − 2b + 6d.', 7], ['… and of ab + bc + ca − da.', 11],
+      ['… and of abc + bcd + cda + dab.', 6], ['… and of 2bc + 3cd − 4da + 5ab.', 36], ['… and of a² + b² + c² + d².', 14],
+      ['Find the sum of 5a, 7a, 11a, a, 28a.', '52a'],
+      ['What must be added to a to make y?', 'y − a'], ['What number is less than 20 by c?', '20 − c'], ['By how much does x exceed 20?', 'x − 20'], ['If a be one factor of b, what is the other?', 'b ÷ a'],
+      ['Solve 7x = 14.', 'x = 2'],
+      ['One number exceeds another by 5, and their sum is 29; find them.', '12 and 17'],
+      ['Find two numbers whose sum is 28, and whose difference is 4.', '16 and 12'],
+      ['Find three consecutive numbers whose sum shall equal 84.', '27, 28, 29'],
+      ['Find two numbers differing by 10 whose sum is equal to twice their difference.', '15 and 5'],
+      ['A is twice as old as B; ten years ago he was four times as old: what are their present ages?', 'A 30, B 15']] },
     sums: function () { var a = ri(2, 9), b = ri(1, 20), n = ri(2, 12); return [pure('Find ' + a + 'n + ' + b + ' when n = ' + n + '.', a * n + b), pure('Solve ' + a + 'n + ' + b + ' = ' + (a * n + b) + '.', 'n = ' + n), pure('Simplify n + ' + a + 'n + ' + b + ' − 1', (a + 1) + 'n + ' + (b - 1))]; },
     facts: function () { var a = ri(2, 9), b = ri(1, 20), n = ri(2, 12); return [a + 'n + ' + b + ' = ' + (a * n + b) + ', n = ?', n]; } });
 
