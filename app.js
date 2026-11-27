@@ -619,7 +619,7 @@
       case 'links': return linksSheet(parts[1]);
       case 'dict': return dictSheet(tickId);
       case 'cwpick': return cwPickSheet(name.slice(7));
-      case 'ms': return { title: 'Bahasa Melayu', who: 'together', wide: true, body: '<iframe class="ms-frame" src="malay.html' + (parts[1] ? '?kid=' + (parts[1] === 'emily' ? 'Emily' : 'Emma') : '') + '" title="Jom Cakap Melayu"></iframe>' };
+      case 'ms': return { title: 'Bahasa Melayu', who: 'together', wide: true, body: '<iframe class="ms-frame" src="malay.html" title="Jom Cakap Melayu"></iframe>' };
     }
     return { title: '', body: '' };
   }

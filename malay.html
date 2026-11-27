@@ -110,7 +110,6 @@ td b{color:var(--pandan-deep)}
   <div class="inner">
     <h1 class="logo">Jom Cakap Melayu<small>Malay the Charlotte Mason way</small></h1>
     <div class="spacer"></div>
-    <div class="row" id="kids" role="group" aria-label="Who is learning"></div>
     <label class="rate" for="rate">Voice speed <input id="rate" type="range" min="0.5" max="1.1" step="0.1" value="0.8"></label>
   </div>
 </header>
@@ -358,15 +357,33 @@ const VERBS = [
 /* ---------------- STATE ---------------- */
 // Inside Our School Days, progress lives in the app's own family data (window.parent.SDms), so it syncs between
 // the iPads like everything else. Opened on its own, it falls back to this iPad's storage.
-const KIDS = ["Emma","Emily"];
+const WE = "Together";
 const KEY = "jcm-v1";
 let S = {active:null, kids:{}};
 function bridge(){ try{ return window.parent && window.parent !== window && window.parent.SDms ? window.parent.SDms : null; }catch(e){ return null; } }
 function load(){
   try{ const B = bridge(); const r = B ? B.get() : localStorage.getItem(KEY); if(r) S = JSON.parse(r); }catch(e){}
   if(!S.kids) S.kids = {};
-  KIDS.forEach(k=>{ if(!S.kids[k]) S.kids[k]=blank(); const x=S.kids[k]; ["series","pantun","stories","songs","missions"].forEach(f=>{ if(!x[f]) x[f]={}; }); if(!x.grammar) x.grammar={right:0,total:0}; if(!x.days) x.days=[]; });
-  const q = (location.search.match(/kid=(\w+)/)||[])[1]; if(q && KIDS.indexOf(q)>=0) S.active = q;
+  const fill = x=>{ ["series","pantun","stories","songs","missions"].forEach(f=>{ if(!x[f]) x[f]={}; }); if(!x.grammar) x.grammar={right:0,total:0}; if(!x.days) x.days=[]; return x; };
+  // We learn Malay together now: one shared record. The first time, it is made from Emma's and Emily's
+  // separate records put together (theirs are kept as they were, untouched).
+  if(!S.kids[WE]){
+    const parts = ["Emma","Emily"].map(n=>S.kids[n]).filter(Boolean).map(x=>fill(JSON.parse(JSON.stringify(x))));
+    S.kids[WE] = parts.reduce(joinRec, blank()); S.active = WE; setTimeout(save, 0);
+  }
+  fill(S.kids[WE]);
+  S.active = WE;
+}
+function joinRec(a, b){
+  Object.keys(b.series).forEach(id=>{ const x=a.series[id], y=b.series[id]; if(!x){ a.series[id]=y; return; }
+    const n=Math.max((x.got||[]).length,(y.got||[]).length); x.got=Array.from({length:n},(_,i)=>!!((x.got||[])[i]||(y.got||[])[i])); x.mastered=!!(x.mastered||y.mastered); });
+  ["pantun","songs"].forEach(f=>Object.keys(b[f]).forEach(id=>{ a[f][id]=!!(a[f][id]||b[f][id]); }));
+  Object.keys(b.missions).forEach(id=>{ if(b.missions[id] && !a.missions[id]) a.missions[id]=b.missions[id]; });
+  Object.keys(b.stories).forEach(id=>{ const x=a.stories[id], y=b.stories[id]; if(!x){ a.stories[id]=y; return; }
+    x.told=!!(x.told||y.told); const w=[x.written,y.written].filter(t=>t&&t.trim()); x.written=w.filter((t,i)=>w.indexOf(t)===i).join("\n\n"); });
+  a.grammar.right+=b.grammar.right||0; a.grammar.total+=b.grammar.total||0;
+  b.days.forEach(d=>{ if(a.days.indexOf(d)<0) a.days.push(d); }); a.days.sort();
+  return a;
 }
 function blank(){ return {series:{}, pantun:{}, stories:{}, songs:{}, missions:{}, grammar:{right:0,total:0}, days:[]}; }
 function save(){ try{ const B = bridge(); if(B) B.set(JSON.stringify(S)); else localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
@@ -405,10 +422,7 @@ let view = {name:"home"};
 const app = document.getElementById("app");
 function go(v){ stop(); view = v; render(); window.scrollTo(0,0); }
 
-function renderKids(){
-  const box = document.getElementById("kids");
-  box.innerHTML = KIDS.map(k=>`<button class="pill ${S.active===k?"on":""}" data-kid="${k}">${k}</button>`).join("");
-}
+function renderKids(){}
 
 const DAYS = ["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
 const PLAN = {
@@ -427,16 +441,12 @@ function counts(k){
 }
 
 function home(){
-  if(!S.active){
-    return `<h2>Selamat datang!</h2><p class="lede">Who is learning today?</p>
-    <div class="grid">${KIDS.map(k=>`<button class="tile" data-kid="${k}"><span class="ms">${k}</span><span class="en">Tap to start</span></button>`).join("")}</div>`;
-  }
   const k = me(), c = counts(k), d = new Date().getDay();
   let warn = "";
   if(voiceNote==="none") warn = `<div class="voicewarn"><b>No Malay voice found on this device.</b> The speaker buttons need one. On an iPad, add it in Settings › Accessibility › Spoken Content › Voices › Malay. Until then, have Mum or your Malay-speaking friend read the lines aloud.</div>`;
   if(voiceNote==="id") warn = `<div class="voicewarn">This device has no Malay voice, so it's using an Indonesian one. It's close, but some words sound different. Add a Malay voice in the device's speech settings if you can.</div>`;
   return `
-  <h2>Selamat pagi, ${S.active}!</h2>
+  <h2>Selamat pagi, semua!</h2>
   <p class="lede">Listen first, say it aloud, then act it out. Keep each lesson short and give it your full attention.</p>
   <div class="today">
     <div class="txt"><div class="day">${DAYS[d]}</div><ul>${PLAN[d].map(x=>`<li>${x}</li>`).join("")}</ul></div>
@@ -452,7 +462,7 @@ function home(){
     <button class="tile" data-go="missionList"><span class="ms">Misi</span><span class="en">Use Malay out and about</span><span class="meter">${c.mi} of ${MISSIONS.length} done</span></button>
     <button class="tile" data-go="grammar"><span class="ms">Tatabahasa</span><span class="en">Grammar, once you're speaking</span><span class="meter">${k.grammar.right} correct so far</span></button>
   </div>
-  <h2>${S.active}'s progress</h2>
+  <h2>Our progress</h2>
   <div class="stats">
     <div class="stat"><div class="n">${k.days.length}</div><div class="l">days of Malay</div></div>
     <div class="stat"><div class="n">${c.sm}</div><div class="l">series mastered</div></div>
@@ -712,7 +722,6 @@ function readStory(s){
 
 document.addEventListener("click", e=>{
   const t = e.target.closest("button, a"); if(!t) return;
-  if(t.dataset.kid){ S.active = t.dataset.kid; save(); go({name:"home"}); return; }
   if(t.dataset.say){ say(t.dataset.say); return; }
   if(t.dataset.go){ go({name:t.dataset.go, id:t.dataset.id}); return; }
   if(t.id==="tmb"){
