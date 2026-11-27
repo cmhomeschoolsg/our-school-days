@@ -97,7 +97,8 @@
     objects: 'Matchsticks or ice-cream sticks and rubber bands (or beads threaded in tens)',
     how: ['Count out ten sticks with her and tie them into a bundle. Each loose stick is a "unit".',
       'Write 10 on squared paper with 1 in the tens column and 0 in the units column. Write 1 to 9 above it, so the 0 sits under the 9.',
-      'Put the bundles away as soon as she has the idea.'],
+      'Put the bundles away as soon as she has the idea.',
+      'If you like: on a ruler, count the tiny marks between 0 and 1. Ten millimetres make one centimetre, as ten units make a ten. (MOE does not ask for millimetres yet.)'],
     sums: function () { var a = ri(1, 9); return [pure('How many units are in a ten bundle?', 10), pure(a + ' and how many more make ten?', 10 - a), pure('Ten take away ' + a + '?', 10 - a), addStory(a, 10 - a)]; },
     facts: function () { return pick([fBond(10), fSub(10), fAdd(10)]); } });
 
@@ -122,10 +123,12 @@
     facts: function () { var p = ri(1, 9); return pick([['$10 − $' + p, 10 - p], ['$' + p + ' + $' + (10 - p), 10], fAdd(12)]); } });
 
   step({ id: 'cm', year: 1, name: 'Measuring in centimetres', src: 'moe', moe: 'P1 · Length in cm',
+    adapt: 'Stephens brings in each measure at the number it belongs to: inches and yards at 36, hours and minutes at 60. Centimetres come here, just before the 20s, because a school ruler stops at 30; metres come at 100, kilometres, kilograms and litres at 1000.',
     objects: 'A ruler marked in centimetres; pencils, crayons and leaves to measure',
     how: ['Measure things to the nearest centimetre and write the length with "cm".',
       'Put three things in order from shortest to longest, and say how much longer one is than another.',
-      'Draw a line of a given length, such as 7 cm, with the ruler.'],
+      'Draw a line of a given length, such as 7 cm, with the ruler.',
+      'Keep to things shorter than her 30 cm ruler for now: her hand span, a pencil, a leaf.'],
     sums: function () { var a = ri(5, 15), b = ri(2, a - 1); return [pure('One pencil is ' + a + ' cm and another is ' + b + ' cm. How much longer is the first?', (a - b) + ' cm')]; },
     facts: null });
 
@@ -165,10 +168,11 @@
   });
 
   step({ id: 'd100', year: 1, name: 'One hundred', src: 'stephens',
-    objects: 'Ten ten bundles (once, to see it)',
+    objects: 'Ten ten bundles (once, to see it); a metre rule and ten 10 cm paper strips',
     how: ['Ten tens make a hundred. Count in tens to 100 and back, and count on in ones across a ten (38, 39, 40, 41).',
-      'Look at 100 from many sides: 99 + 1, 50 + 50, 10 × 10, half of it is 50, a quarter is 25.'],
-    sums: function () { var a = ri(11, 89); var t = ri(1, 9) * 10; return [pure(a + ' and how many more make 100?', 100 - a), pure('How many tens make 100?', 10), pure(t + ' and how many more make 100?', 100 - t)]; },
+      'Look at 100 from many sides: 99 + 1, 50 + 50, 10 × 10, half of it is 50, a quarter is 25.',
+      '100 centimetres make 1 metre. Lay ten 10 cm strips along a metre rule and count them in tens. Then measure the table, the door and herself in metres and centimetres: 1 m 20 cm is 120 cm.'],
+    sums: function () { var a = ri(11, 89); var t = ri(1, 9) * 10; var c = ri(5, 95); return [pure(a + ' and how many more make 100?', 100 - a), pure('How many tens make 100?', 10), pure(t + ' and how many more make 100?', 100 - t), pure('How many centimetres make 1 metre?', 100), pure('A ribbon is ' + c + ' cm long. How much more is needed to make 1 m?', (100 - c) + ' cm')]; },
     facts: function () { var t = ri(1, 9) * 10; return pick([[t + ' + ? = 100', 100 - t], [t + ' + ' + (100 - t - 10), 90], fAdd(100)]); } });
 
   // ---------- Year 2: the four rules and the tables (Stephens) ----------
@@ -241,10 +245,10 @@
     facts: function () { var d = pick([2, 3, 4, 5]), q = ri(11, 24); return [(d * q) + ' ÷ ' + d, q]; } });
 
   step({ id: 'measures', year: 2, name: 'Metres, kilograms and litres', src: 'moe', moe: 'P2 · Length, mass, volume',
-    adapt: 'Stephens leaves weights and measures until about nine, with children pouring and weighing to make their own tables. MOE wants m, g, kg and ℓ at P2, so this step comes earlier, done her way.',
+    adapt: 'Stephens leaves weights and measures until the start of the ninth year (age 8), with children pouring and weighing to make their own tables. MOE wants m, g, kg and ℓ at P2, so this step comes earlier, done her way.',
     objects: 'Kitchen scales, a 1-litre jug, a metre ruler or tape measure, rice or sand, water',
     how: ['Let her weigh and pour for herself: how many cups fill the litre jug? What does a bag of rice weigh?',
-      'Measure the room and the table in metres.',
+      'Measure the room and the table in metres and centimetres, as she began at 100; weigh in grams and kilograms, as she began at 1000.',
       'Put three things in order of length, of mass, and of how much they hold.'],
     sums: function () { var a = ri(2, 9); return [pure('A bag of rice is ' + a + ' kg and another is 1 kg. How much heavier is the first?', (a - 1) + ' kg')]; },
     facts: null });
@@ -264,12 +268,13 @@
 
   step({ id: 'h1000', year: 2, name: 'Numbers to 1000', src: 'stephens', moe: 'P2 · Numbers to 1000',
     adapt: 'Stephens goes to 100 in year one. MOE asks for 1000 at P2, so this step carries her ten bundles on to hundreds.',
-    objects: 'Ten ten bundles tied into a hundred bundle; $100 in $10 notes',
+    objects: 'Ten ten bundles tied into a hundred bundle; $100 in $10 notes; kitchen scales and a 1-litre jug',
     how: ['Ten tens make a hundred bundle, as ten units made a ten. Write hundreds, tens and units in columns.',
       'Count in tens and in hundreds, and say each number as hundreds, tens and units.',
       'Odd and even numbers: can it be shared into twos with none left over?',
-      'She reads and writes 3-digit numbers in words, and puts numbers in order by looking at the hundreds first, then the tens.'],
-    sums: function () { var h = ri(1, 9), t = ri(0, 9), u = ri(0, 9); var n = h * 100 + t * 10 + u; return [pure(h + ' hundred' + (h === 1 ? '' : 's') + ', ' + t + ' ten' + (t === 1 ? '' : 's') + ' and ' + u + ' unit' + (u === 1 ? '' : 's') + ' make what number?', n), pure(n + ' + 10', n + 10), pure(n + ' + 100', n > 899 ? null : n + 100), pure('Is ' + n + ' odd or even?', n % 2 ? 'odd' : 'even')]; },
+      'She reads and writes 3-digit numbers in words, and puts numbers in order by looking at the hundreds first, then the tens.',
+      'A thousand: 1000 metres make 1 kilometre, 1000 grams make 1 kilogram, 1000 millilitres make 1 litre. Weigh out 1 kg of rice; fill the litre jug; pace out a kilometre on a walk and count the hundreds of metres.'],
+    sums: function () { var h = ri(1, 9), t = ri(0, 9), u = ri(0, 9); var n = h * 100 + t * 10 + u; var g = ri(1, 9) * 100; return [pure('How many grams make 1 kg?', 1000), pure('A bag holds ' + g + ' g of rice. How many more grams make 1 kg?', (1000 - g) + ' g'), pure(h + ' hundred' + (h === 1 ? '' : 's') + ', ' + t + ' ten' + (t === 1 ? '' : 's') + ' and ' + u + ' unit' + (u === 1 ? '' : 's') + ' make what number?', n), pure(n + ' + 10', n + 10), pure(n + ' + 100', n > 899 ? null : n + 100), pure('Is ' + n + ' odd or even?', n % 2 ? 'odd' : 'even')]; },
     facts: function () { var n = ri(100, 899); return pick([[n + ' + 100', n + 100], [n + ' + 10', n + 10], [(n + 100) + ' − 100', n]]); } });
 
   // ---------- Year 3: the rest of the tables (MOE P3, taught Stephens' way) ----------
@@ -935,7 +940,7 @@
   (function () {
     function at(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return -1; }
     function moveAfter(id, after) { var i = at(id); var s = STEPS.splice(i, 1)[0]; STEPS.splice(at(after) + 1, 0, s); }
-    moveAfter('ordinal', 'teens'); moveAfter('add3', 'sub'); moveAfter('p2money', 'h1000'); moveAfter('p2graph', 'shapes3d');
+    moveAfter('ordinal', 'teens'); moveAfter('add3', 'sub'); moveAfter('p2money', 'h1000'); moveAfter('p2graph', 'shapes3d'); moveAfter('measures', 'p2money');
     var y3 = ['p3num', 'add4', 't6', 't7', 'p3div', 't8', 't9', 'p3equiv', 'p3money', 'p3units', 'p3time', 'p3area', 'p3angle', 'p3perp', 'p3bar'];
     for (var k = y3.length - 1; k >= 0; k--) { var i = at(y3[k]); var st = STEPS.splice(i, 1)[0]; var first = 0; while (first < STEPS.length && STEPS[first].year < 3) first++; STEPS.splice(first, 0, st); }
     STEPS.sort(function (a, b) { return a.year - b.year; }); // stable in modern engines; years stay in their own order
@@ -1024,11 +1029,11 @@
       { id: 'cmruler', name: 'A ruler marked in centimetres', steps: ['cm', 'p3perp', 'p4angles'] },
       { id: 'clock', name: 'A clock with hands (or a paper clock with a split pin)', steps: ['clock', 'time2'] },
       { id: 'sqpaper', name: 'Squared paper (exercise book)', buy: true, steps: ['shapes2d', 'graph', 'add3', 'p4mul', 'p5fmul'] },
-      { id: 'toys', name: 'Ten small toys or pegs', steps: ['ordinal'] }] },
+      { id: 'toys', name: 'Ten small toys or pegs', steps: ['ordinal'] },
+      { id: 'tape', name: 'A metre rule or tape measure', steps: ['d100', 'measures', 'p3area', 'p4dec', 'p6circle'] }] },
     { year: 2, items: [
-      { id: 'scales', name: 'Kitchen scales', steps: ['measures', 'p3units'] },
-      { id: 'jug', name: 'A 1-litre measuring jug marked in ml', steps: ['measures', 'p3units', 'p5vol'] },
-      { id: 'tape', name: 'A metre rule or tape measure', steps: ['measures', 'p3area', 'p4dec', 'p6circle'] },
+      { id: 'scales', name: 'Kitchen scales', steps: ['h1000', 'measures', 'p3units'] },
+      { id: 'jug', name: 'A 1-litre measuring jug marked in ml', steps: ['h1000', 'measures', 'p3units', 'p5vol'] },
       { id: 'solids', name: 'Boxes, tins, a ball, an ice-cream cone', steps: ['shapes3d'] },
       { id: 'strips', name: 'Paper strips to fold into fractions', steps: ['frac', 'p3equiv', 'p4fadd', 'p5fmix', 'p6fdiv'] }] },
     { year: 3, items: [
