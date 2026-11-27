@@ -3453,6 +3453,7 @@
       if (R.kind === 'place' && R.lv) m.place['p' + R.lv] = today();
       if (R.kind === 'lesson' && R.lessonRef) { var lc = bkChap(R.lessonRef.ch); bkMarkRead(lc, lc.lessons.filter(function (l) { return l.key === R.lessonRef.key; })[0]); }
       if (R.kind === 'recap') bkDay().recap = 1;
+      if (R.revKey) { var rw = bkRec(R.revKey.split(':')[0]); rw.revw = rw.revw || {}; rw.revw[R.revKey] = today(); }
       if (R.kind === 'today' && BK_MODE) bkDay().prac = 1;
       R.full = R.res.length >= R.n0;
       if (R.kind === 'today' && R.full && d && MT_TICK && !doneToday(MT_TICK)) addToday(MT_TICK); else save();
@@ -3704,6 +3705,49 @@
     return '<div class="card"><div class="kicker">Getting started</div><h3>Where does ' + esc(mtWhoName()) + '\'s maths book start?</h3><p class="small muted" style="margin:0 0 10px">Everything before this level is counted as known. You can mark any chapter known or not known later, and the placement checks in each level still work.</p><div class="nm-lvls">' +
       [1, 2, 3, 4, 5, 6].map(function (y) { return '<button class="btn ghost" data-act="bk-start" data-v="' + y + '">' + esc(nmYr(y)) + '</button>'; }).join('') + '</div></div>';
   }
+  // ---------- the year, in weeks ----------
+  // Weeks come from lessons.js (_weeks) where written; elsewhere a chapter's lessons are grouped four to a week with a review day.
+  // Terms are 10 weeks, like MOE's.
+  function bkWeeks() {
+    var b = bkSt(), W = [], LXw = bkLX()._weeks || {};
+    bkBuild().forEach(function (c) {
+      if (b.start && c.lv < b.start) return;
+      var def = c.steps[0] && LXw[c.steps[0].id], groups = [];
+      if (def) groups = def.map(function (w) { return { meta: w, days: w.days }; });
+      else for (var i = 0; i < c.lessons.length; i += 4) { var d = []; for (var j = i; j < Math.min(i + 4, c.lessons.length); j++) d.push(j); d.push('review'); groups.push({ meta: { title: c.name + (c.lessons.length > 4 ? ', part ' + (i / 4 + 1) : '') }, days: d }); }
+      groups.forEach(function (g, k) { W.push({ n: W.length, ch: c, key: c.id + ':' + k, meta: g.meta, days: g.days }); });
+    });
+    return W;
+  }
+  function bkDayDone(w, d) { var r = bkRec(w.ch.id); return d === 'review' ? !!(r.revw && r.revw[w.key]) : r.li > d; }
+  function bkWeekNow() { var W = bkWeeks(); for (var i = 0; i < W.length; i++) { var st = bkStatus(W[i].ch); if (st === 'known') continue; if (W[i].days.some(function (d) { return !bkDayDone(W[i], d); })) return W[i]; } return null; }
+  function bkWeekView() {
+    var b = bkSt(); if (!b.start) return bkStartPicker();
+    var w = bkWeekNow(), all = bkBuild(), nDone = all.filter(bkDone).length;
+    var h = '<div class="card"><div class="kicker">' + nDone + ' of ' + all.length + ' chapters done · P1 to P6</div><div class="rd-dots" aria-hidden="true">' + all.map(function (x) { var s2 = bkStatus(x); return '<i class="' + (s2 === 'known' || s2 === 'mastered' ? 'f' : s2 === 'new' ? '' : 'h') + '"></i>'; }).join('') + '</div></div>';
+    if (!w) return h + '<div class="card"><p style="margin:0">Every week is done. Reviews and heuristics carry on.</p></div>' + bkTodayExtras();
+    var c = w.ch, M = w.meta || {};
+    h += '<div class="card"><div class="kicker">Term ' + (Math.floor(w.n / 10) + 1) + ' · Week ' + (w.n % 10 + 1) + ' · ' + esc(nmYr(c.lv)) + '</div><h3 style="margin:2px 0 6px">' + esc(M.title || c.name) + '</h3>' + (M.overview ? '<p class="small" style="margin:0">' + esc(M.overview) + '</p>' : '') + '</div>';
+    if (M.needs || M.prep || M.materials || M.mental) {
+      var needs = (M.needs || []).map(function (nm) { var cc = all.filter(function (x) { return x.name === nm; })[0]; var s2 = cc ? bkStatus(cc) : ''; return '<li>' + (cc ? '<i class="bk-st ' + s2 + '"></i> ' : '') + esc(nm) + (cc ? ' <span class="small muted">· ' + esc(BK_LBL[s2]) + '</span>' : '') + '</li>'; }).join('');
+      h += '<details class="card bk-wk"><summary><b>For Mum: this week</b></summary>' +
+        (needs ? '<p class="small" style="margin:8px 0 2px"><b>Big ideas needed first</b></p><ul class="bk-needs">' + needs + '</ul>' : '') +
+        (M.prep ? '<p class="small" style="margin:8px 0 2px"><b>Prepare</b></p><ul class="small">' + M.prep.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
+        (M.materials ? '<p class="small" style="margin:8px 0 2px"><b>Materials</b></p><p class="small" style="margin:0">' + esc(M.materials.join(' · ')) + '</p>' : '') +
+        (M.mental ? '<p class="small" style="margin:8px 0 2px"><b>Mental maths for the week</b> (ask any time: car, lunch)</p><ul class="small">' + M.mental.map(function (x) { return '<li>' + esc(x[0]) + ' <span class="muted">(' + esc(x[1]) + ')</span></li>'; }).join('') + '</ul>' : '') + '</details>';
+    }
+    var first = -1; w.days.forEach(function (d, i) { if (first < 0 && !bkDayDone(w, d)) first = i; });
+    h += '<div class="card"><ul class="list bk-chs">' + w.days.map(function (d, i) {
+      var done = bkDayDone(w, d), now = i === first;
+      if (d === 'review') {
+        var body = now ? '<div class="bk-revbox"><p class="small" style="margin:6px 0">' + esc(M.review || 'Finish any day not done. Then a mixed review set from her record: what she got wrong this week, older chapters due for review, and this week\'s exercises. End with Math Jeopardy: give her an answer and she makes up a question and a story for it.') + '</p><div class="btns"><button class="btn" data-act="bk-review" data-v="' + w.key + '">Start the review set</button></div></div>' : '';
+        return '<li style="display:block"><div class="bk-day' + (now ? ' now' : '') + '"><i class="bk-st ' + (done ? 'mastered' : now ? 'learning' : 'new') + '"></i><span><b>Day ' + (i + 1) + ': Review and catch-up</b><span class="small muted">' + (done ? 'Done' : now ? 'Today' : 'Not yet') + '</span></span></div>' + body + '</li>';
+      }
+      var L = c.lessons[d];
+      return '<li><button class="bk-chbtn' + (now ? ' now' : '') + '" data-act="bk-lesson" data-v="' + c.id + '|' + L.key + '"><i class="bk-st ' + (done ? 'mastered' : now ? 'learning' : 'new') + '"></i><span><b>Day ' + (i + 1) + ': ' + esc(L.title) + '</b><span class="small muted">' + (done ? 'Done' : now ? 'Today' : 'Not yet') + (L.mum ? ' · Mum teaches' : '') + '</span></span><span class="bk-go">›</span></button></li>';
+    }).join('') + '</ul></div>';
+    return h + bkTodayExtras();
+  }
   function bkTodayView() {
     var b = bkSt(); if (!b.start) return bkStartPicker();
     var c = bkCurrent(), dd = bkDay(), all = bkBuild(), nDone = all.filter(bkDone).length;
@@ -3730,6 +3774,12 @@
   // cap: one caption per stage. Stages play in turn and repeat, so she can watch it more than once.
   var BK_COL = ['#2f6d8f', '#c8553d', '#4f8a4a', '#d39b2a', '#7a5ea8', '#3a9a9a'];
   function bkFig(f) {
+    if (f.rows) { // static: one strip per row, [parts, shaded]
+      var Wr = 320, bhr = 30, gr = 10, o2 = '', Hr = 6 + f.rows.length * (bhr + gr) + 22;
+      f.rows.forEach(function (rw, b) { var y = 6 + b * (bhr + gr), pw = Wr / rw[0]; for (var i = 0; i < rw[0]; i++) o2 += '<rect x="' + (i * pw) + '" y="' + y + '" width="' + pw + '" height="' + bhr + '" fill="' + (i < rw[1] ? BK_COL[b % BK_COL.length] : '#fff') + '" fill-opacity="' + (i < rw[1] ? '.55' : '1') + '" stroke="#33414d" stroke-width="1.5"/>'; o2 += '<text x="' + (rw[1] * pw + 8) + '" y="' + (y + 20) + '" font-size="14" font-weight="700" fill="#33414d">' + rw[1] + '/' + rw[0] + '</text>'; });
+      (f.cap || []).slice(0, 1).forEach(function (c) { o2 += '<text x="' + (Wr / 2) + '" y="' + (Hr - 6) + '" text-anchor="middle" font-size="14" font-weight="700" fill="#33414d">' + esc(c) + '</text>'; });
+      return '<figure class="bk-fig"><svg viewBox="-2 0 ' + (Wr + 4) + ' ' + Hr + '" role="img" aria-label="' + esc((f.cap || []).join('. ')) + '">' + o2 + '</svg></figure>';
+    }
     var bars = f.bars || 1, d = f.d, sub = f.sub || 1, W = 320, bh = 34, gap = 12, top = 6, H = top + bars * (bh + gap) + 24;
     var stages = 1 + (sub > 1 ? 1 : 0) + (f.group ? 1 : 0), T = 3 * stages, out = '';
     function anim(from, to) { // visible from stage 'from' to stage 'to' (inclusive), 0-based
@@ -3763,6 +3813,13 @@
     if (x.ex) return '<div class="bk-ex"><b>' + esc(x.title || 'Worked example') + '</b>' + x.ex.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>';
     if (x.rule) return '<div class="bk-rule">' + esc(x.rule) + '</div>';
     if (x.story) return '<div class="bk-story">' + x.story.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
+    if (x.open) return '<div class="bk-open"><b>Remember</b>' + x.open.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
+    if (x.ray) return '<blockquote class="bk-ray"><b>Ray says</b>' + x.ray.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</blockquote>';
+    if (x.mind) return '<div class="bk-mind"><b>Picture it</b><p>' + esc(x.mind) + '</p></div>';
+    if (x.break) return '<div class="bk-break"><b>Break</b><p>' + esc(x.break) + '</p></div>';
+    if (x.game) return '<div class="bk-game"><b>Math Jeopardy</b><p>' + esc(x.game) + '</p></div>';
+    if (x.make) return '<div class="bk-game"><b>Your turn</b><p>' + esc(x.make) + '</p></div>';
+    if (x.notebook) return '<div class="bk-note"><b>In your notebook</b><p>' + esc(x.notebook) + '</p></div>';
     if (x.ask) return '<div class="bk-ask"><b>Think</b> ' + esc(x.ask) + (x.then ? '<details><summary>When you have an answer, open this</summary><p>' + esc(x.then) + '</p></details>' : '') + '</div>';
     return '';
   }
@@ -3784,9 +3841,11 @@
       h += (L.read || []).map(bkBlock).join('');
       if (L.src) h += '<p class="small muted">' + esc(L.src) + '</p>';
     }
+    if (L.extra && L.extra.length) h += '<div class="bk-extra"><b>If you have time</b>' + L.extra.map(function (e) { return '<p>' + esc(e) + '</p>'; }).join('') + '</div>';
     h += '</div>' + bkSlateCard(s, false);
     h += '<div class="card"><p style="margin:0 0 8px"><b>Now try it.</b> ' + (L.try && L.try.length ? L.try.length + ' questions on this lesson.' : 'Three questions on this chapter.') + ' Then tell Mum what you learnt.</p><div class="btns"><button class="btn" data-act="bk-try">Try it</button>' +
-      ((bkDay().lesson || []).indexOf(L.key) < 0 ? '<button class="btn ghost small" data-act="bk-read">Mark read without trying</button>' : '') + '</div></div>';
+      ((bkDay().lesson || []).indexOf(L.key) < 0 ? '<button class="btn ghost small" data-act="bk-read">Mark read without trying</button>' : '') + '</div></div>' +
+      '<div class="card"><p style="margin:0 0 8px"><b>Working on your own?</b> Extra questions on everything taught so far in this chapter, checked as you go.</p><div class="btns"><button class="btn ghost" data-act="bk-extra" data-v="' + c.id + '">Extra practice on my own</button></div></div>';
     return h;
   }
   function bkBookView() {
@@ -3870,6 +3929,13 @@
       case 'bk-start': b.start = +v; save(); refreshSheet(true); break;
       case 'bk-recap': mtStartSet('recap', bkRecapItems(), 'Recap'); refreshSheet(true); break;
       case 'bk-prac': var it = bkPracticeItems(); if (!it.length) { toast('Nothing to practise yet'); break; } mtStartSet('today', it, 'Practice'); refreshSheet(true); break;
+      case 'bk-extra': var ce = bkChap(v); mtStartSet('chapter', bkItems(ce, 8), 'Extra practice'); ui.mt.lesson = null; refreshSheet(true); break;
+      case 'bk-review':
+        var wk = bkWeeks().filter(function (x) { return x.key === v; })[0], ri = [];
+        b.mq.slice(0, 3).forEach(function (x, k) { var it = x.Q ? { kind: 'x', id: x.id, ch: x.ch, Q: x.Q, mq: k } : x.kind === 't' && mtTopic(x.id) ? mtMake('t', x.id) : null; if (it) { it.ch = x.ch; it.mq = k; ri.push(it); } });
+        bkDue().slice(0, 2).forEach(function (rc) { var it = bkItems(rc, 1)[0]; if (it) { it.review = true; ri.push(it); } });
+        ri = ri.concat(bkItems(wk.ch, Math.max(4, 10 - ri.length)));
+        mtStartSet('review', ri, 'Review'); ui.mt.run.revKey = v; refreshSheet(true); break;
       case 'bk-chprac': var c0 = bkChap(v); mtStartSet('chapter', bkItems(c0, 5), c0.name); refreshSheet(true); break;
       case 'bk-lesson': var pv = String(v).split('|'); ui.mt.lesson = { ch: pv[0], key: pv[1] }; refreshSheet(true); break;
       case 'bk-close': ui.mt.lesson = null; refreshSheet(true); break;
@@ -3904,7 +3970,7 @@
     }
     else if (!BK_MODE) body = mtTabs(v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? mtRecordView() : v === 'scope' ? nmScopeView(MT_WHO) : mtTodayView());
     else if (ui.mt.lesson) body = mtTabs('today') + bkLessonView();
-    else body = mtTabs(v === 'facts' || v === 'heur' ? 'today' : v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? bkRecordView() : v === 'report' ? bkReportView() : v === 'book' ? (ui.mt.ch ? bkChapterView() : bkBookView()) : v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="mt-view" data-v="book">‹ Book</button></div>' + nmScopeView(MT_WHO) : bkTodayView());
+    else body = mtTabs(v === 'facts' || v === 'heur' ? 'today' : v) + (v === 'facts' ? mtFactsView() : v === 'topics' ? mtTopicsView() : v === 'heur' ? mtHeurView() : v === 'record' ? bkRecordView() : v === 'report' ? bkReportView() : v === 'book' ? (ui.mt.ch ? bkChapterView() : bkBookView()) : v === 'scope' ? '<div class="btns"><button class="btn ghost small" data-act="mt-view" data-v="book">‹ Book</button></div>' + nmScopeView(MT_WHO) : bkWeekView());
     return { title: BK_MODE ? 'Maths book (trial)' : 'Maths', who: MT_WHO, body: body, wide: wide };
   }
   window.__mtAns = function () { var R = ui.mt && ui.mt.run; if (!R || !R.items) return ''; var Q = R.items[R.i].Q; if (R.phase === 'guide') { var st = mtAsks(Q)[R.gi]; return st.show; } return Q.ratio ? Q.ratio.join(':') : Q.choices || Q.time ? Q.a : Q.show; };

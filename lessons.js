@@ -5,50 +5,88 @@
 window.SDLessons = {
 "p6fdiv": [
 {
-"title": "What we already know about fractions",
-"need": "A strip of paper",
+"title": "Breaking things into parts",
+"need": "Three paper strips, coloured pencils, your maths notebook",
 "read": [
-"Before we divide fractions, we need four things Ray has already taught. Make sure each one is firm. If one is shaky, go back to that chapter first.",
 {
-"ex": [
-"In 3/7, the numerator 3 numbers the parts: how many are taken.",
-"The denominator 7 names the parts: the unit is divided into 7 equal parts, called sevenths."
-],
-"title": "1. The two terms (Art. 94)"
+"open": [
+"You have worked with fractions for years. Before you read on, say aloud everything you can remember about them: what they are, where you see them, how you write them."
+]
 },
 {
-"ask": "Which is larger, one-fifth or one-eighth of the same strip?",
-"then": "One-fifth. The greater the number of parts into which a unit is divided, the less the size of each part (Art. 95)."
+"story": [
+"The word fraction comes from the Latin frangere, which means \"to break\". A fraction is a broken piece of something whole.",
+"About 3,500 years ago, an Egyptian scribe named Ahmes copied out a scroll of arithmetic problems. We call it the Rhind Papyrus, and it is kept in the British Museum. Its very first problems are about sharing loaves of bread among ten men.",
+"In one, 9 loaves must be shared among 10 men. Nine loaves cannot be given out whole to ten people. So the loaves must be broken, and each man's share must come out exactly equal."
+]
+},
+"Ray begins his chapter on fractions with something even simpler than bread: an apple.",
+{
+"ray": [
+"An apple may be divided equally between two boys, by cutting it into two equal parts.",
+"An apple may be divided equally among three boys, by cutting it into three equal parts.",
+"These equal parts into which a unit may be divided are called fractions. (Art. 92)"
+]
 },
 {
-"do": "Fold a strip into 4 equal parts. Now fold each of those parts in half. How many parts are there now? What is each called?"
+"do": "Fold one strip in half, one into thirds and one into fourths. Shade one part of each. Lay the three strips one above the other."
 },
 {
 "fig": "bars",
-"d": 4,
+"bars": 3,
+"d": 2,
 "shade": 1,
-"sub": 2,
 "cap": [
-"One-fourth of the strip",
-"Cut each fourth in half: 1/2 of 1/4 = 1/8"
+"One half, one third, one fourth"
 ],
-"note": "The picture plays on its own and repeats."
+"rows": [
+[
+2,
+1
+],
+[
+3,
+1
+],
+[
+4,
+1
+]
+]
 },
 {
-"ask": "You folded fourths in half. What did you get, and how many of them make the whole strip?",
-"then": "Eighths: 8 of them fill the strip. So one-half of one-fourth is one-eighth. Ray calls this a fraction of a fraction (Art. 99)."
+"ask": "Which shaded part is the largest? Which is the smallest? Why?",
+"then": "The half is the largest and the fourth the smallest. Ray: the less the number of parts into which a unit is divided, the greater the size of each part (Art. 95)."
 },
 {
-"ex": [
-"A fraction is an indicated division (Art. 97).",
-"3/4 is 3 divided by 4; 8/2 is 8 divided by 2, which is 4.",
-"A whole number can be written as a fraction: 3 = 3/1."
-],
-"title": "4. A fraction is a division"
+"mind": "Close your eyes and picture the three strips. Now picture a strip cut into ten parts, and one into a hundred. How big is one part of each?"
+},
+{
+"ray": [
+"A fraction is expressed in words by two numbers; the first numbers the parts, the second names them; the first number is called the numerator, the second is called the denominator. (Art. 94)"
+]
+},
+{
+"ask": "In 3/4, which number tells how many parts are taken? Which tells what kind of parts they are?",
+"then": "3 is the numerator: it numbers the parts, three of them. 4 is the denominator: it names them, fourths."
+},
+{
+"break": "Stand up. Jump 3 times, then hop on one foot 4 times. You did 3 + 4 movements: what fraction of them were jumps?"
+},
+"Now back to Ahmes's loaves. Ray says a fraction may also be regarded as an expression of division: the numerator is the dividend and the denominator the divisor (Art. 97). So 9 loaves shared among 10 men is 9 ÷ 10, and each man's share is 9/10 of a loaf.",
+{
+"ask": "If 2 apples are shared equally among 3 boys, how much does each boy get?",
+"then": "Each boy gets 1/3 of each apple, which is 2/3 of an apple. Ray: 1/3 of 2 is 2/3 (Art. 96)."
+},
+{
+"notebook": "Start a page in the reference section of your notebook called \"All About Fractions\". Copy Ray's two sentences about the numerator and the denominator, and draw your three strips under them. You will add to this page all week."
 }
 ],
-"src": "Ray's New Practical Arithmetic (1877), Arts. 94–99",
-"tell": "Tell Mum what the numerator and the denominator each tell you, using a strip.",
+"src": "Ray's New Practical Arithmetic (1877), Arts. 92–97; Rhind Papyrus, Problem 6",
+"extra": [
+"If you have time: Ahmes gave each of the 10 men 2/3 + 1/5 + 1/30 of a loaf. Add these three fractions. Do you get 9/10?"
+],
+"tell": "Tell Mum what a fraction is, what the numerator and the denominator do, and how Ahmes's loaves show that a fraction is a division.",
 "try": [
 [
 "In 5/8, how many parts are taken?",
@@ -63,26 +101,32 @@ window.SDLessons = {
 "1/6"
 ],
 [
-"One-half of one-third is what part of the whole?",
-"1/6"
+"9 loaves are shared equally among 10 men. What fraction of a loaf does each man get?",
+"9/10"
 ],
 [
-"Write 12/3 as a whole number.",
-"4"
+"2 apples are shared equally among 3 boys. How much does each boy get?",
+"2/3 of an apple"
 ]
 ]
 },
 {
 "title": "Dividing the numerator",
-"need": "A strip of paper",
+"need": "A paper strip, coloured pencils, your notebook",
 "read": [
-"Ray's first question: If 3 yards of ribbon cost 6/7 of a dollar, what will 1 yard cost? We need 6/7 divided into 3 equal parts.",
 {
-"do": "Fold a strip into 7 equal parts as well as you can (or draw a line 7 cm long and mark each centimetre). Shade 6 of the sevenths. Now put the 6 shaded sevenths into 3 equal groups."
+"open": [
+"Yesterday you learnt that the numerator numbers the parts and the denominator names them. Look at 6/7. How many parts are there, and what are they called?"
+]
+},
+"Ray's first question on dividing fractions is about buying ribbon.",
+{
+"ray": [
+"1. If 3 yards of ribbon cost 6/7 of a dollar, what will 1 yard cost? (Art. 119)"
+]
 },
 {
-"ask": "How many sevenths are in each group?",
-"then": "2 sevenths. 6 sevenths shared into 3 groups gives 2 sevenths in each group."
+"do": "Draw a line 7 cm long and mark each centimetre: it is cut into sevenths. Colour 6 of the sevenths. Now put a ring round the 6 coloured sevenths in 3 equal groups."
 },
 {
 "fig": "bars",
@@ -95,16 +139,23 @@ window.SDLessons = {
 ]
 },
 {
-"ex": [
-"6/7 = 2/7 + 2/7 + 2/7",
-"so 6/7 ÷ 3 = 2/7",
-"1 yard will cost 2/7 of a dollar."
-],
-"title": "Ray's explanation"
+"ask": "How many sevenths are in each group?",
+"then": "2 sevenths. 6 sevenths shared into 3 groups is 2 sevenths in each."
 },
-"Look at the terms. The numerator 6 was divided by 3 and became 2. The denominator 7 stayed the same, because the parts are still sevenths: there are only fewer of them.",
+{
+"ray": [
+"Explanation: 6/7 is to be divided into 3 equal parts. Each part will be 2/7; for 6/7 = 2/7 + 2/7 + 2/7."
+]
+},
+{
+"ask": "Look at the two terms. Which one changed? Which one stayed the same? Why did it stay the same?",
+"then": "The numerator 6 was divided by 3 and became 2. The denominator stayed 7, because the parts are still sevenths: there are only fewer of them."
+},
 {
 "rule": "Ray, Art. 101: A fraction is divided by dividing the numerator."
+},
+{
+"mind": "Picture 8/9 as eight small coloured squares in a row of nine. Now see them in 4 equal groups in your mind. How many ninths in each group?"
 },
 {
 "ex": [
@@ -112,7 +163,16 @@ window.SDLessons = {
 "8 ninths into 4 equal groups: 8 ÷ 4 = 2",
 "each group is 2 ninths: 8/9 ÷ 4 = 2/9"
 ],
-"title": "Another, step by step"
+"title": "Every step"
+},
+{
+"break": "Stretch break: reach up high and count to 7 slowly, one count for each seventh."
+},
+{
+"game": "Make up a story that 9/10 ÷ 3 would answer, like Ray's ribbon story. Tell it to Mum and solve it."
+},
+{
+"notebook": "Add to your \"All About Fractions\" page: Ray's rule, \"A fraction is divided by dividing the numerator\", with a small drawing of 6/7 in 3 groups."
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 101, 119",
@@ -143,15 +203,16 @@ window.SDLessons = {
 },
 {
 "title": "When the numerator will not divide",
-"need": "Two strips of paper",
+"need": "Two paper strips, your notebook",
 "read": [
-"Now try 2/3 ÷ 3. The numerator is 2, and 2 will not divide by 3. Two thirds cannot be shared into 3 equal groups of whole thirds. What can we do?",
+{
+"open": [
+"Yesterday you divided 6/7 by 3 by dividing the numerator. Say the rule aloud. Now try 2/3 ÷ 3. What goes wrong?"
+]
+},
+"2 will not divide by 3. Two thirds cannot be shared into 3 groups of whole thirds. Ahmes had the same trouble with his loaves: when the bread would not share out evenly, the Egyptians cut it into smaller pieces, thirds and fifths and even thirtieths, until every man's share was equal. Let us do the same.",
 {
 "do": "Fold a strip into 3 equal parts and shade 2 of them. Now fold the whole strip again so that every third is cut into 3 equal smaller pieces."
-},
-{
-"ask": "How many small pieces are in the whole strip now? What is each piece called? How many are shaded?",
-"then": "9 pieces in the whole strip, so each is a ninth. The 2 shaded thirds are now 6 shaded ninths. The shaded amount has not changed: 2/3 = 6/9."
 },
 {
 "fig": "bars",
@@ -166,10 +227,18 @@ window.SDLessons = {
 ],
 "note": "Watch it twice: the shaded amount never changes, only the size of the parts."
 },
-"Ray says this in Art. 101: multiplying both terms of a fraction by the same number does not change its value. 2/3 = (2 × 3)/(3 × 3) = 6/9.",
+{
+"ask": "How many small pieces are in the whole strip now? What is each piece called? How many are shaded?",
+"then": "9 pieces in the whole strip, so each is a ninth. The 2 shaded thirds are now 6 shaded ninths. The shaded amount has not changed: 2/3 = 6/9."
+},
+{
+"ray": [
+"Multiplying both terms of a fraction by the same number does not change its value. (Art. 101)"
+]
+},
 {
 "ask": "Now share the 6 shaded ninths into 3 equal groups. How much is in each?",
-"then": "2 ninths. 6/9 ÷ 3 = 2/9, by dividing the numerator."
+"then": "2 ninths. 6/9 ÷ 3 = 2/9, by dividing the numerator, which you learnt yesterday."
 },
 {
 "ex": [
@@ -181,11 +250,19 @@ window.SDLessons = {
 "title": "Every step"
 },
 {
+"break": "Stand up and fold your arms. Unfold them. Fold them the other way. Sit down."
+},
+{
 "ask": "Compare 2/3 with the answer 2/9. Which term changed, and how?",
 "then": "The numerator is still 2. The denominator was multiplied by 3. There are the same number of parts, 2, but each part is only one-third as large: ninths instead of thirds."
 },
 {
-"rule": "Ray, Art. 101: A fraction is divided by multiplying the denominator."
+"ray": [
+"A fraction is divided by multiplying the denominator. Thus, if the denominator of 2/3 be multiplied by 3, the result will be 2/9; in 2/9 there are the same number of parts as in 2/3, but the parts are only one-third as large. (Art. 101)"
+]
+},
+{
+"mind": "Close your eyes. See 3/5 of a strip. Cut every fifth in half in your mind. What are the small pieces called? How many are coloured? Now share them between 2."
 },
 {
 "ex": [
@@ -196,12 +273,20 @@ window.SDLessons = {
 ],
 "title": "Ray's second question"
 },
-"When the numerator will divide, either way works: 4/5 ÷ 2 = 2/5 by dividing the numerator, or 4/10 by multiplying the denominator, and 4/10 reduced to lowest terms is 2/5."
+{
+"make": "Choose a fraction of your own whose numerator will not divide by 4. Divide it by 4 both ways: the long way with Steps 1 and 2, and Ray's short way. Do you get the same answer?"
+},
+{
+"notebook": "Add Ray's second rule to \"All About Fractions\", with your drawing of 2/3 becoming 6/9 and then 2/9."
+}
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 101, 119",
 "book": [
 1,
 7
+],
+"extra": [
+"If you have time: when the numerator will divide, either way works. Divide 4/5 by 2 both ways and show that 4/10 reduced to lowest terms is 2/5."
 ],
 "tell": "Fold a strip for Mum and show why 2/3 ÷ 3 is 2/9. Use the words numerator and denominator.",
 "try": [
@@ -229,23 +314,28 @@ window.SDLessons = {
 },
 {
 "title": "How many times is a fraction contained?",
-"need": "Four strips of paper",
+"need": "Four paper strips, your notebook",
 "read": [
-"Division asks a second question too: how many times is one number contained in another? 12 ÷ 3 asks: how many threes are there in 12?",
+{
+"open": [
+"Say both of Ray's rules for dividing a fraction by a whole number. Then work 3/4 ÷ 2 in your head."
+]
+},
+"So far you have divided a fraction into equal parts. But division asks a second question as well: how many times is one number contained in another? 12 ÷ 3 asks: how many threes are there in 12?",
 {
 "ask": "How many times is 2/7 contained in 6/7? (How many 2-sevenths are there in 6-sevenths?)",
-"then": "3 times. Both are sevenths, so we only need to ask how many 2s are in 6. 6/7 ÷ 2/7 = 3."
+"then": "3 times. Both are sevenths, so you only need to ask how many 2s are in 6. 6/7 ÷ 2/7 = 3."
 },
 {
 "rule": "When two fractions have the same denominator, divide the numerators."
 },
-"Ray's third question: At 2/3 of a cent for 1 apple, how many can be bought for 4 cents? We want to know how many times 2/3 is contained in 4.",
 {
-"do": "Lay out 4 strips. Fold each into thirds."
+"ray": [
+"3. At 2/3 of a cent for 1 apple, how many can be bought for 4 cents? (Art. 119)"
+]
 },
 {
-"ask": "In 4 strips, how many thirds are there?",
-"then": "12 thirds. Ray, Art. 103: to change an integer to thirds, multiply it by 3: 4 = 12/3."
+"do": "Lay out 4 strips. Fold each into thirds. Then ring the thirds in pairs."
 },
 {
 "fig": "bars",
@@ -257,6 +347,10 @@ window.SDLessons = {
 "4 whole strips",
 "12 thirds, in groups of 2/3: 6 groups"
 ]
+},
+{
+"ask": "In 4 strips, how many thirds are there?",
+"then": "12 thirds. Ray, Art. 103: to change an integer to thirds, multiply it by 3. 4 = 12/3."
 },
 {
 "ask": "How many times is 2 thirds contained in 12 thirds?",
@@ -271,12 +365,25 @@ window.SDLessons = {
 "title": "Every step"
 },
 {
-"ex": [
-"For 1/3 of a cent, 1/2 an apple can be bought;",
-"for 3/3, or 1 cent, 3 times 1/2 = 3/2 of an apple;",
-"then for 4 cents, 4 times 3/2 = 6 apples."
-],
-"title": "Ray's own solution, another way to see it"
+"ray": [
+"Solution: For 1/3 of a cent 1/2 an apple can be bought, and for 3/3, or 1 cent, 3 times 1/2 = 3/2 of an apple; then, for 4 cents, there can be bought 4 times 3/2 = 6 apples."
+]
+},
+{
+"ask": "Ray found the same answer another way. Which way do you find easier to see?",
+"then": "Either is right. Ray works out how much 1 cent buys first; the strips count how many 2/3s fit into 4."
+},
+{
+"break": "How many times is a half-turn contained in 2 whole turns? Stand up and find out by turning."
+},
+{
+"mind": "Picture 3 whole kaya toasts, each cut into halves. How many halves? Now picture them handed out a half at a time. How many people get a piece?"
+},
+{
+"game": "Make up a shopping story that 6 ÷ 3/4 would answer, in Singapore dollars. Solve it and check it with strips."
+},
+{
+"notebook": "Add to \"All About Fractions\": \"When two fractions have the same denominator, divide the numerators,\" with your 4 strips in pairs of thirds."
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 103, 119",
@@ -1817,5 +1924,72 @@ window.SDLessons = {
 ]
 ]
 }
+],
+"_weeks": {
+"p6fdiv": [
+{
+"title": "Dividing fractions, part 1",
+"overview": "This week Emma learns where fractions come from and how to divide them by whole numbers, the way Ray builds it: first by dividing the numerator, then by multiplying the denominator when the numerator will not divide, then how many times a fraction is contained in a whole number. The thread through the week is Ahmes, the Egyptian scribe who shared loaves among ten men.",
+"needs": [
+"Fraction of a whole; adding like fractions",
+"Equivalent fractions; simplest form; related fractions",
+"Mixed numbers and improper fractions; fraction of a set; unlike fractions",
+"Division as a fraction; mixed numbers; multiplying fractions"
+],
+"prep": [
+"Cut 10 strips of paper, about 3 cm wide, from the long side of A4 sheets.",
+"If you like, find a photo of the Rhind Papyrus online (it is in the British Museum) to show her on Day 1."
+],
+"materials": [
+"Paper strips (10)",
+"Coloured pencils",
+"Maths notebook with grid paper",
+"Ruler"
+],
+"mental": [
+[
+"Half of 3/4",
+"3/8"
+],
+[
+"A third of 3/5",
+"1/5"
+],
+[
+"How many quarters in 2?",
+"8"
+],
+[
+"3/5 of 10",
+"6"
+],
+[
+"How many halves in 4 1/2?",
+"9"
+],
+[
+"2/3 of 12",
+"8"
 ]
+],
+"days": [
+0,
+1,
+2,
+3,
+"review"
+],
+"review": "Day 5 is for review and catching up. Finish any day not done. Then she does a mixed set drawn from her record: anything she got wrong this week, older chapters due for review, and this week's exercises from Ray. End with Math Jeopardy: give her an answer, such as 2/9, and she makes up a question and a story that gives that answer."
+},
+{
+"title": "Dividing fractions, part 2",
+"days": [
+4,
+5,
+6,
+"review"
+]
+}
+]
+}
 };
