@@ -3585,7 +3585,7 @@
         if (L && L.length) L.forEach(function (l, k) { var o = { key: id + ':' + k, step: id }; for (var x in l) o[x] = l[x]; lessons.push(o); });
         else lessons.push({ key: id + ':0', step: id, title: byId[id].name, mum: true });
       });
-      return { id: 'c' + i, i: i, lv: t.lv, strand: t.strand, name: t.name, steps: ids.map(function (id) { return byId[id]; }), mt: (t.mt || []).filter(function (x) { return !!mtTopic(x); }), lessons: lessons };
+      return { id: t.cid || 'c' + i, i: i, lv: t.lv, strand: t.strand, name: t.name, steps: ids.map(function (id) { return byId[id]; }), mt: (t.mt || []).filter(function (x) { return !!mtTopic(x); }), lessons: lessons };
     });
     return MBK;
   }
@@ -3619,7 +3619,7 @@
     if (typeof a === 'number') return { q: q, a: MX.F(a), show: s };
     var rt = s.match(/^\s*(\d+)\s*:\s*(\d+)\s*$/); if (rt) return { q: q, ratio: [+rt[1], +rt[2]], show: rt[1] + ' : ' + rt[2] };
     var m = s.match(/^\s*(?:[a-z]\s*=\s*)?\$?\s*(\d+(?:\.\d+)?(?:\s+\d+\/\d+)?(?:\/\d+)?)\s*%?\s*([a-zA-Z¢.'²³° ]*)$/);
-    if (m && !/,|\band\b|\bor\b/.test(s) && (!m[2] || !/\d/.test(m[2]))) { var p = MX.parse(m[1]); if (p) return { q: q, a: p.f, show: s, simplest: /\//.test(m[1]) }; }
+    if (m && !/,|\band\b|\bor\b/.test(s) && (!m[2] || !/\d/.test(m[2]))) { var p = MX.parse(m[1]); if (p) { var rw = p.raw, g = function (x, y) { return y ? g(y, x % y) : x; }; if (rw && rw.d && g(rw.n, rw.d) !== 1) return { q: q, a: p.f, show: s, den: rw.d }; return { q: q, a: p.f, show: s, simplest: /\//.test(m[1]) }; } }
     return { q: q, self: true, show: s };
   }
   function bkPool(c) {
@@ -3783,7 +3783,52 @@
   // sub: cut each part into this many (animated); group: colour the shaded parts in groups of this size (after any cutting).
   // cap: one caption per stage. Stages play in turn and repeat, so she can watch it more than once.
   var BK_COL = ['#2f6d8f', '#c8553d', '#4f8a4a', '#d39b2a', '#7a5ea8', '#3a9a9a'];
+  // opacity animation: visible from stage 'from' to stage 'to' (inclusive) of 'stages', 3 s a stage
+  function bkAnim(stages, from, to) {
+    if (stages <= 1) return '';
+    var a = from / stages, b = (to + 1) / stages, vals = [], kt = [];
+    function add(t, v) { kt.push(t.toFixed(3)); vals.push(v); }
+    add(0, from === 0 ? 1 : 0); if (from > 0) { add(Math.max(0, a - 0.02), 0); add(a, 1); } if (b < 1) { add(b - 0.02, 1); add(b, 0); } add(1, b >= 1 ? 1 : 0);
+    return '<animate attributeName="opacity" dur="' + (3 * stages) + 's" repeatCount="indefinite" calcMode="linear" keyTimes="' + kt.join(';') + '" values="' + vals.join(';') + '"/>';
+  }
+  function bkTxt(x, y, s, o) { o = o || {}; return '<text x="' + x + '" y="' + y + '" text-anchor="' + (o.a || 'middle') + '" font-size="' + (o.fs || 14) + '" font-weight="' + (o.w || 700) + '" fill="' + (o.c || '#33414d') + '"' + (o.op != null ? ' opacity="' + o.op + '"' : '') + '>' + esc(s) + (o.an || '') + '</text>'; }
+  // bar model: rows of equal units; the known part above, the value of one unit inside, the whole at the right
+  function bkModel(f) {
+    var cap = f.cap || [], S = Math.max(1, cap.length), named = f.rows.some(function (r) { return r.name; });
+    var X = named ? 70 : 4, BW = f.total || f.rows.some(function (r) { return r.whole; }) ? 205 : 250, bh = 30, rh = 26 + bh + 10, H = 6 + f.rows.length * rh + (cap.length ? 22 : 4), out = '', uw = 0;
+    var maxN = Math.max.apply(null, f.rows.map(function (r) { return r.n * (r.scale || 1); })), uw0 = BW / maxN; uw = uw0;
+    f.rows.forEach(function (r, b) {
+      var y = 6 + b * rh + 24, k = r.k || 0, uw = uw0 * (r.scale || 1);
+      if (r.name) out += bkTxt(X - 8, y + 20, r.name, { a: 'end', fs: 13 });
+      for (var i = 0; i < r.n; i++) out += '<rect x="' + (X + i * uw) + '" y="' + y + '" width="' + uw + '" height="' + bh + '" fill="' + (i < k ? '#bcd3e2' : '#fff') + '" stroke="#33414d" stroke-width="1.5"/>';
+      if (r.part && k) { var x1 = X + 2, x2 = X + k * uw - 2; out += '<path d="M' + x1 + ' ' + (y - 4) + ' v-6 H' + x2 + ' v6" fill="none" stroke="#c8553d" stroke-width="1.6"/>';
+        if (r.partEnd && S > 1) out += bkTxt((x1 + x2) / 2, y - 14, r.part, { c: '#c8553d', fs: 13, an: bkAnim(S, 0, S - 2) }) + bkTxt((x1 + x2) / 2, y - 14, r.partEnd, { c: '#c8553d', fs: 13, op: 0, an: bkAnim(S, S - 1, S - 1) });
+        else out += bkTxt((x1 + x2) / 2, y - 14, r.part, { c: '#c8553d', fs: 13 }); }
+      if (r.unit) { var us = r.unitStage == null ? Math.min(1, S - 1) : r.unitStage; for (var j = 0; j < (r.unitAll ? r.n : (k || r.n)); j++) out += bkTxt(X + j * uw + uw / 2, y + 20, r.unit, { fs: uw < 40 ? 11 : 13, op: S > 1 && us > 0 ? 0 : 1, an: bkAnim(S, us, S - 1) }); }
+      if (r.whole) { var ws = r.wholeStage == null ? S - 1 : r.wholeStage, wx = X + r.n * uw + 8;
+        if (S > 1 && ws > 0) out += bkTxt(wx, y + 20, '?', { a: 'start', fs: 15, c: '#c8553d', an: bkAnim(S, 0, ws - 1) });
+        out += bkTxt(wx, y + 20, r.whole, { a: 'start', fs: 13, c: '#c8553d', op: S > 1 && ws > 0 ? 0 : 1, an: bkAnim(S, ws, S - 1) }); }
+    });
+    if (f.total) { var tx = X + maxN * uw0 + 10, y0 = 6 + 24, y1 = 6 + (f.rows.length - 1) * rh + 24 + bh; out += '<path d="M' + tx + ' ' + y0 + ' h6 V' + y1 + ' h-6" fill="none" stroke="#c8553d" stroke-width="1.6"/>' + bkTxt(tx + 12, (y0 + y1) / 2 + 5, f.total, { a: 'start', fs: 13, c: '#c8553d' }); }
+    cap.forEach(function (c, i) { out += bkTxt(180, H - 6, c, { fs: 13, op: S > 1 ? (i === 0 ? 1 : 0) : 1, an: bkAnim(S, i, i) }); });
+    return '<figure class="bk-fig"><svg viewBox="0 0 360 ' + H + '" role="img" aria-label="' + esc(cap.join('. ')) + '">' + out + '</svg>' + (f.note ? '<figcaption class="small muted">' + esc(f.note) + '</figcaption>' : '') + '</figure>';
+  }
+  // a fraction of a fraction: columns shaded first, then the rows cut across them
+  function bkGrid(f) {
+    var cap = f.cap || [], S = Math.max(2, cap.length), W = 240, Ht = 160, X = 60, Y = 6, H = Y + Ht + 26, out = '', cw = W / f.cols, rh = Ht / f.rows;
+    out += '<rect x="' + X + '" y="' + Y + '" width="' + W + '" height="' + Ht + '" fill="#fff" stroke="#33414d" stroke-width="1.5"/>';
+    out += '<rect x="' + X + '" y="' + Y + '" width="' + (cw * f.cs) + '" height="' + Ht + '" fill="#bcd3e2"/>';
+    for (var i = 1; i < f.cols; i++) out += '<line x1="' + (X + i * cw) + '" y1="' + Y + '" x2="' + (X + i * cw) + '" y2="' + (Y + Ht) + '" stroke="#33414d" stroke-width="1.5"/>';
+    var g = '<rect x="' + X + '" y="' + Y + '" width="' + (cw * f.cs) + '" height="' + (rh * f.rs) + '" fill="#c8553d" fill-opacity=".45"/>';
+    for (var j = 1; j < f.rows; j++) g += '<line x1="' + X + '" y1="' + (Y + j * rh) + '" x2="' + (X + W) + '" y2="' + (Y + j * rh) + '" stroke="#33414d" stroke-width="1.2" stroke-dasharray="4 3"/>';
+    out += '<g opacity="0">' + g + bkAnim(S, 1, S - 1) + '</g>';
+    out += '<rect x="' + X + '" y="' + Y + '" width="' + W + '" height="' + Ht + '" fill="none" stroke="#33414d" stroke-width="1.5"/>';
+    cap.forEach(function (c, i) { out += bkTxt(180, H - 6, c, { fs: 13, op: i === 0 ? 1 : 0, an: bkAnim(S, i, i) }); });
+    return '<figure class="bk-fig"><svg viewBox="0 0 360 ' + H + '" role="img" aria-label="' + esc(cap.join('. ')) + '">' + out + '</svg>' + (f.note ? '<figcaption class="small muted">' + esc(f.note) + '</figcaption>' : '') + '</figure>';
+  }
   function bkFig(f) {
+    if (f.fig === 'model') return bkModel(f);
+    if (f.fig === 'grid') return bkGrid(f);
     if (f.rows) { // static: one strip per row, [parts, shaded]
       var Wr = 320, bhr = 30, gr = 10, o2 = '', Hr = 6 + f.rows.length * (bhr + gr) + 22;
       f.rows.forEach(function (rw, b) { var y = 6 + b * (bhr + gr), pw = Wr / rw[0]; for (var i = 0; i < rw[0]; i++) o2 += '<rect x="' + (i * pw) + '" y="' + y + '" width="' + pw + '" height="' + bhr + '" fill="' + (i < rw[1] ? BK_COL[b % BK_COL.length] : '#fff') + '" fill-opacity="' + (i < rw[1] ? '.55' : '1') + '" stroke="#33414d" stroke-width="1.5"/>'; o2 += '<text x="' + (rw[1] * pw + 8) + '" y="' + (y + 20) + '" font-size="14" font-weight="700" fill="#33414d">' + rw[1] + '/' + rw[0] + '</text>'; });

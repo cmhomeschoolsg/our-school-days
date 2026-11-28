@@ -1035,9 +1035,9 @@
     { lv: 3, age: 8, strand: 'Numbers', name: 'Addition and subtraction up to 4 digits; mental 2-digit sums', steps: ['add4'], mt: ['p3add','p3mental'] },
     { lv: 3, age: 8, strand: 'Numbers', name: 'Tables of 6, 7, 8 and 9', steps: ['t6','t7','t8','t9'] },
     { lv: 3, age: 8, strand: 'Numbers', name: 'Division with remainder; × and ÷ up to 3 digits by 1 digit', steps: ['p3div'], mt: ['p3muldiv'] },
-    { lv: 3, age: 8, strand: 'Fractions', name: 'Equivalent fractions; simplest form; related fractions', steps: ['p3equiv'], mt: ['p3equiv','p3fadd'] },
-    { lv: 3, age: 8, strand: 'Money', name: 'Adding and subtracting money in decimals', steps: ['p3money'] },
-    { lv: 3, age: 8, strand: 'Measurement', name: 'Compound units (km, m, cm, kg, g, ℓ, ml)', steps: ['p3units'], mt: ['p3units'] },
+    { lv: 3, age: 8, cid: 'c22', strand: 'Money', name: 'Adding and subtracting money in decimals', steps: ['p3money'] },
+    { lv: 3, age: 8, cid: 'c23', strand: 'Measurement', name: 'Compound units (km, m, cm, kg, g, ℓ, ml)', steps: ['p3units'], mt: ['p3units'] },
+    { lv: 3, age: 8, cid: 'c21', strand: 'Fractions', name: 'Equivalent fractions; simplest form; related fractions', steps: ['p3equiv'], mt: ['p3equiv','p3fadd'] },
     { lv: 3, age: 8, strand: 'Measurement', name: 'Time: seconds, durations, 24-hour clock', steps: ['p3time'], mt: ['p3time'] },
     { lv: 3, age: 8, strand: 'Geometry', name: 'Area and perimeter of rectangles and squares', steps: ['p3area'], mt: ['p3area'] },
     { lv: 3, age: 8, strand: 'Geometry', name: 'Angles; perpendicular and parallel lines', steps: ['p3angle','p3perp'] },
@@ -1113,6 +1113,8 @@
       { id: 'receipts', name: 'Receipts showing GST; price tags and sale signs', steps: ['p5pct', 'p5interest', 'p5rate', 'p6pct'] }] },
     { year: 6, items: [
       { id: 'compass', name: 'Compasses', buy: true, steps: ['p6circle'] }] }];
+  // Ray puts compound numbers (measures, money) before fractions: in P3, money and units come before equivalent fractions.
+  (function () { var i = STEPS.findIndex(function (s) { return s.id === 'p3equiv'; }), s = STEPS.splice(i, 1)[0], j = STEPS.findIndex(function (s) { return s.id === 'p3units'; }); STEPS.splice(j + 1, 0, s); })();
   window.SDNumber = { steps: STEPS, sumsFor: sumsFor, scope: SCOPE, supplies: SUPPLIES,
     source: 'Irene Stephens, The Teaching of Mathematics to Young Children (1911), written under Charlotte Mason’s supervision, for the early steps' };
 })();

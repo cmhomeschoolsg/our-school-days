@@ -46,6 +46,7 @@
     var p = parse(typed); if (!p) return { ok: false, unread: true, shown: Q.show };
     var ok = fEq(p.f, Q.a);
     if (ok && Q.simplest && p.raw && gcd(p.raw.n, p.raw.d) !== 1) return { ok: false, close: 'That is the right amount — now give it in its simplest form.', shown: Q.show };
+    if (ok && Q.den && !(p.raw && p.raw.d === Q.den)) return { ok: false, close: 'That is the right amount — now write it with ' + Q.den + ' as the denominator.', shown: Q.show };
     if (ok && Q.mixed && p.raw && !p.raw.mixed && p.raw.n > p.raw.d) return { ok: false, close: 'Right amount — now write it as a mixed number.', shown: Q.show };
     return { ok: ok, shown: Q.show };
   }

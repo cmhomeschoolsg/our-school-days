@@ -1419,171 +1419,873 @@ window.SDLessons = {
 "p5fdiv": [
 {
 "title": "A fraction is a division",
-"need": "3 paper circles",
+"need": "3 paper circles (draw round a cup), scissors",
 "read": [
 {
-"do": "Share 3 paper circles between 4 people. Cut each circle into quarters and give out the pieces."
+"open": [
+"7/2 as a mixed number? How did you find it?"
+]
+},
+{
+"do": "Cut out 3 paper circles. Share them equally among 4 people: cut each circle into 4 equal parts and give each person one part from every circle."
+},
+{
+"fig": "bars",
+"rows": [
+[
+4,
+1
+],
+[
+4,
+1
+],
+[
+4,
+1
+]
+],
+"cap": [
+"One share: 1/4 of each of 3 circles = 3/4"
+]
 },
 {
 "ask": "How much does each person get?",
-"then": "3 quarters: 3/4. So 3 ÷ 4 = 3/4. A fraction is a division that has not been done yet."
+"then": "1/4 of each of the 3 circles, which is 3 fourths: 3/4 of a circle. So 3 ÷ 4 = 3/4."
 },
-"So to change a fraction into a decimal: put noughts after the numerator and divide by the denominator.",
+"The fraction 3/4 can be read in two ways: 3 of the 4 equal parts of one whole, or 3 wholes shared into 4. Both give the same amount. So a fraction is a division written down: the numerator is divided by the denominator.",
+{
+"ray": [
+"Divide 3 apples between 2 boys, giving to each the same amount.",
+"Solution.—Each boy will receive 1/2 of 3 apples, which is 3/2 = 1 1/2 apples."
+]
+},
+{
+"rule": "A whole number divided by a whole number can be written as a fraction: 3 ÷ 4 = 3/4, and 7 ÷ 3 = 7/3 = 2 1/3."
+},
 {
 "ex": [
-"1/8 = 1 ÷ 8 = 1.000 ÷ 8 = 0.125"
+"If 3 yards of cloth cost $5, what is the price per yard?",
+"Step 1: $5 ÷ 3 = 5/3 of a dollar",
+"Step 2: 5/3 = 1 2/3",
+"The price is $1 2/3 a yard"
 ],
-"title": "Fraction to decimal"
+"title": "Every step"
+},
+"Division also asks how many times one number is contained in another, and the answer can be a fraction too.",
+{
+"ray": [
+"For 5 cents, how many apples can I buy at 2 cents each?",
+"Solution.—I can buy as many apples as 2 cents are contained times in 5 cents, which are 5/2 = 2 1/2."
+]
+},
+{
+"mind": "Picture 5 pizzas on a table and 8 children. Each pizza is cut into 8 slices. How many slices does each child get, and what fraction of a pizza is that?"
+},
+{
+"break": "Share 2 big steps among 3 small steps: take 2 big strides, then cover the same distance in 3 equal small steps. Each small step is 2/3 of a stride."
+},
+{
+"notebook": "Draw the 3 circles shared among 4 and write 3 ÷ 4 = 3/4. Copy the rule."
 }
 ],
-"src": "Ray's Practical Arithmetic, Arts. 158a, 185",
-"tell": "Show Mum with the circles why 3 ÷ 4 is 3/4.",
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXV; Ray's New Practical Arithmetic (1877), Art. 97",
+"tell": "Tell Mum why 3 ÷ 4 is the same as 3/4, using your paper circles.",
 "try": [
 [
-"Share 3 cakes equally among 4 children. How much does each get?",
+"3 ÷ 4 as a fraction",
 "3/4"
 ],
 [
-"Change 1/8 to a decimal.",
-"0.125"
+"5 ÷ 2 as a mixed number",
+"2 1/2"
 ],
 [
-"Change 3/5 to a decimal.",
+"7 ÷ 3 as a mixed number",
+"2 1/3"
+],
+[
+"A grocer gave 4 oranges to 3 boys to share equally. What was each boy's share?",
+"1 1/3 oranges"
+],
+[
+"At $3 a yard, how many yards of cloth can be bought for $7?",
+"2 1/3 yards"
+]
+]
+},
+{
+"title": "Fractions as decimals",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"3 ÷ 4 = ? as a fraction. What does 0.7 mean?"
+]
+},
+"You know that 0.7 means 7 tenths and 0.25 means 25 hundredths. So when a fraction has 10 or 100 as its denominator, you can write it straight away as a decimal: 7/10 = 0.7 and 25/100 = 0.25.",
+{
+"ex": [
+"3/5 as a decimal",
+"Step 1: 5 goes into 10, so change to tenths: 3/5 = 6/10",
+"Step 2: 6/10 = 0.6"
+],
+"title": "First way: make tenths or hundredths"
+},
+{
+"ex": [
+"7/20 as a decimal",
+"Step 1: 20 goes into 100: 100 ÷ 20 = 5",
+"Step 2: 7/20 = 35/100",
+"Step 3: 35/100 = 0.35"
+],
+"title": "First way again"
+},
+"But 8 does not go into 10 or 100. For 1/8 use what you learnt yesterday: a fraction is a division. 1/8 = 1 ÷ 8.",
+"Writing 1 as 1.000 does not change its value: 1 whole is 10 tenths, or 100 hundredths, or 1000 thousandths. So you can keep dividing past the decimal point.",
+{
+"ex": [
+"1/8 as a decimal",
+"Step 1: 1/8 = 1 ÷ 8 = 1.000 ÷ 8",
+"Step 2: 10 tenths ÷ 8 = 1 tenth, remainder 2 tenths",
+"Step 3: 2 tenths = 20 hundredths; ÷ 8 = 2 hundredths, remainder 4 hundredths",
+"Step 4: 4 hundredths = 40 thousandths; ÷ 8 = 5 thousandths, remainder 0",
+"So 1/8 = 0.125"
+],
+"title": "Second way: divide"
+},
+{
+"rule": "To change a fraction to a decimal, divide the numerator by the denominator, writing noughts after the decimal point as you need them."
+},
+{
+"ask": "What is 2/3 as a decimal? What do you notice?",
+"then": "2 ÷ 3 = 0.666… and the 6s never stop. Rounded to 2 decimal places, 2/3 ≈ 0.67."
+},
+{
+"ask": "Change 2 1/2 to a decimal.",
+"then": "The whole number stays in front of the point: 1/2 = 0.5, so 2 1/2 = 2.5."
+},
+{
+"break": "Stand up and count in eighths of a metre as decimals: 0.125, 0.25, 0.375, 0.5 … Step forward a little on each one."
+},
+{
+"notebook": "Make a table of fractions you meet often with their decimals: 1/2, 1/4, 3/4, 1/5, 1/8, 1/10, 1/3."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 185",
+"book": [
+0,
+2
+],
+"tell": "Change 1/8 to a decimal for Mum, saying what happens at each step of the division.",
+"try": [
+[
+"3/5 as a decimal",
 "0.6"
 ],
 [
-"7 ÷ 2 as a mixed number",
-"3 1/2"
+"3/4 as a decimal",
+"0.75"
+],
+[
+"7/20 as a decimal",
+"0.35"
+],
+[
+"1/8 as a decimal",
+"0.125"
+],
+[
+"2 1/2 as a decimal",
+"2.5"
 ]
 ]
 }
 ],
 "p5fmix": [
 {
-"title": "Adding and subtracting mixed numbers",
-"need": "Paper strips",
+"title": "Adding mixed numbers",
+"need": "Paper strips, your notebook",
 "read": [
-"Add mixed numbers in two parts: the whole numbers, then the fractions, then put them together.",
 {
-"ex": [
-"2 1/2 + 3 2/3",
-"wholes: 2 + 3 = 5",
-"fractions: 1/2 + 2/3 = 3/6 + 4/6 = 7/6 = 1 1/6",
-"together: 6 1/6"
-],
-"title": "An example"
+"open": [
+"How many fourths are in 1 1/4? How many thirds in 2 1/3?"
+]
 },
-"Subtracting can need borrowing: 3 1/8 − 1 3/8. You cannot take 3/8 from 1/8, so change one of the 3 wholes into eighths.",
+"Ray shows two ways to add mixed numbers. The first changes them to improper fractions.",
 {
-"ex": [
-"3 1/8 = 2 + 8/8 + 1/8 = 2 9/8",
-"2 9/8 − 1 3/8 = 1 6/8 = 1 3/4"
-],
-"title": "Borrowing a whole"
+"ray": [
+"Bought 1 1/4 yards of muslin at one store, and 2 1/3 yards at another: how many yards did I purchase?",
+"Solution.—1 1/4 = 5/4; 2 1/3 = 7/3. I purchased 5/4 + 7/3 = 3 7/12 yards."
+]
 },
 {
-"do": "Show 3 1/8 with strips: three whole strips, one with only an eighth shaded. Cut one whole strip into eighths to take away 3/8."
+"ex": [
+"1 1/4 + 2 1/3",
+"Step 1: 1 1/4 = 5/4 and 2 1/3 = 7/3",
+"Step 2: 5/4 = 15/12 and 7/3 = 28/12",
+"Step 3: 15/12 + 28/12 = 43/12 = 3 7/12"
+],
+"title": "First way: improper fractions"
+},
+"With bigger whole numbers that makes big numerators. So Ray gives a second way.",
+{
+"ray": [
+"The integral and the fractional parts of mixed numbers may be added separately and their sums then united."
+]
+},
+{
+"ex": [
+"1 1/4 + 2 1/3",
+"Step 1: the wholes: 1 + 2 = 3",
+"Step 2: the fractions: 1/4 + 1/3 = 3/12 + 4/12 = 7/12",
+"Step 3: united: 3 + 7/12 = 3 7/12"
+],
+"title": "Second way: wholes and fractions separately"
+},
+{
+"ask": "Add 2 1/2 and 3 2/3 the second way. What happens to the fractions?",
+"then": "Wholes: 2 + 3 = 5. Fractions: 1/2 + 2/3 = 3/6 + 4/6 = 7/6, which is more than one whole: 7/6 = 1 1/6. So the answer is 5 + 1 1/6 = 6 1/6. Carry the whole into the whole numbers, just as you carry a ten."
+},
+{
+"ask": "Which way would you choose for 16 2/3 + 12 3/4? Why?",
+"then": "The second way: 16 + 12 = 28, and 2/3 + 3/4 = 8/12 + 9/12 = 17/12 = 1 5/12, so 29 5/12. As improper fractions the numerators would be 50 and 51, much harder to handle."
+},
+{
+"break": "Walk 1 1/2 big steps, then 2 1/2 more. How many big steps altogether?"
+},
+{
+"notebook": "Work 2 1/2 + 3 2/3 both ways, side by side, and tick the way you like better."
 }
 ],
-"src": "Ray's New Practical Arithmetic (1877), Arts. 111, 113–114",
-"tell": "Tell Mum how you borrow a whole when the fraction you are taking away is bigger.",
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXX; Ray's New Practical Arithmetic (1877), Art. 111, Rem. 2",
+"book": [
+0,
+3
+],
+"tell": "Add 2 1/2 and 3 2/3 for Mum the second way, and tell her what you do when the fractions add up to more than 1.",
 "try": [
+[
+"1 1/4 + 2 1/3",
+"3 7/12"
+],
 [
 "2 1/2 + 3 2/3",
 "6 1/6"
 ],
 [
-"3 1/8 − 1 3/8",
-"1 3/4"
+"3 2/3 + 4 5/6",
+"8 1/2"
+],
+[
+"I planted 2 1/2 acres in corn and 8 2/3 acres in oats. How many acres did I plant?",
+"11 1/6 acres"
+],
+[
+"1 3/4 + 2 1/2",
+"4 1/4"
+]
+]
+},
+{
+"title": "Taking away mixed numbers",
+"need": "Paper strips, your notebook",
+"read": [
+{
+"open": [
+"2 1/2 + 3 2/3 = ? What did you do with the 7/6?"
+]
+},
+"Taking away is easy when the first fraction is the bigger one: 5 2/3 − 4 1/2 = (5 − 4) + (4/6 − 3/6) = 1 1/6. But what if it is smaller?",
+{
+"ray": [
+"Take 2 2/3 from 5 1/6.",
+"Solution.—We can not subtract 2/3 from 1/6; but we can take 1 from 5, and can subtract 2/3 from 1 1/6. 1 1/6 − 2/3 = 1/2, 4 − 2 = 2; 2 + 1/2 = 2 1/2."
+]
+},
+"This is the same as taking 1 ten from the tens when the ones are too small in 52 − 27.",
+{
+"ex": [
+"5 1/6 − 2 2/3",
+"Step 1: 2/3 = 4/6, and 4/6 cannot be taken from 1/6",
+"Step 2: take 1 from the 5: 5 1/6 = 4 + 1 1/6 = 4 7/6",
+"Step 3: fractions: 7/6 − 4/6 = 3/6 = 1/2",
+"Step 4: wholes: 4 − 2 = 2",
+"So 5 1/6 − 2 2/3 = 2 1/2"
+],
+"title": "Every step"
+},
+{
+"ask": "Check 5 1/6 − 2 2/3 = 2 1/2 by adding.",
+"then": "2 1/2 + 2 2/3 = 4 + 3/6 + 4/6 = 4 + 7/6 = 5 1/6. Correct."
+},
+{
+"ask": "What is 5 − 2/3?",
+"then": "Take 1 from the 5 and write it as 3/3: 5 = 4 3/3. Then 4 3/3 − 2/3 = 4 1/3."
+},
+{
+"ask": "Jane gave 1 3/4 oranges to Mary and 2 1/3 to Lucy. How much more did she give to Lucy than to Mary?",
+"then": "2 1/3 − 1 3/4 = 2 4/12 − 1 9/12. 4/12 is too small, so take 1: 1 16/12 − 1 9/12 = 7/12 of an orange."
+},
+{
+"break": "Take 4 big steps forward and 1 1/2 steps back. Where are you? Count it out."
+},
+{
+"notebook": "Write Ray's solution for 5 1/6 − 2 2/3. Then show the check by adding."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXXI; Ray's New Practical Arithmetic (1877), Art. 114",
+"book": [
+4,
+5,
+6,
+7,
+8
+],
+"tell": "Work 5 1/6 − 2 2/3 for Mum and explain why you took 1 from the 5.",
+"try": [
+[
+"5 1/6 − 2 2/3",
+"2 1/2"
 ],
 [
 "4 1/4 − 2 3/4",
 "1 1/2"
 ],
 [
-"1 3/4 + 2 1/3",
-"4 1/12"
+"5 − 2/3",
+"4 1/3"
+],
+[
+"7 2/3 − 4 3/4",
+"2 11/12"
+],
+[
+"Jane gave 1 3/4 oranges to Mary and 2 1/3 to Lucy. How much more did Lucy get?",
+"7/12 of an orange"
+]
+]
+},
+{
+"title": "Problems with mixed numbers",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"5 − 2/3 = ? Say why."
+]
+},
+"Ray's problems mix adding and taking away. Read each one twice. Ask: what do I know, and what is asked? Then decide what to do first.",
+{
+"ask": "A lady bought 3 1/3 yards of muslin at one store and 2 1/4 yards at another. After using 1 1/2 yards, how much had she left?",
+"then": "First, how much she bought: 3 1/3 + 2 1/4 = 5 + 4/12 + 3/12 = 5 7/12 yards. Then what was left: 5 7/12 − 1 1/2 = 5 7/12 − 1 6/12 = 4 1/12 yards."
+},
+{
+"ex": [
+"Step 1: what she had: 3 1/3 + 2 1/4 = 5 7/12 yards",
+"Step 2: what was left: 5 7/12 − 1 1/2 = 5 7/12 − 1 6/12 = 4 1/12 yards"
+],
+"title": "Every step"
+},
+{
+"ask": "A farmer had 1 1/2 bushels of wheat. He gave 1/2 a bushel to one poor man and 1/3 of a bushel to another. How much was left?",
+"then": "Given away: 1/2 + 1/3 = 5/6. Left: 1 1/2 − 5/6 = 1 3/6 − 5/6. 3/6 is too small, so 9/6 − 5/6 = 4/6 = 2/3 of a bushel."
+},
+{
+"ask": "Before you work it out, about how much should be left? Is your answer sensible?",
+"then": "He started with 1 1/2 and gave away almost 1, so a little under 1 should be left. 2/3 is sensible."
+},
+{
+"mind": "Picture a roll of ribbon 4 1/2 metres long. You cut off 1 3/4 m for one present and 1 1/2 m for another. Is there enough for a third present that needs 1 1/4 m?"
+},
+{
+"break": "Fill a cup 1/2 full of water and pour in 1/3 of a cup more. Is the cup nearly full? How much more would fill it?"
+},
+{
+"notebook": "Write the muslin problem in your own words with a picture, and solve it with every step."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXXII",
+"book": [
+9,
+10,
+11
+],
+"tell": "Tell Mum how you decided what to do first in the muslin problem.",
+"try": [
+[
+"A lady bought 3 1/3 yards of muslin and 2 1/4 yards more. After using 1 1/2 yards, how much had she left?",
+"4 1/12 yards"
+],
+[
+"A farmer had 1 1/2 bushels of wheat. He gave away 1/2 a bushel and 1/3 of a bushel. How much was left?",
+"2/3 of a bushel"
+],
+[
+"James had 7/8 of a pound of raisins. He gave his brother 1/2 a pound and his sister 1/4 of a pound. How much had he left?",
+"1/8 of a pound"
+],
+[
+"A ribbon is 4 1/2 m long. 1 3/4 m and 1 1/2 m are cut off. How much is left?",
+"1 1/4 m"
+],
+[
+"Add 4/5, 7 1/2 and 8 3/4.",
+"17 1/20"
 ]
 ]
 }
 ],
 "p5fmul": [
 {
-"title": "A fraction times a whole number",
+"title": "Multiplying a fraction by a whole number",
+"need": "Paper strips, coloured pencils",
 "read": [
-"If an apple costs 4/5 of a cent, 3 apples cost 3 times as much: 12/5 = 2 2/5 cents. Multiplying a fraction by a whole number repeats it.",
-"And 2/5 of 12 cents takes only part of 12: divide by 5 for one fifth, then multiply by 2.",
 {
-"rule": "Fraction × whole number: multiply the top number. \"2/5 of 12\": divide by the bottom, multiply by the top."
+"open": [
+"What is 3 × 5? What does \"3 times\" mean?"
+]
+},
+{
+"ray": [
+"A mother gave each of her 3 children 1/2 an orange: how many oranges did it take?",
+"Solution.—It took 3 times 1/2 an orange, which are 3/2. 3/2 = 1 1/2 oranges."
+]
+},
+{
+"fig": "bars",
+"bars": 2,
+"d": 2,
+"shade": 3,
+"cap": [
+"3 halves = 1 1/2 oranges"
+]
+},
+"3 times 1/2 is 1/2 + 1/2 + 1/2. Three halves are 3/2. The parts stay halves; there are just 3 of them.",
+{
+"ray": [
+"A fraction is multiplied by multiplying the numerator."
+]
 },
 {
 "ex": [
-"3/4 × 3 = 9/4 = 2 1/4",
-"2/3 of 9 = 9 ÷ 3 × 2 = 6"
+"If 1 apple cost 4/5 of a cent, what will 3 apples cost?",
+"Step 1: 3 times 4/5 = 12/5   (multiply the numerator)",
+"Step 2: 12/5 = 2 2/5",
+"They will cost 2 2/5 cents"
 ],
-"title": "Examples"
+"title": "Every step"
+},
+{
+"ask": "Why do we not multiply the denominator by 3 as well?",
+"then": "The denominator names the parts, fifths. Three times as many fifths are still fifths. Multiplying the denominator would make the parts smaller instead."
+},
+"Now turn it round: 2/3 × 6. This means 2/3 of 6, which you already know how to find: 1/3 of 6 is 2, so 2/3 of 6 is 4. You get the same answer from 6 × 2/3 = 12/3 = 4.",
+{
+"ask": "What is 3/4 of 5? (5 does not divide by 4.)",
+"then": "1/4 of 5 is 5/4. Then 3/4 of 5 is 3 times 5/4 = 15/4 = 3 3/4. The same as 5 × 3/4 = 15/4."
+},
+{
+"ask": "Think it through: Charles gave 3/4 of a pint of chestnuts to each of his 2 brothers. How many pints did it take?",
+"then": "2 times 3/4 = 6/4 = 1 1/2 pints."
+},
+{
+"break": "Do 3 sets of half a star jump: arms up only, then down. How many whole star jumps is that?"
+},
+{
+"notebook": "Draw 3 × 1/2 as strips. Copy Ray's principle: a fraction is multiplied by multiplying the numerator."
 }
 ],
-"src": "Ray's New Practical Arithmetic (1877), Arts. 115–116",
-"tell": "Tell Mum the difference between 3 × 2/5 and 2/5 of 3.",
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXXIII; Ray's New Practical Arithmetic (1877), Arts. 101, 115",
+"book": [
+0,
+3,
+4,
+8,
+20
+],
+"tell": "Tell Mum why 3 × 4/5 is 12/5 and not 12/15.",
 "try": [
 [
-"If 1 apple costs 4/5 of a cent, what do 3 apples cost?",
-"2 2/5"
+"3 × 1/2",
+"1 1/2"
 ],
 [
-"3/4 × 3",
-"2 1/4"
+"4 × 2/3",
+"2 2/3"
 ],
 [
-"2/3 of 9",
-"6"
+"2/3 × 6",
+"4"
 ],
 [
-"5/6 of 12",
-"10"
+"What is 3/4 of 5?",
+"3 3/4"
+],
+[
+"If 1 apple costs 4/5 of a cent, what will 3 apples cost?",
+"2 2/5 cents"
+]
+]
+},
+{
+"title": "Multiplying a mixed number by a whole number",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"4 × 2/3 = ? Why does the denominator stay the same?"
+]
+},
+{
+"ray": [
+"William gave 1 1/2 oranges to each of his 2 sisters: how many oranges did it take?",
+"Solution.—1 1/2 = 3/2. It took 2 times 3/2 oranges, which are 6/2 = 3 oranges."
+]
+},
+"That is the first way: change the mixed number to an improper fraction. With bigger numbers Ray multiplies the whole number and the fraction separately, and then adds.",
+{
+"ray": [
+"How many are 12 times 3 3/4?",
+"Solution.—12 times 3 = 36, 12 times 3/4 are 36/4 = 9; 36 + 9 = 45."
+]
+},
+{
+"ex": [
+"12 × 3 3/4",
+"Step 1: 12 × 3 = 36",
+"Step 2: 12 × 3/4 = 36/4 = 9",
+"Step 3: 36 + 9 = 45"
+],
+"title": "Every step"
+},
+{
+"ask": "Work 18 3/4 × 8 Ray's way.",
+"then": "8 times 18 is 144. 8 times 3/4 is 24/4 = 6. 144 + 6 = 150."
+},
+{
+"ask": "Why can we multiply the parts separately and then add?",
+"then": "3 3/4 is 3 and 3/4. Twelve lots of (3 and 3/4) are twelve lots of 3 and twelve lots of 3/4, just as 12 × 23 is 12 × 20 and 12 × 3."
+},
+{
+"ask": "If a family uses 3 1/4 bags of rice in a month, how many bags do they use in 3 months?",
+"then": "3 × 3 = 9 and 3 × 1/4 = 3/4, so 9 3/4 bags."
+},
+{
+"break": "Take 2 1/2 steps, three times over. How many steps is that?"
+},
+{
+"notebook": "Work 12 × 3 3/4 both ways: as an improper fraction and Ray's way. Which is quicker?"
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXXV; Ray's New Practical Arithmetic (1877), Art. 115",
+"book": [
+15,
+18
+],
+"tell": "Work 12 × 3 3/4 Ray's way for Mum and tell her why it works.",
+"try": [
+[
+"2 × 1 1/2",
+"3"
+],
+[
+"3 × 2 1/2",
+"7 1/2"
+],
+[
+"12 × 3 3/4",
+"45"
+],
+[
+"8 × 18 3/4",
+"150"
+],
+[
+"9 × 10 5/6",
+"97 1/2"
 ]
 ]
 },
 {
 "title": "A fraction of a fraction",
-"need": "Squared paper, coloured pencils",
+"need": "A sheet of paper, coloured pencils",
 "read": [
 {
-"do": "Draw a rectangle 4 squares wide and 3 high. Shade 3/4 of it with upright stripes. Now shade 2/3 of the striped part with crossways stripes."
+"open": [
+"What is 1/2 of 6? What is 1/2 of a half?"
+]
 },
 {
-"ask": "How much of the whole rectangle is shaded both ways?",
-"then": "6 squares out of 12: 6/12 = 1/2. And 2/3 × 3/4 = 6/12 too."
+"ray": [
+"If you divide an orange into 4 equal parts, and cut each part into 3 equal pieces, what will 1 piece be called?"
+]
 },
 {
-"rule": "Fraction × fraction: multiply the tops together and the bottoms together. Change mixed numbers to improper fractions first, and cancel before you multiply."
+"ask": "What is your answer?",
+"then": "There are 4 × 3 = 12 pieces in the orange, so each piece is 1/12. One-third of one-fourth is one-twelfth."
 },
 {
-"ex": [
-"2 1/4 × 3 1/2 = 9/4 × 7/2 = 63/8 = 7 7/8"
-],
-"title": "With mixed numbers"
+"ray": [
+"Mary, having 1/2 an orange, gave her brother 1/2 of what she had: what part of an orange did she give him?",
+"Solution.—She gave to her brother 1/2 of 1/2 an orange, which is 1/4 of an orange."
+]
+},
+{
+"ray": [
+"Thomas has 3/4 of an apple, and wishes to give his brother 1/2 of what he has: what part of the whole apple must he give him?",
+"Solution.—He must give him 1/2 of 3/4 of an apple; 1/2 of 1/4 = 1/8; then 1/2 of 3/4 is 3 times 1/8 = 3/8."
+]
+},
+{
+"do": "Fold a sheet of paper into 4 columns and shade 3 of them: that is 3/4. Now fold it the other way into 3 rows. Shade 2 rows of the 3/4 in a second colour."
+},
+{
+"fig": "grid",
+"cols": 4,
+"cs": 3,
+"rows": 3,
+"rs": 2,
+"cap": [
+"3/4 of the sheet",
+"2/3 of the 3/4: 6 of the 12 small parts = 1/2"
+]
+},
+{
+"ray": [
+"What are 2/3 of 3/4?",
+"Solution.—1/3 of 3/4 is 1/4; then, 2/3 of 3/4 are 2/4 = 1/2."
+]
+},
+{
+"ask": "Look at the paper. How many small parts is the whole sheet? How many have both colours?",
+"then": "12 small parts in all, and 6 have both colours: 6/12 = 1/2, as Ray found."
+},
+{
+"ask": "A person owning 3/4 of a ship sold 5/6 of his share. What part of the ship did he sell?",
+"then": "1/6 of 3/4 is 3/24 = 1/8; then 5/6 of 3/4 is 5 times 1/8 = 5/8 of the ship."
+},
+{
+"break": "Walk 3/4 of the way across the room, then come back 1/3 of that walk. Where are you now?"
+},
+{
+"notebook": "Draw the folded sheet for 2/3 of 3/4 and write Ray's solution beside it."
 }
 ],
-"src": "Ray's New Practical Arithmetic (1877), Arts. 115, 117",
-"tell": "Show Mum your squared-paper drawing of 2/3 of 3/4.",
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXXVII",
+"tell": "Fold a sheet for Mum to show 2/3 of 3/4, and tell her how the paper shows the answer is 1/2.",
 "try": [
 [
-"2/3 × 4/5",
+"What is 1/2 of 1/2?",
+"1/4"
+],
+[
+"What is 1/3 of 1/4?",
+"1/12"
+],
+[
+"What is 1/2 of 3/4?",
+"3/8"
+],
+[
+"What are 2/3 of 4/5?",
 "8/15"
 ],
+[
+"A person owning 3/4 of a ship sold 5/6 of his share. What part of the ship did he sell?",
+"5/8"
+]
+]
+},
+{
+"title": "The rule for multiplying fractions",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"What is 1/2 of 3/4? Say Ray's two steps."
+]
+},
+{
+"ray": [
+"What will 4/7 of a yard of cloth cost, at 3/5 of a dollar per yard?",
+"Solution.—1/7 of a yard will cost 1/7 of 3/5 = 3/35 of a dollar; then, 4/7 of a yard will cost 4 times 3/35 = 12/35 of a dollar."
+]
+},
+{
+"ask": "Look at 4/7 × 3/5 = 12/35. Where did the 12 come from? Where did the 35 come from?",
+"then": "12 = 4 × 3, the numerators multiplied. 35 = 7 × 5, the denominators multiplied. Taking 1/7 of fifths gives thirty-fifths; taking 4 of them multiplies the numerator."
+},
+{
+"ray": [
+"Rule.—1. Multiply together the numerators of the given fractions for the numerator of the product.",
+"2. Multiply together the denominators of the given fractions for the denominator of the product."
+]
+},
+"Ray adds that you should cancel common factors before multiplying, whenever you can. It keeps the numbers small.",
+{
+"ex": [
+"2/3 × 3/4",
+"Step 1: write it as (2 × 3)/(3 × 4)",
+"Step 2: cancel the 3 above and below: 2/4",
+"Step 3: 2/4 = 1/2"
+],
+"title": "Every step"
+},
+{
+"ask": "Cancel first, then multiply: 5/6 × 9/10.",
+"then": "5 and 10 share 5: they become 1 and 2. 9 and 6 share 3: they become 3 and 2. So 1/2 × 3/2 = 3/4."
+},
+"Mixed numbers are changed to improper fractions first.",
+{
+"ray": [
+"Multiply 2 1/4 by 3 1/2.",
+"Solution.—Reducing 2 1/4 and 3 1/2 to improper fractions, they are 9/4 and 7/2. Multiplying together 9/4 and 7/2, the result is 63/8 = 7 7/8."
+]
+},
+{
+"ask": "Before multiplying 2 1/4 × 3 1/2, about how big should the answer be?",
+"then": "About 2 × 3 = 6, and a bit more because of the fractions. 7 7/8 is sensible."
+},
+{
+"break": "Make a rectangle with your arms 2 1/4 hand-spans wide. Can you picture 3 1/2 of them stacked up?"
+},
+{
+"notebook": "Copy Ray's rule in a box. Underneath, work 2/3 × 3/4 with cancelling."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 115",
+"book": [
+2,
+5,
+14,
+16
+],
+"tell": "Tell Mum why 4/7 × 3/5 has 35 as its denominator.",
+"try": [
 [
 "3/4 × 5/7",
 "15/28"
 ],
 [
-"8/9 × 3/4",
-"2/3"
+"2/3 × 3/4",
+"1/2"
+],
+[
+"5/6 × 9/10",
+"3/4"
+],
+[
+"What will 4/7 of a yard of cloth cost at 3/5 of a dollar a yard?",
+"12/35 of a dollar"
 ],
 [
 "2 1/4 × 3 1/2",
 "7 7/8"
+]
+]
+},
+{
+"title": "Through one: harder problems",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"2/3 of a lemon are worth 6 cents. What is the lemon worth? Say both steps."
+]
+},
+"Ray's hardest fraction problems join two \"through one\" steps together. Take each step slowly and draw the model.",
+{
+"ray": [
+"If you have 8 cents, and 3/4 of your money equals 2/3 of mine, how many cents have I?",
+"Solution.—3/4 of 8 cents = 6 cents; then, if 2/3 of my money = 6 cents, 1/3 of my money is 1/2 of 6 cents = 3 cents, and all my money is 3 times 3 cents = 9 cents."
+]
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "Yours",
+"n": 4,
+"k": 3,
+"part": "3/4 = 6 ct",
+"unit": "2",
+"unitAll": true,
+"whole": "8 ct",
+"wholeStage": 0
+},
+{
+"name": "Mine",
+"n": 3,
+"k": 2,
+"scale": 1.5,
+"part": "2/3 = 6 ct",
+"unit": "3",
+"unitAll": true,
+"whole": "9 ct"
+}
+],
+"cap": [
+"3/4 of your 8 cents is 6 cents",
+"6 cents is also 2/3 of mine: 1/3 is 3 cents",
+"All of mine: 3 × 3 = 9 cents"
+],
+"note": "The shaded parts are the same length, because they are the same amount: 6 cents."
+},
+{
+"ex": [
+"Step 1: find the amount the two parts share: 3/4 of 8 = 6",
+"Step 2: through one: 2/3 of mine is 6, so 1/3 is 3",
+"Step 3: the whole: 3/3 of mine = 9"
+],
+"title": "Every step"
+},
+{
+"ray": [
+"5/6 of 18 are 3/5 of what number?",
+"Solution.—5/6 of 18 = 15; then, 3/5 of some number = 15. 1/5 of the number is 1/3 of 15 = 5, and the number is 5 times 5 = 25."
+]
+},
+{
+"ask": "William says to Frank: \"Your age is 15 years, and 4/5 of your age is 3/4 of mine. What is my age?\"",
+"then": "4/5 of 15 = 12. Then 3/4 of William's age is 12, so 1/4 is 4, and his age is 4 × 4 = 16 years."
+},
+{
+"ask": "After spending 1/2 and 1/3 of my money, and losing 1/12, I had $8 left. How much had I at first?",
+"then": "Spent and lost: 1/2 + 1/3 + 1/12 = 6/12 + 4/12 + 1/12 = 11/12. Left: 1/12, which is $8. So the whole is 12 × $8 = $96."
+},
+{
+"break": "Hold up 6 fingers. Fold down 1/3 of them. How many are still up? That is 2/3 of 6."
+},
+{
+"game": "Make up a \"your money and mine\" problem like Ray's, using Singapore dollars. Draw its model and give it to Mum."
+},
+{
+"notebook": "Draw the model for \"3/4 of your money equals 2/3 of mine\" and write the three steps beside it."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XXIV, XXXII",
+"tell": "Draw the model for Ray's \"your money and mine\" problem for Mum and talk her through the three steps.",
+"try": [
+[
+"If you have 8 cents, and 3/4 of your money equals 2/3 of mine, how many cents have I?",
+"9 cents"
+],
+[
+"Frank is 15. 4/5 of his age is 3/4 of William's age. How old is William?",
+"16 years"
+],
+[
+"5/6 of 18 are 3/5 of what number?",
+"25"
+],
+[
+"6/7 of 14 are 3/8 of what number?",
+"32"
+],
+[
+"After spending 1/2 and 1/3 of my money and losing 1/12, I had $8 left. How much had I at first?",
+"$96"
 ]
 ]
 }
@@ -1925,15 +2627,1882 @@ window.SDLessons = {
 ]
 }
 ],
+"frac": [
+{
+"title": "Halves",
+"need": "An apple (Mum cuts it), three paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"When we share 6 sweets equally between 2 children, each child gets 3. Equally means each gets the same amount. Today we share one thing, not many."
+]
+},
+{
+"story": [
+"Two sisters have one apple and both want some. Mum cuts it. One piece is big and one is small. \"That is not fair!\" says the one with the small piece.",
+"What must Mum do so that it is fair?"
+]
+},
+{
+"ray": [
+"A unit is a single thing; as, one apple.",
+"If a unit is divided into two equal parts, one of the parts is called one-half."
+]
+},
+"Equal parts are parts of the same size. Two pieces that are not the same size are not halves.",
+{
+"do": "Take a paper strip. Fold it so that the two ends meet exactly, then open it. Lay one part on top of the other: are they the same size? Colour one part."
+},
+{
+"fig": "bars",
+"rows": [
+[
+2,
+1
+]
+],
+"cap": [
+"One half of the strip"
+]
+},
+{
+"ask": "How many halves make the whole strip?",
+"then": "2 halves. One half and one half make one whole."
+},
+{
+"ask": "Mum has 2 apples and cuts each one in half. How many halves are there?",
+"then": "4 halves. Each apple gives 2 halves, so 2 apples give 2 times 2 halves."
+},
+{
+"ray": [
+"In 1 apple there are 2 halves, and in 2 apples there are 2 times 2 halves, which are 4 halves."
+]
+},
+{
+"ask": "How many halves in 3 apples? In 5 apples?",
+"then": "In 3 apples there are 3 times 2 halves, which are 6 halves. In 5 apples, 5 times 2 halves, which are 10 halves."
+},
+{
+"mind": "Close your eyes. See a round cake. A knife cuts it straight down the middle. Can you see the two halves? Are they the same size?"
+},
+{
+"break": "Stand up. Turn half way round, so that you face the back of the room. Turn another half. Which way do you face now?"
+},
+{
+"ask": "Think it through: a yard of ribbon costs 2 cents. What does half a yard cost?",
+"then": "Half a yard costs half of 2 cents, which is 1 cent."
+},
+{
+"notebook": "Draw a strip cut into halves. Colour one half. Under it write: Two halves make one whole."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XX, XXII",
+"tell": "Show Mum with a strip what a half is. Tell her why a big piece and a small piece are not halves.",
+"try": [
+[
+"How many halves make one whole?",
+"2"
+],
+[
+"How many halves are in 2 apples?",
+"4"
+],
+[
+"How many halves are in 5 apples?",
+"10"
+],
+[
+"A yard of ribbon costs 2 cents. What does half a yard cost?",
+"1 cent"
+],
+[
+"How many halves are in 4 oranges?",
+"8"
+]
+]
+},
+{
+"title": "Thirds and fourths",
+"need": "Three paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"What is one half? How many halves are in 3 apples?"
+]
+},
+"Now we cut a whole into more than two equal parts.",
+{
+"ray": [
+"If a unit is divided into three equal parts, each part is called one-third; two parts are called two-thirds; and three parts, three-thirds, or the whole."
+]
+},
+{
+"do": "Fold a strip into three equal parts: roll it into an S shape and press it flat when the ends line up. Open it and colour one part. That is one-third."
+},
+{
+"ray": [
+"If a unit is divided into four equal parts, each part is called one-fourth; two parts are called two-fourths; three parts, three-fourths; and four parts, four-fourths, or the whole."
+]
+},
+"We also call a fourth a quarter. A quarter of an hour is 15 minutes, because the hour is cut into four equal parts.",
+{
+"do": "Fold another strip in half, and then in half again. Open it. How many equal parts are there? Colour one of them."
+},
+{
+"do": "Lay your three strips one above the other: the half, the third and the fourth."
+},
+{
+"fig": "bars",
+"rows": [
+[
+2,
+1
+],
+[
+3,
+1
+],
+[
+4,
+1
+]
+],
+"cap": [
+"One half, one third, one fourth"
+]
+},
+{
+"ask": "Which coloured part is the biggest? Which is the smallest? Why?",
+"then": "The half is the biggest and the fourth is the smallest. The more parts the whole is cut into, the smaller each part is."
+},
+{
+"ask": "Would you rather have one-third of a pizza or one-fourth of the same pizza?",
+"then": "One-third. It is cut into fewer parts, so each part is bigger."
+},
+{
+"ask": "How many thirds are in 2 apples?",
+"then": "6 thirds. In 1 apple there are 3 thirds, and in 2 apples there are 2 times 3 thirds, which are 6 thirds."
+},
+{
+"break": "Clap three times, and stop after the first clap of each set: \"ONE two three, ONE two three.\" Each ONE is one-third of the claps."
+},
+{
+"ask": "Think it through: an apple is worth 3 cents. What is one-third of the apple worth?",
+"then": "One-third of 3 cents, which is 1 cent."
+},
+{
+"notebook": "Draw a strip cut into thirds and one cut into fourths, one under the other. Colour one part of each and label it: one-third, one-fourth."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XX, XXII",
+"tell": "Lay your strips out for Mum and tell her why one-fourth is smaller than one-third.",
+"try": [
+[
+"How many thirds make one whole?",
+"3"
+],
+[
+"How many thirds are in 2 apples?",
+"6"
+],
+[
+"How many fourths are in 3 apples?",
+"12"
+],
+[
+"An apple is worth 3 cents. What is one-third of it worth?",
+"1 cent"
+],
+[
+"A cake costs 4 dollars. What does one-fourth of the cake cost?",
+"$1"
+]
+]
+},
+{
+"title": "Writing a fraction",
+"need": "Squared paper, a ruler, coloured pencils",
+"read": [
+{
+"open": [
+"Say the names: a whole cut into 2 equal parts gives halves; into 3, thirds; into 4, fourths. What comes next?"
+]
+},
+"After fourths come fifths, sixths, sevenths, eighths, ninths, tenths, elevenths and twelfths. A whole cut into 10 equal parts is cut into tenths.",
+{
+"ray": [
+"A fraction is one or more equal parts of a unit."
+]
+},
+"So far we have written fractions in words. There is a short way to write them, with two numbers and a line between them. Two-thirds is written 2/3 (in your book the 2 sits on top of the 3).",
+{
+"ray": [
+"The lower number shows the number of parts into which the unit is divided; it is called the denominator.",
+"The upper number shows how many parts of the unit are taken; it is called the numerator."
+]
+},
+{
+"ex": [
+"two-thirds → 2/3",
+"the 3 below: the whole is cut into 3 equal parts",
+"the 2 above: 2 of the parts are taken"
+],
+"title": "Reading 2/3"
+},
+{
+"do": "On squared paper, draw a strip 10 squares long. Mark it into 5 equal parts of 2 squares each. Colour 2 parts. Write the fraction under it."
+},
+{
+"fig": "bars",
+"rows": [
+[
+3,
+2
+],
+[
+4,
+3
+],
+[
+5,
+2
+]
+],
+"cap": [
+"Two-thirds, three-fourths, two-fifths"
+]
+},
+{
+"ask": "In 3/4, what does the 4 tell you? What does the 3 tell you?",
+"then": "The 4 tells you the whole is cut into 4 equal parts, fourths. The 3 tells you that 3 of them are taken."
+},
+{
+"ask": "Put these in order, biggest first: 1/2, 1/12, 1/6.",
+"then": "1/2, 1/6, 1/12. When the numerators are both 1, the bigger the denominator, the smaller the part, because the whole is cut into more parts."
+},
+{
+"ask": "What is 3/3 of a strip? What is 8/8?",
+"then": "The whole strip, both times. When every part is taken, you have the whole."
+},
+{
+"break": "Stand up. Take 3 big steps and 1 small step. What fraction of your steps were big?"
+},
+{
+"notebook": "Write 3/5 big. Draw an arrow to the 5 and write \"denominator: names the parts, fifths\". Draw an arrow to the 3 and write \"numerator: numbers the parts taken\"."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XX, XXI",
+"tell": "Write a fraction for Mum and tell her what the numerator and the denominator each mean.",
+"try": [
+[
+"Write two-fifths as a fraction.",
+"2/5"
+],
+[
+"Write seven-tenths as a fraction.",
+"7/10"
+],
+[
+"In 5/8, into how many equal parts is the whole cut?",
+"8"
+],
+[
+"Which is bigger: 1/7 or 1/9? Type the bigger one.",
+"1/7"
+],
+[
+"How many sixths make one whole?",
+"6"
+]
+]
+},
+{
+"title": "Which fraction is bigger?",
+"need": "Two paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"In 3/8, which number is the denominator? What does it tell you?"
+]
+},
+"Here are 3/8 and 5/8. The denominators are the same, so both are eighths: the parts are the same size. So we only need to ask: which has more parts?",
+{
+"fig": "bars",
+"rows": [
+[
+8,
+3
+],
+[
+8,
+5
+]
+],
+"cap": [
+"Three-eighths and five-eighths"
+]
+},
+{
+"ask": "Which is bigger, 3/8 or 5/8?",
+"then": "5/8. Both are eighths, and 5 eighths are more than 3 eighths, just as 5 cents are more than 3 cents."
+},
+{
+"ask": "Put these in order, smallest first: 4/9, 7/9, 2/9.",
+"then": "2/9, 4/9, 7/9. They are all ninths, so look at the numerators."
+},
+{
+"ask": "How many more eighths does 5/8 need to make a whole?",
+"then": "3 more eighths. 8 eighths make a whole, and 8 − 5 = 3."
+},
+{
+"do": "Fold a strip into 8 equal parts (in half three times). Colour 5 parts. Count the parts left white."
+},
+{
+"ask": "Think it through: a melon is worth 8 cents. What are 3/4 of the melon worth?",
+"then": "One-fourth of the melon is worth one-fourth of 8 cents, which is 2 cents. Then 3/4 are worth 3 times 2 cents, which are 6 cents."
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "Melon",
+"n": 4,
+"k": 3,
+"part": "3/4",
+"partEnd": "6 cents",
+"unit": "2 ct",
+"unitAll": true,
+"whole": "8 cents",
+"wholeStage": 0
+}
+],
+"cap": [
+"The melon is worth 8 cents",
+"One-fourth is worth 2 cents",
+"Three-fourths: 3 times 2 cents = 6 cents"
+]
+},
+{
+"break": "Do 5 star jumps, then 3. Which set was bigger? Now say it as eighths: 5/8 of 8 jumps and 3/8 of 8 jumps."
+},
+{
+"notebook": "Draw two strips cut into sixths. Colour 2/6 of one and 5/6 of the other. Write which is bigger, and why."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXII; Ray's New Practical Arithmetic (1877), Art. 110",
+"tell": "Tell Mum how you know 5/8 is bigger than 3/8 without drawing anything.",
+"try": [
+[
+"Which is bigger: 3/8 or 5/8? Type the bigger one.",
+"5/8"
+],
+[
+"Which is the smallest: 4/9, 7/9 or 2/9?",
+"2/9"
+],
+[
+"Which is bigger: 7/12 or 11/12?",
+"11/12"
+],
+[
+"A melon is worth 8 cents. What are 3/4 of it worth?",
+"6 cents"
+],
+[
+"How many more fifths does 3/5 need to make a whole?",
+"2"
+]
+]
+},
+{
+"title": "Adding fractions",
+"need": "A paper strip, two coloured pencils",
+"read": [
+{
+"open": [
+"Which is bigger, 2/7 or 5/7? How do you know?"
+]
+},
+{
+"do": "Fold a strip into 8 equal parts. Colour 3 parts red, then 2 more parts blue."
+},
+{
+"fig": "bars",
+"rows": [
+[
+8,
+3
+],
+[
+8,
+2
+],
+[
+8,
+5
+]
+],
+"cap": [
+"3 eighths and 2 eighths make 5 eighths"
+]
+},
+{
+"ask": "How many eighths are coloured altogether?",
+"then": "5 eighths: 3/8 + 2/8 = 5/8."
+},
+"The parts are all eighths, so they are all the same size. We add them just as we add cents.",
+{
+"ray": [
+"Since the denominators are the same, the numerators express parts of the same size; therefore, add 1 fifth, 2 fifths, and 3 fifths, as you would add 1 cent, 2 cents, and 3 cents."
+]
+},
+{
+"ex": [
+"3/8 + 2/8",
+"3 eighths and 2 eighths are 5 eighths",
+"= 5/8"
+],
+"title": "Every step"
+},
+{
+"ask": "Why don't we add the 8s as well, to make 16?",
+"then": "Because the 8 only names the parts. Eighths added to eighths are still eighths. Sixteenths would be much smaller parts."
+},
+{
+"ask": "2/5 + 3/5 = ?",
+"then": "5/5, which is one whole."
+},
+{
+"mind": "Picture a chocolate bar with 10 squares. You eat 3 squares and your sister eats 4. What fraction of the bar have you eaten together?"
+},
+{
+"break": "Hop on one foot 2 times, then 3 more times. 2 hops and 3 hops are 5 hops; 2 fifths and 3 fifths are 5 fifths."
+},
+{
+"notebook": "Draw a strip in sixths and show 1/6 + 4/6 in two colours. Write the sum under it."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 110",
+"tell": "Tell Mum why 3/8 + 2/8 is 5/8 and not 5/16.",
+"try": [
+[
+"3/8 + 2/8",
+"5/8"
+],
+[
+"1/5 + 2/5",
+"3/5"
+],
+[
+"4/10 + 5/10",
+"9/10"
+],
+[
+"2/7 + 5/7",
+"1"
+],
+[
+"A cake is cut into 6 equal pieces. You eat 2 pieces and your sister eats 3. What fraction of the cake did you eat together?",
+"5/6"
+]
+]
+},
+{
+"title": "Taking away fractions",
+"need": "A paper strip, coloured pencils",
+"read": [
+{
+"open": [
+"What is 3/8 + 2/8? Why do we not add the denominators?"
+]
+},
+{
+"ray": [
+"Since the denominators are the same, the numerators express parts of the same size; therefore, subtract 2 sevenths from 5 sevenths as you would subtract 2 cents from 5 cents; the remainder, in one case, being 3 sevenths, in the other 3 cents."
+]
+},
+{
+"ex": [
+"5/7 − 2/7",
+"5 sevenths take away 2 sevenths leaves 3 sevenths",
+"= 3/7"
+],
+"title": "Every step"
+},
+"Now take a fraction away from a whole. A whole cake cut into 8 equal pieces is 8 eighths. If 3 pieces are eaten, 5 eighths are left.",
+{
+"do": "Fold a strip into 8 parts. Colour all of it lightly: that is 8/8, the whole. Now cross out 3 parts."
+},
+{
+"fig": "bars",
+"rows": [
+[
+8,
+8
+],
+[
+8,
+5
+]
+],
+"cap": [
+"1 whole = 8/8; take away 3/8, and 5/8 are left"
+]
+},
+{
+"ex": [
+"1 − 3/8",
+"1 whole = 8/8",
+"8/8 − 3/8 = 5/8"
+],
+"title": "Every step"
+},
+{
+"ask": "1 − 2/5 = ?",
+"then": "1 whole is 5/5. 5/5 − 2/5 = 3/5."
+},
+{
+"ask": "Check 1 − 2/5 = 3/5 by adding back.",
+"then": "3/5 + 2/5 = 5/5 = 1. Adding the part you took away should give back what you started with."
+},
+{
+"break": "Stand up and take 7 steps. Walk back 3 of them. How many of your 7 steps are you from where you started?"
+},
+{
+"notebook": "Draw a pizza cut into 6 equal slices. Cross out 2 slices. Write 1 − 2/6 = 4/6 under it."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 113",
+"tell": "Tell Mum how you find what is left when 3/8 is taken from a whole.",
+"try": [
+[
+"5/7 − 2/7",
+"3/7"
+],
+[
+"9/10 − 2/10",
+"7/10"
+],
+[
+"1 − 3/8",
+"5/8"
+],
+[
+"1 − 2/5",
+"3/5"
+],
+[
+"A cake is cut into 8 equal pieces. You eat 3 pieces. What fraction of the cake is left?",
+"5/8"
+]
+]
+}
+],
+"p3equiv": [
+{
+"title": "Same amount, different names",
+"need": "Three paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"Last year you learnt that 3/8 + 2/8 = 5/8, because the parts are all eighths. What does the denominator tell you?"
+]
+},
+{
+"do": "Fold a strip in half and colour one half. Now fold it in half again, with the colour inside, and open it. Count the parts."
+},
+{
+"fig": "bars",
+"bars": 1,
+"d": 2,
+"shade": 1,
+"sub": 2,
+"cap": [
+"One half of the strip is coloured",
+"Fold again: the same colour covers 2 fourths"
+]
+},
+{
+"ask": "Into how many parts is the strip cut now? How many are coloured? Did the coloured amount change?",
+"then": "The strip is now cut into 4 parts, fourths, and 2 of them are coloured. The coloured amount did not change at all. So 1/2 = 2/4."
+},
+{
+"do": "Fold the same strip once more and open it. How many parts now, and how many coloured?"
+},
+{
+"ask": "What do you find?",
+"then": "8 parts, eighths, with 4 coloured. 1/2 = 2/4 = 4/8. They are different names for the same amount."
+},
+"Fractions that are equal in value are called equivalent fractions.",
+"Here is how to find, without folding, how many fourths are in one half.",
+{
+"ray": [
+"Reduce 1/2 to fourths.",
+"Solution.—In 1 there are four-fourths; then, in 1/2 there is 1/2 of 4 fourths = 2 fourths."
+]
+},
+{
+"ask": "How many sixths are in 1/2?",
+"then": "In 1 there are 6 sixths; then in 1/2 there is 1/2 of 6 sixths = 3 sixths. 1/2 = 3/6."
+},
+{
+"ask": "How many sixths are in 1/3? And in 2/3?",
+"then": "In 1 there are 6 sixths, so in 1/3 there is 1/3 of 6 sixths = 2 sixths. Then 2/3 is 2 times 2 sixths = 4 sixths."
+},
+{
+"ex": [
+"2/3 in sixths",
+"Step 1: 1 = 6/6",
+"Step 2: 1/3 = 1/3 of 6 sixths = 2/6",
+"Step 3: 2/3 = 2 times 2/6 = 4/6"
+],
+"title": "Every step"
+},
+{
+"mind": "Picture a chocolate bar in 2 big pieces. Now see each big piece snap into 3 small squares. How many small squares are in one big piece?"
+},
+{
+"break": "Stand up. Turn a half turn. Now do the same thing in quarter turns. How many quarter turns make a half turn?"
+},
+{
+"notebook": "Draw three strips the same length, one under the other: halves, fourths, eighths. Colour 1/2, 2/4 and 4/8. Write 1/2 = 2/4 = 4/8."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXVIII",
+"book": [
+1
+],
+"tell": "Fold a strip for Mum and show her why 1/2 and 2/4 are the same amount.",
+"try": [
+[
+"1/2 = ?/4. Type the missing number.",
+"2"
+],
+[
+"1/2 = ?/10. Type the missing number.",
+"5"
+],
+[
+"1/3 = ?/6. Type the missing number.",
+"2"
+],
+[
+"2/3 = ?/9. Type the missing number.",
+"6"
+],
+[
+"Write 3/4 as eighths.",
+"6/8"
+]
+]
+},
+{
+"title": "Why multiplying both terms works",
+"need": "Two paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"How many sixths are in 2/3? Say each step."
+]
+},
+{
+"do": "Fold a strip into thirds and colour 2 thirds. Now fold the whole strip again so that every third is cut into 3 equal pieces."
+},
+{
+"fig": "bars",
+"bars": 1,
+"d": 3,
+"shade": 2,
+"sub": 3,
+"cap": [
+"2/3 of the strip",
+"Every third cut into 3: the colour covers 6/9"
+]
+},
+{
+"ask": "What happened to the number of coloured parts? What happened to the size of each part?",
+"then": "There are 3 times as many coloured parts (6 instead of 2), but each part is only one-third as big. So the amount is the same: 2/3 = 6/9."
+},
+"Both terms were multiplied by 3: the numerator 2 became 6, and the denominator 3 became 9.",
+{
+"ray": [
+"Multiplying both terms of a fraction by the same number does not change its value."
+]
+},
+{
+"rule": "To change a fraction to an equivalent fraction, multiply the numerator and the denominator by the same number."
+},
+"Ray shows how to choose the number.",
+{
+"ray": [
+"Reduce 4/5 to thirtieths.",
+"Solution.—30 divided by 5 is 6. Multiplying both terms of 4/5 by 6, the result is 24/30."
+]
+},
+{
+"ex": [
+"3/4 = ?/12",
+"Step 1: 12 ÷ 4 = 3   (each fourth must be cut into 3)",
+"Step 2: 3 × 3 = 9   (multiply the numerator by the same number)",
+"So 3/4 = 9/12"
+],
+"title": "Every step"
+},
+"Sometimes you are given the numerator instead.",
+{
+"ex": [
+"2/3 = 8/?",
+"Step 1: 8 ÷ 2 = 4   (the numerator was multiplied by 4)",
+"Step 2: 3 × 4 = 12   (so the denominator must be too)",
+"So 2/3 = 8/12"
+],
+"title": "Every step"
+},
+{
+"ask": "A friend says 2/3 = 4/5, because she added 2 to both terms. Is she right?",
+"then": "No. Adding the same number to both terms changes the value. Only multiplying (or dividing) both terms by the same number keeps it. 2/3 = 4/6, not 4/5."
+},
+{
+"break": "Clap 2 claps for every 1 stamp. If you stamp 3 times, how many claps? If you stamp 5 times? The claps always stay double the stamps."
+},
+{
+"notebook": "Copy the rule in a box. Under it, draw your strip of 2/3 cut into ninths and write 2/3 = 6/9."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Arts. 101, 106",
+"book": [
+2,
+3,
+0
+],
+"tell": "Tell Mum why 2/3 and 6/9 are equal, using the words \"three times as many\" and \"one-third as big\".",
+"try": [
+[
+"3/4 = ?/12. Type the missing number.",
+"9"
+],
+[
+"2/5 = ?/10. Type the missing number.",
+"4"
+],
+[
+"2/3 = 6/?. Type the missing number.",
+"9"
+],
+[
+"5/6 = ?/12. Type the missing number.",
+"10"
+],
+[
+"3/5 = 9/?. Type the missing number.",
+"15"
+]
+]
+},
+{
+"title": "Simplest form",
+"need": "A paper strip, coloured pencils, a times-table chart if you like",
+"read": [
+{
+"open": [
+"3/4 = ?/12. What do you multiply by, and why?"
+]
+},
+"Multiplying both terms gives smaller parts. Dividing both terms does the opposite: bigger parts, and fewer of them.",
+{
+"do": "Fold a strip into 8 equal parts. Colour 6 of them. Now put the parts together in pairs."
+},
+{
+"fig": "bars",
+"bars": 1,
+"d": 8,
+"shade": 6,
+"group": 2,
+"cap": [
+"6/8 of the strip, in pairs: 3 pairs out of 4, or 3/4"
+]
+},
+{
+"ask": "How many pairs are in the whole strip? How many pairs are coloured?",
+"then": "4 pairs in the whole strip, and 3 of them coloured. So 6/8 = 3/4. Both terms were divided by 2."
+},
+{
+"ray": [
+"Dividing both terms of a fraction by the same number does not change its value."
+]
+},
+"When the numerator and the denominator cannot both be divided by any number bigger than 1, the fraction is in its simplest form. Ray calls this its lowest terms.",
+{
+"ray": [
+"A fraction is in its lowest terms when no number greater than 1 will divide both terms."
+]
+},
+"To find a number that divides both terms, use your times tables: look for a table that has both numbers in it.",
+{
+"ex": [
+"8/12",
+"Both 8 and 12 are in the 2 times table: divide both by 2 → 4/6",
+"Both 4 and 6 are in the 2 times table: divide both by 2 → 2/3",
+"No number bigger than 1 divides both 2 and 3: 2/3 is in its simplest form"
+],
+"title": "Every step"
+},
+{
+"ask": "Could you have done 8/12 in one step?",
+"then": "Yes. Both 8 and 12 are in the 4 times table. 8 ÷ 4 = 2 and 12 ÷ 4 = 3, so 8/12 = 2/3 at once. Either way gives the same answer."
+},
+{
+"ray": [
+"Divide both terms of the given fraction by any common factor.",
+"Divide the resulting fraction in the same manner.",
+"So continue to divide until a fraction is obtained whose terms are prime to each other."
+]
+},
+"Prime to each other means that no number but 1 divides both.",
+{
+"ask": "Think it through: an apple costs 2 cents. What part of the apple costs 1 cent?",
+"then": "1 cent is half of 2 cents, so 1 cent buys 1/2 of the apple."
+},
+{
+"break": "Make 12 claps in groups of 4. How many groups? Now 8 claps in groups of 4. 8/12 is 2 groups out of 3."
+},
+{
+"notebook": "Write 6/8 = 3/4 and 8/12 = 2/3, and copy Ray's sentence about lowest terms."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXVII; Ray's New Practical Arithmetic (1877), Arts. 101, 107",
+"book": [
+11,
+9,
+14
+],
+"tell": "Show Mum, step by step, how you put 8/12 in its simplest form, and how you know when to stop.",
+"try": [
+[
+"Write 2/6 in its simplest form.",
+"1/3"
+],
+[
+"Write 6/8 in its simplest form.",
+"3/4"
+],
+[
+"Write 8/12 in its simplest form.",
+"2/3"
+],
+[
+"Write 10/12 in its simplest form.",
+"5/6"
+],
+[
+"Write 4/10 in its simplest form.",
+"2/5"
+]
+]
+},
+{
+"title": "Comparing fractions",
+"need": "Paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"Put 8/12 in its simplest form. How do you know when to stop?"
+]
+},
+"When the denominators are the same, the fraction with the bigger numerator is bigger. But which is bigger, 3/4 or 5/8? The parts are not the same size, so you cannot just compare 3 and 5.",
+{
+"ask": "How can you make the parts the same size?",
+"then": "Change 3/4 to eighths. Each fourth is 2 eighths, so 3/4 = 6/8. Now compare 6/8 with 5/8: 6/8 is bigger, so 3/4 is bigger than 5/8."
+},
+{
+"fig": "bars",
+"rows": [
+[
+4,
+3
+],
+[
+8,
+6
+],
+[
+8,
+5
+]
+],
+"cap": [
+"3/4 = 6/8, which is more than 5/8"
+]
+},
+{
+"ray": [
+"When two or more fractions have the same denominators, they are said to have a common denominator."
+]
+},
+{
+"rule": "To compare fractions, change them to a common denominator, then compare the numerators."
+},
+{
+"ex": [
+"Which is bigger, 2/3 or 3/4?",
+"Step 1: multiply the denominators: 3 × 4 = 12, a common denominator",
+"Step 2: 2/3 = 8/12 and 3/4 = 9/12",
+"Step 3: 9/12 is more than 8/12, so 3/4 is bigger"
+],
+"title": "Every step"
+},
+"There is one more case you can see straight away. When the numerators are the same, the fraction with the smaller denominator is bigger, because its parts are bigger.",
+{
+"ask": "Which is bigger, 2/3 or 2/5?",
+"then": "2/3. Both have 2 parts, but thirds are bigger than fifths."
+},
+{
+"ask": "Put in order, smallest first: 1/2, 3/8, 5/12.",
+"then": "A common denominator for 2, 8 and 12 is 24. 1/2 = 12/24, 3/8 = 9/24, 5/12 = 10/24. So the order is 3/8, 5/12, 1/2."
+},
+{
+"mind": "Picture two cakes the same size. One is cut into 4 and you get 3 pieces. The other is cut into 8 and you get 5 pieces. Which plate has more cake?"
+},
+{
+"break": "Walk 3/4 of the way across the room and stop. Now walk back to the start, and go only 5/8 of the way. Which time did you go further?"
+},
+{
+"notebook": "Draw 3/4 and 5/8 as two strips of the same length, one under the other. Write which is bigger, and show the common denominator."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXIX",
+"book": [
+17,
+18
+],
+"tell": "Tell Mum how you decided which is bigger, 2/3 or 3/4.",
+"try": [
+[
+"Which is bigger: 3/4 or 5/8? Type the bigger one.",
+"3/4"
+],
+[
+"Which is bigger: 2/3 or 2/5? Type the bigger one.",
+"2/3"
+],
+[
+"Which is bigger: 5/6 or 7/12? Type the bigger one.",
+"5/6"
+],
+[
+"Which is bigger: 2/3 or 3/4? Type the bigger one.",
+"3/4"
+],
+[
+"Which is the smallest: 1/2, 3/8 or 5/12?",
+"3/8"
+]
+]
+},
+{
+"title": "Adding and taking away related fractions",
+"need": "Paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"Which is bigger, 3/4 or 5/8? How did you find out?"
+]
+},
+"In 1/2 + 1/4 the parts are not the same size. Halves and fourths cannot be counted together until they have the same name.",
+{
+"ray": [
+"Since the denominators are different, the numerators do not express parts of the same size; therefore, the fractions can not be added till they are reduced to a common denominator."
+]
+},
+{
+"ray": [
+"James divided a melon, giving to his sister 1/2, and to his brother 1/4: what part did he give away?",
+"Solution.—He gave away 1/2 + 1/4. 1/2 = 2/4; 2/4 + 1/4 = 3/4 of a melon."
+]
+},
+{
+"fig": "bars",
+"rows": [
+[
+2,
+1
+],
+[
+4,
+1
+],
+[
+4,
+3
+]
+],
+"cap": [
+"1/2 + 1/4 = 2/4 + 1/4 = 3/4"
+]
+},
+"1/2 and 1/4 are related fractions: 4 is a multiple of 2, so the halves can be changed into fourths.",
+{
+"ex": [
+"1/3 + 1/6",
+"Step 1: 1/3 = 2/6   (each third is 2 sixths)",
+"Step 2: 2/6 + 1/6 = 3/6",
+"Step 3: 3/6 = 1/2   (simplest form)"
+],
+"title": "Every step"
+},
+"Taking away works the same way: change to the same denominator first.",
+{
+"ex": [
+"3/4 − 1/8",
+"Step 1: 3/4 = 6/8",
+"Step 2: 6/8 − 1/8 = 5/8"
+],
+"title": "Every step"
+},
+{
+"ask": "Mary gets 1/2 of an apple and Jane gets 1/4. How much more does Mary get than Jane?",
+"then": "1/2 = 2/4, and 2/4 − 1/4 = 1/4. Mary gets 1/4 of an apple more."
+},
+{
+"ask": "Think it through: a farmer sows 1/2 of a field with rye, 1/6 with barley, and the rest with oats. How much is sown with oats?",
+"then": "Rye and barley: 1/2 + 1/6 = 3/6 + 1/6 = 4/6. The whole field is 6/6, so oats take 6/6 − 4/6 = 2/6 = 1/3 of the field."
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "Field",
+"n": 6,
+"k": 4,
+"part": "rye 3/6 + barley 1/6",
+"whole": "6/6",
+"wholeStage": 0
+}
+],
+"cap": [
+"Rye and barley together: 4/6 of the field",
+"Oats: the 2/6 left, which is 1/3"
+]
+},
+{
+"break": "Stand up and do 1/2 of 8 star jumps, then 1/4 of 8. How many is that out of 8?"
+},
+{
+"notebook": "Write Ray's melon problem and his solution, and draw the strips beside it."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XXX, XXXI, XXXII; Ray's New Practical Arithmetic (1877), Art. 111",
+"tell": "Tell Mum why you cannot add 1/2 and 1/4 by adding the tops and the bottoms, and what you do instead.",
+"try": [
+[
+"1/2 + 1/4",
+"3/4"
+],
+[
+"1/3 + 1/6",
+"1/2"
+],
+[
+"3/4 − 1/8",
+"5/8"
+],
+[
+"1/2 − 1/10",
+"2/5"
+],
+[
+"A farmer sows 1/2 of a field with rye, 1/6 with barley, and the rest with oats. What part is sown with oats?",
+"1/3"
+],
+[
+"I give Mary 1/2, Jane 1/4 and William 1/8 of an orange. How much do I give to all?",
+"7/8 of an orange"
+]
+]
+}
+],
+"p4mixed": [
+{
+"title": "More than one whole",
+"need": "Two paper strips, scissors, coloured pencils",
+"read": [
+{
+"open": [
+"What is 2/3 + 1/3? What is 4/4? What do they have in common?"
+]
+},
+"A fraction can be more than one whole. Suppose you have 5 fourths of a cake: that is a whole cake (4 fourths) and 1 fourth more.",
+{
+"do": "Fold two strips into fourths. Colour all 4 fourths of the first strip and 1 fourth of the second. Count the coloured fourths."
+},
+{
+"fig": "bars",
+"rows": [
+[
+4,
+4
+],
+[
+4,
+1
+]
+],
+"cap": [
+"5 fourths: one whole and one fourth more"
+]
+},
+"Ray tells the fractions apart by asking one question: are more parts taken than there are in one whole?",
+{
+"ray": [
+"In the fraction 2/3, the number of parts, two, which are taken, is less than the number of parts, three, into which the unit is divided; hence, the value of the fraction is less than 1."
+]
+},
+{
+"ray": [
+"A proper fraction is one whose value is less than 1.",
+"An improper fraction is one whose value is equal to or greater than 1."
+]
+},
+{
+"ask": "Is 5/4 proper or improper? Is 4/4? Is 3/4?",
+"then": "5/4 is improper: 5 parts are taken but there are only 4 in a whole, so it is more than 1. 4/4 is improper too, because it is equal to 1. 3/4 is proper: less than 1."
+},
+"5/4 can also be written as 1 1/4, said \"one and one-fourth\".",
+{
+"ray": [
+"A mixed number is composed of a whole number and a fraction."
+]
+},
+{
+"ask": "Write 2 and 3/5 as a mixed number, and say it aloud.",
+"then": "2 3/5, said \"two and three-fifths\"."
+},
+{
+"mind": "Picture a box of curry puffs cut in halves. You have 7 halves on your plate. How many whole curry puffs could you make? Is any half left over?"
+},
+{
+"break": "Walk 5 quarter turns. Where are you facing? (4 quarter turns bring you back to the start, and 1 more turns you a quarter.)"
+},
+{
+"notebook": "Copy Ray's meanings of a proper fraction, an improper fraction and a mixed number. Give an example of each."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXI",
+"tell": "Tell Mum how you can tell a proper fraction from an improper one just by looking at it.",
+"try": [
+[
+"How many fourths make one whole?",
+"4"
+],
+[
+"6/6 is equal to what whole number?",
+"1"
+],
+[
+"Which is improper: 4/9 or 9/4? Type it.",
+"9/4"
+],
+[
+"Write two and three-fifths as a mixed number.",
+"2 3/5"
+],
+[
+"How many wholes are in 8/4?",
+"2"
+]
+]
+},
+{
+"title": "Mixed numbers to improper fractions",
+"need": "Four paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"What is an improper fraction? Give Mum an example."
+]
+},
+{
+"ray": [
+"In 3 1/2 apples, how many halves?",
+"Solution.—In 1 apple there are 2 halves; then, in 3 apples there are 3 × 2 halves = 6 halves. 6 halves and 1 half are 7 halves."
+]
+},
+{
+"fig": "bars",
+"rows": [
+[
+2,
+2
+],
+[
+2,
+2
+],
+[
+2,
+2
+],
+[
+2,
+1
+]
+],
+"cap": [
+"3 1/2 apples = 6 halves + 1 half = 7 halves"
+]
+},
+{
+"ex": [
+"3 1/2 = ?/2",
+"Step 1: in 1 there are 2 halves",
+"Step 2: in 3 there are 3 × 2 = 6 halves",
+"Step 3: 6 halves and 1 half are 7 halves",
+"So 3 1/2 = 7/2"
+],
+"title": "Every step"
+},
+{
+"ask": "How many thirds are in 2 2/3?",
+"then": "In 1 there are 3 thirds, so in 2 there are 2 × 3 = 6 thirds. 6 thirds and 2 thirds are 8 thirds. 2 2/3 = 8/3."
+},
+{
+"ray": [
+"Rule.—Multiply the integer by the denominator of the fraction; to the product add the numerator, and under the sum write the denominator."
+]
+},
+"Ray calls a whole number an integer.",
+{
+"ask": "Change 5 3/4 to fourths.",
+"then": "5 × 4 = 20 fourths, and 20 + 3 = 23 fourths. 5 3/4 = 23/4."
+},
+{
+"break": "March on the spot: 2 whole marches of 4 steps each, then 3 more steps. How many steps is that? You have just changed 2 3/4 into fourths."
+},
+{
+"ask": "Think it through: 4 1/2 dollars. How many half-dollars is that?",
+"then": "4 dollars are 4 × 2 = 8 half-dollars, and 1 more half makes 9 half-dollars."
+},
+{
+"notebook": "Copy Ray's solution for 3 1/2 apples. Then write the rule in your own words."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 104",
+"book": [
+2,
+3
+],
+"tell": "Tell Mum, step by step, how many thirds there are in 2 2/3.",
+"try": [
+[
+"How many halves are in 4 1/2?",
+"9"
+],
+[
+"Write 2 1/3 as an improper fraction.",
+"7/3"
+],
+[
+"Write 3 2/5 as an improper fraction.",
+"17/5"
+],
+[
+"Write 2 3/4 as an improper fraction.",
+"11/4"
+],
+[
+"How many fourths are in 5 3/4 dollars?",
+"23"
+]
+]
+},
+{
+"title": "Improper fractions to mixed numbers",
+"need": "Paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"How many halves are in 3 1/2? Say each step."
+]
+},
+"Now go the other way. If you have 9 quarters of a dollar, how many dollars is that?",
+{
+"ray": [
+"In 9/4 of a dollar, how many dollars?",
+"Solution.—There are 4 fourths in 1 dollar; then, in 9 fourths, there are 9 ÷ 4 = 2 1/4 dollars."
+]
+},
+{
+"fig": "bars",
+"rows": [
+[
+4,
+4
+],
+[
+4,
+4
+],
+[
+4,
+1
+]
+],
+"cap": [
+"9 fourths = 2 wholes and 1 fourth"
+]
+},
+{
+"ex": [
+"9/4",
+"Step 1: 4 fourths make 1 whole",
+"Step 2: how many 4s in 9? 2, with 1 left over",
+"Step 3: 2 wholes and 1 fourth = 2 1/4"
+],
+"title": "Every step"
+},
+{
+"ray": [
+"Rule.—Divide the numerator by the denominator; the quotient will be the integer or the mixed number."
+]
+},
+{
+"ask": "Change 17/5 to a mixed number.",
+"then": "17 ÷ 5 = 3 with 2 left over: 3 wholes and 2 fifths. 17/5 = 3 2/5."
+},
+{
+"ask": "Check 17/5 = 3 2/5 by going back the other way.",
+"then": "3 × 5 = 15, and 15 + 2 = 17 fifths. The two rules undo each other, so each checks the other."
+},
+{
+"ask": "What is 12/3?",
+"then": "12 ÷ 3 = 4 with nothing left over, so 12/3 is the whole number 4."
+},
+{
+"break": "Count out 11 steps in groups of 4 as you walk: \"1, 2, 3, 4 — one group!\" How many groups, and how many steps left over?"
+},
+{
+"notebook": "Write 9/4 = 2 1/4 and draw the strips. Under it, show the check: 2 × 4 + 1 = 9."
+}
+],
+"src": "Ray's New Practical Arithmetic (1877), Art. 105",
+"book": [
+0,
+1,
+4
+],
+"tell": "Change 17/5 to a mixed number for Mum, then check it by changing it back.",
+"try": [
+[
+"Write 7/2 as a mixed number.",
+"3 1/2"
+],
+[
+"Write 11/4 as a mixed number.",
+"2 3/4"
+],
+[
+"Write 13/5 as a mixed number.",
+"2 3/5"
+],
+[
+"Write 12/3 as a whole number.",
+"4"
+],
+[
+"9 quarters of a dollar are how many dollars?",
+"2 1/4 dollars"
+]
+]
+}
+],
+"p4fset": [
+{
+"title": "A fraction of a set",
+"need": "12 beans or buttons, three small bowls",
+"read": [
+{
+"open": [
+"What is 12 ÷ 3? What is 1/3 of a whole cake?"
+]
+},
+{
+"do": "Share 12 beans equally into 3 bowls. How many beans are in each bowl?"
+},
+{
+"ask": "What fraction of the beans is in one bowl? How many beans is that?",
+"then": "One bowl holds 1/3 of the beans, which is 4 beans. 1/3 of 12 is 12 ÷ 3 = 4."
+},
+{
+"ask": "How many beans are in two of the bowls? What fraction of the beans is that?",
+"then": "8 beans, which is 2/3 of the beans. 2/3 of 12 is 2 times 4 = 8."
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "12 beans",
+"n": 3,
+"k": 2,
+"part": "2/3",
+"partEnd": "8 beans",
+"unit": "4",
+"unitAll": true,
+"whole": "12",
+"wholeStage": 0
+}
+],
+"cap": [
+"12 beans in 3 equal groups",
+"Each group is 1/3: 4 beans",
+"2/3 is 2 groups: 2 × 4 = 8 beans"
+]
+},
+"Ray finds a fraction of a number the same way, always going through one part first.",
+{
+"ray": [
+"A yard of cloth costs $6, what would 2/3 of a yard cost?",
+"Solution.—1/3 of a yard would cost 1/3 of $6, which is $2; then, 2/3 of a yard would cost 2 times $2, which are $4."
+]
+},
+{
+"rule": "To find a fraction of a number, divide by the denominator to find one part, then multiply by the numerator."
+},
+{
+"ex": [
+"3/4 of 20",
+"Step 1: 1/4 of 20 = 20 ÷ 4 = 5",
+"Step 2: 3/4 of 20 = 3 × 5 = 15"
+],
+"title": "Every step"
+},
+"A fraction can also tell what part of a set something is.",
+{
+"ask": "James had 7 marbles and gave his brother 4 of them. What part of his marbles did he give away?",
+"then": "He gave away 4 of his 7 marbles: 4/7 of them."
+},
+{
+"break": "Do 3/4 of 8 hops. (One-fourth of 8 is 2, so three-fourths is 6.)"
+},
+{
+"notebook": "Draw the model for 2/3 of 12. Write Ray's solution for the cloth under it."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XXII, XXIII",
+"tell": "Show Mum with beans how you find 2/3 of 12, and say Ray's two steps.",
+"try": [
+[
+"What is 2/3 of 9?",
+"6"
+],
+[
+"What is 3/4 of 20?",
+"15"
+],
+[
+"A melon is worth 8 cents. What are 3/4 of it worth?",
+"6 cents"
+],
+[
+"A dozen eggs costs 12 cents. What do 5/6 of a dozen cost?",
+"10 cents"
+],
+[
+"James had 7 marbles and gave his brother 4. What part did he give away?",
+"4/7"
+]
+]
+},
+{
+"title": "Through one: from some to more",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"What is 3/4 of 20? Say the two steps."
+]
+},
+"Ray solves a whole family of problems the same way: first find what ONE costs, then as many as you need.",
+{
+"ray": [
+"If 3 oranges are worth 15 cents, what are 2 oranges worth?",
+"Solution.—1 orange is worth 1/3 of 15, or 5, cents; then, 2 oranges are worth 2 times 5 cents, which are 10 cents."
+]
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "3 oranges",
+"n": 3,
+"k": 2,
+"part": "2 oranges",
+"partEnd": "10 cents",
+"unit": "5 ct",
+"unitAll": true,
+"whole": "15 cents",
+"wholeStage": 0
+}
+],
+"cap": [
+"3 oranges cost 15 cents",
+"1 orange: 15 ÷ 3 = 5 cents",
+"2 oranges: 2 × 5 = 10 cents"
+]
+},
+{
+"ex": [
+"5 barrels of flour sell for $30. What would 3 barrels sell for?",
+"Step 1: 1 barrel sells for $30 ÷ 5 = $6",
+"Step 2: 3 barrels sell for 3 × $6 = $18"
+],
+"title": "Every step"
+},
+"Notice the two steps, divide and then multiply, are the same two steps as finding 3/4 of a number. The model drawing is the same too.",
+{
+"ask": "A grocer sells 7 pounds of sugar for 70 cents. What will he sell 5 pounds for?",
+"then": "1 pound sells for 70 ÷ 7 = 10 cents; then 5 pounds sell for 5 × 10 = 50 cents."
+},
+{
+"ask": "A lady bought 8 yards of calico for 72 cents. She found she needed 5 yards more of the same. How much did they cost?",
+"then": "1 yard cost 72 ÷ 8 = 9 cents; 5 yards cost 5 × 9 = 45 cents."
+},
+{
+"mind": "Picture 4 kaya toasts on a plate that cost 8 dollars together. Cover 3 of them with your hand. How much are the 3 you cannot see?"
+},
+{
+"break": "If 4 star jumps take 4 seconds, how long do 6 take? Try it with a clock."
+},
+{
+"game": "Make up your own \"through one\" problem about something at the hawker centre. Give it to Mum to solve."
+},
+{
+"notebook": "Draw the model for Ray's oranges and write his solution beside it."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXII",
+"tell": "Tell Mum how you found the cost of 2 oranges, and why you found the cost of 1 orange first.",
+"try": [
+[
+"3 yards of cloth cost $9. What will 1 yard cost?",
+"$3"
+],
+[
+"3 oranges are worth 15 cents. What are 2 oranges worth?",
+"10 cents"
+],
+[
+"5 barrels of flour sell for $30. What would 3 barrels sell for?",
+"$18"
+],
+[
+"A grocer sells 7 pounds of sugar for 70 cents. What will he sell 5 pounds for?",
+"50 cents"
+],
+[
+"12 calves cost $120. What did 7 of them cost?",
+"$70"
+]
+]
+},
+{
+"title": "Through one: finding the whole",
+"need": "Your notebook",
+"read": [
+{
+"open": [
+"3 oranges cost 15 cents. What do 2 cost? Say both steps."
+]
+},
+"Now Ray turns the question round. You know what a PART is worth. What is the whole worth?",
+{
+"ray": [
+"If 2/3 of a lemon are worth 6 cents, what is the lemon worth?",
+"Solution.—1/3 of the lemon is worth 1/2 of 6 cents = 3 cents; then, the lemon is worth 3 times 3 cents = 9 cents."
+]
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "Lemon",
+"n": 3,
+"k": 2,
+"part": "2/3 = 6 cents",
+"unit": "3 ct",
+"unitAll": true,
+"whole": "9 cents"
+}
+],
+"cap": [
+"2 thirds of the lemon are worth 6 cents",
+"1 third: 6 ÷ 2 = 3 cents",
+"The whole lemon: 3 × 3 = 9 cents"
+]
+},
+{
+"ask": "Why do we divide 6 by 2, and not by 3?",
+"then": "Because the 6 cents is the price of 2 thirds. Sharing it between those 2 parts gives the price of 1 third."
+},
+{
+"ex": [
+"3/4 of a barrel of flour cost $9. What will a barrel cost?",
+"Step 1: 1/4 of a barrel costs $9 ÷ 3 = $3",
+"Step 2: the barrel (4 fourths) costs 4 × $3 = $12"
+],
+"title": "Every step"
+},
+"Ray asks the same question with plain numbers.",
+{
+"ray": [
+"6 is 2/7 of what number?",
+"Solution.—1/7 of the number is 1/2 of 6 = 3; then, the number is 7 times 3 = 21."
+]
+},
+{
+"ask": "Check: is 2/7 of 21 really 6?",
+"then": "1/7 of 21 is 3, and 2/7 is 2 × 3 = 6. Yes."
+},
+{
+"break": "Take 3 steps across the room and call it 1/4 of the way. How many steps do you think the whole way is? Walk it and see."
+},
+{
+"notebook": "Draw the model for Ray's lemon. Write his solution under it, and the check."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lesson XXIV",
+"tell": "Tell Mum how you found the price of the whole lemon, and why you divided by 2.",
+"try": [
+[
+"1/3 of an orange is worth 2 cents. What is the orange worth?",
+"6 cents"
+],
+[
+"3/4 of a barrel of flour cost $9. What will a barrel cost?",
+"$12"
+],
+[
+"2/5 of a pound of coffee cost 10 cents. What is the price of a pound?",
+"25 cents"
+],
+[
+"4/5 of a pound of butter cost 12 cents. What will a pound cost?",
+"15 cents"
+],
+[
+"6 is 2/7 of what number?",
+"21"
+]
+]
+}
+],
+"p4fadd": [
+{
+"title": "Adding fractions with different denominators",
+"need": "Paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"1/2 + 1/4 = ? Why must you change the 1/2 first?"
+]
+},
+"Last year the denominators were related: one went into the other. Now try 1/2 + 1/3. Neither 2 nor 3 goes into the other.",
+{
+"ray": [
+"The common denominator may be found by multiplying the denominators together, or by finding their least common multiple, that is, the least number that can be divided by them."
+]
+},
+{
+"ask": "What is a common denominator for 1/2 and 1/3?",
+"then": "2 × 3 = 6. 6 is also the least number both 2 and 3 divide into. So change both to sixths."
+},
+{
+"fig": "bars",
+"rows": [
+[
+2,
+1
+],
+[
+3,
+1
+],
+[
+6,
+5
+]
+],
+"cap": [
+"1/2 + 1/3 = 3/6 + 2/6 = 5/6"
+]
+},
+{
+"ex": [
+"1/2 + 1/3",
+"Step 1: a common denominator is 6",
+"Step 2: 1/2 = 3/6 and 1/3 = 2/6",
+"Step 3: 3/6 + 2/6 = 5/6"
+],
+"title": "Every step"
+},
+{
+"ex": [
+"Thomas gave 3/4 of a dollar for a knife, and 1/2 of a dollar for a ball. How much did he give for both?",
+"Step 1: 1/2 = 2/4",
+"Step 2: 3/4 + 2/4 = 5/4",
+"Step 3: 5/4 = 1 1/4 dollars"
+],
+"title": "Every step"
+},
+"When the answer is an improper fraction, change it to a mixed number. When it can be simplified, simplify it.",
+{
+"ask": "Use the least common multiple to add 3/4 and 1/6.",
+"then": "The least number that both 4 and 6 divide into is 12. 3/4 = 9/12 and 1/6 = 2/12. 9/12 + 2/12 = 11/12."
+},
+{
+"ask": "Why is 12 better than 24 for 3/4 + 1/6, even though 4 × 6 = 24?",
+"then": "Both work, but with 12 the numbers are smaller and you do not need to simplify at the end. 18/24 + 4/24 = 22/24 = 11/12, the same answer."
+},
+{
+"break": "Stand up. Clap every 2 counts and stamp every 3 counts, counting to 12. On which counts do you clap and stamp together? Those are the common multiples of 2 and 3."
+},
+{
+"notebook": "Write 1/2 + 1/3 with every step and draw the three strips beside it."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XXIX, XXX; Ray's New Practical Arithmetic (1877), Art. 111",
+"book": [
+0,
+1,
+2
+],
+"tell": "Add 1/2 and 1/3 aloud for Mum, saying why you change both fractions first.",
+"try": [
+[
+"1/2 + 1/3",
+"5/6"
+],
+[
+"1/3 + 1/4",
+"7/12"
+],
+[
+"2/3 + 1/4",
+"11/12"
+],
+[
+"Thomas gave 3/4 of a dollar for a knife and 1/2 of a dollar for a ball. How much for both?",
+"1 1/4 dollars"
+],
+[
+"A copy-book cost $1/10 and a reader $1/2. How much did both cost?",
+"3/5 of a dollar"
+]
+]
+},
+{
+"title": "Taking away, and what is left",
+"need": "Paper strips, coloured pencils",
+"read": [
+{
+"open": [
+"What is a common denominator for 1/3 and 1/4? How did you find it?"
+]
+},
+{
+"ask": "James received 1/2 an orange and Charles 1/3. How much more did James receive than Charles?",
+"then": "A common denominator is 6. 1/2 = 3/6 and 1/3 = 2/6. 3/6 − 2/6 = 1/6. James received 1/6 of an orange more."
+},
+{
+"ex": [
+"3/4 − 2/3",
+"Step 1: a common denominator is 12",
+"Step 2: 3/4 = 9/12 and 2/3 = 8/12",
+"Step 3: 9/12 − 8/12 = 1/12"
+],
+"title": "Every step"
+},
+"Many of Ray's problems give some parts away and ask what is left. The whole is always 1, which you can write with the common denominator.",
+{
+"ray": [
+"Mary divided a quart of pecans, giving Ann 1/3, and Jane 1/4 of them: what had she left?",
+"Solution.—Mary gave away 1/3 + 1/4 = 7/12 of a quart; she had left 12/12 − 7/12 = 5/12 of a quart."
+]
+},
+{
+"fig": "model",
+"rows": [
+{
+"name": "Pecans",
+"n": 12,
+"k": 7,
+"part": "given away 7/12",
+"whole": "12/12",
+"wholeStage": 0
+}
+],
+"cap": [
+"Ann 4/12 and Jane 3/12: 7/12 given away",
+"Left: 12/12 − 7/12 = 5/12"
+]
+},
+{
+"ask": "A pole stands in a pond: 1/2 of it is in the air and 1/3 in the water. What part is in the mud at the bottom?",
+"then": "1/2 + 1/3 = 3/6 + 2/6 = 5/6 is in the air and water. 6/6 − 5/6 = 1/6 is in the mud."
+},
+{
+"ask": "Check the pole by adding all three parts.",
+"then": "3/6 + 2/6 + 1/6 = 6/6 = 1, the whole pole."
+},
+{
+"mind": "Picture a long pole standing in a pond, with half of it up in the air. Now see the water line and the mud. Which is the shortest part?"
+},
+{
+"break": "Walk 1/2 of the way across the room, then 1/3 of the way more. How much of the way is left? Is it a short walk or a long one?"
+},
+{
+"notebook": "Draw Ray's pole in the pond and label the three parts with their fractions."
+}
+],
+"src": "Ray's New Intellectual Arithmetic (1877), Lessons XXXI, XXXII",
+"book": [
+12,
+13,
+14,
+15
+],
+"tell": "Tell Mum how you found what part of the pole is in the mud, and how you checked it.",
+"try": [
+[
+"1/2 − 1/3",
+"1/6"
+],
+[
+"3/4 − 2/3",
+"1/12"
+],
+[
+"4/5 − 1/2",
+"3/10"
+],
+[
+"1/2 of a pole is in the air and 1/3 in the water. What part is in the mud?",
+"1/6"
+],
+[
+"Thomas gives Ann 1/2 of an orange and Lucy 2/5. How much does he have left?",
+"1/10 of an orange"
+]
+]
+}
+],
 "_weeks": {
 "p6fdiv": [
 {
 "title": "Dividing fractions, part 1",
 "overview": "This week Emma learns where fractions come from and how to divide them by whole numbers, the way Ray builds it: first by dividing the numerator, then by multiplying the denominator when the numerator will not divide, then how many times a fraction is contained in a whole number. The thread through the week is Ahmes, the Egyptian scribe who shared loaves among ten men.",
 "needs": [
-"Fraction of a whole; adding like fractions",
-"Equivalent fractions; simplest form; related fractions",
 "Mixed numbers and improper fractions; fraction of a set; unlike fractions",
+"Equivalent fractions; simplest form; related fractions",
 "Division as a fraction; mixed numbers; multiplying fractions"
 ],
 "prep": [
@@ -1987,6 +4556,427 @@ window.SDLessons = {
 4,
 5,
 6,
+"review"
+]
+}
+],
+"frac": [
+{
+"title": "Halves, thirds and fourths",
+"overview": "This week she meets fractions the way Ray begins them: one whole thing cut into equal parts, the names before the signs. Halves, thirds and fourths with strips and an apple, then the written fraction with its numerator and denominator.",
+"needs": [
+"Multiplication and division (concepts; × within 40, ÷ within 20)"
+],
+"prep": [
+"Cut 10 paper strips, about 3 cm wide, from the long side of A4 sheets.",
+"Have an apple ready for Day 1, and a knife for you to cut it."
+],
+"materials": [
+"Paper strips (10)",
+"Coloured pencils",
+"An apple",
+"Squared paper",
+"Ruler"
+],
+"mental": [
+[
+"How many halves in 3 apples?",
+"6"
+],
+[
+"How many thirds in 2 apples?",
+"6"
+],
+[
+"How many fourths in 1 whole?",
+"4"
+],
+[
+"Half of 10",
+"5"
+],
+[
+"Which is bigger, a third or a fourth of the same cake?",
+"a third"
+],
+[
+"A cake is 4 dollars. One-fourth of it?",
+"$1"
+]
+],
+"days": [
+0,
+1,
+2,
+"review"
+]
+},
+{
+"title": "Comparing, adding and taking away fractions",
+"overview": "She compares fractions with the same denominator, adds them and takes them away, always inside one whole. The idea for the week is Ray's: when the denominators are the same the parts are the same size, so you work with them just as you would with cents.",
+"needs": [
+"Fraction of a whole; adding like fractions",
+"Addition and subtraction within 100"
+],
+"prep": [
+"Fold a few strips into eighths ahead of time if folding in eighths is hard for her."
+],
+"materials": [
+"Paper strips",
+"Coloured pencils"
+],
+"mental": [
+[
+"3 fifths and 1 fifth",
+"4/5"
+],
+[
+"5 eighths take away 2 eighths",
+"3/8"
+],
+[
+"1 whole take away 1 fourth",
+"3/4"
+],
+[
+"How many more sixths make 4/6 a whole?",
+"2"
+],
+[
+"A melon is 8 cents. What is 1/4 of it worth?",
+"2 cents"
+]
+],
+"days": [
+3,
+4,
+5,
+"review"
+]
+}
+],
+"p3equiv": [
+{
+"title": "Equivalent fractions",
+"overview": "This week she finds that the same amount can have many names: 1/2 = 2/4 = 4/8. She sees why multiplying or dividing both terms by the same number keeps the value (more parts, but smaller; fewer parts, but bigger), and uses her times tables to put fractions in their simplest form.",
+"needs": [
+"Fraction of a whole; adding like fractions",
+"Tables of 6, 7, 8 and 9"
+],
+"prep": [
+"Cut 10 paper strips, about 3 cm wide, from the long side of A4 sheets."
+],
+"materials": [
+"Paper strips (10)",
+"Coloured pencils",
+"Maths notebook"
+],
+"mental": [
+[
+"How many fourths in 1/2?",
+"2"
+],
+[
+"How many sixths in 2/3?",
+"4"
+],
+[
+"3/4 = ?/8",
+"6"
+],
+[
+"6/8 in simplest form",
+"3/4"
+],
+[
+"2/3 = 8/?",
+"12"
+],
+[
+"An apple costs 2 cents. What part of it costs 1 cent?",
+"1/2"
+]
+],
+"days": [
+0,
+1,
+2,
+"review"
+]
+},
+{
+"title": "Comparing, adding and taking away fractions",
+"overview": "She compares fractions by giving them a common denominator, then adds and takes away related fractions (halves with fourths, thirds with sixths) inside one whole. Ray's melon and his farmer's field carry the week.",
+"needs": [
+"Equivalent fractions; simplest form; related fractions"
+],
+"materials": [
+"Paper strips",
+"Coloured pencils"
+],
+"mental": [
+[
+"Which is bigger, 2/3 or 2/5?",
+"2/3"
+],
+[
+"1/2 + 1/4",
+"3/4"
+],
+[
+"1/3 + 1/6",
+"1/2"
+],
+[
+"1 − 3/8",
+"5/8"
+],
+[
+"1/2 − 1/4",
+"1/4"
+]
+],
+"days": [
+3,
+4,
+"review"
+]
+}
+],
+"p4mixed": [
+{
+"title": "Mixed numbers and a fraction of a set",
+"overview": "This week she meets fractions bigger than one whole and changes them both ways, using Ray's apples and quarters of a dollar. Then she finds a fraction of a number with beans, the way Ray does it: first find one part, then as many parts as you need.",
+"needs": [
+"Equivalent fractions; simplest form; related fractions",
+"Multiplication and division algorithms (up to 4 digits)"
+],
+"prep": [
+"Cut 8 paper strips.",
+"Put out 12 dried beans or buttons and three small bowls for Day 4."
+],
+"materials": [
+"Paper strips (8)",
+"Coloured pencils",
+"12 beans or buttons",
+"3 small bowls"
+],
+"mental": [
+[
+"How many halves in 4 1/2?",
+"9"
+],
+[
+"7/2 as a mixed number",
+"3 1/2"
+],
+[
+"How many thirds in 2 2/3?",
+"8"
+],
+[
+"2/3 of 9",
+"6"
+],
+[
+"3/4 of 20",
+"15"
+],
+[
+"9 quarters of a dollar",
+"$2 1/4"
+]
+],
+"days": [
+0,
+1,
+2,
+3,
+"review"
+]
+},
+{
+"title": "Through one; adding and taking away fractions",
+"overview": "Two days of Ray's \"through one\" reasoning, which is what model drawing in PSLE problem sums is built on: from the price of some find the price of one, then of more; from the value of a part, find the whole. Then she adds and takes away fractions whose denominators are not related, finding a common denominator.",
+"needs": [
+"Mixed numbers and improper fractions; fraction of a set; unlike fractions",
+"Factors and multiples"
+],
+"materials": [
+"Paper strips",
+"Coloured pencils",
+"Maths notebook"
+],
+"mental": [
+[
+"3 oranges cost 15 cents. 2 oranges?",
+"10 cents"
+],
+[
+"1/3 of an orange is 2 cents. The orange?",
+"6 cents"
+],
+[
+"6 is 2/7 of what number?",
+"21"
+],
+[
+"1/2 + 1/3",
+"5/6"
+],
+[
+"1/2 − 1/3",
+"1/6"
+],
+[
+"A common denominator for 3/4 and 1/6",
+"12"
+]
+],
+"days": [
+4,
+5,
+6,
+7,
+"review"
+]
+}
+],
+"p5fdiv": [
+{
+"title": "Fractions and division; adding mixed numbers",
+"overview": "This week she sees that a fraction is a division written down (3 ÷ 4 = 3/4), changes fractions to decimals, and adds mixed numbers both of Ray's ways: as improper fractions, and wholes and fractions separately.",
+"needs": [
+"Mixed numbers and improper fractions; fraction of a set; unlike fractions",
+"Decimals to 3 places; the four operations with decimals"
+],
+"prep": [
+"Cut out 3 paper circles (draw round a cup) for Day 1."
+],
+"materials": [
+"Paper circles (3)",
+"Scissors",
+"Paper strips",
+"Maths notebook"
+],
+"mental": [
+[
+"3 ÷ 4 as a fraction",
+"3/4"
+],
+[
+"7 ÷ 2 as a mixed number",
+"3 1/2"
+],
+[
+"3/5 as a decimal",
+"0.6"
+],
+[
+"1/4 as a decimal",
+"0.25"
+],
+[
+"1 1/2 + 2 1/2",
+"4"
+],
+[
+"2 1/2 + 1 1/4",
+"3 3/4"
+]
+],
+"days": [
+0,
+1,
+2,
+"review"
+]
+},
+{
+"title": "Taking away mixed numbers; multiplying fractions",
+"overview": "She takes away mixed numbers, taking 1 from the wholes when the fraction is too small, the way she exchanges a ten in whole numbers. Then she multiplies fractions and mixed numbers by whole numbers.",
+"needs": [
+"Division as a fraction; mixed numbers; multiplying fractions"
+],
+"materials": [
+"Paper strips",
+"Coloured pencils",
+"Maths notebook"
+],
+"mental": [
+[
+"5 − 2/3",
+"4 1/3"
+],
+[
+"3 1/4 − 1 3/4",
+"1 1/2"
+],
+[
+"3 × 1/2",
+"1 1/2"
+],
+[
+"4 × 3/4",
+"3"
+],
+[
+"2/3 of 6",
+"4"
+],
+[
+"12 × 2 1/2",
+"30"
+]
+],
+"days": [
+3,
+4,
+5,
+6,
+"review"
+]
+},
+{
+"title": "A fraction of a fraction",
+"overview": "She finds a fraction of a fraction by folding paper, then finds Ray's rule for multiplying fractions and cancels before she multiplies. The week ends with Ray's harder \"through one\" problems, the kind PSLE asks as before-and-after or comparison problems, each with a model drawing.",
+"needs": [
+"Division as a fraction; mixed numbers; multiplying fractions"
+],
+"prep": [
+"Have a few sheets of scrap paper for folding."
+],
+"materials": [
+"Scrap paper",
+"Coloured pencils",
+"Maths notebook"
+],
+"mental": [
+[
+"1/2 of 1/2",
+"1/4"
+],
+[
+"1/3 of 1/4",
+"1/12"
+],
+[
+"1/2 of 3/4",
+"3/8"
+],
+[
+"2/3 × 3/4",
+"1/2"
+],
+[
+"3/4 of 8 is 2/3 of what?",
+"9"
+]
+],
+"days": [
+7,
+8,
+9,
 "review"
 ]
 }
