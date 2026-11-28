@@ -20,12 +20,12 @@ window.SDLessons = {
 "In one, 9 loaves must be shared among 10 men. Nine loaves cannot be given out whole to ten people. So the loaves must be broken, and each man's share must come out exactly equal."
 ]
 },
-"Ray begins his chapter on fractions with something even simpler than bread: an apple.",
+"Begin with something even simpler than bread: an apple.",
 {
 "ray": [
 "An apple may be divided equally between two boys, by cutting it into two equal parts.",
 "An apple may be divided equally among three boys, by cutting it into three equal parts.",
-"These equal parts into which a unit may be divided are called fractions. (Art. 92)"
+"These equal parts into which a unit may be divided are called fractions."
 ]
 },
 {
@@ -56,14 +56,14 @@ window.SDLessons = {
 },
 {
 "ask": "Which shaded part is the largest? Which is the smallest? Why?",
-"then": "The half is the largest and the fourth the smallest. Ray: the less the number of parts into which a unit is divided, the greater the size of each part (Art. 95)."
+"then": "The half is the largest and the fourth the smallest. The less the number of parts into which a unit is divided, the greater the size of each part."
 },
 {
 "mind": "Close your eyes and picture the three strips. Now picture a strip cut into ten parts, and one into a hundred. How big is one part of each?"
 },
 {
 "ray": [
-"A fraction is expressed in words by two numbers; the first numbers the parts, the second names them; the first number is called the numerator, the second is called the denominator. (Art. 94)"
+"A fraction is expressed in words by two numbers; the first numbers the parts, the second names them; the first number is called the numerator, the second is called the denominator."
 ]
 },
 {
@@ -73,13 +73,13 @@ window.SDLessons = {
 {
 "break": "Stand up. Jump 3 times, then hop on one foot 4 times. You did 3 + 4 movements: what fraction of them were jumps?"
 },
-"Now back to Ahmes's loaves. Ray says a fraction may also be regarded as an expression of division: the numerator is the dividend and the denominator the divisor (Art. 97). So 9 loaves shared among 10 men is 9 ÷ 10, and each man's share is 9/10 of a loaf.",
+"Now back to the loaves. A fraction may also be thought of as a division: the numerator is the dividend and the denominator is the divisor. So 9 loaves shared among 10 men is 9 ÷ 10, and each man's share is 9/10 of a loaf.",
 {
 "ask": "If 2 apples are shared equally among 3 boys, how much does each boy get?",
-"then": "Each boy gets 1/3 of each apple, which is 2/3 of an apple. Ray: 1/3 of 2 is 2/3 (Art. 96)."
+"then": "Each boy gets 1/3 of each apple, which is 2/3 of an apple. 1/3 of 2 is 2/3."
 },
 {
-"notebook": "Start a page in the reference section of your notebook called \"All About Fractions\". Copy Ray's two sentences about the numerator and the denominator, and draw your three strips under them. You will add to this page all week."
+"notebook": "Start a page in the reference section of your notebook called \"All About Fractions\". Copy the two sentences about the numerator and the denominator, and draw your three strips under them. You will add to this page all week."
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 92–97; Rhind Papyrus, Problem 6",
@@ -119,10 +119,10 @@ window.SDLessons = {
 "Yesterday you learnt that the numerator numbers the parts and the denominator names them. Look at 6/7. How many parts are there, and what are they called?"
 ]
 },
-"Ray's first question on dividing fractions is about buying ribbon.",
+"Here is a question about buying ribbon.",
 {
 "ray": [
-"1. If 3 yards of ribbon cost 6/7 of a dollar, what will 1 yard cost? (Art. 119)"
+"1. If 3 yards of ribbon cost 6/7 of a dollar, what will 1 yard cost?"
 ]
 },
 {
@@ -152,7 +152,7 @@ window.SDLessons = {
 "then": "The numerator 6 was divided by 3 and became 2. The denominator stayed 7, because the parts are still sevenths: there are only fewer of them."
 },
 {
-"rule": "Ray, Art. 101: A fraction is divided by dividing the numerator."
+"rule": "A fraction is divided by dividing the numerator."
 },
 {
 "mind": "Picture 8/9 as eight small coloured squares in a row of nine. Now see them in 4 equal groups in your mind. How many ninths in each group?"
@@ -169,10 +169,10 @@ window.SDLessons = {
 "break": "Stretch break: reach up high and count to 7 slowly, one count for each seventh."
 },
 {
-"game": "Make up a story that 9/10 ÷ 3 would answer, like Ray's ribbon story. Tell it to Mum and solve it."
+"game": "Make up a story that 9/10 ÷ 3 would answer, like the ribbon story. Tell it to Mum and solve it."
 },
 {
-"notebook": "Add to your \"All About Fractions\" page: Ray's rule, \"A fraction is divided by dividing the numerator\", with a small drawing of 6/7 in 3 groups."
+"notebook": "Add to your \"All About Fractions\" page: \"A fraction is divided by dividing the numerator\", with a small drawing of 6/7 in 3 groups."
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 101, 119",
@@ -233,7 +233,7 @@ window.SDLessons = {
 },
 {
 "ray": [
-"Multiplying both terms of a fraction by the same number does not change its value. (Art. 101)"
+"Multiplying both terms of a fraction by the same number does not change its value."
 ]
 },
 {
@@ -258,7 +258,7 @@ window.SDLessons = {
 },
 {
 "ray": [
-"A fraction is divided by multiplying the denominator. Thus, if the denominator of 2/3 be multiplied by 3, the result will be 2/9; in 2/9 there are the same number of parts as in 2/3, but the parts are only one-third as large. (Art. 101)"
+"A fraction is divided by multiplying the denominator. Thus, if the denominator of 2/3 be multiplied by 3, the result will be 2/9; in 2/9 there are the same number of parts as in 2/3, but the parts are only one-third as large."
 ]
 },
 {
@@ -271,13 +271,13 @@ window.SDLessons = {
 "3 will not divide by 2, so multiply the denominator: 3/5 ÷ 2 = 3/10",
 "3/10 of a yard can be bought."
 ],
-"title": "Ray's second question"
+"title": "Another question"
 },
 {
-"make": "Choose a fraction of your own whose numerator will not divide by 4. Divide it by 4 both ways: the long way with Steps 1 and 2, and Ray's short way. Do you get the same answer?"
+"make": "Choose a fraction of your own whose numerator will not divide by 4. Divide it by 4 both ways: the long way with Steps 1 and 2, and the short way of multiplying the denominator. Do you get the same answer?"
 },
 {
-"notebook": "Add Ray's second rule to \"All About Fractions\", with your drawing of 2/3 becoming 6/9 and then 2/9."
+"notebook": "Add the second rule to \"All About Fractions\", with your drawing of 2/3 becoming 6/9 and then 2/9."
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 101, 119",
@@ -318,7 +318,7 @@ window.SDLessons = {
 "read": [
 {
 "open": [
-"Say both of Ray's rules for dividing a fraction by a whole number. Then work 3/4 ÷ 2 in your head."
+"Say both rules for dividing a fraction by a whole number. Then work 3/4 ÷ 2 in your head."
 ]
 },
 "So far you have divided a fraction into equal parts. But division asks a second question as well: how many times is one number contained in another? 12 ÷ 3 asks: how many threes are there in 12?",
@@ -331,7 +331,7 @@ window.SDLessons = {
 },
 {
 "ray": [
-"3. At 2/3 of a cent for 1 apple, how many can be bought for 4 cents? (Art. 119)"
+"3. At 2/3 of a cent for 1 apple, how many can be bought for 4 cents?"
 ]
 },
 {
@@ -350,7 +350,7 @@ window.SDLessons = {
 },
 {
 "ask": "In 4 strips, how many thirds are there?",
-"then": "12 thirds. Ray, Art. 103: to change an integer to thirds, multiply it by 3. 4 = 12/3."
+"then": "12 thirds. To change a whole number to thirds, multiply it by 3: 4 = 12/3."
 },
 {
 "ask": "How many times is 2 thirds contained in 12 thirds?",
@@ -370,8 +370,8 @@ window.SDLessons = {
 ]
 },
 {
-"ask": "Ray found the same answer another way. Which way do you find easier to see?",
-"then": "Either is right. Ray works out how much 1 cent buys first; the strips count how many 2/3s fit into 4."
+"ask": "Here is the same question worked another way. Which way do you find easier to see?",
+"then": "Either is right. This way works out how much 1 cent buys first; the strips count how many 2/3s fit into 4."
 },
 {
 "break": "How many times is a half-turn contained in 2 whole turns? Stand up and find out by turning."
@@ -470,14 +470,14 @@ window.SDLessons = {
 {
 "title": "Dividing by any fraction: the rule",
 "read": [
-"Ray's fifth question: Divide 3/4 by 4/5. Ray finds it in two steps, using what you already know.",
+"Divide 3/4 by 4/5. You can do it in two steps, using what you already know.",
 {
 "ex": [
-"4/5 is the same as 1/5 of 4   (Art. 96)",
+"4/5 is the same as 1/5 of 4",
 "Step 1: 3/4 ÷ 4 = 3/16   (multiply the denominator)",
 "Step 2: but we were to divide by only 1/5 of 4, so the answer must be 5 times as large: 5 × 3/16 = 15/16"
 ],
-"title": "Ray's solution"
+"title": "Two steps"
 },
 {
 "ask": "Why must the answer be 5 times as large in Step 2?",
@@ -488,7 +488,7 @@ window.SDLessons = {
 "then": "3/4 × 5/4 = 15/16, the same answer. Dividing by 4 and multiplying by 5 is the same as multiplying by 5/4, which is 4/5 with its terms turned over."
 },
 {
-"rule": "Ray's Rule: Multiply the dividend by the divisor with its terms inverted."
+"rule": "To divide by a fraction: multiply the dividend by the divisor with its terms inverted."
 },
 {
 "ex": [
@@ -508,7 +508,7 @@ window.SDLessons = {
 22,
 3
 ],
-"tell": "Tell Mum Ray's two steps for 3/4 ÷ 4/5, and how they lead to the rule.",
+"tell": "Tell Mum the two steps for 3/4 ÷ 4/5, and how they lead to the rule.",
 "try": [
 [
 "3/4 ÷ 4/5",
@@ -531,14 +531,14 @@ window.SDLessons = {
 {
 "title": "Integers, mixed numbers and cancelling",
 "read": [
-"Ray adds three remarks to the rule. Each one is something you have learnt before.",
+"Three more things to remember when you use the rule. Each one is something you have learnt before.",
 {
 "ex": [
 "Rem. 1. Express integers in the form of fractions: 6 = 6/1.",
 "Rem. 2. Reduce mixed numbers to improper fractions: 2 2/5 = 12/5.",
 "Rem. 3. Indicate the operation and cancel whenever you can."
 ],
-"title": "Ray's remarks"
+"title": "Remember"
 },
 {
 "ex": [
@@ -576,7 +576,7 @@ window.SDLessons = {
 19,
 21
 ],
-"tell": "Work 6 ÷ 2 2/5 aloud for Mum, naming each of Ray's remarks as you use it.",
+"tell": "Work 6 ÷ 2 2/5 aloud for Mum, saying what you do at each step and why.",
 "try": [
 [
 "4 1/2 ÷ 1 1/3",
@@ -617,7 +617,7 @@ window.SDLessons = {
 ],
 "title": "The book"
 },
-"Ray says the gain or loss per cent is always reckoned on the cost, that is, on the starting amount, never on the new one.",
+"The gain or loss per cent is always reckoned on the cost, that is, on the starting amount, never on the new one.",
 {
 "ask": "A price goes up by 50% and then comes down by 50%. Is it back where it started? Try it with $100.",
 "then": "$100 goes up to $150; 50% of $150 is $75, so it comes down to $75. Not back where it started, because the second 50% is of a bigger number."
@@ -780,14 +780,14 @@ window.SDLessons = {
 ]
 },
 {
-"title": "Ray's proportions",
+"title": "Proportions",
 "read": [
-"Ray asks: 7 is to 14 as 9 is to what number? Two ratios that are equal make a proportion.",
+"7 is to 14 as 9 is to what number? Two ratios that are equal make a proportion.",
 {
 "ask": "How is 14 made from 7?",
 "then": "It is twice 7. So the missing number is twice 9: 18."
 },
-"Ray's shop sums work the same way. If 12 yards of cloth cost $48, what do 8 yards cost?",
+"Shop sums work the same way. If 12 yards of cloth cost $48, what do 8 yards cost?",
 {
 "ex": [
 "12 yards cost $48",
@@ -836,7 +836,7 @@ window.SDLessons = {
 "do": "Put some beans in a bag without counting them, and close it. Put 3 loose beans beside it."
 },
 "Nobody knows how many beans are in the bag, so call that number n. The bag and the loose beans are n + 3 beans. Two such bags and 3 loose beans are 2n + 3.",
-"Hall & Knight explain the writing: 2n means 2 × n; ab means a × b. The 2 in 2n is called the coefficient. Do not mix up 3a, which is a + a + a, with a³, which is a × a × a.",
+"How algebra is written: 2n means 2 × n; ab means a × b. The 2 in 2n is called the coefficient. Do not mix up 3a, which is a + a + a, with a³, which is a × a × a.",
 {
 "ex": [
 "If n = 5:",
@@ -876,7 +876,7 @@ window.SDLessons = {
 {
 "title": "Adding like terms",
 "read": [
-"Five bags and seven more bags of the same kind are twelve bags: 5n + 7n = 12n. Hall & Knight call 5n and 7n like terms.",
+"Five bags and seven more bags of the same kind are twelve bags: 5n + 7n = 12n. 5n and 7n are called like terms.",
 "Bags and loose beans are not alike, so they stay apart: 3n + 2 + n + 4 = 4n + 6.",
 {
 "ask": "Why can you not add 4n + 6 to make 10n?",
@@ -907,7 +907,7 @@ window.SDLessons = {
 "title": "Equations",
 "read": [
 "An equation says two things are equal, like a balance with the same weight on each side. 2x + 5 = 17 is true for only one value of x.",
-"Hall & Knight's rule: any term may be moved to the other side of the equation by changing its sign. Taking 5 from both sides of the balance is the same as moving + 5 across as − 5.",
+"Here is the rule: any term may be moved to the other side of the equation by changing its sign. Taking 5 from both sides of the balance is the same as moving + 5 across as − 5.",
 {
 "ex": [
 "2x + 5 = 17",
@@ -924,7 +924,7 @@ window.SDLessons = {
 "2x = 10, so x = 5",
 "Check: 3 × 5 + 15 = 30 and 5 + 25 = 30 ✓"
 ],
-"title": "Hall & Knight, Examples VII, no. 1"
+"title": "A harder one"
 },
 {
 "rule": "Always put your answer back into both sides to check it."
@@ -1077,7 +1077,7 @@ window.SDLessons = {
 "title": "Finding a missing measurement",
 "need": "Some unit cubes",
 "read": [
-"You know Ray's rule: volume = length × breadth × height. Turn it round and it finds a missing measurement.",
+"You know that volume = length × breadth × height. Turn it round and it finds a missing measurement.",
 {
 "do": "Build a layer of cubes 4 long and 3 wide. How many cubes in the layer? Now build up until you have 36 cubes."
 },
@@ -1146,7 +1146,7 @@ window.SDLessons = {
 "need": "Ruler, set square, tracing paper, protractor",
 "read": [
 {
-"do": "Hall & Stevens: draw two parallel lines with your set square and ruler, then a line crossing both. Number the eight angles. Trace one angle and slide the tracing to see which others it fits exactly."
+"do": "Draw two parallel lines with your set square and ruler, then a line crossing both. Number the eight angles. Trace one angle and slide the tracing to see which others it fits exactly."
 },
 {
 "ask": "Which angles are equal?",
@@ -1180,7 +1180,7 @@ window.SDLessons = {
 {
 "title": "Reasoning step by step",
 "read": [
-"In a figure, you rarely find an angle in one go. You find one you can, then use it to find the next, giving a reason each time, the way Euclid wrote his proofs.",
+"In a figure, you rarely find an angle in one go. You find one you can, then use it to find the next, giving a reason each time.",
 {
 "rule": "Angles on a line: 180°. Angles at a point: 360°. Angles in a triangle: 180°. Opposite angles of a parallelogram are equal; angles next to each other in it add to 180°."
 },
@@ -1229,7 +1229,7 @@ window.SDLessons = {
 {
 "rule": "Average = total ÷ number of items."
 },
-"Ray uses averages to price a mixture: 4 lb of tea at 40 cents and 6 lb at 50 cents make 10 lb that cost $4.60 in all, so the mixture is worth 46 cents a pound."
+"Averages price a mixture too: 4 lb of tea at 40 cents and 6 lb at 50 cents make 10 lb that cost $4.60 in all, so the mixture is worth 46 cents a pound."
 ],
 "src": "Ray's Practical Arithmetic, Art. 260",
 "tell": "Show Mum with the towers what an average is.",
@@ -1287,7 +1287,7 @@ window.SDLessons = {
 "title": "Numbers to ten million",
 "need": "A place-value chart with a millions period",
 "read": [
-"Ray's way to read a long number: point it off into groups of three from the right. The groups are called periods: units, thousands, millions.",
+"To read a long number, point it off into groups of three from the right. The groups are called periods: units, thousands, millions.",
 {
 "ex": [
 "4050607 → 4 | 050 | 607",
@@ -1374,7 +1374,7 @@ window.SDLessons = {
 "title": "Multiplying and dividing by 10, 100 and 1000",
 "need": "A place-value chart, a metre rule",
 "read": [
-"Multiply 2.07 by 10 and every digit moves one place to the left, becoming ten times bigger: 20.7. Ray puts it as moving the point one place to the right for each nought.",
+"Multiply 2.07 by 10 and every digit moves one place to the left, becoming ten times bigger: 20.7. Another way to see it: the point moves one place to the right for each nought.",
 {
 "rule": "To multiply by 10, 100 or 1000, move the point 1, 2 or 3 places right. To divide, move it left, putting noughts in front where needed."
 },
@@ -1428,7 +1428,7 @@ window.SDLessons = {
 "ask": "How much does each person get?",
 "then": "3 quarters: 3/4. So 3 ÷ 4 = 3/4. A fraction is a division that has not been done yet."
 },
-"So to change a fraction into a decimal, Ray says: put noughts after the top number and divide by the bottom number.",
+"So to change a fraction into a decimal: put noughts after the numerator and divide by the denominator.",
 {
 "ex": [
 "1/8 = 1 ÷ 8 = 1.000 ÷ 8 = 0.125"
@@ -1463,7 +1463,7 @@ window.SDLessons = {
 "title": "Adding and subtracting mixed numbers",
 "need": "Paper strips",
 "read": [
-"Ray adds mixed numbers in two parts: the whole numbers, then the fractions, then puts them together.",
+"Add mixed numbers in two parts: the whole numbers, then the fractions, then put them together.",
 {
 "ex": [
 "2 1/2 + 3 2/3",
@@ -1471,7 +1471,7 @@ window.SDLessons = {
 "fractions: 1/2 + 2/3 = 3/6 + 4/6 = 7/6 = 1 1/6",
 "together: 6 1/6"
 ],
-"title": "Ray's own example"
+"title": "An example"
 },
 "Subtracting can need borrowing: 3 1/8 − 1 3/8. You cannot take 3/8 from 1/8, so change one of the 3 wholes into eighths.",
 {
@@ -1511,7 +1511,7 @@ window.SDLessons = {
 {
 "title": "A fraction times a whole number",
 "read": [
-"Ray: if an apple costs 4/5 of a cent, 3 apples cost 3 times as much: 12/5 = 2 2/5 cents. Multiplying a fraction by a whole number repeats it.",
+"If an apple costs 4/5 of a cent, 3 apples cost 3 times as much: 12/5 = 2 2/5 cents. Multiplying a fraction by a whole number repeats it.",
 "And 2/5 of 12 cents takes only part of 12: divide by 5 for one fifth, then multiply by 2.",
 {
 "rule": "Fraction × whole number: multiply the top number. \"2/5 of 12\": divide by the bottom, multiply by the top."
@@ -1563,7 +1563,7 @@ window.SDLessons = {
 "ex": [
 "2 1/4 × 3 1/2 = 9/4 × 7/2 = 63/8 = 7 7/8"
 ],
-"title": "Ray, with mixed numbers"
+"title": "With mixed numbers"
 }
 ],
 "src": "Ray's New Practical Arithmetic (1877), Arts. 115, 117",
@@ -1597,7 +1597,7 @@ window.SDLessons = {
 {
 "do": "Draw a 10 × 10 square on squared paper: 100 small squares. Shade 25 of them. What fraction of the square is that? Shade 50, then 10."
 },
-"Ray: a per cent of a number is so many hundredths of it. 7% is 0.07, so 7% of $175 is 175 × 0.07 = $12.25.",
+"A per cent of a number is so many hundredths of it. 7% is 0.07, so 7% of $175 is 175 × 0.07 = $12.25.",
 {
 "rule": "To find what per cent one number is of another: divide the part by the whole and multiply by 100."
 },
@@ -1606,7 +1606,7 @@ window.SDLessons = {
 "9 out of 36 children are absent",
 "9 ÷ 36 × 100 = 25%"
 ],
-"title": "Ray's school"
+"title": "A school"
 }
 ],
 "src": "Ray's Practical Arithmetic, Arts. 209–211; Ray's New Intellectual Arithmetic, Lesson LXVII",
@@ -1644,7 +1644,7 @@ window.SDLessons = {
 {
 "do": "Look at a real receipt. Find the GST. Work out what per cent it is of the price before tax."
 },
-"Interest is money paid for the use of money. Ray: interest = the principal × the rate × the number of years.",
+"Interest is money paid for the use of money: interest = the principal × the rate × the number of years.",
 {
 "ex": [
 "$300 for 2 years at 6% a year",
@@ -1682,14 +1682,14 @@ window.SDLessons = {
 "need": "Two packets of the same food in different sizes",
 "read": [
 "A rate tells how much of one thing goes with each one of another: $3 per kg, 60 km per hour, 5 pages a day.",
-"Ray solved these by proportion. The simplest way is to find the amount for one first.",
+"The simplest way to solve these is to find the amount for one first.",
 {
 "ex": [
 "If 4 hats cost $14, what will 10 hats cost?",
 "1 hat costs $14 ÷ 4 = $3.50",
 "10 hats cost $35"
 ],
-"title": "Ray's hats"
+"title": "Hats"
 },
 {
 "do": "Compare two packets in the kitchen by their price per 100 g. Which is better value?"
@@ -1723,7 +1723,7 @@ window.SDLessons = {
 "need": "Squared paper, scissors, ruler, set square",
 "read": [
 {
-"do": "Hall & Stevens: draw a parallelogram on squared paper and cut it out. Cut a triangle off one end and fit it on the other end."
+"do": "Draw a parallelogram on squared paper and cut it out. Cut a triangle off one end and fit it on the other end."
 },
 {
 "ask": "What shape do you have now?",
@@ -1768,7 +1768,7 @@ window.SDLessons = {
 },
 "Each cube is 1 cubic centimetre (1 cm³). The volume of your cuboid is 24 cm³. You did not need to count every cube: one layer has 4 × 3 = 12, and there are 2 layers.",
 {
-"rule": "Ray's rule: volume = length × breadth × height."
+"rule": "Volume = length × breadth × height."
 },
 {
 "do": "Draw your cuboid on isometric grid paper."
@@ -1803,7 +1803,7 @@ window.SDLessons = {
 "need": "Protractor, ruler",
 "read": [
 {
-"do": "Hall & Stevens: draw a straight line AB and mark a point O on it. Draw a line OC. Measure angle AOC and angle BOC and add them. Try three different positions of OC."
+"do": "Draw a straight line AB and mark a point O on it. Draw a line OC. Measure angle AOC and angle BOC and add them. Try three different positions of OC."
 },
 {
 "ask": "What do you always get?",
@@ -1888,7 +1888,7 @@ window.SDLessons = {
 "title": "Parallelogram, rhombus and trapezium",
 "need": "Protractor, set squares, ruler",
 "read": [
-"Hall & Stevens: a parallelogram has both pairs of opposite sides parallel. A rhombus is a parallelogram whose sides are all equal. A trapezium has just one pair of parallel sides.",
+"A parallelogram has both pairs of opposite sides parallel. A rhombus is a parallelogram whose sides are all equal. A trapezium has just one pair of parallel sides.",
 {
 "do": "Draw a parallelogram with set square and ruler. Measure all four angles."
 },

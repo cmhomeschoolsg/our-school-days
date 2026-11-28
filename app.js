@@ -3849,7 +3849,7 @@
     if (x.rule) return '<div class="bk-rule">' + esc(x.rule) + '</div>';
     if (x.story) return '<div class="bk-story">' + x.story.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
     if (x.open) return '<div class="bk-open"><b>Remember</b>' + x.open.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
-    if (x.ray) return '<blockquote class="bk-ray"><b>Ray says</b>' + x.ray.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</blockquote>';
+    if (x.ray) return '<div class="bk-ray">' + x.ray.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '</div>';
     if (x.mind) return '<div class="bk-mind"><b>Picture it</b><p>' + esc(x.mind) + '</p></div>';
     if (x.break) return '<div class="bk-break"><b>Break</b><p>' + esc(x.break) + '</p></div>';
     if (x.game) return '<div class="bk-game"><b>Math Jeopardy</b><p>' + esc(x.game) + '</p></div>';
@@ -3874,7 +3874,7 @@
     } else {
       if (L.need) h += '<p class="small"><b>You need:</b> ' + esc(L.need) + '</p>';
       h += (L.read || []).map(bkBlock).join('');
-      if (L.src) h += '<p class="small muted">' + esc(L.src) + '</p>';
+      if (L.src) h += '<p class="small muted">For Mum: from ' + esc(L.src) + '</p>';
     }
     if (L.extra && L.extra.length) h += '<div class="bk-extra"><b>If you have time</b>' + L.extra.map(function (e) { return '<p>' + esc(e) + '</p>'; }).join('') + '</div>';
     h += '</div>' + bkSlateCard(s, false);
