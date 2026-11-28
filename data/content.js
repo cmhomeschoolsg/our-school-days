@@ -13480,7 +13480,6 @@ window.CONTENT = {
 "who": "emily",
 "lessons": [
 {
-"img": [{"src": "img/needle/e1-needle-thimble.svg", "alt": "Threading the needle and the thimble", "cap": "Drawn for this lesson from the steps below"}],
 "title": "Needle and thimble drill",
 "forWho": "Emily · step 1",
 "need": "A needle with a big eye, thread, and a thimble that fits your middle finger",
@@ -13497,7 +13496,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter II, Steps I–III (drills)."
 },
 {
-"img": [{"src": "img/needle/e2-hemming.svg", "alt": "How to hem", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig03.png", "alt": "Fig. 3: hemming on canvas", "cap": "Fig. 3: hemming on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Hemming: a practice strip (black cotton)",
 "forWho": "Emily · step 2",
 "need": "A strip of soft cotton fabric about 18 × 5 cm (the Code used 18 × 2 inches), coloured thread",
@@ -13514,7 +13513,6 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter III (Hemming), V–VII. Schedule III (Needlework) of the Education Code, printed in the appendix of Amy K. Smith, Needlework for Student Teachers (1897)."
 },
 {
-"img": [{"src": "img/needle/e3-strips-join.svg", "alt": "Three hemming strips and a join", "cap": "Drawn for this lesson from the steps below"}],
 "title": "Hemming: red, then blue",
 "forWho": "Emily · step 3",
 "steps": [
@@ -13528,7 +13526,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter III, VIII (Joins in cotton). Schedule III (Needlework) of the Education Code, printed in the appendix of Amy K. Smith, Needlework for Student Teachers (1897)."
 },
 {
-"img": [{"src": "img/needle/e4-seaming.svg", "alt": "How to seam", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig05.png", "alt": "Fig. 5: seaming (sewing) on canvas", "cap": "Fig. 5: seaming (sewing) on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig06.png", "alt": "Fig. 6: a join in seaming", "cap": "Fig. 6: a join in seaming. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Seaming (top-sewing)",
 "forWho": "Emily · step 4",
 "need": "Two strips of fabric with the raw edges turned in and tacked together",
@@ -13544,7 +13542,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter IV (Sewing), I–VI."
 },
 {
-"img": [{"src": "img/needle/e5-seam-fell.svg", "alt": "Seam and fell, step by step", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig07a.png", "alt": "Fig. 7A: the first piece, single fold", "cap": "Fig. 7A: the first piece, single fold. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig07b.png", "alt": "Fig. 7B: the second piece, double fold", "cap": "Fig. 7B: the second piece, double fold. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig08.png", "alt": "Fig. 8: seam complete, with the fell", "cap": "Fig. 8: seam complete, with the fell. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Seam and fell",
 "forWho": "Emily · step 5",
 "steps": [
@@ -13556,7 +13554,6 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter IV (Seaming), II–III."
 },
 {
-"img": [{"src": "img/needle/e6-shoe-bag.svg", "alt": "Making the shoe bag", "cap": "Drawn for this lesson from the steps below"}],
 "title": "Make something useful: a shoe bag",
 "forWho": "Emily · step 6",
 "need": "A strip of fabric about 20 × 61 cm, thread, cord or ribbon",
@@ -13572,7 +13569,6 @@ window.CONTENT = {
 "src": "Schedule III (Needlework) of the Education Code, printed in the appendix of Amy K. Smith, Needlework for Student Teachers (1897). Flora Klickmann, The Little Girl’s Sewing Book (1915), Project Gutenberg #49157. Set by the PNEU for Forms I and II. Chapter: The Lambkin Bag."
 },
 {
-"img": [{"src": "img/needle/e7-cross-stitch.svg", "alt": "Cross-stitch", "cap": "Drawn for this lesson from the steps below"}],
 "title": "Cross-stitch, then a Christmas present",
 "forWho": "Emily · step 7",
 "need": "Penelope canvas, embroidery thread, crewel needle",
@@ -13597,7 +13593,7 @@ window.CONTENT = {
 "who": "emma",
 "lessons": [
 {
-"img": [{"src": "img/needle/m1-review.svg", "alt": "Hem, seam and fell on one piece", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig08.png", "alt": "Fig. 8: seam complete, with the fell", "cap": "Fig. 8: seam complete, with the fell. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Quick review: hem, seam and fell",
 "forWho": "Emma · step 1",
 "steps": [
@@ -13610,7 +13606,7 @@ window.CONTENT = {
 "src": "Schedule III (Needlework) of the Education Code, printed in the appendix of Amy K. Smith, Needlework for Student Teachers (1897). Standards II–III."
 },
 {
-"img": [{"src": "img/needle/m2-backstitch.svg", "alt": "Back-stitch", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig09.png", "alt": "Fig. 9: stitching on canvas", "cap": "Fig. 9: stitching on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Stitching (back-stitch) on a band",
 "forWho": "Emma · step 2",
 "steps": [
@@ -13625,7 +13621,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter V (Stitching)."
 },
 {
-"img": [{"src": "img/needle/m3-herringbone.svg", "alt": "Herring-bone", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig17.png", "alt": "Fig. 17: herring-bone on canvas", "cap": "Fig. 17: herring-bone on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig18.png", "alt": "Fig. 18: herring-bone over the raw edge of flannel", "cap": "Fig. 18: herring-bone over the raw edge of flannel. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Herring-bone on canvas, then on flannel",
 "forWho": "Emma · step 3",
 "need": "Single-thread canvas, then a piece of flannel or felt",
@@ -13642,7 +13638,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter VII (Herring-boning)."
 },
 {
-"img": [{"src": "img/needle/m4-darning.svg", "alt": "Darning on canvas", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig100.png", "alt": "Fig. 100: darns on canvas", "cap": "Fig. 100: darns on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Darning: first on canvas",
 "forWho": "Emma · step 4",
 "steps": [
@@ -13657,7 +13653,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter XXXI (First principles of darning on canvas). PNEU Programme 96, Form II, Work."
 },
 {
-"img": [{"src": "img/needle/m5-gathering.svg", "alt": "Gathering into a band", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig21.png", "alt": "Fig. 21: gathering stitch on canvas", "cap": "Fig. 21: gathering stitch on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig22.png", "alt": "Fig. 22: gathering in progress", "cap": "Fig. 22: gathering in progress. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig24.png", "alt": "Fig. 24: setting-in stitch on canvas", "cap": "Fig. 24: setting-in stitch on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig25.png", "alt": "Figs. 25A and 25B: setting gathers into the band", "cap": "Figs. 25A and 25B: setting gathers into the band. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Gathering and setting into a band",
 "forWho": "Emma · step 5",
 "steps": [
@@ -13672,7 +13668,7 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter IX (Gathering), I–IV. Schedule III (Needlework) of the Education Code, printed in the appendix of Amy K. Smith, Needlework for Student Teachers (1897). Standard IV."
 },
 {
-"img": [{"src": "img/needle/m6-buttonhole.svg", "alt": "Button-hole stitch", "cap": "Drawn for this lesson from the steps below"}],
+"img": [{"src": "img/needle/fig26-27.png", "alt": "Figs. 26 and 27: the button-hole stitch on canvas", "cap": "Figs. 26 and 27: the button-hole stitch on canvas. Amy K. Smith, Needlework for Student Teachers (1897)."}, {"src": "img/needle/fig29.png", "alt": "Fig. 29: button-hole complete", "cap": "Fig. 29: button-hole complete. Amy K. Smith, Needlework for Student Teachers (1897)."}],
 "title": "Buttonholes and buttons",
 "forWho": "Emma · step 6",
 "steps": [
@@ -13688,7 +13684,6 @@ window.CONTENT = {
 "src": "Amy K. Smith, Needlework for Student Teachers (1897), archive.org krl00008885. Chapter X (Button-holing), IV and Stage I. Schedule III (Needlework) of the Education Code, printed in the appendix of Amy K. Smith, Needlework for Student Teachers (1897). Standard V."
 },
 {
-"img": [{"src": "img/needle/m7-machine-hand.svg", "alt": "Machine seams and hand finishing", "cap": "Drawn for this lesson from the steps below"}],
 "title": "The sewing machine",
 "forWho": "Emma · when it arrives",
 "steps": [
@@ -13703,7 +13698,6 @@ window.CONTENT = {
 "src": "“The Teaching of Needlework”, Parents’ Review vol. 5 (1894/5), pp. 444–450, AmblesideOnline."
 },
 {
-"img": [{"src": "img/needle/m8-pinafore.svg", "alt": "The easy pinafore", "cap": "Drawn for this lesson from the steps below"}],
 "title": "Make a garment",
 "forWho": "Emma · this term or next",
 "steps": [
