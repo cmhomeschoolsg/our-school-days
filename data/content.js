@@ -10370,6 +10370,13 @@ window.CONTENT = {
 "mins": 15
 },
 {
+"id": "lw_xgw",
+"open": "book:xgw",
+"label": "小古文",
+"icon": "📜",
+"mins": 15
+},
+{
 "id": "lw_tales",
 "open": "book:blue",
 "label": "Tales",
@@ -10707,6 +10714,13 @@ window.CONTENT = {
 "icon": "🦊",
 "mins": 10,
 "open": "book:zhE"
+},
+{
+"id": "e_xgw",
+"label": "小古文 · read a story yourself",
+"icon": "📜",
+"mins": 10,
+"open": "book:xgwE"
 },
 {
 "id": "e_cjournal",
