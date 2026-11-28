@@ -10702,6 +10702,13 @@ window.CONTENT = {
 "open": "zi:emma"
 },
 {
+"id": "e_zhfables",
+"label": "中国寓言 · read a fable yourself",
+"icon": "🦊",
+"mins": 10,
+"open": "book:zhE"
+},
+{
 "id": "e_cjournal",
 "label": "Chinese journalling",
 "icon": "📔",

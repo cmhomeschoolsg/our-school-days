@@ -1740,6 +1740,35 @@
 
   // ---------- whole books: Aesop, 中国寓言, Blue Fairy Book, Our Island Story, Elementary Geography ----------
   var BK = window.BOOKS || {};
+  // Emma reads the same 中国寓言 herself, with her own place in the book.
+  if (BK.zh && !BK.zhE) BK.zhE = { label: BK.zh.label, book: BK.zh.book, unit: BK.zh.unit, source: BK.zh.source, items: BK.zh.items };
+  var ZH_EN = [
+"A farmer in the state of Song saw a hare run into a tree stump in his field, break its neck and die. He put down his plough and waited by the stump for another hare. None ever came, and all Song laughed at him. Han Feizi says that ruling today's people with the old kings' ways is just like this. 守株待兔 means waiting for luck instead of working.",
+"A man of Song worried that his young rice plants were growing too slowly, so he pulled each one up a little. He came home tired and proud, but when his son ran to look, the plants had all withered. Mencius says that forcing something to grow harms it, just as neglecting it does. 揠苗助长 means spoiling things by hurrying them.",
+"A man of Chu dropped his sword into the river from a boat. He cut a mark on the side of the boat where it fell, and when the boat stopped he jumped in at the mark to look for it. The boat had moved, but the sword had not. 刻舟求剑 means holding on to an old method when things have changed.",
+"When the house of Fan fell, a man found a great bell and wanted to carry it off, but it was too heavy. He smashed it with a hammer, and it rang out. Afraid that others would hear and take it, he covered his own ears. 掩耳盗铃 means fooling yourself.",
+"A man of Chu boasted that his shield was so strong nothing could pierce it, and that his spear was so sharp it could pierce anything. Someone asked, \"What if your spear struck your shield?\" He had no answer. 自相矛盾 means saying two things that cannot both be true.",
+"A man of Zheng measured his foot at home to buy shoes, then left the measurement on his seat. At the market he went home to fetch it, and by the time he came back the market had closed. Asked why he did not just try the shoes on, he said he trusted the measurement more than his own feet. 郑人买履 means following a rule blindly.",
+"Some servants in Chu had one jug of wine and agreed that whoever drew a snake first would drink it. The first to finish began adding feet to his snake. Before he was done, another man finished, took the jug and said, \"Snakes have no feet!\" 画蛇添足 means spoiling something by adding what isn't needed.",
+"A tiger caught a fox. The fox said Heaven had made him king of the animals, and told the tiger to walk behind him and see. Every animal fled, and the tiger thought they feared the fox, not knowing they feared the tiger himself. 狐假虎威 means using someone else's power to frighten others.",
+"A clam opened its shell in the sun and a snipe pecked at it, so the clam shut on the bird's beak. Each said the other would die first if it held on, and neither let go. A fisherman came by and caught them both. 鹬蚌相争 means that when two quarrel, a third gains.",
+"King Xuan of Qi liked to hear three hundred musicians play the yu together, and Mr. Nanguo, who could not play, joined them and was paid. The next king liked to hear them one at a time, and Mr. Nanguo ran away. 滥竽充数 means pretending to have a skill to fill a place.",
+"A man of Chu went to Zheng to sell a pearl in a box of precious wood, perfumed and decorated with jewels and jade. A man of Zheng bought the box and gave back the pearl. 买椟还珠 means valuing the wrapping more than what is inside.",
+"Lord Ye loved dragons and had them painted and carved everywhere in his house. A real dragon heard of it and came down, putting its head in at the window. Lord Ye ran away in terror. He did not love dragons, only things that looked like them. 叶公好龙 means claiming to love something you really fear.",
+"A man lost his axe and suspected his neighbour's son. Everything the boy did looked like a thief's. Then he found the axe in the valley, and after that nothing the boy did looked like a thief's at all. 疑邻盗斧 means suspicion colours what we see.",
+"A young man went to Handan to learn the graceful way people walked there. He never learned it, forgot his own way of walking, and had to crawl home. 邯郸学步 means copying others so much that you lose your own skill.",
+"An old man of Song loved his monkeys, but food ran short. He offered them three acorns in the morning and four in the evening, and they were angry. Then he offered four in the morning and three in the evening, and they were pleased. Nothing had really changed. 朝三暮四 first meant being fooled by words; today it also means changing one's mind often.",
+"A man was driving north, though he wanted to go to Chu in the south. He said his horse was good, he had plenty of money and his driver was skilled. The better these were, the farther he would get from Chu. 南辕北辙 means your actions are taking you away from your goal.",
+"Geng Lei told the King of Wei he could bring down a bird just by pulling his bowstring. A wild goose flew over, he plucked the string, and it fell. It was already wounded and lonely; at the sound it flew up in fright, its wound opened, and it fell. 惊弓之鸟 means someone so frightened that a small thing scares them.",
+"A man of Qi worried so much that the sky would fall and the earth would sink that he could not eat or sleep. A friend explained that the sky is only air and the earth only soil, and both men were happy again. 杞人忧天 means worrying about things that will not happen.",
+"Zengzi's wife told their crying son she would kill the pig for him when she came back from market, but only to calm him. Zengzi said a parent must not deceive a child, or the child learns to deceive and stops trusting. So he killed the pig for the boy. The story is about keeping your word.",
+"Yi Qiu, the best go player in the land, taught two pupils. One listened with all his heart; the other kept thinking of shooting the swans flying overhead. The second did not learn as well, not because he was less clever, but because he did not pay attention. 专心致志 means giving your whole attention.",
+"An old man near the border lost his horse, and he said it might be good luck. It came back with a fine horse, and he said it might be bad luck. His son fell from the horse and broke his leg, and when war came, the lame son did not have to fight and lived. 塞翁失马 means good and bad fortune can turn into each other.",
+"Confucius met two boys arguing about the sun. One said it is nearer at sunrise because it looks bigger; the other said it is nearer at noon because it feels hotter. Confucius could not say who was right, and the boys laughed, \"Who says you know so much?\" The story shows that even the wise do not know everything.",
+"A frog in a shallow well boasted to a great turtle from the Eastern Sea how happy he was in his little well. The turtle could not even fit in, and told him the sea was so wide and deep that floods and droughts never changed it. The frog was astonished. 井底之蛙 means someone with a very narrow view.",
+"A donkey was brought to Qian, where there had never been one. A tiger thought it a strange god and feared it, until one day the donkey kicked him. The tiger saw that kicking was all it could do, and ate it. 黔驴技穷 means having used up one's few tricks.",
+"Old Yugong, nearly ninety, set out with his family to dig away two great mountains that blocked their road. A wise old man laughed at him, but Yugong said his sons and grandsons would go on digging and the mountains would never grow. Heaven was moved by his determination and had the mountains carried away. 愚公移山 means patient, steady work can do the impossible."
+];
   var PICKED = { blue: true };          // books read as chosen stories in ~10-minute parts, not in order
   var PART_WORDS = 1300;                // parts of at most ~10 minutes reading aloud at ~130 words a minute
   function bookIndex(key) {
@@ -1789,9 +1818,9 @@
   // Books read in order (Aesop, 中国寓言, Our Island Story, Elementary Geography): previous / finished, plus a list with read marks.
   function bookNav(key, B, i) {
     var u = B.unit || 'chapter'; var rm = readMap(key); var nRead = Object.keys(rm).length; var isRead = !!rm[i];
-    return '<div class="row' + (isRead ? ' done' : '') + '" style="border:1px solid var(--line);border-radius:var(--r)"><button class="check" data-act="bookread" data-k="' + key + '" data-v="' + i + '" aria-pressed="' + isRead + '" aria-label="Mark as read">✓</button><button class="lbl" data-act="bookread" data-k="' + key + '" data-v="' + i + '"><b>' + (key === 'zh' ? (isRead ? '读过了 ✓' : '读完了就打勾') : (isRead ? 'Read ✓' : 'Tick when read')) + '</b><span class="meta">' + nRead + ' of ' + B.items.length + ' read in this book</span></button></div>' +
-      '<div class="nav"><button class="btn ghost small" data-act="bookstep" data-k="' + key + '" data-d="-1"' + (i === 0 ? ' disabled' : '') + '>' + (key === 'zh' ? '‹ 上一篇' : '‹ Previous') + '</button>' +
-      '<button class="btn small" data-act="bookstep" data-k="' + key + '" data-d="1"' + (i >= B.items.length - 1 ? ' disabled' : '') + '>' + (key === 'zh' ? '下一篇 ›' : 'Next ' + esc(u) + ' ›') + '</button></div>' +
+    return '<div class="row' + (isRead ? ' done' : '') + '" style="border:1px solid var(--line);border-radius:var(--r)"><button class="check" data-act="bookread" data-k="' + key + '" data-v="' + i + '" aria-pressed="' + isRead + '" aria-label="Mark as read">✓</button><button class="lbl" data-act="bookread" data-k="' + key + '" data-v="' + i + '"><b>' + (/^zh/.test(key) ? (isRead ? '读过了 ✓' : '读完了就打勾') : (isRead ? 'Read ✓' : 'Tick when read')) + '</b><span class="meta">' + nRead + ' of ' + B.items.length + ' read in this book</span></button></div>' +
+      '<div class="nav"><button class="btn ghost small" data-act="bookstep" data-k="' + key + '" data-d="-1"' + (i === 0 ? ' disabled' : '') + '>' + (/^zh/.test(key) ? '‹ 上一篇' : '‹ Previous') + '</button>' +
+      '<button class="btn small" data-act="bookstep" data-k="' + key + '" data-d="1"' + (i >= B.items.length - 1 ? ' disabled' : '') + '>' + (/^zh/.test(key) ? '下一篇 ›' : 'Next ' + esc(u) + ' ›') + '</button></div>' +
       '<details class="card"' + (ui.bookListOpen === key ? ' open' : '') + '><summary style="cursor:pointer;font-weight:800" data-act="booklist" data-k="' + key + '">All ' + B.items.length + ' in this book · ' + nRead + ' read · jump to one</summary><p class="small muted" style="margin:6px 0 0">“Read up to here” ticks that ' + esc(u) + ' and every one before it.</p><ol class="list" style="margin-top:10px">' +
       B.items.map(function (it, k) { var r = !!rm[k]; return '<li class="' + (k === i ? 'cur' : '') + '"><span>' + (r ? '<b style="color:var(--who)">✓</b> ' : '') + (k + 1) + '. ' + esc(it.title) + '</span><span class="btns" style="flex:none"><button class="btn ghost small" data-act="bookupto" data-k="' + key + '" data-v="' + k + '">Read up to here</button><button class="btn ghost small" data-act="bookread" data-in="list" data-k="' + key + '" data-v="' + k + '" aria-pressed="' + r + '">' + (r ? 'Unmark' : 'Mark read') + '</button><button class="btn ghost small" data-act="bookgo" data-k="' + key + '" data-v="' + k + '">' + (k === i ? 'Reading' : 'Go') + '</button></span></li>'; }).join('') +
       '</ol></details>';
@@ -1833,24 +1862,30 @@
     return body + '<p class="small muted">' + esc(B.source) + '</p>';
   }
   function zhPara(toks) { return '<div class="pyrow" style="margin-bottom:.9em">' + rubyHTML(toks) + '</div>'; }
-  function zhFableBody() {
-    var B = BK.zh; var i = bookIndex('zh'); var f = B.items[i]; var r = readMap('zh')[i];
+  function zhFableBody(key) {
+    key = key || 'zh';
+    var self = key === 'zhE', B = BK[key]; var i = bookIndex(key); var f = B.items[i]; var r = readMap(key)[i];
+    var pyOff = self && S.ptr.zhE_nopy;
     var body = '<div class="card"><div class="kicker">中国寓言 · 第 ' + (i + 1) + ' 篇，共 ' + B.items.length + ' 篇 · ' + esc(f.src) + (r ? ' · ✓ 读过了' : '') + '</div>' +
       '<div class="zh-line" style="margin:6px 0 2px"><div class="py">' + esc(f.py) + '</div><div class="hz" style="font-size:32px;font-weight:700">' + esc(f.title) + '</div></div>' +
       (f.ctx ? '<p class="small muted" style="margin:4px 0 0">' + esc(f.ctx) + '</p>' : '') + '</div>';
     if (f.pic) body += '<figure class="pic bpic card" style="margin:0"><img src="' + esc(f.pic.img) + '" alt="' + esc(f.title) + '" loading="lazy" data-act="zoompic" data-fallback="这张图没有加载出来。"><figcaption class="small muted" style="margin-top:6px">' + esc(f.pic.credit) + '</figcaption></figure>';
-    body += '<div class="card"><div class="kicker">白话 · 读给孩子听</div><div class="poem zh ruby" style="font-size:21px">' + f.bai.map(zhPara).join('') + '</div>' +
-      '<p class="small muted" style="margin:4px 0 0">白话是Claude根据原文逐句翻译的。</p></div>';
+    body += '<div class="card"><div class="kicker">白话 · ' + (self ? '自己读' : '读给孩子听') + '</div>' +
+      (self ? '<div class="btns" style="margin:4px 0 8px"><button class="btn ghost small" data-act="zhpy">' + (pyOff ? '显示拼音 · show pinyin' : '隐藏拼音 · hide pinyin') + '</button>' + (pyOff ? '<span class="small muted">点一个字，看它的拼音。</span>' : '') + '</div>' : '') +
+      '<div class="poem zh ruby' + (pyOff ? ' nopy' : '') + '" style="font-size:21px">' + f.bai.map(zhPara).join('') + '</div>' +
+      '<p class="small muted" style="margin:4px 0 0">白话是Claude根据原文逐句翻译的。</p>' +
+      (ZH_EN[i] ? '<details class="zh-en"><summary>English · 读完以后再看 (after you have read it)</summary><p>' + esc(ZH_EN[i]) + '</p><p class="muted">Written by Claude to explain the story; not a published translation.</p></details>' : '') + '</div>';
     body += '<div class="card"><div class="kicker">字词 · 原文里难懂的字</div><ul class="list" style="margin-top:6px">' +
       f.notes.map(function (n) { return '<li style="display:block"><span style="font-family:var(--f-zh);font-size:20px;font-weight:700">' + esc(n[0]) + '</span> <span style="color:var(--who);font-weight:700">' + esc(n[1]) + '</span> <span>· ' + esc(n[2]) + '</span></li>'; }).join('') + '</ul></div>';
-    body += '<div class="card"><div class="kicker">原文 · ' + esc(f.src) + '</div><div class="poem zh ruby" style="font-size:21px">' + f.orig.map(zhPara).join('') + '</div>' +
+    body += '<div class="card"><div class="kicker">原文 · ' + esc(f.src) + '</div><div class="poem zh ruby' + (pyOff ? ' nopy' : '') + '" style="font-size:21px">' + f.orig.map(zhPara).join('') + '</div>' +
       '<p class="small muted" style="margin:4px 0 0">' + esc(['原文据维基文库《' + f.page.split('/')[0] + '》', (f.norm && f.norm.length ? '旧字改为通行写法：' + f.norm.join('，') : ''), f.fix || ''].filter(Boolean).join('。')) + '。</p></div>';
-    return body + narrBtn('book:zh:' + i, '中国寓言 · ' + f.title) + bookNav('zh', B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
+    return body + narrBtn('book:' + key + ':' + i, '中国寓言 · ' + f.title) + bookNav(key, B, i) + '<p class="small muted">' + esc(B.source) + '</p>';
   }
   function bookSheet(key) {
     if (key === 'fables') key = 'aesop';
     var B = BK[key]; if (!B) return { title: '', body: '<p class="empty">This book has not loaded.</p>' };
-    if (key === 'zh') return { title: '中国寓言', who: 'emily', body: zhFableBody() };
+    if (key === 'zh') return { title: '中国寓言', who: 'emily', body: zhFableBody('zh') };
+    if (key === 'zhE') return { title: '中国寓言 · 自己读', who: 'emma', body: zhFableBody('zhE') };
     if (PICKED[key]) return { title: esc(B.label), who: 'emily', body: pickedBookBody(key) };
     return { title: esc(B.label), who: 'emily', body: englishBookBody(key) };
   }
@@ -3559,12 +3594,12 @@
   // One book per child, P1 to P6, in MOE's order. Each chapter is one syllabus topic; its lessons come from the CM steps
   // (lessons.js holds the child's reading). Practice is checked as she answers; a miss comes back until she gets it right
   // twice; a mastered chapter comes back for review after 1, 3, 7, 14, 30 and 60 days. Every answer is kept for the record.
-  var BK = null, BK_IVL = [1, 3, 7, 14, 30, 60];
+  var MBK = null, BK_IVL = [1, 3, 7, 14, 30, 60];
   function bkLX() { return window.SDLessons || {}; }
   function bkBuild() {
-    if (BK) return BK;
+    if (MBK) return MBK;
     var byId = {}, seen = {}; NX.steps.forEach(function (s) { byId[s.id] = s; });
-    BK = (NX.scope || []).map(function (t, i) {
+    MBK = (NX.scope || []).map(function (t, i) {
       var order = {}; NX.steps.forEach(function (s, k) { order[s.id] = k; });
       var ids = (t.steps || []).filter(function (id) { return byId[id] && !seen[id]; }).sort(function (a, b) { return order[a] - order[b]; });
       if (!ids.length) ids = (t.steps || []).filter(function (id) { return byId[id]; });
@@ -3577,7 +3612,7 @@
       });
       return { id: 'c' + i, i: i, lv: t.lv, strand: t.strand, name: t.name, steps: ids.map(function (id) { return byId[id]; }), mt: (t.mt || []).filter(function (x) { return !!mtTopic(x); }), lessons: lessons };
     });
-    return BK;
+    return MBK;
   }
   function bkChap(id) { return bkBuild().filter(function (c) { return c.id === id; })[0] || null; }
   function bkChOfTopic(tid) { return bkBuild().filter(function (c) { return c.mt.indexOf(tid) >= 0; })[0] || null; }
@@ -4082,6 +4117,8 @@
 
   app.addEventListener('click', handle);
   document.addEventListener('click', function (e) { if (e.target.closest('.scrim') || e.target.closest('.vpop')) handle(e); });
+  // With pinyin hidden, tapping a character shows its pinyin.
+  document.addEventListener('click', function (e) { var c = e.target.closest && e.target.closest('.nopy .py'); if (c) c.classList.toggle('show'); });
   document.addEventListener('change', function (e) {
     var el = e.target;
     if (el.getAttribute && el.getAttribute('data-calf')) { var cf = el.getAttribute('data-calf').split('|'), cc = calObj(), obj = cc[cf[0]][cf[1]]; if (obj) { obj[cf[2]] = el.value.trim(); if (cf[0] === 'off' && cf[2] === 's' && (!obj.e || obj.e < obj.s)) obj.e = obj.s; save(); setTimeout(function () { refreshSheet(); render(); }, 0); } return; }
@@ -4161,6 +4198,7 @@
       case 'biblelang': ui.bibleLang = v; refreshSheet(); break;
       case 'bmkv': bmkSet('v', v); applyBmk(document.querySelector('.sheet-body')); break;
       case 'vref': showVerses(v); break;
+      case 'zhpy': S.ptr.zhE_nopy = !S.ptr.zhE_nopy; save(); refreshSheet(); break;
       case 'vpoplang': showVerses(document.getElementById('vpop').getAttribute('data-v'), v); break;
       case 'vpopclose': hideVerses(); break;
       case 'vpopbg': if (e.target === el) hideVerses(); break;
